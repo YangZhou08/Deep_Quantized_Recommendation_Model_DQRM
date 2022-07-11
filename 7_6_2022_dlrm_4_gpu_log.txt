@@ -1,0 +1,389 @@
+Unable to import mlperf_logging,  No module named 'mlperf_logging'
+Unable to import mlperf_logging,  No module named 'mlperf_logging'
+Warning: local_rank gpu mismatch
+4 out of -1 (GPU)
+Reading pre-processed data=/rscratch/data/dlrm_criteo/kaggleAdDisplayChallenge_processed.npz
+Sparse fea = 26, Dense fea = 13
+Defined train indices...
+Randomized indices across days ...
+Split data according to indices...
+Reading pre-processed data=/rscratch/data/dlrm_criteo/kaggleAdDisplayChallenge_processed.npz
+Sparse fea = 26, Dense fea = 13
+Defined test indices...
+Randomized indices across days ...
+Split data according to indices...
+number of devices 1
+world size found is -1
+Finished training it 1024/76743 of epoch 0, 109.12 ms/it, loss 0.514733
+Unable to import mlperf_logging,  No module named 'mlperf_logging'
+Warning: local_rank gpu mismatch
+4 out of -1 (GPU)
+Reading pre-processed data=/rscratch/data/dlrm_criteo/kaggleAdDisplayChallenge_processed.npz
+Sparse fea = 26, Dense fea = 13
+Defined train indices...
+Randomized indices across days ...
+Split data according to indices...
+Reading pre-processed data=/rscratch/data/dlrm_criteo/kaggleAdDisplayChallenge_processed.npz
+Sparse fea = 26, Dense fea = 13
+Defined test indices...
+Randomized indices across days ...
+Split data according to indices...
+number of devices 1
+world size found is -1
+Finished training it 1024/76743 of epoch 0, 109.99 ms/it, loss 0.515934
+Unable to import mlperf_logging,  No module named 'mlperf_logging'
+Warning: local_rank gpu mismatch
+4 out of -1 (GPU)
+Reading pre-processed data=/rscratch/data/dlrm_criteo/kaggleAdDisplayChallenge_processed.npz
+Sparse fea = 26, Dense fea = 13
+Defined train indices...
+Randomized indices across days ...
+Split data according to indices...
+Reading pre-processed data=/rscratch/data/dlrm_criteo/kaggleAdDisplayChallenge_processed.npz
+Sparse fea = 26, Dense fea = 13
+Defined test indices...
+Randomized indices across days ...
+Split data according to indices...
+number of devices 1
+world size found is -1
+Finished training it 1024/76743 of epoch 0, 111.29 ms/it, loss 0.513625
+Unable to import mlperf_logging,  No module named 'mlperf_logging'
+Warning: local_rank gpu mismatch
+4 out of -1 (GPU)
+Reading pre-processed data=/rscratch/data/dlrm_criteo/kaggleAdDisplayChallenge_processed.npz
+Sparse fea = 26, Dense fea = 13
+Defined train indices...
+Randomized indices across days ...
+Split data according to indices...
+Reading pre-processed data=/rscratch/data/dlrm_criteo/kaggleAdDisplayChallenge_processed.npz
+Sparse fea = 26, Dense fea = 13
+Defined test indices...
+Randomized indices across days ...
+Split data according to indices...
+number of devices 1
+world size found is -1
+Finished training it 1024/76743 of epoch 0, 109.12 ms/it, loss 0.516438
+Finished training it 2048/76743 of epoch 0, 77.68 ms/it, loss 0.499671
+Finished training it 2048/76743 of epoch 0, 77.92 ms/it, loss 0.500807
+Finished training it 2048/76743 of epoch 0, 77.71 ms/it, loss 0.499579
+Finished training it 2048/76743 of epoch 0, 77.50 ms/it, loss 0.499932
+Finished training it 3072/76743 of epoch 0, 132.37 ms/it, loss 0.492991
+Finished training it 3072/76743 of epoch 0, 132.81 ms/it, loss 0.493947
+Finished training it 3072/76743 of epoch 0, 132.16 ms/it, loss 0.491943
+Finished training it 3072/76743 of epoch 0, 132.03 ms/it, loss 0.490256
+Finished training it 4096/76743 of epoch 0, 131.08 ms/it, loss 0.483833
+Finished training it 4096/76743 of epoch 0, 130.99 ms/it, loss 0.486260
+Finished training it 4096/76743 of epoch 0, 131.02 ms/it, loss 0.485899
+Finished training it 4096/76743 of epoch 0, 130.72 ms/it, loss 0.486417
+Finished training it 5120/76743 of epoch 0, 131.46 ms/it, loss 0.479262
+Finished training it 5120/76743 of epoch 0, 130.83 ms/it, loss 0.477069
+Finished training it 5120/76743 of epoch 0, 130.75 ms/it, loss 0.476793
+Finished training it 5120/76743 of epoch 0, 130.53 ms/it, loss 0.477521
+Finished training it 6144/76743 of epoch 0, 98.77 ms/it, loss 0.472132
+Finished training it 6144/76743 of epoch 0, 98.63 ms/it, loss 0.475835
+Finished training it 6144/76743 of epoch 0, 98.50 ms/it, loss 0.475635
+Finished training it 6144/76743 of epoch 0, 98.63 ms/it, loss 0.476742
+Finished training it 7168/76743 of epoch 0, 86.60 ms/it, loss 0.471600
+Finished training it 7168/76743 of epoch 0, 87.08 ms/it, loss 0.473377
+Finished training it 7168/76743 of epoch 0, 86.95 ms/it, loss 0.473503
+Finished training it 7168/76743 of epoch 0, 86.87 ms/it, loss 0.474050
+Finished training it 8192/76743 of epoch 0, 132.09 ms/it, loss 0.469018
+Finished training it 8192/76743 of epoch 0, 131.99 ms/it, loss 0.468620
+Finished training it 8192/76743 of epoch 0, 132.79 ms/it, loss 0.469163
+Finished training it 8192/76743 of epoch 0, 132.04 ms/it, loss 0.469628
+Finished training it 9216/76743 of epoch 0, 132.01 ms/it, loss 0.464623
+Finished training it 9216/76743 of epoch 0, 132.71 ms/it, loss 0.467183
+Finished training it 9216/76743 of epoch 0, 132.10 ms/it, loss 0.467073
+Finished training it 9216/76743 of epoch 0, 132.37 ms/it, loss 0.466313
+Finished training it 10240/76743 of epoch 0, 124.25 ms/it, loss 0.467790
+Finished training it 10240/76743 of epoch 0, 124.19 ms/it, loss 0.467426
+Finished training it 10240/76743 of epoch 0, 124.10 ms/it, loss 0.466320
+Finished training it 10240/76743 of epoch 0, 124.68 ms/it, loss 0.465328
+Testing at - 10240/76743 of epoch 0,
+Warning: Skipping the batch 199 with size 13914
+ accuracy 77.854 %, best 77.854 %, roc auc score 0.7825, best 0.7825
+Finished training it 11264/76743 of epoch 0, 131.55 ms/it, loss 0.463040
+Finished training it 11264/76743 of epoch 0, 131.73 ms/it, loss 0.463978
+Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one1.0.pt
+Finished training it 11264/76743 of epoch 0, 131.30 ms/it, loss 0.464282
+Finished training it 11264/76743 of epoch 0, 131.44 ms/it, loss 0.464637
+Finished training it 12288/76743 of epoch 0, 133.35 ms/it, loss 0.462925
+Finished training it 12288/76743 of epoch 0, 132.94 ms/it, loss 0.463075
+Finished training it 12288/76743 of epoch 0, 133.18 ms/it, loss 0.464464
+Finished training it 12288/76743 of epoch 0, 133.04 ms/it, loss 0.464759
+Finished training it 13312/76743 of epoch 0, 84.00 ms/it, loss 0.463426
+Finished training it 13312/76743 of epoch 0, 84.13 ms/it, loss 0.461930
+Finished training it 13312/76743 of epoch 0, 83.63 ms/it, loss 0.460031
+Finished training it 13312/76743 of epoch 0, 83.78 ms/it, loss 0.462637
+Finished training it 14336/76743 of epoch 0, 95.56 ms/it, loss 0.459736
+Finished training it 14336/76743 of epoch 0, 95.07 ms/it, loss 0.460600
+Finished training it 14336/76743 of epoch 0, 95.06 ms/it, loss 0.463487
+Finished training it 14336/76743 of epoch 0, 95.01 ms/it, loss 0.462938
+Finished training it 15360/76743 of epoch 0, 131.83 ms/it, loss 0.458298
+Finished training it 15360/76743 of epoch 0, 131.45 ms/it, loss 0.459251
+Finished training it 15360/76743 of epoch 0, 131.36 ms/it, loss 0.461153
+Finished training it 15360/76743 of epoch 0, 131.37 ms/it, loss 0.455569
+Finished training it 16384/76743 of epoch 0, 134.13 ms/it, loss 0.461502
+Finished training it 16384/76743 of epoch 0, 133.53 ms/it, loss 0.460288
+Finished training it 16384/76743 of epoch 0, 133.63 ms/it, loss 0.460073
+Finished training it 16384/76743 of epoch 0, 133.77 ms/it, loss 0.459760
+Finished training it 17408/76743 of epoch 0, 132.32 ms/it, loss 0.459293
+Finished training it 17408/76743 of epoch 0, 133.16 ms/it, loss 0.457015
+Finished training it 17408/76743 of epoch 0, 132.53 ms/it, loss 0.457897
+Finished training it 17408/76743 of epoch 0, 132.38 ms/it, loss 0.458841
+Finished training it 18432/76743 of epoch 0, 81.41 ms/it, loss 0.457779
+Finished training it 18432/76743 of epoch 0, 82.05 ms/it, loss 0.456973
+Finished training it 18432/76743 of epoch 0, 81.34 ms/it, loss 0.461235
+Finished training it 18432/76743 of epoch 0, 81.46 ms/it, loss 0.458431
+Finished training it 19456/76743 of epoch 0, 94.36 ms/it, loss 0.459889
+Finished training it 19456/76743 of epoch 0, 94.82 ms/it, loss 0.457264
+Finished training it 19456/76743 of epoch 0, 94.56 ms/it, loss 0.457659
+Finished training it 19456/76743 of epoch 0, 94.82 ms/it, loss 0.456352
+Finished training it 20480/76743 of epoch 0, 130.64 ms/it, loss 0.458058
+Finished training it 20480/76743 of epoch 0, 131.21 ms/it, loss 0.457446
+Finished training it 20480/76743 of epoch 0, 130.91 ms/it, loss 0.457479
+Finished training it 20480/76743 of epoch 0, 130.87 ms/it, loss 0.455991
+Testing at - 20480/76743 of epoch 0,
+Warning: Skipping the batch 199 with size 13914
+ accuracy 78.288 %, best 78.288 %, roc auc score 0.7911, best 0.7911
+Finished training it 21504/76743 of epoch 0, 90.77 ms/it, loss 0.454995
+Finished training it 21504/76743 of epoch 0, 91.18 ms/it, loss 0.457893
+Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one0.0.pt
+Finished training it 21504/76743 of epoch 0, 86.26 ms/it, loss 0.455538
+Finished training it 21504/76743 of epoch 0, 90.77 ms/it, loss 0.455374
+Finished training it 22528/76743 of epoch 0, 87.29 ms/it, loss 0.456187
+Finished training it 22528/76743 of epoch 0, 87.67 ms/it, loss 0.456404
+Finished training it 22528/76743 of epoch 0, 87.29 ms/it, loss 0.455112
+Finished training it 22528/76743 of epoch 0, 87.37 ms/it, loss 0.454957
+Finished training it 23552/76743 of epoch 0, 131.96 ms/it, loss 0.458373
+Finished training it 23552/76743 of epoch 0, 131.62 ms/it, loss 0.457835
+Finished training it 23552/76743 of epoch 0, 131.58 ms/it, loss 0.455136
+Finished training it 23552/76743 of epoch 0, 132.02 ms/it, loss 0.457960
+Finished training it 24576/76743 of epoch 0, 129.49 ms/it, loss 0.456292
+Finished training it 24576/76743 of epoch 0, 129.44 ms/it, loss 0.456001
+Finished training it 24576/76743 of epoch 0, 129.27 ms/it, loss 0.454818
+Finished training it 24576/76743 of epoch 0, 129.22 ms/it, loss 0.456574
+Finished training it 25600/76743 of epoch 0, 132.25 ms/it, loss 0.456743
+Finished training it 25600/76743 of epoch 0, 132.37 ms/it, loss 0.457540
+Finished training it 25600/76743 of epoch 0, 132.51 ms/it, loss 0.455152
+Finished training it 25600/76743 of epoch 0, 132.28 ms/it, loss 0.454325
+Finished training it 26624/76743 of epoch 0, 89.42 ms/it, loss 0.455293
+Finished training it 26624/76743 of epoch 0, 89.35 ms/it, loss 0.453035
+Finished training it 26624/76743 of epoch 0, 89.87 ms/it, loss 0.453669
+Finished training it 26624/76743 of epoch 0, 89.11 ms/it, loss 0.456382
+Finished training it 27648/76743 of epoch 0, 89.80 ms/it, loss 0.452884
+Finished training it 27648/76743 of epoch 0, 89.36 ms/it, loss 0.454902
+Finished training it 27648/76743 of epoch 0, 89.41 ms/it, loss 0.455537
+Finished training it 27648/76743 of epoch 0, 89.29 ms/it, loss 0.455088
+Finished training it 28672/76743 of epoch 0, 132.51 ms/it, loss 0.456901
+Finished training it 28672/76743 of epoch 0, 131.96 ms/it, loss 0.455670
+Finished training it 28672/76743 of epoch 0, 132.00 ms/it, loss 0.457658
+Finished training it 28672/76743 of epoch 0, 132.20 ms/it, loss 0.454381
+Finished training it 29696/76743 of epoch 0, 130.77 ms/it, loss 0.454534
+Finished training it 29696/76743 of epoch 0, 130.57 ms/it, loss 0.454534
+Finished training it 29696/76743 of epoch 0, 130.41 ms/it, loss 0.454931
+Finished training it 29696/76743 of epoch 0, 130.53 ms/it, loss 0.456010
+Finished training it 30720/76743 of epoch 0, 131.54 ms/it, loss 0.457679
+Finished training it 30720/76743 of epoch 0, 131.46 ms/it, loss 0.451349
+Finished training it 30720/76743 of epoch 0, 131.42 ms/it, loss 0.453740
+Finished training it 30720/76743 of epoch 0, 132.15 ms/it, loss 0.454249
+Testing at - 30720/76743 of epoch 0,
+Warning: Skipping the batch 199 with size 13914
+ accuracy 78.438 %, best 78.438 %, roc auc score 0.7942, best 0.7942
+Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one1.0.pt
+Finished training it 31744/76743 of epoch 0, 130.86 ms/it, loss 0.452838
+Finished training it 31744/76743 of epoch 0, 130.81 ms/it, loss 0.451882
+Finished training it 31744/76743 of epoch 0, 130.81 ms/it, loss 0.454314
+Finished training it 31744/76743 of epoch 0, 130.53 ms/it, loss 0.453761
+Finished training it 32768/76743 of epoch 0, 132.41 ms/it, loss 0.451973
+Finished training it 32768/76743 of epoch 0, 133.08 ms/it, loss 0.452451
+Finished training it 32768/76743 of epoch 0, 132.45 ms/it, loss 0.453782
+Finished training it 32768/76743 of epoch 0, 132.66 ms/it, loss 0.455790
+Finished training it 33792/76743 of epoch 0, 127.26 ms/it, loss 0.455492
+Finished training it 33792/76743 of epoch 0, 121.99 ms/it, loss 0.453484
+Finished training it 33792/76743 of epoch 0, 127.21 ms/it, loss 0.454368
+Finished training it 33792/76743 of epoch 0, 126.89 ms/it, loss 0.452441
+Finished training it 34816/76743 of epoch 0, 67.22 ms/it, loss 0.455256
+Finished training it 34816/76743 of epoch 0, 66.85 ms/it, loss 0.454277
+Finished training it 34816/76743 of epoch 0, 67.03 ms/it, loss 0.455396
+Finished training it 34816/76743 of epoch 0, 67.10 ms/it, loss 0.451799
+Finished training it 35840/76743 of epoch 0, 132.89 ms/it, loss 0.451066
+Finished training it 35840/76743 of epoch 0, 133.40 ms/it, loss 0.452186
+Finished training it 35840/76743 of epoch 0, 133.28 ms/it, loss 0.449982
+Finished training it 35840/76743 of epoch 0, 133.05 ms/it, loss 0.452878
+Finished training it 36864/76743 of epoch 0, 132.79 ms/it, loss 0.453559
+Finished training it 36864/76743 of epoch 0, 133.38 ms/it, loss 0.451155
+Finished training it 36864/76743 of epoch 0, 132.84 ms/it, loss 0.454170
+Finished training it 36864/76743 of epoch 0, 132.79 ms/it, loss 0.453046
+Finished training it 37888/76743 of epoch 0, 131.23 ms/it, loss 0.453184
+Finished training it 37888/76743 of epoch 0, 131.38 ms/it, loss 0.453535
+Finished training it 37888/76743 of epoch 0, 131.47 ms/it, loss 0.452754
+Finished training it 37888/76743 of epoch 0, 132.32 ms/it, loss 0.453754
+Finished training it 38912/76743 of epoch 0, 107.77 ms/it, loss 0.450691
+Finished training it 38912/76743 of epoch 0, 108.22 ms/it, loss 0.452164
+Finished training it 38912/76743 of epoch 0, 108.13 ms/it, loss 0.453180
+Finished training it 38912/76743 of epoch 0, 108.52 ms/it, loss 0.452595
+Finished training it 39936/76743 of epoch 0, 75.21 ms/it, loss 0.452086
+Finished training it 39936/76743 of epoch 0, 75.62 ms/it, loss 0.449107
+Finished training it 39936/76743 of epoch 0, 75.21 ms/it, loss 0.451101
+Finished training it 39936/76743 of epoch 0, 75.27 ms/it, loss 0.450891
+Finished training it 40960/76743 of epoch 0, 133.03 ms/it, loss 0.451535
+Finished training it 40960/76743 of epoch 0, 132.54 ms/it, loss 0.449812
+Finished training it 40960/76743 of epoch 0, 132.54 ms/it, loss 0.457064
+Finished training it 40960/76743 of epoch 0, 132.47 ms/it, loss 0.452267
+Testing at - 40960/76743 of epoch 0,
+Warning: Skipping the batch 199 with size 13914
+ accuracy 78.572 %, best 78.572 %, roc auc score 0.7960, best 0.7960
+Finished training it 41984/76743 of epoch 0, 115.83 ms/it, loss 0.452547
+Finished training it 41984/76743 of epoch 0, 115.29 ms/it, loss 0.451175
+Finished training it 41984/76743 of epoch 0, 115.46 ms/it, loss 0.450413
+Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one0.0.pt
+Finished training it 41984/76743 of epoch 0, 115.62 ms/it, loss 0.453591
+Finished training it 43008/76743 of epoch 0, 71.68 ms/it, loss 0.454059
+Finished training it 43008/76743 of epoch 0, 70.92 ms/it, loss 0.450691
+Finished training it 43008/76743 of epoch 0, 70.97 ms/it, loss 0.450319
+Finished training it 43008/76743 of epoch 0, 71.12 ms/it, loss 0.454009
+Finished training it 44032/76743 of epoch 0, 129.00 ms/it, loss 0.450295
+Finished training it 44032/76743 of epoch 0, 129.39 ms/it, loss 0.451559
+Finished training it 44032/76743 of epoch 0, 129.10 ms/it, loss 0.450988
+Finished training it 44032/76743 of epoch 0, 128.87 ms/it, loss 0.450631
+Finished training it 45056/76743 of epoch 0, 130.08 ms/it, loss 0.451872
+Finished training it 45056/76743 of epoch 0, 130.55 ms/it, loss 0.451322
+Finished training it 45056/76743 of epoch 0, 130.03 ms/it, loss 0.451694
+Finished training it 45056/76743 of epoch 0, 130.22 ms/it, loss 0.450452
+Finished training it 46080/76743 of epoch 0, 134.33 ms/it, loss 0.448441
+Finished training it 46080/76743 of epoch 0, 134.29 ms/it, loss 0.449655
+Finished training it 46080/76743 of epoch 0, 134.80 ms/it, loss 0.450871
+Finished training it 46080/76743 of epoch 0, 134.35 ms/it, loss 0.451251
+Finished training it 47104/76743 of epoch 0, 107.21 ms/it, loss 0.452390
+Finished training it 47104/76743 of epoch 0, 107.46 ms/it, loss 0.452126
+Finished training it 47104/76743 of epoch 0, 107.36 ms/it, loss 0.450815
+Finished training it 47104/76743 of epoch 0, 107.75 ms/it, loss 0.452365
+Finished training it 48128/76743 of epoch 0, 83.13 ms/it, loss 0.448773
+Finished training it 48128/76743 of epoch 0, 82.74 ms/it, loss 0.449630
+Finished training it 48128/76743 of epoch 0, 82.79 ms/it, loss 0.449916
+Finished training it 48128/76743 of epoch 0, 82.62 ms/it, loss 0.449779
+Finished training it 49152/76743 of epoch 0, 131.06 ms/it, loss 0.449705
+Finished training it 49152/76743 of epoch 0, 131.18 ms/it, loss 0.449323
+Finished training it 49152/76743 of epoch 0, 131.89 ms/it, loss 0.454628
+Finished training it 49152/76743 of epoch 0, 131.08 ms/it, loss 0.449635
+Finished training it 50176/76743 of epoch 0, 133.69 ms/it, loss 0.449180
+Finished training it 50176/76743 of epoch 0, 132.80 ms/it, loss 0.450588
+Finished training it 50176/76743 of epoch 0, 132.83 ms/it, loss 0.449587
+Finished training it 50176/76743 of epoch 0, 132.79 ms/it, loss 0.448794
+Finished training it 51200/76743 of epoch 0, 131.17 ms/it, loss 0.450707
+Finished training it 51200/76743 of epoch 0, 130.99 ms/it, loss 0.447621
+Finished training it 51200/76743 of epoch 0, 130.81 ms/it, loss 0.451879
+Finished training it 51200/76743 of epoch 0, 130.70 ms/it, loss 0.449937
+Testing at - 51200/76743 of epoch 0,
+Warning: Skipping the batch 199 with size 13914
+ accuracy 78.626 %, best 78.626 %, roc auc score 0.7980, best 0.7980
+Finished training it 52224/76743 of epoch 0, 132.46 ms/it, loss 0.450447
+Finished training it 52224/76743 of epoch 0, 132.50 ms/it, loss 0.451287
+Finished training it 52224/76743 of epoch 0, 132.33 ms/it, loss 0.451411
+Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one1.0.pt
+Finished training it 52224/76743 of epoch 0, 132.38 ms/it, loss 0.450759
+Finished training it 53248/76743 of epoch 0, 131.37 ms/it, loss 0.450668
+Finished training it 53248/76743 of epoch 0, 131.66 ms/it, loss 0.449810
+Finished training it 53248/76743 of epoch 0, 131.22 ms/it, loss 0.450455
+Finished training it 53248/76743 of epoch 0, 131.19 ms/it, loss 0.450534
+Finished training it 54272/76743 of epoch 0, 128.79 ms/it, loss 0.449322
+Finished training it 54272/76743 of epoch 0, 129.05 ms/it, loss 0.449165
+Finished training it 54272/76743 of epoch 0, 129.04 ms/it, loss 0.450350
+Finished training it 54272/76743 of epoch 0, 129.36 ms/it, loss 0.450716
+Finished training it 55296/76743 of epoch 0, 57.86 ms/it, loss 0.450213
+Finished training it 55296/76743 of epoch 0, 57.94 ms/it, loss 0.451747
+Finished training it 55296/76743 of epoch 0, 58.02 ms/it, loss 0.450136
+Finished training it 55296/76743 of epoch 0, 57.81 ms/it, loss 0.448647
+Finished training it 56320/76743 of epoch 0, 128.86 ms/it, loss 0.450915
+Finished training it 56320/76743 of epoch 0, 128.20 ms/it, loss 0.452915
+Finished training it 56320/76743 of epoch 0, 128.39 ms/it, loss 0.449063
+Finished training it 56320/76743 of epoch 0, 128.40 ms/it, loss 0.451881
+Finished training it 57344/76743 of epoch 0, 133.43 ms/it, loss 0.447659
+Finished training it 57344/76743 of epoch 0, 136.52 ms/it, loss 0.449354
+Finished training it 57344/76743 of epoch 0, 132.40 ms/it, loss 0.450254
+Finished training it 57344/76743 of epoch 0, 132.22 ms/it, loss 0.446214
+Finished training it 58368/76743 of epoch 0, 133.34 ms/it, loss 0.450753
+Finished training it 58368/76743 of epoch 0, 132.86 ms/it, loss 0.448912
+Finished training it 58368/76743 of epoch 0, 132.43 ms/it, loss 0.451931
+Finished training it 58368/76743 of epoch 0, 132.64 ms/it, loss 0.446727
+Finished training it 59392/76743 of epoch 0, 118.77 ms/it, loss 0.450595
+Finished training it 59392/76743 of epoch 0, 118.17 ms/it, loss 0.451097
+Finished training it 59392/76743 of epoch 0, 118.28 ms/it, loss 0.448438
+Finished training it 59392/76743 of epoch 0, 118.13 ms/it, loss 0.447807
+Finished training it 60416/76743 of epoch 0, 74.55 ms/it, loss 0.447938
+Finished training it 60416/76743 of epoch 0, 74.58 ms/it, loss 0.449215
+Finished training it 60416/76743 of epoch 0, 74.52 ms/it, loss 0.451452
+Finished training it 60416/76743 of epoch 0, 75.05 ms/it, loss 0.448110
+Finished training it 61440/76743 of epoch 0, 130.82 ms/it, loss 0.448290
+Finished training it 61440/76743 of epoch 0, 130.48 ms/it, loss 0.449170
+Finished training it 61440/76743 of epoch 0, 130.77 ms/it, loss 0.450807
+Finished training it 61440/76743 of epoch 0, 130.70 ms/it, loss 0.447817
+Testing at - 61440/76743 of epoch 0,
+Warning: Skipping the batch 199 with size 13914
+ accuracy 78.662 %, best 78.662 %, roc auc score 0.7985, best 0.7985
+Finished training it 62464/76743 of epoch 0, 112.65 ms/it, loss 0.448319
+Finished training it 62464/76743 of epoch 0, 112.08 ms/it, loss 0.451118
+Finished training it 62464/76743 of epoch 0, 112.00 ms/it, loss 0.448141
+Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one0.0.pt
+Finished training it 62464/76743 of epoch 0, 112.01 ms/it, loss 0.449417
+Finished training it 63488/76743 of epoch 0, 77.74 ms/it, loss 0.451198
+Finished training it 63488/76743 of epoch 0, 77.34 ms/it, loss 0.450645
+Finished training it 63488/76743 of epoch 0, 77.44 ms/it, loss 0.447250
+Finished training it 63488/76743 of epoch 0, 77.44 ms/it, loss 0.448896
+Finished training it 64512/76743 of epoch 0, 130.52 ms/it, loss 0.449489
+Finished training it 64512/76743 of epoch 0, 129.59 ms/it, loss 0.449355
+Finished training it 64512/76743 of epoch 0, 129.83 ms/it, loss 0.449410
+Finished training it 64512/76743 of epoch 0, 129.41 ms/it, loss 0.449713
+Finished training it 65536/76743 of epoch 0, 130.23 ms/it, loss 0.447200
+Finished training it 65536/76743 of epoch 0, 129.99 ms/it, loss 0.448071
+Finished training it 65536/76743 of epoch 0, 130.89 ms/it, loss 0.450419
+Finished training it 65536/76743 of epoch 0, 130.18 ms/it, loss 0.448423
+Finished training it 66560/76743 of epoch 0, 133.16 ms/it, loss 0.447292
+Finished training it 66560/76743 of epoch 0, 133.31 ms/it, loss 0.447303
+Finished training it 66560/76743 of epoch 0, 133.17 ms/it, loss 0.447465
+Finished training it 66560/76743 of epoch 0, 132.84 ms/it, loss 0.449923
+Finished training it 67584/76743 of epoch 0, 101.46 ms/it, loss 0.448473
+Finished training it 67584/76743 of epoch 0, 101.06 ms/it, loss 0.447828
+Finished training it 67584/76743 of epoch 0, 101.65 ms/it, loss 0.450114
+Finished training it 67584/76743 of epoch 0, 100.95 ms/it, loss 0.448402
+Finished training it 68608/76743 of epoch 0, 87.28 ms/it, loss 0.447233
+Finished training it 68608/76743 of epoch 0, 86.78 ms/it, loss 0.448054
+Finished training it 68608/76743 of epoch 0, 87.10 ms/it, loss 0.446894
+Finished training it 68608/76743 of epoch 0, 86.70 ms/it, loss 0.451305
+Finished training it 69632/76743 of epoch 0, 132.44 ms/it, loss 0.449212
+Finished training it 69632/76743 of epoch 0, 131.55 ms/it, loss 0.450197
+Finished training it 69632/76743 of epoch 0, 131.59 ms/it, loss 0.447527
+Finished training it 69632/76743 of epoch 0, 131.64 ms/it, loss 0.448936
+Finished training it 70656/76743 of epoch 0, 132.08 ms/it, loss 0.448321
+Finished training it 70656/76743 of epoch 0, 131.97 ms/it, loss 0.446374
+Finished training it 70656/76743 of epoch 0, 131.79 ms/it, loss 0.447653
+Finished training it 70656/76743 of epoch 0, 131.61 ms/it, loss 0.447271
+Finished training it 71680/76743 of epoch 0, 132.48 ms/it, loss 0.450853
+Finished training it 71680/76743 of epoch 0, 132.97 ms/it, loss 0.447493
+Finished training it 71680/76743 of epoch 0, 132.30 ms/it, loss 0.447263
+Finished training it 71680/76743 of epoch 0, 132.36 ms/it, loss 0.446812
+Testing at - 71680/76743 of epoch 0,
+Warning: Skipping the batch 199 with size 13914
+ accuracy 78.691 %, best 78.691 %, roc auc score 0.7987, best 0.7987
+Finished training it 72704/76743 of epoch 0, 131.51 ms/it, loss 0.445579
+Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one1.0.pt
+Finished training it 72704/76743 of epoch 0, 131.47 ms/it, loss 0.448677
+Finished training it 72704/76743 of epoch 0, 131.96 ms/it, loss 0.445873
+Finished training it 72704/76743 of epoch 0, 131.33 ms/it, loss 0.446378
+Finished training it 73728/76743 of epoch 0, 132.08 ms/it, loss 0.447000
+Finished training it 73728/76743 of epoch 0, 131.42 ms/it, loss 0.448187
+Finished training it 73728/76743 of epoch 0, 131.26 ms/it, loss 0.445305
+Finished training it 73728/76743 of epoch 0, 131.37 ms/it, loss 0.449457
+Finished training it 74752/76743 of epoch 0, 126.68 ms/it, loss 0.447545
+Finished training it 74752/76743 of epoch 0, 126.95 ms/it, loss 0.445304
+Finished training it 74752/76743 of epoch 0, 127.56 ms/it, loss 0.444821
+Finished training it 74752/76743 of epoch 0, 126.99 ms/it, loss 0.446919
+Finished training it 75776/76743 of epoch 0, 60.12 ms/it, loss 0.447971
+Finished training it 75776/76743 of epoch 0, 60.22 ms/it, loss 0.449244
+Finished training it 75776/76743 of epoch 0, 60.55 ms/it, loss 0.445685
+Finished training it 75776/76743 of epoch 0, 60.31 ms/it, loss 0.445718
+Warning: Skipping the batch 76742 with size 14
+Warning: Skipping the batch 76742 with size 14
+Warning: Skipping the batch 76742 with size 14
+Warning: Skipping the batch 76742 with size 14
