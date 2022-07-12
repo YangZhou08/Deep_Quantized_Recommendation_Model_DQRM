@@ -720,10 +720,7 @@ def run():
         args.test_num_workers = args.num_workers 
     
     args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
-    '''
-    os.environ['MASTER_ADDR'] = '169.229.49.60' 
-    ''' 
-    os.environ['MASTER_ADDR'] = '169.229.49.63' 
+    os.environ['MASTER_ADDR'] = '169.229.49.59' 
     '''
     os.environ['MASTER_PORT'] = '29504' 
     ''' 
