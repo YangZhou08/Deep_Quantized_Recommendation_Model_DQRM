@@ -155,7 +155,6 @@ class QuantEmbeddingBag(Module):
         embedding_bit = 4, 
         full_precision_flag = False, 
         quant_mode = "symmetric", 
-        per_table = True, 
         fix_flag = False, 
         weight_percentile = 0
     ): 
@@ -165,17 +164,57 @@ class QuantEmbeddingBag(Module):
         self.embedding_bit = embedding_bit 
         self.full_precision_flag = full_precision_flag 
         self.quant_mode = quant_mode 
-        self.per_table = per_table 
         self.fix_flag = fix_flag 
         self.weight_percentile = weight_percentile 
+        self.register_buffer('eb_scaling_factor', torch.zeros(1)) # TODO re-check the dimension 
+        W = np.random.uniform(low = -np.sqrt(1 / num_embeddings), high = np.sqrt(1 / num_embeddings), size = (num_embeddings, embedding_dim)).astype(np.float32) # TODO confirm the array dtype with others to be float 32-bit 
+        self.weight = Parameter(torch.tensor(W)) 
+        self.register_buffer('weight_integer', torch.zeros_like(self.weight)) 
 
     def __repr__(self): 
         s = super(QuantEmbeddingBag, self).__repr__() 
         s = "(" + s + " embedding_bit = {}, full_precision_flag = {}, quant_mode = {})".format(
             self.embedding_bit, self.full_precision_flag, self.quant_mode 
         ) 
-    
+        
+    def fix(self):
+        self.fix_flag = True
 
+    def unfix(self):
+        self.fix_flag = False
+    
+    def forward(self, input, offsets = None, per_sample_weights = None): 
+        """
+        using quantized weights to forward activation x 
+        """
+        # here please note that here we only have integer inputs, no prev_act_scaling_factor is added 
+        
+        if self.quant_mode == "symmetric": 
+            self.weight_function = SymmetricQuantFunction.apply 
+        elif self.quant_mode == "asymmetric": 
+            self.weight_function = AsymmetricQuantFunction.apply 
+        else: 
+            raise ValueError("unknown quant mode: {}".format(self.quant_mode)) 
+        
+        w = self.weight 
+        w_transform = w.data.detach() 
+        # calculate the quantization range of weights 
+        w_min, _ = torch.min(w_transform, dim=1, out=None)
+        w_max, _ = torch.max(w_transform, dim=1, out=None)
+        
+        if not self.full_precision_flag: 
+            if self.quant_mode == 'symmetric': 
+                self.eb_scaling_factor = symmetric_linear_quantization_params(self.embedding_bit, w_min, w_max, False) # TODO re-check whether per_chanel hacks 
+                self.weight_integer = self.weight_function(self.weight, self.embedding_bit, self.eb_scaling_factor) 
+            else: 
+                raise Exception('For embedding weights, we only support symmetric quantization.') 
+        else: 
+            self.weight_integer = self.weight # modified to make sure full_precision_flag is properly supported 
+        
+        return ste_round.apply(
+            F.embedding_bag(input, weight = self.weight_integer, offsets = offsets) * self.eb_scaling_factor # right now, it doesn't support weight pooling 
+        )
+            
 class QuantAct(Module):
     """
     Class to quantize given activations

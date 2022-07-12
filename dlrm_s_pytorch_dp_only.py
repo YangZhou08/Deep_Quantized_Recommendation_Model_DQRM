@@ -96,7 +96,8 @@ from torch.utils.tensorboard import SummaryWriter
 from tricks.md_embedding_bag import PrEmbeddingBag, md_solver
 
 # quotient-remainder trick
-from tricks.qr_embedding_bag import QREmbeddingBag
+from tricks.qr_embedding_bag import QREmbeddingBag 
+from quantization_supp.quant_modules import QuantEmbeddingBag 
 
 # below are not imported in the original script 
 import os 
@@ -286,6 +287,8 @@ class DLRM_Net(nn.Module):
                     low=-np.sqrt(1 / n), high=np.sqrt(1 / n), size=(n, _m)
                 ).astype(np.float32)
                 EE.embs.weight.data = torch.tensor(W, requires_grad=True)
+            elif self.quantization_flag: 
+                EE = QuantEmbeddingBag(n, m, 16) 
             else:
                 EE = nn.EmbeddingBag(n, m, mode="sum", sparse=True)
                 # initialize embeddings
@@ -609,6 +612,8 @@ def run():
     parser.add_argument("--qr-threshold", type=int, default=200)
     parser.add_argument("--qr-operation", type=str, default="mult")
     parser.add_argument("--qr-collisions", type=int, default=4)
+    # quantization options args 
+    parser.add_argument("--quantization_flag", action = "store_true", default = False) 
     # activations and loss
     parser.add_argument("--activation-function", type=str, default="relu")
     parser.add_argument("--loss-function", type=str, default="mse")  # or bce or wbce
