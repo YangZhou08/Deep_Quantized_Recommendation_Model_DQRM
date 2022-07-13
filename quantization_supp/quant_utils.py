@@ -225,7 +225,10 @@ class ste_round(Function):
 
     @staticmethod
     def backward(ctx, grad_output):
+        '''
         return grad_output.clone()
+        ''' 
+        return grad_output 
 
 
 class SymmetricQuantFunction(Function):
@@ -266,10 +269,13 @@ class SymmetricQuantFunction(Function):
         # reshape scale and zeropoint for linear weights
         elif len(grad_output.shape) == 2:
             scale = scale.view(-1, 1)
-        else:
-            scale = scale.view(-1)
+        else: 
+            scale = scale.view(-1) 
 
-        return grad_output.clone() / scale, None, None, None
+        '''
+        return grad_output.clone() / scale, None, None, None 
+        ''' 
+        return grad_output / scale, None, None, None, None 
 
 
 class AsymmetricQuantFunction(Function):

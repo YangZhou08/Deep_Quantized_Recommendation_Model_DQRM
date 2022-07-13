@@ -329,8 +329,9 @@ class DLRM_Net(nn.Module):
         md_flag=False,
         md_threshold=200,
         weighted_pooling=None,
-        loss_function="bce"
-    ):
+        loss_function="bce", 
+        quantization_flag = False
+    ): 
         super(DLRM_Net, self).__init__()
 
         if (
@@ -350,7 +351,11 @@ class DLRM_Net(nn.Module):
             self.arch_interaction_itself = arch_interaction_itself
             self.sync_dense_params = sync_dense_params
             self.loss_threshold = loss_threshold
-            self.loss_function=loss_function
+            self.loss_function=loss_function 
+            
+            # add quantization identification 
+            self.quantization_flag = quantization_flag 
+            
             if weighted_pooling is not None and weighted_pooling != "fixed":
                 self.weighted_pooling = "learned"
             else:
@@ -411,7 +416,7 @@ class DLRM_Net(nn.Module):
             else:
                 sys.exit(
                     "ERROR: --loss-function=" + self.loss_function + " is not supported"
-                )
+                ) 
 
     def apply_mlp(self, x, layers):
         # approach 1: use ModuleList
@@ -1064,7 +1069,8 @@ def train(gpu, args):
         md_flag=args.md_flag,
         md_threshold=args.md_threshold,
         weighted_pooling=args.weighted_pooling,
-        loss_function=args.loss_function
+        loss_function=args.loss_function, 
+        quantization_flag = args.quantization_flag 
     ) 
     
     # test prints

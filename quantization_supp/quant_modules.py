@@ -169,7 +169,9 @@ class QuantEmbeddingBag(Module):
         self.register_buffer('eb_scaling_factor', torch.zeros(1)) # TODO re-check the dimension 
         W = np.random.uniform(low = -np.sqrt(1 / num_embeddings), high = np.sqrt(1 / num_embeddings), size = (num_embeddings, embedding_dim)).astype(np.float32) # TODO confirm the array dtype with others to be float 32-bit 
         self.weight = Parameter(torch.tensor(W)) 
+        '''
         self.register_buffer('weight_integer', torch.zeros_like(self.weight)) 
+        ''' 
 
     def __repr__(self): 
         s = super(QuantEmbeddingBag, self).__repr__() 
@@ -199,21 +201,27 @@ class QuantEmbeddingBag(Module):
         w = self.weight 
         w_transform = w.data.detach() 
         # calculate the quantization range of weights 
-        w_min, _ = torch.min(w_transform, dim=1, out=None)
-        w_max, _ = torch.max(w_transform, dim=1, out=None)
+        w_min, _ = torch.min(w_transform.view(1, -1), dim = 1, out = None) 
+        w_max, _ = torch.max(w_transform.view(1, -1), dim = 1, out = None) 
+        
+        # free up memory 
+        '''
+        del w_transform 
+        torch.cuda.empty_cache() 
+        ''' 
         
         if not self.full_precision_flag: 
             if self.quant_mode == 'symmetric': 
                 self.eb_scaling_factor = symmetric_linear_quantization_params(self.embedding_bit, w_min, w_max, False) # TODO re-check whether per_chanel hacks 
-                self.weight_integer = self.weight_function(self.weight, self.embedding_bit, self.eb_scaling_factor) 
+                self.eb_scaling_factor = self.eb_scaling_factor.view(-1) 
+                weight_integer = self.weight_function(self.weight, self.embedding_bit, self.eb_scaling_factor) 
             else: 
                 raise Exception('For embedding weights, we only support symmetric quantization.') 
         else: 
-            self.weight_integer = self.weight # modified to make sure full_precision_flag is properly supported 
+            weight_integer = self.weight # modified to make sure full_precision_flag is properly supported 
         
         return ste_round.apply(
-            F.embedding_bag(input, weight = self.weight_integer, offsets = offsets) * self.eb_scaling_factor # right now, it doesn't support weight pooling 
-        )
+            F.embedding_bag(input, weight = weight_integer, offsets = offsets) * self.eb_scaling_factor) # right now, it doesn't support weight pooling 
             
 class QuantAct(Module):
     """
