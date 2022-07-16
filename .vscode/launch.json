@@ -1,0 +1,45 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--arch-sparse-feature-size=16",
+                // "--arch-mlp-bot=\"13-512-256-64-16\"",
+                // "--arch-mlp-top=\"512-256-1\"",
+                "--data-generation=dataset",
+                "--data-set=kaggle",
+                "--raw-data-file=/rscratch/data/dlrm_criteo/train.txt",
+                "--processed-data-file=/rscratch/data/dlrm_criteo/kaggleAdDisplayChallenge_processed.npz",
+                "--loss-function=bce",
+                "--round-targets=True",
+                "--learning-rate=0.1",
+                "--mini-batch-size=128",
+                "--print-freq=1024",
+                "--print-time",
+                "--test-mini-batch-size=16384",
+                "--use-gpu",
+                "--save-model=/rscratch/data/dlrm_criteo/save_model_after_training_one.pt",
+                "--test-freq=10240",
+                "--quantization_flag", 
+                "-n",
+                "1",
+                "-g",
+                "1",
+                "-nr",
+                "0"
+            ],
+            "env": {
+                "CUDA_VISIBLE_DEVICES": "0,1"
+            }
+        }
+    ]
+}

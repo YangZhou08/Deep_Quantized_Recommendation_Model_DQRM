@@ -124,6 +124,25 @@ def linear_dequantize(input_q, scale, zero_point, inplace=False):
         return input_q
     return (input_q - zero_point) * (scale)
 
+def symmetric_linear_quantization_param_two(num_bits, 
+                                            embedding_bag): 
+    # this function computes scale for embedding table only 
+    # use with caution 
+    
+    with torch.no_grad(): 
+        if isinstance(embedding_bag, torch.nn.Module): 
+            weight = embedding_bag.weight.data 
+        else: 
+            weight = embedding_bag 
+        w_min, _ = torch.min(torch.min(weight, dim = 0, out = None).values, dim = 0, out = None) # no copy of the entire table is produced or we expected 
+        w_max, _ = torch.max(torch.max(weight, dim = 0, out = None).values, dim = 0, out = None) # no copy of the entire table is produced or we expected 
+        
+        n = 2 ** (num_bits - 1) - 1
+        
+        scale = max(w_min.abs(), w_max.abs()) 
+        scale = torch.clamp(scale, min = 1e-8) / n 
+        
+    return scale 
 
 def symmetric_linear_quantization_params(num_bits,
                                          saturation_min,
@@ -229,6 +248,20 @@ class ste_round(Function):
         return grad_output.clone()
         ''' 
         return grad_output 
+    
+class sparse_pass(Function): 
+    """ 
+    convert gradient from sparse to dense 
+    """ 
+    
+    @staticmethod 
+    def forward(ctx, x): 
+        return x 
+    
+    @staticmethod 
+    def backward(ctx, grad_output): 
+        print(grad_output.type()) 
+        return grad_output.to_dense() 
 
 
 class SymmetricQuantFunction(Function):
@@ -253,7 +286,7 @@ class SymmetricQuantFunction(Function):
 
         zero_point = torch.tensor(0.).cuda()
 
-        new_quant_x = linear_quantize(x, scale, zero_point, inplace=False)
+        new_quant_x = linear_quantize(x, scale, zero_point, inplace = True) 
 
         new_quant_x = torch.clamp(new_quant_x, -n - 1, n)
 

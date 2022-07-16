@@ -98,10 +98,14 @@ from tricks.md_embedding_bag import PrEmbeddingBag, md_solver
 # quotient-remainder trick
 from tricks.qr_embedding_bag import QREmbeddingBag 
 from quantization_supp.quant_modules import QuantEmbeddingBag 
+from quantization_supp.quant_modules import QuantEmbeddingBagTwo 
+from quantization_supp.quant_modules import QuantEmbeddingBagThree 
 
 # below are not imported in the original script 
 import os 
 import torch.multiprocessing as mp 
+
+import tqdm 
 
 '''
 with warnings.catch_warnings():
@@ -288,9 +292,10 @@ class DLRM_Net(nn.Module):
                 ).astype(np.float32)
                 EE.embs.weight.data = torch.tensor(W, requires_grad=True)
             elif self.quantization_flag: 
-                EE = QuantEmbeddingBag(n, m, 16) 
+                print("---------- Embedding Table {}, quantization used, quantization bit set to {}".format(i, self.embedding_bit)) 
+                EE = QuantEmbeddingBagTwo(n, m, self.embedding_bit) 
             else:
-                EE = nn.EmbeddingBag(n, m, mode="sum", sparse=True)
+                EE = nn.EmbeddingBag(n, m, mode="sum", sparse=True) 
                 # initialize embeddings
                 # nn.init.uniform_(EE.weight, a=-np.sqrt(1 / n), b=np.sqrt(1 / n))
                 W = np.random.uniform(
@@ -301,7 +306,7 @@ class DLRM_Net(nn.Module):
                 # approach 2
                 # EE.weight.data.copy_(torch.tensor(W))
                 # approach 3
-                # EE.weight = Parameter(torch.tensor(W),requires_grad=True)
+                # EE.weight = Parameter(torch.tensor(W),requires_grad=True) 
             if weighted_pooling is None:
                 v_W_l.append(None)
             else:
@@ -330,7 +335,8 @@ class DLRM_Net(nn.Module):
         md_threshold=200,
         weighted_pooling=None,
         loss_function="bce", 
-        quantization_flag = False
+        quantization_flag = False, 
+        embedding_bit = 32 
     ): 
         super(DLRM_Net, self).__init__()
 
@@ -355,6 +361,7 @@ class DLRM_Net(nn.Module):
             
             # add quantization identification 
             self.quantization_flag = quantization_flag 
+            self.embedding_bit = embedding_bit 
             
             if weighted_pooling is not None and weighted_pooling != "fixed":
                 self.weighted_pooling = "learned"
@@ -388,7 +395,7 @@ class DLRM_Net(nn.Module):
 
             # create operators
             if ndevices <= 1:
-                self.emb_l, w_list = self.create_emb(m_spa, ln_emb, weighted_pooling)
+                self.emb_l, w_list = self.create_emb(m_spa, ln_emb, weighted_pooling) 
                 if self.weighted_pooling == "learned":
                     self.v_W_l = nn.ParameterList()
                     for w in w_list:
@@ -445,6 +452,7 @@ class DLRM_Net(nn.Module):
             # E = emb_l[k]
 
             if v_W_l[k] is not None:
+                print("per sample weights found") 
                 per_sample_weights = v_W_l[k].gather(0, sparse_index_group_batch)
             else:
                 per_sample_weights = None
@@ -619,6 +627,7 @@ def run():
     parser.add_argument("--qr-collisions", type=int, default=4)
     # quantization options args 
     parser.add_argument("--quantization_flag", action = "store_true", default = False) 
+    parser.add_argument("--embedding_bit", type = int, default = None) 
     # activations and loss
     parser.add_argument("--activation-function", type=str, default="relu")
     parser.add_argument("--loss-function", type=str, default="mse")  # or bce or wbce
@@ -708,7 +717,8 @@ def run():
     # LR policy
     parser.add_argument("--lr-num-warmup-steps", type=int, default=0)
     parser.add_argument("--lr-decay-start-step", type=int, default=0)
-    parser.add_argument("--lr-num-decay-steps", type=int, default=0)
+    parser.add_argument("--lr-num-decay-steps", type=int, default=0) 
+    parser.add_argument("--investigating-inputs", action = "store_true", default = False) 
     parser.add_argument('-n', '--nodes', default=1,
                         type=int, metavar='N')
     parser.add_argument('-g', '--gpus', default=1, type=int,
@@ -730,23 +740,24 @@ def run():
         args.test_num_workers = args.num_workers 
     
     args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
-    os.environ['MASTER_ADDR'] = '169.229.49.59' 
     '''
-    os.environ['MASTER_PORT'] = '29504' 
+    os.environ['MASTER_ADDR'] = '169.229.49.60' 
     ''' 
+    os.environ['MASTER_ADDR'] = '169.229.49.63' 
     os.environ['MASTER_PORT'] = '29500' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
     
-def inference(
-    args,
-    dlrm,
-    best_acc_test,
-    best_auc_test,
-    test_ld,
-    device,
-    use_gpu,
-    log_iter=-1, 
+def inference_distributed(
+    rank, 
+    args, 
+    dlrm, 
+    best_acc_test, 
+    best_auc_test, 
+    test_ld, 
+    device, 
+    use_gpu, 
+    log_iter = -1, 
     nbatches = -1, 
     nbatches_test = -1, 
     writer = None 
@@ -758,7 +769,7 @@ def inference(
     targets = [] 
     
     # the function operates on one gpu 
-    
+    num_batch = len(test_ld) 
     for i, testBatch in enumerate(test_ld): 
         if nbatches > 0 and i >= nbatches: 
             break 
@@ -795,9 +806,152 @@ def inference(
         
         test_accu += A_test 
         test_samp += mbs_test 
+        
+        if rank == 0 and i % 200 == 0: 
+            print("steps testing: {}".format(float(i)/num_batch), end = "\r") 
+        
+        dist.barrier() 
+    
+    print("rank: {} test_accu: {}".format(rank, test_accu)) 
+    print("get out") 
+    '''
+    print(test_accu.type) 
+    print(test_samp.type) 
+    total_accu = torch.tensor([0.0]) 
+    total_samp = torch.tensor([0.0]) 
+    for i in range(args.nodes * args.gpus): 
+        if i == rank: 
+            test_accu_hol = torch.tensor([test_accu], dtype = torch.float32, requires_grad = False, device = device) 
+        else: 
+            test_accu_hol = torch.zeros(1, dtype = torch.float32, requires_grad = False, device = device) 
+        try: 
+            dist.broadcast(test_accu_hol, src = rank) 
+        except: 
+            print("cannot broadcast") 
+        print("receive from source: {}".format(i)) 
+        if i == rank: 
+            total_samp_hol = torch.tensor([test_samp], dtype = torch.float32, requires_grad = False, device = device) 
+        else: 
+            total_samp_hol = torch.zeros(1, dtype = torch.float32, requires_grad = False, device = device) 
+        dist.broadcast(total_samp_hol, src = rank) 
+        print("others receive from source: {}".format(i)) 
+        total_accu += test_accu_hol.data 
+        total_samp += total_samp_hol.data 
+    
+    test_accu = total_accu.item() 
+    test_samp = total_samp.item() 
+    ''' 
+    
+    print("{} has test check {} and sample count {}".format(rank, test_accu, test_samp)) 
     
     acc_test = test_accu / test_samp 
+    '''
     writer.add_scalar("Test/Acc", acc_test, log_iter) 
+    ''' 
+    
+    if rank == 0: 
+        model_metrics_dict = {
+            "nepochs": args.nepochs,
+            "nbatches": nbatches,
+            "nbatches_test": nbatches_test,
+            "state_dict": dlrm.state_dict(),
+            "test_acc": acc_test,
+        } 
+    
+    is_best = acc_test > best_acc_test 
+    if is_best: 
+        best_acc_test = acc_test 
+        
+    scores = np.concatenate(scores, axis = 0) 
+    targets = np.concatenate(targets, axis = 0) 
+    roc_auc = sklearn.metrics.roc_auc_score(targets, scores) 
+    
+    best_auc_test = roc_auc if roc_auc > best_auc_test else best_auc_test 
+    
+    '''
+    print(
+        " accuracy {:3.3f} %, best {:3.3f} %".format(
+            acc_test * 100, best_acc_test * 100 
+        ), 
+        flush = True, 
+    ) 
+    ''' 
+    if rank == 0: 
+        print(
+            " accuracy {:3.3f} %, best {:3.3f} %, roc auc score {:.4f}, best {:.4f}".format(
+                acc_test * 100, best_acc_test * 100, roc_auc, best_auc_test), 
+            flush = True 
+            )
+        return model_metrics_dict, is_best 
+    else: 
+        return 
+    
+def inference(
+    args,
+    dlrm,
+    best_acc_test,
+    best_auc_test,
+    test_ld,
+    device,
+    use_gpu,
+    log_iter=-1, 
+    nbatches = -1, 
+    nbatches_test = -1, 
+    writer = None
+): 
+    test_accu = 0
+    test_samp = 0 
+    
+    scores = [] 
+    targets = [] 
+    
+    # the function operates on one gpu 
+    
+    num_batch = len(test_ld) 
+    for i, testBatch in enumerate(test_ld): 
+        if nbatches > 0 and i >= nbatches: 
+            break 
+        
+        X_test, lS_o_test, lS_i_test, T_test, W_test, CBPP_test = unpack_batch(
+            testBatch 
+        ) 
+        
+        if args.world_size > 1 and X_test.size(0) % args.world_size != 0: 
+            print("Warning: Skipping the batch %d with size %d" % (i, X_test.size(0))) 
+            continue 
+        
+        Z_test = dlrm_wrap(
+            X_test, 
+            lS_o_test, 
+            lS_i_test, 
+            use_gpu, 
+            device, 
+            ndevices = 1 # check whether ndevices is needed to be used here 
+        ) 
+        
+        if Z_test.is_cuda: 
+            torch.cuda.synchronize() 
+        
+        S_test = Z_test.detach().cpu().numpy() 
+        T_test = T_test.detach().cpu().numpy() 
+        
+        # calculating roc auc score 
+        scores.append(S_test) 
+        targets.append(T_test) 
+        
+        mbs_test = T_test.shape[0] 
+        A_test = np.sum((np.round(S_test, 0) == T_test).astype(np.uint8)) 
+        
+        test_accu += A_test 
+        test_samp += mbs_test 
+        
+        if i % 200 == 0: 
+            print("steps testing: {}\r".format(float(i)/num_batch)) 
+    
+    acc_test = test_accu / test_samp 
+    print(acc_test) 
+    writer.add_scalar("Test/Acc", acc_test, log_iter) 
+    print("writter added") 
     
     model_metrics_dict = {
         "nepochs": args.nepochs,
@@ -806,6 +960,8 @@ def inference(
         "state_dict": dlrm.state_dict(),
         "test_acc": acc_test,
     } 
+    
+    print("find stat_dict") 
     
     is_best = acc_test > best_acc_test 
     if is_best: 
@@ -835,7 +991,7 @@ def inference(
 def train(gpu, args): 
     rank = args.nr * args.gpus + gpu # make global rank 
     dist.init_process_group(
-        backend = 'gloo', 
+        backend = "gloo", 
         init_method = 'env://', 
         world_size = args.world_size, 
         rank = rank
@@ -870,6 +1026,9 @@ def train(gpu, args):
     
     # train sampler 
     train_sampler = torch.utils.data.distributed.DistributedSampler(train_dataset, num_replicas = args.world_size, rank = rank) 
+    '''
+    test_sampler = torch.utils.data.distributed.DistributedSampler(test_dataset, num_replicas = args.world_size, rank = rank) 
+    ''' 
     
     collate_wrapper_criteo = dp.collate_wrapper_criteo_offset 
     
@@ -883,14 +1042,25 @@ def train(gpu, args):
         collate_fn = collate_wrapper_criteo, 
         drop_last = False 
     ) 
-    
+    '''
     test_loader = torch.utils.data.DataLoader(
         dataset = test_dataset, 
         batch_size = args.test_mini_batch_size, 
         shuffle = False, 
         num_workers = args.test_num_workers, 
+        pin_memory = True, 
+        sampler = test_sampler, 
         collate_fn = collate_wrapper_criteo, 
-        pin_memory = False, 
+        drop_last = False 
+    )
+    ''' 
+    test_loader = torch.utils.data.DataLoader(
+        dataset = test_dataset, 
+        batch_size = args.test_mini_batch_size, 
+        shuffle = False, 
+        num_workers = args.test_num_workers, 
+        pin_memory = True, 
+        collate_fn = collate_wrapper_criteo, 
         drop_last = False 
     ) 
     
@@ -1070,7 +1240,8 @@ def train(gpu, args):
         md_threshold=args.md_threshold,
         weighted_pooling=args.weighted_pooling,
         loss_function=args.loss_function, 
-        quantization_flag = args.quantization_flag 
+        quantization_flag = args.quantization_flag, 
+        embedding_bit = args.embedding_bit 
     ) 
     
     # test prints
@@ -1108,6 +1279,7 @@ def train(gpu, args):
         } 
         
         parameters = (dlrm.parameters()) 
+        print("optimizer selected is ", args.optimizer) 
         optimizer = opts[args.optimizer](parameters, lr = args.learning_rate) 
         lr_scheduler = LRPolicyScheduler(
             optimizer, 
@@ -1165,6 +1337,49 @@ def train(gpu, args):
     
     tb_file = "./" + args.tensor_board_filename 
     writer = SummaryWriter(tb_file) 
+    
+    if args.investigating_inputs and gpu == 0: 
+        print("investigating the training and testing input") 
+        
+        file = open("/rscratch/data/dlrm_criteo/investigating_input/investigating_input.txt", "a") 
+        file.write("training set") 
+        train_irregular_count = 0 
+        test_irregular_count = 0 
+        for j, inputBatch in enumerate(train_loader): 
+            X, lS_o, lS_i, T, W, CBPP = unpack_batch(inputBatch) 
+            '''
+            file.write("Shape of X: {}\n".format(X.shape)) 
+            ''' 
+            if j % 1024 == 0: 
+                file.write(str(lS_o)) 
+                file.write(str(lS_i)) 
+            if lS_o.shape[0] != 26 or lS_i.shape[0] != 26: 
+                file.write("Batch: {}\n".format(j)) 
+                file.write("Shape of lS_o: {}\n".format(lS_o.shape)) 
+                file.write("Shape of lS_i: {}\n".format(lS_i.shape)) 
+                train_irregular_count += 1 
+        file.write("testing set") 
+        for j, inputBatch in enumerate(test_loader): 
+            '''
+            X, lS_o, lS_i, T, W, CBPP = unpack_batch(inputBatch) 
+            file.write("Batch: {}\n".format(j)) 
+            file.write("Shape of X: {}\n".format(X.shape)) 
+            file.write("Shape of lS_o: {}\n".format(lS_o.shape)) 
+            file.write("Shape of lS_i: {}\n".format(lS_i.shape)) 
+            ''' 
+            if j % 1024 == 0: 
+                file.write(str(lS_o)) 
+                file.write(str(lS_i)) 
+            if lS_o.shape[0] != 26 or lS_i.shape[0] != 26: 
+                file.write("Batch: {}\n".format(j)) 
+                file.write("Shape of lS_o: {}\n".format(lS_o.shape)) 
+                file.write("Shape of lS_i: {}\n".format(lS_i.shape)) 
+                test_irregular_count += 1 
+        print("investigation completing") 
+        print("encounter training dataset wanted inputs: {} encounter testing dataset wanted inputs: {}".format(train_irregular_count, test_irregular_count)) 
+        print(train_irregular_count) 
+        print(test_irregular_count) 
+        return 
     
     # TODO use barrier if not in synchronization 
     
@@ -1264,13 +1479,14 @@ def train(gpu, args):
                     total_samp = 0 
                 
                 if should_test: 
-                    if args.nr == 0 and gpu == 0: 
-                        # test on the first gpu on the first node 
-                        epoch_num_float = (j + 1) / len(train_loader) 
-                        print(
-                            "Testing at - {}/{} of epoch {},".format(j + 1, nbatches, k)
-                        ) 
-                        model_metrics_dict, is_best = inference(
+                    # test on the first gpu on the first node 
+                    epoch_num_float = (j + 1) / len(train_loader) 
+                    print(
+                        "Testing at - {}/{} of epoch {},".format(j + 1, nbatches, k)
+                    ) 
+                    if rank == 0: 
+                        model_metrics_dict, is_best = inference_distributed(
+                            rank, 
                             args, 
                             dlrm, 
                             best_acc_test, 
@@ -1283,7 +1499,22 @@ def train(gpu, args):
                             nbatches_test, 
                             writer 
                         ) 
-
+                    else: 
+                        inference_distributed(
+                            rank, 
+                            args, 
+                            dlrm, 
+                            best_acc_test, 
+                            best_auc_test, 
+                            test_loader, 
+                            device, 
+                            use_gpu, 
+                            log_iter, 
+                            nbatches, 
+                            nbatches_test, 
+                            writer 
+                        ) 
+                    if rank == 0: 
                         if (
                             is_best
                             and not (args.save_model == "")
@@ -1309,6 +1540,20 @@ def train(gpu, args):
             k += 1 
                             
     else: 
+        print("Testing for inference only") 
+        inference_distributed(
+            rank, 
+            args, 
+            dlrm, 
+            best_acc_test, 
+            best_auc_test, 
+            test_loader, 
+            device, 
+            use_gpu 
+        ) 
+        print("finish execution of inference") 
+        return 
+        '''
         if args.nr == 0 and gpu == 0: 
             print("Testing for inference only") 
             inference(
@@ -1320,6 +1565,11 @@ def train(gpu, args):
                 device, 
                 use_gpu 
             ) 
+            print("finish execution of inference") 
+        dist.barrier() 
+        return 
+        ''' 
+        
     if args.nr == 0 and gpu == 0: 
         '''
         if args.enable_profiling:
@@ -1348,10 +1598,72 @@ def train(gpu, args):
             # dot.render('dlrm_s_pytorch_graph') # write .pdf file
 
         # test prints
-        if not args.inference_only and args.debug_mode:
-            print("updated parameters (weights and bias):")
-            for param in dlrm.parameters():
-                print(param.detach().cpu().numpy()) 
+    if not args.inference_only and args.debug_mode: 
+        '''
+        print("updated parameters (weights and bias):")
+        for param in dlrm.parameters():
+            print(param.detach().cpu().numpy()) 
+        ''' 
+        # test on the first gpu on the first node 
+        epoch_num_float = (j + 1) / len(train_loader) 
+        print(
+            "Testing at - {}/{} of epoch {},".format(j + 1, nbatches, k)
+        ) 
+        if rank == 0: 
+            model_metrics_dict, is_best = inference_distributed(
+                rank, 
+                args, 
+                dlrm, 
+                best_acc_test, 
+                best_auc_test, 
+                test_loader, 
+                device, 
+                use_gpu, 
+                log_iter, 
+                nbatches, 
+                nbatches_test, 
+                writer 
+            ) 
+        else: 
+            inference_distributed(
+                rank, 
+                args, 
+                dlrm, 
+                best_acc_test, 
+                best_auc_test, 
+                test_loader, 
+                device, 
+                use_gpu, 
+                log_iter, 
+                nbatches, 
+                nbatches_test, 
+                writer 
+            ) 
+        if rank == 0: 
+            if (
+                is_best
+                and not (args.save_model == "")
+                and not args.inference_only
+            ):
+                model_metrics_dict["epoch"] = k
+                model_metrics_dict["iter"] = j + 1
+                model_metrics_dict["train_loss"] = train_loss
+                model_metrics_dict["total_loss"] = total_loss
+                model_metrics_dict[
+                    "opt_state_dict"
+                ] = optimizer.state_dict()
+                # added to make sure even if internet crashes during training, at least one checkpoint is successfully saved 
+                # save_addr = args.save_model + str(((j + 1)/10240)%2) 
+                save_addr = args.save_model.split(".")[0] + str(((j + 1)/10240)%2) + ".pt" 
+                '''
+                print("Saving model to {}".format(args.save_model))
+                torch.save(model_metrics_dict, args.save_model)
+                ''' 
+                print("Saving model to {}".format(save_addr)) 
+                '''
+                torch.save(model_metrics_dict, save_addr) 
+                ''' 
+        dist.barrier() 
 
 if __name__ == "__main__": 
     run() 
