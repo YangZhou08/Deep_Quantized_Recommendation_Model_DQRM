@@ -118,7 +118,10 @@ with warnings.catch_warnings():
 
 # from torchviz import make_dot
 # import torch.nn.functional as Functional
-# from torch.nn.parameter import Parameter
+# from torch.nn.parameter import Parameter 
+
+best_acc_test = 0 
+best_auc_test = 0 
 
 exc = getattr(builtins, "IOError", "FileNotFoundError")
 
@@ -740,11 +743,11 @@ def run():
         args.test_num_workers = args.num_workers 
     
     args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
-    '''
     os.environ['MASTER_ADDR'] = '169.229.49.60' 
-    ''' 
-    os.environ['MASTER_ADDR'] = '169.229.49.63' 
+    '''
     os.environ['MASTER_PORT'] = '29500' 
+    ''' 
+    os.environ['MASTER_PORT'] = '29501' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
     
@@ -752,8 +755,6 @@ def inference_distributed(
     rank, 
     args, 
     dlrm, 
-    best_acc_test, 
-    best_auc_test, 
     test_ld, 
     device, 
     use_gpu, 
@@ -858,6 +859,7 @@ def inference_distributed(
             "test_acc": acc_test,
         } 
     
+    global best_acc_test 
     is_best = acc_test > best_acc_test 
     if is_best: 
         best_acc_test = acc_test 
@@ -866,6 +868,7 @@ def inference_distributed(
     targets = np.concatenate(targets, axis = 0) 
     roc_auc = sklearn.metrics.roc_auc_score(targets, scores) 
     
+    global best_auc_test 
     best_auc_test = roc_auc if roc_auc > best_auc_test else best_auc_test 
     
     '''
@@ -1287,15 +1290,17 @@ def train(gpu, args):
             args.lr_decay_start_step, 
             args.lr_num_decay_steps, 
         ) 
-        
-    best_acc_test = 0
-    best_auc_test = 0
     skip_upto_epoch = 0
     skip_upto_batch = 0
     total_time = 0
     total_loss = 0
     total_iter = 0
     total_samp = 0
+    
+    global best_acc_test 
+    global best_auc_test 
+    best_acc_test = 0
+    best_auc_test = 0
     
     if not (args.load_model == ""): 
         print("Loading saved model {}".format(args.load_model)) 
@@ -1489,8 +1494,6 @@ def train(gpu, args):
                             rank, 
                             args, 
                             dlrm, 
-                            best_acc_test, 
-                            best_auc_test, 
                             test_loader, 
                             device, 
                             use_gpu, 
@@ -1504,8 +1507,6 @@ def train(gpu, args):
                             rank, 
                             args, 
                             dlrm, 
-                            best_acc_test, 
-                            best_auc_test, 
                             test_loader, 
                             device, 
                             use_gpu, 
@@ -1598,7 +1599,8 @@ def train(gpu, args):
             # dot.render('dlrm_s_pytorch_graph') # write .pdf file
 
         # test prints
-    if not args.inference_only and args.debug_mode: 
+    
+    if not args.inference_only: 
         '''
         print("updated parameters (weights and bias):")
         for param in dlrm.parameters():
@@ -1614,8 +1616,6 @@ def train(gpu, args):
                 rank, 
                 args, 
                 dlrm, 
-                best_acc_test, 
-                best_auc_test, 
                 test_loader, 
                 device, 
                 use_gpu, 
@@ -1629,8 +1629,6 @@ def train(gpu, args):
                 rank, 
                 args, 
                 dlrm, 
-                best_acc_test, 
-                best_auc_test, 
                 test_loader, 
                 device, 
                 use_gpu, 
