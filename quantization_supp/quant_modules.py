@@ -257,6 +257,9 @@ class QuantEmbeddingBagTwo(Module):
         self.fix_flag = fix_flag 
         self.weight_percentile = weight_percentile 
         self.register_buffer('eb_scaling_factor', torch.zeros(1)) # TODO re-check the dimension 
+        '''
+        self.register_buffer('eb_scaling_factor', torch.ones(1)) # testing whether finding scale takes large delay 
+        ''' 
         self.register_buffer('output_integer', torch.zeros((1, 16))) 
         
         # weight initialization 
@@ -285,17 +288,18 @@ class QuantEmbeddingBagTwo(Module):
         using quantized weights to forward activation x 
         """ 
         # here please note that here we only have integer inputs, no prev_act_scaling_factor is added 
-        
         if self.quant_mode == "symmetric" or self.quant_mode == "speed_symmetric": 
             self.weight_function = SymmetricQuantFunction.apply 
         elif self.quant_mode == "asymmetric": 
             self.weight_function = AsymmetricQuantFunction.apply 
         else: 
             raise ValueError("unknown quant mode: {}".format(self.quant_mode)) 
-        
         if not self.full_precision_flag: 
             if self.quant_mode == "symmetric": 
                 self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag) 
+                '''
+                self.eb_scaling_factor = torch.tensor(1.0, dtype = torch.float32, requires_grad = False) # testing whether finding max and min would introduce overhead 
+                ''' 
             else: 
                 raise Exception("for embedding weights, we only support symmetric quantization") 
             
@@ -306,9 +310,15 @@ class QuantEmbeddingBagTwo(Module):
         
         if not self.full_precision_flag: 
             self.output_integer = self.weight_function(output, self.embedding_bit, self.eb_scaling_factor) # quantization 
+            '''
+            self.output_integer = output # testing whether quantization introduces large overhead 
+            ''' 
             return ste_round.apply(self.output_integer * self.eb_scaling_factor) # dequantization 
         else: 
             return output 
+        '''
+        return output # testing whether dequantization introduces large overhead 
+        ''' 
 
 class QuantEmbeddingBag(Module): 
     """
