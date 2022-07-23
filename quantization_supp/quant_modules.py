@@ -283,7 +283,7 @@ class QuantEmbeddingBagTwo(Module):
     def unfix(self):
         self.fix_flag = False 
         
-    def forward(self, input, offsets = None, per_sample_weights = None): 
+    def forward(self, input, offsets = None, per_sample_weights = None, full_precision_flag = False): 
         """
         using quantized weights to forward activation x 
         """ 
@@ -294,7 +294,7 @@ class QuantEmbeddingBagTwo(Module):
             self.weight_function = AsymmetricQuantFunction.apply 
         else: 
             raise ValueError("unknown quant mode: {}".format(self.quant_mode)) 
-        if not self.full_precision_flag: 
+        if not full_precision_flag: 
             if self.quant_mode == "symmetric": 
                 self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag) 
                 '''
@@ -308,7 +308,7 @@ class QuantEmbeddingBagTwo(Module):
         
         self.output_integer = self.embedding_bag(input, offsets, per_sample_weights = None) 
         
-        if not self.full_precision_flag: 
+        if not full_precision_flag: 
             self.output_integer = self.weight_function(self.output_integer, self.embedding_bit, self.eb_scaling_factor) # quantization 
             '''
             self.output_integer = output # testing whether quantization introduces large overhead 

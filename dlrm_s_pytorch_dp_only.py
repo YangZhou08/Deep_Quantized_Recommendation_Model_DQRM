@@ -122,6 +122,7 @@ with warnings.catch_warnings():
 
 best_acc_test = 0 
 best_auc_test = 0 
+full_precision_flag = True 
 
 exc = getattr(builtins, "IOError", "FileNotFoundError")
 
@@ -486,8 +487,8 @@ class DLRM_Net(nn.Module):
                 V = E(
                     sparse_index_group_batch,
                     sparse_offset_group_batch,
-                    per_sample_weights=per_sample_weights,
-                )
+                    per_sample_weights=per_sample_weights, 
+                    full_precision_flag = full_precision_flag) 
 
                 ly.append(V)
 
@@ -747,7 +748,7 @@ def run():
     '''
     os.environ['MASTER_PORT'] = '29500' 
     ''' 
-    os.environ['MASTER_PORT'] = '29523' 
+    os.environ['MASTER_PORT'] = '29505' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
     
@@ -1391,6 +1392,10 @@ def train(gpu, args):
     if not args.inference_only: 
         k = 0 
         while k < args.nepochs: 
+            if k == 1: 
+                global full_precision_flag 
+                full_precision_flag = False 
+                print("Using {}-bit precision".format(int(args.embedding_bit)) if args.embedding_bit is not None else "Still using full precision") 
             if k < skip_upto_epoch: 
                 continue 
             for j, inputBatch in enumerate(train_loader): 
