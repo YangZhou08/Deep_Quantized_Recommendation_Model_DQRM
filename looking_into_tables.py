@@ -12,7 +12,7 @@ file_name_one = "table" + str(table_num) + "epoch" + "0.txt"
 file_name_two = "table" + str(table_num) + "epoch" + "1.txt" 
 
 list_one = [] 
-file_path = path + file_name_one 
+file_path = path + file_name_two 
 file = open(file_path, "r") 
 lines = file.readlines() 
 for line in lines: 
