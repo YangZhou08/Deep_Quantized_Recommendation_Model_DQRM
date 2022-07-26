@@ -1,8 +1,8 @@
+from matplotlib.cbook import ls_mapper
 import numpy as np 
-import matplotlib.pyplot as plt 
 import matplotlib 
-
-matplotlib.use('tkagg') 
+matplotlib.use('Agg') 
+import matplotlib.pyplot as plt 
 
 path = "/rscratch/data/dlrm_criteo/" 
 table_num = 0 
