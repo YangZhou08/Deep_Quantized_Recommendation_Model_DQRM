@@ -123,6 +123,7 @@ with warnings.catch_warnings():
 best_acc_test = 0 
 best_auc_test = 0 
 full_precision_flag = True 
+path_log = None 
 
 exc = getattr(builtins, "IOError", "FileNotFoundError")
 
@@ -575,7 +576,24 @@ class DLRM_Net(nn.Module):
         else:
             z = p
 
-        return z
+        return z 
+    
+    def documenting_weights_tables(self, path, epoch_num): 
+        with torch.no_grad(): 
+            for j, embedding_table in enumerate(self.emb_l): 
+                file_name = "table" + j + "epoch" + epoch_num + ".txt" 
+                file_path = path + "/" + file_name 
+                file = open(file_path, "a") 
+                weight_list = embedding_table.weight.data.detach() 
+                for i in range(weight_list.shape[0]): 
+                    row = "" 
+                    for j in range(weight_list.shape[1]): 
+                        row += str(weight_list[i][j].item()) 
+                        if j != weight_list.shape[1] - 1: 
+                            row += ", " 
+                    file.write(row) 
+                    file.write("\n") 
+                file.close() 
 
 def dash_separated_ints(value):
     vals = value.split("-")
@@ -723,6 +741,7 @@ def run():
     parser.add_argument("--lr-decay-start-step", type=int, default=0)
     parser.add_argument("--lr-num-decay-steps", type=int, default=0) 
     parser.add_argument("--investigating-inputs", action = "store_true", default = False) 
+    parser.add_argument("pretrain_plus_quant", action = "store_true", default = False) 
     parser.add_argument('-n', '--nodes', default=1,
                         type=int, metavar='N')
     parser.add_argument('-g', '--gpus', default=1, type=int,
@@ -751,7 +770,7 @@ def run():
     os.environ['MASTER_PORT'] = '29505' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
-    
+  
 def inference_distributed(
     rank, 
     args, 
@@ -1247,6 +1266,14 @@ def train(gpu, args):
         quantization_flag = args.quantization_flag, 
         embedding_bit = args.embedding_bit 
     ) 
+
+    global path_log 
+    lstr = args.raw_data_file.split("/") 
+    path_log = "/".join(lstr[0: -1]) + "/" 
+    print("log path is written: {}".format(path_log)) 
+
+    # record embedding table weight the first time 
+    dlrm.documenting_weights_tables(path_log, 0) 
     
     # test prints
     if args.debug_mode:
@@ -1301,7 +1328,7 @@ def train(gpu, args):
     global best_acc_test 
     global best_auc_test 
     best_acc_test = 0
-    best_auc_test = 0
+    best_auc_test = 0 
     
     if not (args.load_model == ""): 
         print("Loading saved model {}".format(args.load_model)) 
@@ -1392,7 +1419,8 @@ def train(gpu, args):
     if not args.inference_only: 
         k = 0 
         while k < args.nepochs: 
-            if k == 1: 
+            if k == 1 and args.pretrain_plus_quant: 
+                # one epoch of pretraining and one epoch of quantization-aware training 
                 global full_precision_flag 
                 full_precision_flag = False 
                 print("Using {}-bit precision".format(int(args.embedding_bit)) if args.embedding_bit is not None else "Still using full precision") 
@@ -1558,6 +1586,8 @@ def train(gpu, args):
             use_gpu 
         ) 
         print("finish execution of inference") 
+        # recording embedding table weights the second time 
+        dlrm.documenting_weights_tables(path_log, 1) 
         return 
         '''
         if args.nr == 0 and gpu == 0: 
