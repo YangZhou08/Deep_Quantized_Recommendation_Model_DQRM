@@ -1282,12 +1282,12 @@ def train(gpu, args):
     lstr = args.raw_data_file.split("/") 
     path_log = "/".join(lstr[0: -1]) + "/" 
     print("log path is written: {}".format(path_log)) 
-
+    '''
     if rank == 0 and args.documenting_table_weight: 
         # record embedding table weight the first time 
         dlrm.documenting_weights_tables(path_log, 0) 
     dist.barrier() 
-    
+    ''' 
     # test prints
     if args.debug_mode:
         print("initial parameters (weights and bias):")
@@ -1604,7 +1604,7 @@ def train(gpu, args):
         print("finish execution of inference") 
         if rank == 0 and args.documenting_table_weight: 
             # recording embedding table weights the second time 
-            dlrm.documenting_weights_tables(path_log, 1) 
+            dlrm.module.documenting_weights_tables(path_log, 1) 
         dist.barrier() 
         return 
         '''
