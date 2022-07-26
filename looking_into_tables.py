@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import matplotlib 
 
-matplotlib.use('GTK3Cairo') 
+matplotlib.use('tkagg') 
 
 path = "/rscratch/data/dlrm_criteo/" 
 table_num = 0 
