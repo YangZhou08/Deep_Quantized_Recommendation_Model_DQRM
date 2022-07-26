@@ -1026,3 +1026,11 @@ Finished training it 69632/76743 of epoch 1, 63.71 ms/it, loss 0.475649
 Finished training it 69632/76743 of epoch 1, 63.71 ms/it, loss 0.477042
 Finished training it 69632/76743 of epoch 1, 63.69 ms/it, loss 0.473964
 Finished training it 69632/76743 of epoch 1, 63.55 ms/it, loss 0.478094
+Finished training it 70656/76743 of epoch 1, 63.09 ms/it, loss 0.477572
+Finished training it 70656/76743 of epoch 1, 63.38 ms/it, loss 0.474899
+Finished training it 70656/76743 of epoch 1, 63.33 ms/it, loss 0.474934
+Finished training it 70656/76743 of epoch 1, 63.25 ms/it, loss 0.473503
+Finished training it 71680/76743 of epoch 1, 63.97 ms/it, loss 0.476239
+Finished training it 71680/76743 of epoch 1, 63.80 ms/it, loss 0.474252
+Finished training it 71680/76743 of epoch 1, 63.67 ms/it, loss 0.474768
+Finished training it 71680/76743 of epoch 1, 63.83 ms/it, loss 0.473365
