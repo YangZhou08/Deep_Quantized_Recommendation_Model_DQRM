@@ -1197,3 +1197,23 @@ get out
 2 has test check 2533419.0 and sample count 3274240
 Finished training it 21504/76743 of epoch 2, 87.75 ms/it, loss 0.476905
 Finished training it 21504/76743 of epoch 2, 87.81 ms/it, loss 0.474365
+Finished training it 22528/76743 of epoch 2, 88.13 ms/it, loss 0.474763
+Finished training it 22528/76743 of epoch 2, 88.21 ms/it, loss 0.475747
+Finished training it 22528/76743 of epoch 2, 88.12 ms/it, loss 0.474561
+Finished training it 22528/76743 of epoch 2, 88.44 ms/it, loss 0.471929
+Finished training it 23552/76743 of epoch 2, 88.16 ms/it, loss 0.475516
+Finished training it 23552/76743 of epoch 2, 88.24 ms/it, loss 0.474717
+Finished training it 23552/76743 of epoch 2, 88.00 ms/it, loss 0.473951
+Finished training it 23552/76743 of epoch 2, 88.08 ms/it, loss 0.471438
+Finished training it 24576/76743 of epoch 2, 100.19 ms/it, loss 0.473420
+Finished training it 24576/76743 of epoch 2, 99.62 ms/it, loss 0.471352
+Finished training it 24576/76743 of epoch 2, 99.75 ms/it, loss 0.475626
+Finished training it 24576/76743 of epoch 2, 100.21 ms/it, loss 0.473787
+Finished training it 25600/76743 of epoch 2, 88.78 ms/it, loss 0.472035
+Finished training it 25600/76743 of epoch 2, 88.79 ms/it, loss 0.473008
+Finished training it 25600/76743 of epoch 2, 88.60 ms/it, loss 0.473720
+Finished training it 25600/76743 of epoch 2, 88.47 ms/it, loss 0.472826
+Finished training it 26624/76743 of epoch 2, 88.25 ms/it, loss 0.475623
+Finished training it 26624/76743 of epoch 2, 88.20 ms/it, loss 0.471713
+Finished training it 26624/76743 of epoch 2, 88.25 ms/it, loss 0.474653
+Finished training it 26624/76743 of epoch 2, 88.17 ms/it, loss 0.469980
