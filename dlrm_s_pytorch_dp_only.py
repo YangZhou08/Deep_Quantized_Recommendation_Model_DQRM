@@ -767,7 +767,7 @@ def run():
     '''
     os.environ['MASTER_PORT'] = '29500' 
     ''' 
-    os.environ['MASTER_PORT'] = '29509' 
+    os.environ['MASTER_PORT'] = '29510' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
   
@@ -1272,8 +1272,10 @@ def train(gpu, args):
     path_log = "/".join(lstr[0: -1]) + "/" 
     print("log path is written: {}".format(path_log)) 
 
+    '''
     # record embedding table weight the first time 
     dlrm.documenting_weights_tables(path_log, 0) 
+    ''' 
     
     # test prints
     if args.debug_mode:
@@ -1579,12 +1581,13 @@ def train(gpu, args):
             rank, 
             args, 
             dlrm, 
-            best_acc_test, 
-            best_auc_test, 
             test_loader, 
             device, 
-            use_gpu 
-        ) 
+            use_gpu, 
+            log_iter, 
+            nbatches, 
+            nbatches_test, 
+            writer) 
         print("finish execution of inference") 
         # recording embedding table weights the second time 
         dlrm.documenting_weights_tables(path_log, 1) 
