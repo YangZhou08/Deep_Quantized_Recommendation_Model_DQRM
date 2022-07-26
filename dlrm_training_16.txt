@@ -1217,3 +1217,11 @@ Finished training it 26624/76743 of epoch 2, 88.25 ms/it, loss 0.475623
 Finished training it 26624/76743 of epoch 2, 88.20 ms/it, loss 0.471713
 Finished training it 26624/76743 of epoch 2, 88.25 ms/it, loss 0.474653
 Finished training it 26624/76743 of epoch 2, 88.17 ms/it, loss 0.469980
+Finished training it 27648/76743 of epoch 2, 88.03 ms/it, loss 0.476055
+Finished training it 27648/76743 of epoch 2, 87.76 ms/it, loss 0.472410
+Finished training it 27648/76743 of epoch 2, 87.93 ms/it, loss 0.474534
+Finished training it 27648/76743 of epoch 2, 87.96 ms/it, loss 0.474927
+Finished training it 28672/76743 of epoch 2, 88.19 ms/it, loss 0.475670
+Finished training it 28672/76743 of epoch 2, 88.33 ms/it, loss 0.471784
+Finished training it 28672/76743 of epoch 2, 88.31 ms/it, loss 0.474014
+Finished training it 28672/76743 of epoch 2, 88.31 ms/it, loss 0.474250
