@@ -1,7 +1,10 @@
 from matplotlib.cbook import ls_mapper
 import matplotlib 
+'''
 matplotlib.use('Qt5Agg') 
+''' 
 import matplotlib.pyplot as plt 
+import sys 
 
 path = "/rscratch/data/dlrm_criteo/" 
 table_num = 0 
@@ -19,4 +22,4 @@ for line in lines:
 print(len(list_one)) 
 
 plt.hist(list_one) 
-plt.show() 
+plt.savefig(sys.stdout.buffer) 
