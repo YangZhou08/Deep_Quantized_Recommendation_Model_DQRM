@@ -581,7 +581,7 @@ class DLRM_Net(nn.Module):
     def documenting_weights_tables(self, path, epoch_num): 
         with torch.no_grad(): 
             for j, embedding_table in enumerate(self.emb_l): 
-                file_name = "table" + j + "epoch" + epoch_num + ".txt" 
+                file_name = "table" + str(j) + "epoch" + str(epoch_num) + ".txt" 
                 file_path = path + "/" + file_name 
                 file = open(file_path, "a") 
                 weight_list = embedding_table.weight.data.detach() 
