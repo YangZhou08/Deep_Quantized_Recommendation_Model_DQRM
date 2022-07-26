@@ -749,6 +749,7 @@ def run():
     parser.add_argument("--lr-num-decay-steps", type=int, default=0) 
     parser.add_argument("--investigating-inputs", action = "store_true", default = False) 
     parser.add_argument("--pretrain_and_quantize", action = "store_true", default = False) 
+    parser.add_argument("--documenting_table_weight", action = "store_true", default = False) 
     parser.add_argument('-n', '--nodes', default=1,
                         type=int, metavar='N')
     parser.add_argument('-g', '--gpus', default=1, type=int,
@@ -1282,7 +1283,7 @@ def train(gpu, args):
     path_log = "/".join(lstr[0: -1]) + "/" 
     print("log path is written: {}".format(path_log)) 
 
-    if rank == 0: 
+    if rank == 0 and args.documenting_table_weight: 
         # record embedding table weight the first time 
         dlrm.documenting_weights_tables(path_log, 0) 
     dist.barrier() 
@@ -1601,7 +1602,7 @@ def train(gpu, args):
         ) 
 
         print("finish execution of inference") 
-        if rank == 0: 
+        if rank == 0 and args.documenting_table_weight: 
             # recording embedding table weights the second time 
             dlrm.documenting_weights_tables(path_log, 1) 
         dist.barrier() 
