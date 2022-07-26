@@ -1584,10 +1584,12 @@ def train(gpu, args):
             test_loader, 
             device, 
             use_gpu, 
-            log_iter, 
-            nbatches, 
-            nbatches_test, 
-            writer) 
+            log_iter = -1, 
+            nbatches = nbatches, 
+            nbatches_test = nbatches_test, 
+            writer = writer
+        ) 
+
         print("finish execution of inference") 
         # recording embedding table weights the second time 
         dlrm.documenting_weights_tables(path_log, 1) 
