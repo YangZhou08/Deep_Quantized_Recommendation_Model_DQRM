@@ -748,7 +748,7 @@ def run():
     parser.add_argument("--lr-decay-start-step", type=int, default=0)
     parser.add_argument("--lr-num-decay-steps", type=int, default=0) 
     parser.add_argument("--investigating-inputs", action = "store_true", default = False) 
-    parser.add_argument("pretrain_plus_quant", action = "store_true", default = False) 
+    parser.add_argument("--pretrain_and_quantize", action = "store_true", default = False) 
     parser.add_argument('-n', '--nodes', default=1,
                         type=int, metavar='N')
     parser.add_argument('-g', '--gpus', default=1, type=int,
@@ -1428,7 +1428,7 @@ def train(gpu, args):
     if not args.inference_only: 
         k = 0 
         while k < args.nepochs: 
-            if k == 1 and args.pretrain_plus_quant: 
+            if k == 1 and args.pretrain_and_quantize: 
                 # one epoch of pretraining and one epoch of quantization-aware training 
                 global full_precision_flag 
                 full_precision_flag = False 
