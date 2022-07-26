@@ -484,12 +484,19 @@ class DLRM_Net(nn.Module):
 
                 ly.append(QV)
             else:
-                E = emb_l[k]
-                V = E(
-                    sparse_index_group_batch,
-                    sparse_offset_group_batch,
-                    per_sample_weights=per_sample_weights, 
-                    full_precision_flag = full_precision_flag) 
+                E = emb_l[k] 
+                if self.quantization_flag: 
+                    V = E(
+                        sparse_index_group_batch,
+                        sparse_offset_group_batch,
+                        per_sample_weights=per_sample_weights, 
+                        full_precision_flag = full_precision_flag) 
+                else: 
+                    V = E(
+                        sparse_index_group_batch, 
+                        sparse_offset_group_batch, 
+                        per_sample_weights = per_sample_weights 
+                    ) 
 
                 ly.append(V)
 
