@@ -1,6 +1,8 @@
 from matplotlib.cbook import ls_mapper
 import matplotlib 
+'''
 matplotlib.use('GTK3Cairo') 
+''' 
 import matplotlib.pyplot as plt 
 
 path = "/rscratch/data/dlrm_criteo/" 
