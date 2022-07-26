@@ -22,4 +22,4 @@ for line in lines:
 print(len(list_one)) 
 
 plt.hist(list_one) 
-plt.savefig(sys.stdout.buffer) 
+plt.savefig("hist.png") 
