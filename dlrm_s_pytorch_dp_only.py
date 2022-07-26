@@ -1279,10 +1279,8 @@ def train(gpu, args):
     path_log = "/".join(lstr[0: -1]) + "/" 
     print("log path is written: {}".format(path_log)) 
 
-    '''
     # record embedding table weight the first time 
     dlrm.documenting_weights_tables(path_log, 0) 
-    ''' 
     
     # test prints
     if args.debug_mode:
