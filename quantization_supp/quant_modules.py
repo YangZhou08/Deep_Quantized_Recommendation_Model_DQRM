@@ -256,11 +256,11 @@ class QuantEmbeddingBagTwo(Module):
         self.quant_mode = quant_mode 
         self.fix_flag = fix_flag 
         self.weight_percentile = weight_percentile 
-        self.register_buffer('eb_scaling_factor', torch.zeros(1)) # TODO re-check the dimension 
+        self.register_buffer('eb_scaling_factor', torch.zeros(1), persistent = False) # TODO re-check the dimension 
         '''
         self.register_buffer('eb_scaling_factor', torch.ones(1)) # testing whether finding scale takes large delay 
         ''' 
-        self.register_buffer('output_integer', torch.zeros((1, 16))) 
+        self.register_buffer('output_integer', torch.zeros((1, 16)), persistent = False) 
         
         # weight initialization 
         W = np.random.uniform(
