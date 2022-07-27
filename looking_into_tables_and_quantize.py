@@ -39,14 +39,15 @@ for table_num in range(0, 2):
             list_one.append(float(word_with_value)) 
     print(len(list_one)) 
 
-    plt.hist(list_one) 
+    y, x, _ = plt.hist(list_one) 
+    y_max = np.max(y) 
     chicanes.append(np.sqrt(1/n_l[table_num])) 
     for ratio in thr_r: 
         chicanes.append(np.sqrt(1/n_l[table_num]) * (1 + ratio)) 
 
     for i, l in enumerate(colors): 
-        plt.vlines(l, color = colors[i]) 
-        plt.vlines(l, color = colors[i]) 
+        plt.vlines(l, ymin = 0, ymax = y_max, color = colors[i]) 
+        plt.vlines(l, ymin = 0, ymax = y_max, color = colors[i]) 
 
     list_one = [] 
     chicanes = [] 
