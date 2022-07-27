@@ -1034,6 +1034,9 @@ def train(gpu, args):
     torch.manual_seed(0) 
     torch.cuda.set_device(gpu) # TODO think about using cpu and change code 
     batch_size = args.mini_batch_size # TODO recheck the batch_size and run the script again 
+
+    global full_precision_flag 
+    full_precision_flag = args.pretrain_and_quantize 
     
     use_gpu = args.use_gpu and torch.cuda.is_available() 
     '''
