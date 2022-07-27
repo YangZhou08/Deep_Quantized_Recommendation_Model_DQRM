@@ -28,7 +28,7 @@ for table_num in range(2, 26):
     file_names = [file_name_one, file_name_two] 
     
     for i, file_name in enumerate(file_names): 
-        file_path = path + file_name_two 
+        file_path = path + file_name 
         file = open(file_path, "r") 
         lines = file.readlines() 
         for line in lines: 
