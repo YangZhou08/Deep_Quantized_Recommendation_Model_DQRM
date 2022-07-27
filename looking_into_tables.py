@@ -33,7 +33,9 @@ for i, file_name in enumerate(file_names):
     axes[i].hist(list_one, bins = 100) 
     axes[i].axvline(min, color = 'red', lw = 2) 
     axes[i].axvline(max, color = 'red', lw = 2) 
-    axes[i].set_title("Table {} min: {} max: {}".format(table_num, min, max)) 
+    axes[i].set_title("Table {}\nmin: {} max: {}".format(table_num, min, max)) 
+
+    list_one = [] 
 
 '''
 plt.hist(list_one, bins = 100) 
