@@ -2058,3 +2058,15 @@ Finished training it 17408/76743 of epoch 4, 63.67 ms/it, loss 0.465879
 Finished training it 17408/76743 of epoch 4, 63.50 ms/it, loss 0.465778
 Finished training it 17408/76743 of epoch 4, 63.74 ms/it, loss 0.465540
 Finished training it 17408/76743 of epoch 4, 63.71 ms/it, loss 0.466881
+Finished training it 18432/76743 of epoch 4, 63.70 ms/it, loss 0.468887
+Finished training it 18432/76743 of epoch 4, 63.57 ms/it, loss 0.466181
+Finished training it 18432/76743 of epoch 4, 63.65 ms/it, loss 0.468937
+Finished training it 18432/76743 of epoch 4, 63.64 ms/it, loss 0.466806
+Finished training it 19456/76743 of epoch 4, 63.05 ms/it, loss 0.466704
+Finished training it 19456/76743 of epoch 4, 63.07 ms/it, loss 0.462771
+Finished training it 19456/76743 of epoch 4, 62.97 ms/it, loss 0.468281
+Finished training it 19456/76743 of epoch 4, 62.99 ms/it, loss 0.465399
+Finished training it 20480/76743 of epoch 4, 63.48 ms/it, loss 0.467508
+Finished training it 20480/76743 of epoch 4, 63.54 ms/it, loss 0.466550
+Finished training it 20480/76743 of epoch 4, 63.43 ms/it, loss 0.468811
+Finished training it 20480/76743 of epoch 4, 63.54 ms/it, loss 0.466380
