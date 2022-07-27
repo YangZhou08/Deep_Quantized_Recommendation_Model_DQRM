@@ -1562,11 +1562,7 @@ def train(gpu, args):
                             writer 
                         ) 
                     if rank == 0: 
-                        if (
-                            is_best
-                            and not (args.save_model == "")
-                            and not args.inference_only
-                        ):
+                        if not (args.save_model == "") and not args.inference_only: 
                             model_metrics_dict["epoch"] = k
                             model_metrics_dict["iter"] = j + 1
                             model_metrics_dict["train_loss"] = train_loss
