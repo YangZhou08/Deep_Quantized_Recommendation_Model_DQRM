@@ -49,11 +49,12 @@ for table_num in range(2, 26):
         axes[i].set_title("Table {}\nmin {:.4f} max {:.4f}".format(table_num, min, max)) 
 
         list_one = [] 
-    axes[0].clear() 
-    axes[1].clear() 
 
     print("printing table {} distribution".format(table_num)) 
     plt.savefig("hist" + str(table_num) + ".png") 
+
+    axes[0].clear() 
+    axes[1].clear() 
 
 '''
 plt.hist(list_one, bins = 100) 
