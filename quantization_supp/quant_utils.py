@@ -125,17 +125,23 @@ def linear_dequantize(input_q, scale, zero_point, inplace=False):
     return (input_q - zero_point) * (scale)
 
 def symmetric_linear_quantization_param_two(num_bits, 
-                                            embedding_bag): 
+                                            embedding_bag, 
+                                            bound, 
+                                            extending_ratio): 
     # this function computes scale for embedding table only 
     # use with caution 
     
     with torch.no_grad(): 
+        '''
         if isinstance(embedding_bag, torch.nn.Module): 
             weight = embedding_bag.weight.data 
         else: 
             weight = embedding_bag 
         w_min, _ = torch.min(torch.min(weight, dim = 0, out = None).values, dim = 0, out = None) # no copy of the entire table is produced or we expected 
         w_max, _ = torch.max(torch.max(weight, dim = 0, out = None).values, dim = 0, out = None) # no copy of the entire table is produced or we expected 
+        ''' 
+        w_min = -(bound * (1 + extending_ratio)) 
+        w_max = bound * (1 + extending_ratio) 
         
         n = 2 ** (num_bits - 1) - 1
         
