@@ -122,7 +122,7 @@ with warnings.catch_warnings():
 
 best_acc_test = 0 
 best_auc_test = 0 
-full_precision_flag = True 
+full_precision_flag = None 
 path_log = None 
 
 exc = getattr(builtins, "IOError", "FileNotFoundError")
