@@ -20,8 +20,10 @@ file_names = [file_name_one, file_name_two]
 
 fig, axes = plt.subplots(1, 2) 
 
+n_l = [1460, 583, 10131227, 2202608, 305, 24, 12517, 633, 3, 93145, 5683, 8351593, 3194, 27, 14992, 5461306, 10, 5652, 2173, 4, 7046547, 18, 15, 286181, 105, 142572] 
+
 list_one = [] 
-for table_num in range(2, 26): 
+for table_num in range(0, 26): 
     file_name_one = "table" + str(table_num) + "epoch" + "0.txt" 
     file_name_two = "table" + str(table_num) + "epoch" + "1.txt" 
 
@@ -41,6 +43,8 @@ for table_num in range(2, 26):
         max = np.max(list_one) 
 
         axes[i].hist(list_one, bins = 100) 
+        axes[i].axvline(-np.sqrt(n_l[table_num]), color = 'yellow', lw = 2) 
+        axes[i].axvline(np.sqrt(n_l[table_num]), color = 'yellow', lw = 2) 
         axes[i].axvline(min, color = 'red', lw = 2) 
         axes[i].axvline(max, color = 'red', lw = 2) 
         '''
