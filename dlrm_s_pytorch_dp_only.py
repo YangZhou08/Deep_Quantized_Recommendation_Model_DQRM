@@ -122,7 +122,7 @@ with warnings.catch_warnings():
 
 best_acc_test = 0 
 best_auc_test = 0 
-full_precision_flag = None 
+full_precision_flag = True 
 path_log = None 
 
 exc = getattr(builtins, "IOError", "FileNotFoundError")
@@ -1437,7 +1437,6 @@ def train(gpu, args):
         while k < args.nepochs: 
             if k == 1 and args.pretrain_and_quantize: 
                 # one epoch of pretraining and one epoch of quantization-aware training 
-                global full_precision_flag 
                 full_precision_flag = False 
                 print("Using {}-bit precision".format(int(args.embedding_bit)) if args.embedding_bit is not None else "Still using full precision") 
             if k < skip_upto_epoch: 
