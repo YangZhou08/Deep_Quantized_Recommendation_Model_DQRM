@@ -43,8 +43,8 @@ for table_num in range(0, 26):
         max = np.max(list_one) 
 
         axes[i].hist(list_one, bins = 100) 
-        axes[i].axvline(-np.sqrt(n_l[table_num]), color = 'yellow', lw = 2) 
-        axes[i].axvline(np.sqrt(n_l[table_num]), color = 'yellow', lw = 2) 
+        axes[i].axvline(-np.sqrt(1/n_l[table_num]), color = 'yellow', lw = 2) 
+        axes[i].axvline(np.sqrt(1/n_l[table_num]), color = 'yellow', lw = 2) 
         axes[i].axvline(min, color = 'red', lw = 2) 
         axes[i].axvline(max, color = 'red', lw = 2) 
         '''
