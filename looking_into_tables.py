@@ -6,9 +6,13 @@ matplotlib.use('Qt5Agg')
 ''' 
 import matplotlib.pyplot as plt 
 import sys 
+import argparse 
 
+parser = argparse.ArgumentParser(description = "investigating distribution") 
+parser.add_argument("--table-num", type = int, default = 0) 
+args = parser.parse_args() 
 path = "/rscratch/data/dlrm_criteo/" 
-table_num = 0 
+table_num = args.table_num 
 file_name_one = "table" + str(table_num) + "epoch" + "0.txt" 
 file_name_two = "table" + str(table_num) + "epoch" + "1.txt" 
 
