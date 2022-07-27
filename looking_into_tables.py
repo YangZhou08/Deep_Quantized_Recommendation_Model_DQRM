@@ -25,7 +25,7 @@ print(len(list_one))
 min = np.min(list_one) 
 max = np.max(list_one) 
 
-plt.hist(list_one, bins = 16) 
+plt.hist(list_one, bins = 100) 
 plt.vlines(min, 0, 8500, color = 'red', linestyles = 'dashed') 
 plt.vlines(max, 0, 8500, color = 'red', linestyles = 'dashed') 
 plt.title("Table {} min: {} max: {}".format(table_num, min, max)) 
