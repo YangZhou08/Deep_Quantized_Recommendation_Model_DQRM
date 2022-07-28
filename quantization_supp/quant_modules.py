@@ -215,7 +215,7 @@ class QuantEmbeddingBagThree(Module):
         output = self.embedding_bag(input, offsets, per_sample_weights = None) 
         
         if not self.full_precision_flag: 
-            return ste_round.apply(output * self.eb_scaling_factor) 
+            return ste_round.apply(output) * self.eb_scaling_factor 
         else: 
             return output 
                 
@@ -301,7 +301,7 @@ class QuantEmbeddingBagTwo(Module):
             raise ValueError("unknown quant mode: {}".format(self.quant_mode)) 
         if not full_precision_flag: 
             if self.quant_mode == "symmetric": 
-                self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag, self.num_embeddings, 0.5) 
+                self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag, self.num_embeddings, 1.0) 
                 '''
                 self.eb_scaling_factor = torch.tensor(1.0, dtype = torch.float32, requires_grad = False) # testing whether finding max and min would introduce overhead 
                 ''' 
@@ -318,7 +318,7 @@ class QuantEmbeddingBagTwo(Module):
             '''
             self.output_integer = output # testing whether quantization introduces large overhead 
             ''' 
-            return ste_round.apply(self.output_integer * self.eb_scaling_factor) # dequantization 
+            return self.output_integer * self.eb_scaling_factor # dequantization 
         else: 
             return self.output_integer 
         '''
