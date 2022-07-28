@@ -149,7 +149,7 @@ def symmetric_linear_quantization_param_two(num_bits,
         '''
         scale = max(w_min.abs(), w_max.abs()) 
         ''' 
-        scale = w_max 
+        scale = torch.tensor(w_max) 
         scale = torch.clamp(scale, min = 1e-8) / n 
         
     return scale 
