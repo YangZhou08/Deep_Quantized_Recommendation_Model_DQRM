@@ -261,7 +261,7 @@ class QuantEmbeddingBagTwo(Module):
         self.register_buffer('eb_scaling_factor', torch.ones(1)) # testing whether finding scale takes large delay 
         ''' 
         self.register_buffer('output_integer', torch.zeros((1, 16)), persistent = False) 
-        self.bound = torch.sqrt(torch.tensor(1/self.num_embeddings)) * (4.0) 
+        self.register_buffer('embedding_bound', torch.sqrt(torch.tensor(1/self.num_embeddings)) * (4.0), persistent = False) 
         
         # weight initialization 
         W = np.random.uniform(
