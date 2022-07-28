@@ -779,11 +779,11 @@ def run():
     '''
     os.environ['MASTER_ADDR'] = '169.229.49.62' 
     ''' 
-    os.environ['MASTER_ADDR'] = '169.229.49.61' 
+    os.environ['MASTER_ADDR'] = '169.229.49.60' 
     '''
     os.environ['MASTER_PORT'] = '29500' 
     ''' 
-    os.environ['MASTER_PORT'] = '29509' 
+    os.environ['MASTER_PORT'] = '29516' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
   
