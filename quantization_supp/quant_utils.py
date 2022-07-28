@@ -140,12 +140,16 @@ def symmetric_linear_quantization_param_two(num_bits,
         w_min, _ = torch.min(torch.min(weight, dim = 0, out = None).values, dim = 0, out = None) # no copy of the entire table is produced or we expected 
         w_max, _ = torch.max(torch.max(weight, dim = 0, out = None).values, dim = 0, out = None) # no copy of the entire table is produced or we expected 
         ''' 
+        '''
         w_min = -(bound * (1 + extending_ratio)) 
+        ''' 
         w_max = bound * (1 + extending_ratio) 
         
         n = 2 ** (num_bits - 1) - 1
-        
+        '''
         scale = max(w_min.abs(), w_max.abs()) 
+        ''' 
+        scale = w_max 
         scale = torch.clamp(scale, min = 1e-8) / n 
         
     return scale 
