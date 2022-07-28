@@ -272,7 +272,7 @@ class QuantEmbeddingBagTwo(Module):
         self.embedding_bag.weight.data = torch.tensor(W, requires_grad = True) 
         
     def __repr__(self): 
-        s = super(QuantEmbeddingBag, self).__repr__() 
+        s = super(QuantEmbeddingBagTwo, self).__repr__() 
         s = "(" + s + " embedding_bit = {}, full_precision_flag = {}, quant_mode = {})".format(
             self.embedding_bit, self.full_precision_flag, self.quant_mode 
         ) 
@@ -296,7 +296,7 @@ class QuantEmbeddingBagTwo(Module):
             raise ValueError("unknown quant mode: {}".format(self.quant_mode)) 
         if not full_precision_flag: 
             if self.quant_mode == "symmetric": 
-                self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag, np.sqrt(1/self.num_embeddings), 0.2) 
+                self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag, self.num_embeddings, 0.5) 
                 '''
                 self.eb_scaling_factor = torch.tensor(1.0, dtype = torch.float32, requires_grad = False) # testing whether finding max and min would introduce overhead 
                 ''' 
