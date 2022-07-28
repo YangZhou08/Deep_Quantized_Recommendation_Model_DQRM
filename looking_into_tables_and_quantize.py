@@ -22,8 +22,8 @@ def finding_scale_and_params(table_num,
     return np.clip(np.max(min, max), min = 1e-8) / n 
 
 n_l = [1460, 583, 10131227, 2202608, 305, 24, 12517, 633, 3, 93145, 5683, 8351593, 3194, 27, 14992, 5461306, 10, 5652, 2173, 4, 7046547, 18, 15, 286181, 105, 142572] 
-thr_r = [0.1, 0.2, 0.3, 0.5] 
-colors = ['red', 'green', 'yellow', 'purple', 'black'] 
+thr_r = [0.2, 0.4, 0.6, 0.8, 1.0] 
+colors = ['red', 'green', 'yellow', 'purple', 'black', 'navy'] 
 
 list_one = [] 
 chicanes = [] 
