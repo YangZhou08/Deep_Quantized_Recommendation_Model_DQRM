@@ -308,9 +308,9 @@ class DLRM_Net(nn.Module):
                     low=-np.sqrt(1 / n), high=np.sqrt(1 / n), size=(n, m)
                 ).astype(np.float32) 
                 ''' 
-                W = np.random.random(
+                W = np.random.normal(
                     loc = 0, scale = np.sqrt(1/n), size = (n, m) 
-                ).astype(np.float32) 
+                ).astype(np.float32)  
                 # approach 1
                 EE.weight.data = torch.tensor(W, requires_grad=True)
                 # approach 2
