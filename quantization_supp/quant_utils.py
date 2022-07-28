@@ -126,8 +126,7 @@ def linear_dequantize(input_q, scale, zero_point, inplace=False):
 
 def symmetric_linear_quantization_param_two(num_bits, 
                                             embedding_bag, 
-                                            num_embeddings, 
-                                            extending_ratio): 
+                                            embedding_bound): 
     # this function computes scale for embedding table only 
     # use with caution 
     
@@ -149,8 +148,11 @@ def symmetric_linear_quantization_param_two(num_bits,
 
         # using initialization values 
         n = 2 ** (num_bits - 1) - 1 
+        '''
         scale = torch.sqrt(torch.tensor(1/num_embeddings, device = embedding_bag.weight.data.get_device())) 
         scale *= (1 + extending_ratio) 
+        ''' 
+        scale = embedding_bound 
         scale = torch.clamp(scale, min = 1e-8) / n 
         
     return scale 

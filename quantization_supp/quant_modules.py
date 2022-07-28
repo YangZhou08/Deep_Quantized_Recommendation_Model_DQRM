@@ -261,6 +261,7 @@ class QuantEmbeddingBagTwo(Module):
         self.register_buffer('eb_scaling_factor', torch.ones(1)) # testing whether finding scale takes large delay 
         ''' 
         self.register_buffer('output_integer', torch.zeros((1, 16)), persistent = False) 
+        self.bound = torch.sqrt(torch.tensor(1/self.num_embeddings)) * (4.0) 
         
         # weight initialization 
         W = np.random.uniform(
@@ -301,7 +302,7 @@ class QuantEmbeddingBagTwo(Module):
             raise ValueError("unknown quant mode: {}".format(self.quant_mode)) 
         if not full_precision_flag: 
             if self.quant_mode == "symmetric": 
-                self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag, self.num_embeddings, 2.0) 
+                self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag, self.bound) 
                 '''
                 self.eb_scaling_factor = torch.tensor(1.0, dtype = torch.float32, requires_grad = False) # testing whether finding max and min would introduce overhead 
                 ''' 
