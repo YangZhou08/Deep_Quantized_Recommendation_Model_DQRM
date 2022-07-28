@@ -263,8 +263,13 @@ class QuantEmbeddingBagTwo(Module):
         self.register_buffer('output_integer', torch.zeros((1, 16)), persistent = False) 
         
         # weight initialization 
+        '''
         W = np.random.uniform(
             low = -np.sqrt(1/self.num_embeddings), high = np.sqrt(1/self.num_embeddings), size = (self.num_embeddings, self.embedding_dim)
+        ).astype(np.float32) 
+        ''' 
+        W = np.random.normal(
+            loc = 0, scale = np.sqrt(1/self.num_embeddings), size = (self.num_embeddings, self.embedding_dim)
         ).astype(np.float32) 
         
         # built-in module with embeddingbag 
