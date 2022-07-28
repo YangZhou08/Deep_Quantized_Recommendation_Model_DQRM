@@ -45,8 +45,8 @@ for table_num in range(0, 2):
     for ratio in thr_r: 
         chicanes.append(np.sqrt(1/n_l[table_num]) * (1 + ratio)) 
 
-    for i, l in enumerate(colors): 
-        plt.vlines(l, ymin = 0, ymax = y_max, color = colors[i]) 
+    for i, l in enumerate(chicanes): 
+        plt.vlines(-l, ymin = 0, ymax = y_max, color = colors[i]) 
         plt.vlines(l, ymin = 0, ymax = y_max, color = colors[i]) 
 
     list_one = [] 
