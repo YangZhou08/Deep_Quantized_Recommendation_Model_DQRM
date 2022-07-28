@@ -301,7 +301,7 @@ class QuantEmbeddingBagTwo(Module):
             raise ValueError("unknown quant mode: {}".format(self.quant_mode)) 
         if not full_precision_flag: 
             if self.quant_mode == "symmetric": 
-                self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag, self.num_embeddings, 1.0) 
+                self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag, self.num_embeddings, 2.0) 
                 '''
                 self.eb_scaling_factor = torch.tensor(1.0, dtype = torch.float32, requires_grad = False) # testing whether finding max and min would introduce overhead 
                 ''' 
