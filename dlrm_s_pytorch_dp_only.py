@@ -302,10 +302,15 @@ class DLRM_Net(nn.Module):
             else:
                 EE = nn.EmbeddingBag(n, m, mode="sum", sparse=True) 
                 # initialize embeddings
-                # nn.init.uniform_(EE.weight, a=-np.sqrt(1 / n), b=np.sqrt(1 / n))
+                # nn.init.uniform_(EE.weight, a=-np.sqrt(1 / n), b=np.sqrt(1 / n)) 
+                '''
                 W = np.random.uniform(
                     low=-np.sqrt(1 / n), high=np.sqrt(1 / n), size=(n, m)
-                ).astype(np.float32)
+                ).astype(np.float32) 
+                ''' 
+                W = np.random.random(
+                    loc = 0, scale = np.sqrt(1/n), size = (n, m) 
+                ).astype(np.float32) 
                 # approach 1
                 EE.weight.data = torch.tensor(W, requires_grad=True)
                 # approach 2
@@ -778,7 +783,7 @@ def run():
     '''
     os.environ['MASTER_PORT'] = '29500' 
     ''' 
-    os.environ['MASTER_PORT'] = '29510' 
+    os.environ['MASTER_PORT'] = '29511' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
   
