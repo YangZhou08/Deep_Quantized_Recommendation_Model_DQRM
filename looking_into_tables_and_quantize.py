@@ -27,7 +27,7 @@ colors = ['red', 'green', 'yellow', 'purple', 'black', 'navy']
 
 list_one = [] 
 chicanes = [] 
-for table_num in range(0, 2): 
+for table_num in range(0, 26): 
     file_name = "table" + str(table_num) + "epoch" + "1.txt" 
 
     file_path = path + file_name 
