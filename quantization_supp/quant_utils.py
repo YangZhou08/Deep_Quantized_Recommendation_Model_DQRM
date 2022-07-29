@@ -132,7 +132,6 @@ def symmetric_linear_quantization_param_two(num_bits,
     # use with caution 
     
     with torch.no_grad(): 
-        '''
         if num_embeddings > 1e6: 
             # using embedding table weight min and max 
             if isinstance(embedding_bag, torch.nn.Module): 
@@ -151,7 +150,7 @@ def symmetric_linear_quantization_param_two(num_bits,
             n = 2 ** (num_bits - 1) - 1 
             scale = embedding_bound 
             scale = torch.clamp(scale, min = 1e-8) / n 
-        ''' 
+        '''
         # using embedding table weight min and max 
         if isinstance(embedding_bag, torch.nn.Module): 
             weight = embedding_bag.weight.data 
@@ -164,6 +163,7 @@ def symmetric_linear_quantization_param_two(num_bits,
         
         scale = max(w_min.abs(), w_max.abs()) 
         scale = torch.clamp(scale, min = 1e-8) / n 
+        ''' 
         
     return scale 
 
