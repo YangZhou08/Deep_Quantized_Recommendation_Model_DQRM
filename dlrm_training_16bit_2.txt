@@ -1,1629 +1,0 @@
-Unable to import mlperf_logging,  No module named 'mlperf_logging'
-Unable to import mlperf_logging,  No module named 'mlperf_logging'
-Warning: local_rank gpu mismatch
-4 out of -1 (GPU)
-Reading pre-processed data=/rscratch/data/dlrm_criteo/kaggleAdDisplayChallenge_processed.npz
-Sparse fea = 26, Dense fea = 13
-Defined train indices...
-Randomized indices across days ...
-Split data according to indices...
-Reading pre-processed data=/rscratch/data/dlrm_criteo/kaggleAdDisplayChallenge_processed.npz
-Sparse fea = 26, Dense fea = 13
-Defined test indices...
-Randomized indices across days ...
-Split data according to indices...
-number of devices 1
-world size found is -1
----------- Embedding Table 0, quantization used, n = 1460, m = 16, quantization bit set to 16
----------- Embedding Table 1, quantization used, n = 583, m = 16, quantization bit set to 16
----------- Embedding Table 2, quantization used, n = 10131227, m = 16, quantization bit set to 16
----------- Embedding Table 3, quantization used, n = 2202608, m = 16, quantization bit set to 16
----------- Embedding Table 4, quantization used, n = 305, m = 16, quantization bit set to 16
----------- Embedding Table 5, quantization used, n = 24, m = 16, quantization bit set to 16
----------- Embedding Table 6, quantization used, n = 12517, m = 16, quantization bit set to 16
----------- Embedding Table 7, quantization used, n = 633, m = 16, quantization bit set to 16
----------- Embedding Table 8, quantization used, n = 3, m = 16, quantization bit set to 16
----------- Embedding Table 9, quantization used, n = 93145, m = 16, quantization bit set to 16
----------- Embedding Table 10, quantization used, n = 5683, m = 16, quantization bit set to 16
----------- Embedding Table 11, quantization used, n = 8351593, m = 16, quantization bit set to 16
----------- Embedding Table 12, quantization used, n = 3194, m = 16, quantization bit set to 16
----------- Embedding Table 13, quantization used, n = 27, m = 16, quantization bit set to 16
----------- Embedding Table 14, quantization used, n = 14992, m = 16, quantization bit set to 16
----------- Embedding Table 15, quantization used, n = 5461306, m = 16, quantization bit set to 16
----------- Embedding Table 16, quantization used, n = 10, m = 16, quantization bit set to 16
----------- Embedding Table 17, quantization used, n = 5652, m = 16, quantization bit set to 16
----------- Embedding Table 18, quantization used, n = 2173, m = 16, quantization bit set to 16
----------- Embedding Table 19, quantization used, n = 4, m = 16, quantization bit set to 16
----------- Embedding Table 20, quantization used, n = 7046547, m = 16, quantization bit set to 16
----------- Embedding Table 21, quantization used, n = 18, m = 16, quantization bit set to 16
----------- Embedding Table 22, quantization used, n = 15, m = 16, quantization bit set to 16
----------- Embedding Table 23, quantization used, n = 286181, m = 16, quantization bit set to 16
----------- Embedding Table 24, quantization used, n = 105, m = 16, quantization bit set to 16
----------- Embedding Table 25, quantization used, n = 142572, m = 16, quantization bit set to 16
-log path is written: /rscratch/data/dlrm_criteo/
-optimizer selected is  sgd
-Finished training it 1024/76743 of epoch 0, 34.69 ms/it, loss 0.514827
-Unable to import mlperf_logging,  No module named 'mlperf_logging'
-Warning: local_rank gpu mismatch
-4 out of -1 (GPU)
-Reading pre-processed data=/rscratch/data/dlrm_criteo/kaggleAdDisplayChallenge_processed.npz
-Sparse fea = 26, Dense fea = 13
-Defined train indices...
-Randomized indices across days ...
-Split data according to indices...
-Reading pre-processed data=/rscratch/data/dlrm_criteo/kaggleAdDisplayChallenge_processed.npz
-Sparse fea = 26, Dense fea = 13
-Defined test indices...
-Randomized indices across days ...
-Split data according to indices...
-number of devices 1
-world size found is -1
----------- Embedding Table 0, quantization used, n = 1460, m = 16, quantization bit set to 16
----------- Embedding Table 1, quantization used, n = 583, m = 16, quantization bit set to 16
----------- Embedding Table 2, quantization used, n = 10131227, m = 16, quantization bit set to 16
----------- Embedding Table 3, quantization used, n = 2202608, m = 16, quantization bit set to 16
----------- Embedding Table 4, quantization used, n = 305, m = 16, quantization bit set to 16
----------- Embedding Table 5, quantization used, n = 24, m = 16, quantization bit set to 16
----------- Embedding Table 6, quantization used, n = 12517, m = 16, quantization bit set to 16
----------- Embedding Table 7, quantization used, n = 633, m = 16, quantization bit set to 16
----------- Embedding Table 8, quantization used, n = 3, m = 16, quantization bit set to 16
----------- Embedding Table 9, quantization used, n = 93145, m = 16, quantization bit set to 16
----------- Embedding Table 10, quantization used, n = 5683, m = 16, quantization bit set to 16
----------- Embedding Table 11, quantization used, n = 8351593, m = 16, quantization bit set to 16
----------- Embedding Table 12, quantization used, n = 3194, m = 16, quantization bit set to 16
----------- Embedding Table 13, quantization used, n = 27, m = 16, quantization bit set to 16
----------- Embedding Table 14, quantization used, n = 14992, m = 16, quantization bit set to 16
----------- Embedding Table 15, quantization used, n = 5461306, m = 16, quantization bit set to 16
----------- Embedding Table 16, quantization used, n = 10, m = 16, quantization bit set to 16
----------- Embedding Table 17, quantization used, n = 5652, m = 16, quantization bit set to 16
----------- Embedding Table 18, quantization used, n = 2173, m = 16, quantization bit set to 16
----------- Embedding Table 19, quantization used, n = 4, m = 16, quantization bit set to 16
----------- Embedding Table 20, quantization used, n = 7046547, m = 16, quantization bit set to 16
----------- Embedding Table 21, quantization used, n = 18, m = 16, quantization bit set to 16
----------- Embedding Table 22, quantization used, n = 15, m = 16, quantization bit set to 16
----------- Embedding Table 23, quantization used, n = 286181, m = 16, quantization bit set to 16
----------- Embedding Table 24, quantization used, n = 105, m = 16, quantization bit set to 16
----------- Embedding Table 25, quantization used, n = 142572, m = 16, quantization bit set to 16
-log path is written: /rscratch/data/dlrm_criteo/
-optimizer selected is  sgd
-Finished training it 1024/76743 of epoch 0, 33.26 ms/it, loss 0.513141
-Unable to import mlperf_logging,  No module named 'mlperf_logging'
-Warning: local_rank gpu mismatch
-4 out of -1 (GPU)
-Reading pre-processed data=/rscratch/data/dlrm_criteo/kaggleAdDisplayChallenge_processed.npz
-Sparse fea = 26, Dense fea = 13
-Defined train indices...
-Randomized indices across days ...
-Split data according to indices...
-Reading pre-processed data=/rscratch/data/dlrm_criteo/kaggleAdDisplayChallenge_processed.npz
-Sparse fea = 26, Dense fea = 13
-Defined test indices...
-Randomized indices across days ...
-Split data according to indices...
-number of devices 1
-world size found is -1
----------- Embedding Table 0, quantization used, n = 1460, m = 16, quantization bit set to 16
----------- Embedding Table 1, quantization used, n = 583, m = 16, quantization bit set to 16
----------- Embedding Table 2, quantization used, n = 10131227, m = 16, quantization bit set to 16
----------- Embedding Table 3, quantization used, n = 2202608, m = 16, quantization bit set to 16
----------- Embedding Table 4, quantization used, n = 305, m = 16, quantization bit set to 16
----------- Embedding Table 5, quantization used, n = 24, m = 16, quantization bit set to 16
----------- Embedding Table 6, quantization used, n = 12517, m = 16, quantization bit set to 16
----------- Embedding Table 7, quantization used, n = 633, m = 16, quantization bit set to 16
----------- Embedding Table 8, quantization used, n = 3, m = 16, quantization bit set to 16
----------- Embedding Table 9, quantization used, n = 93145, m = 16, quantization bit set to 16
----------- Embedding Table 10, quantization used, n = 5683, m = 16, quantization bit set to 16
----------- Embedding Table 11, quantization used, n = 8351593, m = 16, quantization bit set to 16
----------- Embedding Table 12, quantization used, n = 3194, m = 16, quantization bit set to 16
----------- Embedding Table 13, quantization used, n = 27, m = 16, quantization bit set to 16
----------- Embedding Table 14, quantization used, n = 14992, m = 16, quantization bit set to 16
----------- Embedding Table 15, quantization used, n = 5461306, m = 16, quantization bit set to 16
----------- Embedding Table 16, quantization used, n = 10, m = 16, quantization bit set to 16
----------- Embedding Table 17, quantization used, n = 5652, m = 16, quantization bit set to 16
----------- Embedding Table 18, quantization used, n = 2173, m = 16, quantization bit set to 16
----------- Embedding Table 19, quantization used, n = 4, m = 16, quantization bit set to 16
----------- Embedding Table 20, quantization used, n = 7046547, m = 16, quantization bit set to 16
----------- Embedding Table 21, quantization used, n = 18, m = 16, quantization bit set to 16
----------- Embedding Table 22, quantization used, n = 15, m = 16, quantization bit set to 16
----------- Embedding Table 23, quantization used, n = 286181, m = 16, quantization bit set to 16
----------- Embedding Table 24, quantization used, n = 105, m = 16, quantization bit set to 16
----------- Embedding Table 25, quantization used, n = 142572, m = 16, quantization bit set to 16
-log path is written: /rscratch/data/dlrm_criteo/
-optimizer selected is  sgd
-Finished training it 1024/76743 of epoch 0, 34.22 ms/it, loss 0.510793
-Unable to import mlperf_logging,  No module named 'mlperf_logging'
-Warning: local_rank gpu mismatch
-4 out of -1 (GPU)
-Reading pre-processed data=/rscratch/data/dlrm_criteo/kaggleAdDisplayChallenge_processed.npz
-Sparse fea = 26, Dense fea = 13
-Defined train indices...
-Randomized indices across days ...
-Split data according to indices...
-Reading pre-processed data=/rscratch/data/dlrm_criteo/kaggleAdDisplayChallenge_processed.npz
-Sparse fea = 26, Dense fea = 13
-Defined test indices...
-Randomized indices across days ...
-Split data according to indices...
-number of devices 1
-world size found is -1
----------- Embedding Table 0, quantization used, n = 1460, m = 16, quantization bit set to 16
----------- Embedding Table 1, quantization used, n = 583, m = 16, quantization bit set to 16
----------- Embedding Table 2, quantization used, n = 10131227, m = 16, quantization bit set to 16
----------- Embedding Table 3, quantization used, n = 2202608, m = 16, quantization bit set to 16
----------- Embedding Table 4, quantization used, n = 305, m = 16, quantization bit set to 16
----------- Embedding Table 5, quantization used, n = 24, m = 16, quantization bit set to 16
----------- Embedding Table 6, quantization used, n = 12517, m = 16, quantization bit set to 16
----------- Embedding Table 7, quantization used, n = 633, m = 16, quantization bit set to 16
----------- Embedding Table 8, quantization used, n = 3, m = 16, quantization bit set to 16
----------- Embedding Table 9, quantization used, n = 93145, m = 16, quantization bit set to 16
----------- Embedding Table 10, quantization used, n = 5683, m = 16, quantization bit set to 16
----------- Embedding Table 11, quantization used, n = 8351593, m = 16, quantization bit set to 16
----------- Embedding Table 12, quantization used, n = 3194, m = 16, quantization bit set to 16
----------- Embedding Table 13, quantization used, n = 27, m = 16, quantization bit set to 16
----------- Embedding Table 14, quantization used, n = 14992, m = 16, quantization bit set to 16
----------- Embedding Table 15, quantization used, n = 5461306, m = 16, quantization bit set to 16
----------- Embedding Table 16, quantization used, n = 10, m = 16, quantization bit set to 16
----------- Embedding Table 17, quantization used, n = 5652, m = 16, quantization bit set to 16
----------- Embedding Table 18, quantization used, n = 2173, m = 16, quantization bit set to 16
----------- Embedding Table 19, quantization used, n = 4, m = 16, quantization bit set to 16
----------- Embedding Table 20, quantization used, n = 7046547, m = 16, quantization bit set to 16
----------- Embedding Table 21, quantization used, n = 18, m = 16, quantization bit set to 16
----------- Embedding Table 22, quantization used, n = 15, m = 16, quantization bit set to 16
----------- Embedding Table 23, quantization used, n = 286181, m = 16, quantization bit set to 16
----------- Embedding Table 24, quantization used, n = 105, m = 16, quantization bit set to 16
----------- Embedding Table 25, quantization used, n = 142572, m = 16, quantization bit set to 16
-log path is written: /rscratch/data/dlrm_criteo/
-optimizer selected is  sgd
-Finished training it 1024/76743 of epoch 0, 33.27 ms/it, loss 0.511781
-Finished training it 2048/76743 of epoch 0, 32.28 ms/it, loss 0.500473
-Finished training it 2048/76743 of epoch 0, 32.28 ms/it, loss 0.497773
-Finished training it 2048/76743 of epoch 0, 32.11 ms/it, loss 0.498249
-Finished training it 2048/76743 of epoch 0, 31.98 ms/it, loss 0.499621
-Finished training it 3072/76743 of epoch 0, 32.17 ms/it, loss 0.493527
-Finished training it 3072/76743 of epoch 0, 32.25 ms/it, loss 0.492125
-Finished training it 3072/76743 of epoch 0, 32.29 ms/it, loss 0.491488
-Finished training it 3072/76743 of epoch 0, 32.44 ms/it, loss 0.490342
-Finished training it 4096/76743 of epoch 0, 32.09 ms/it, loss 0.483112
-Finished training it 4096/76743 of epoch 0, 32.07 ms/it, loss 0.483832
-Finished training it 4096/76743 of epoch 0, 31.97 ms/it, loss 0.482634
-Finished training it 4096/76743 of epoch 0, 31.94 ms/it, loss 0.483014
-Finished training it 5120/76743 of epoch 0, 32.27 ms/it, loss 0.478455
-Finished training it 5120/76743 of epoch 0, 32.12 ms/it, loss 0.479574
-Finished training it 5120/76743 of epoch 0, 32.20 ms/it, loss 0.480420
-Finished training it 5120/76743 of epoch 0, 32.26 ms/it, loss 0.479727
-Finished training it 6144/76743 of epoch 0, 32.03 ms/it, loss 0.476667
-Finished training it 6144/76743 of epoch 0, 31.91 ms/it, loss 0.471358
-Finished training it 6144/76743 of epoch 0, 31.93 ms/it, loss 0.474188
-Finished training it 6144/76743 of epoch 0, 31.96 ms/it, loss 0.473543
-Finished training it 7168/76743 of epoch 0, 32.20 ms/it, loss 0.470325
-Finished training it 7168/76743 of epoch 0, 32.26 ms/it, loss 0.472006
-Finished training it 7168/76743 of epoch 0, 31.99 ms/it, loss 0.472978
-Finished training it 7168/76743 of epoch 0, 31.99 ms/it, loss 0.470245
-Finished training it 8192/76743 of epoch 0, 31.86 ms/it, loss 0.468615
-Finished training it 8192/76743 of epoch 0, 32.10 ms/it, loss 0.468829
-Finished training it 8192/76743 of epoch 0, 32.11 ms/it, loss 0.466063
-Finished training it 8192/76743 of epoch 0, 31.80 ms/it, loss 0.468636
-Finished training it 9216/76743 of epoch 0, 32.06 ms/it, loss 0.465646
-Finished training it 9216/76743 of epoch 0, 32.23 ms/it, loss 0.469111
-Finished training it 9216/76743 of epoch 0, 31.92 ms/it, loss 0.465058
-Finished training it 9216/76743 of epoch 0, 31.79 ms/it, loss 0.470870
-Finished training it 10240/76743 of epoch 0, 32.19 ms/it, loss 0.465105
-Finished training it 10240/76743 of epoch 0, 31.77 ms/it, loss 0.466527
-Finished training it 10240/76743 of epoch 0, 32.14 ms/it, loss 0.468462
-Finished training it 10240/76743 of epoch 0, 31.94 ms/it, loss 0.466651
-Testing at - 10240/76743 of epoch 0,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2550559.0
-get out
-0 has test check 2550559.0 and sample count 3274240
- accuracy 77.898 %, best 77.898 %, roc auc score 0.7827, best 0.7827
-Testing at - 10240/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2550559.0
-get out
-1 has test check 2550559.0 and sample count 3274240
-Finished training it 11264/76743 of epoch 0, 32.41 ms/it, loss 0.466291
-Testing at - 10240/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2550559.0
-get out
-2 has test check 2550559.0 and sample count 3274240
-Finished training it 11264/76743 of epoch 0, 32.15 ms/it, loss 0.464037
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one1.0.pt
-Finished training it 11264/76743 of epoch 0, 32.26 ms/it, loss 0.464255
-Testing at - 10240/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2550559.0
-get out
-3 has test check 2550559.0 and sample count 3274240
-Finished training it 11264/76743 of epoch 0, 32.04 ms/it, loss 0.463863
-Finished training it 12288/76743 of epoch 0, 32.15 ms/it, loss 0.463401
-Finished training it 12288/76743 of epoch 0, 32.62 ms/it, loss 0.463173
-Finished training it 12288/76743 of epoch 0, 32.64 ms/it, loss 0.465775
-Finished training it 12288/76743 of epoch 0, 32.25 ms/it, loss 0.463424
-Finished training it 13312/76743 of epoch 0, 32.57 ms/it, loss 0.463866
-Finished training it 13312/76743 of epoch 0, 32.51 ms/it, loss 0.459543
-Finished training it 13312/76743 of epoch 0, 32.51 ms/it, loss 0.463017
-Finished training it 13312/76743 of epoch 0, 32.53 ms/it, loss 0.460441
-Finished training it 14336/76743 of epoch 0, 32.36 ms/it, loss 0.461009
-Finished training it 14336/76743 of epoch 0, 32.38 ms/it, loss 0.461593
-Finished training it 14336/76743 of epoch 0, 32.80 ms/it, loss 0.460027
-Finished training it 14336/76743 of epoch 0, 32.60 ms/it, loss 0.459282
-Finished training it 15360/76743 of epoch 0, 39.62 ms/it, loss 0.461273
-Finished training it 15360/76743 of epoch 0, 39.27 ms/it, loss 0.458277
-Finished training it 15360/76743 of epoch 0, 40.05 ms/it, loss 0.461250
-Finished training it 15360/76743 of epoch 0, 37.63 ms/it, loss 0.460456
-Finished training it 16384/76743 of epoch 0, 32.48 ms/it, loss 0.457459
-Finished training it 16384/76743 of epoch 0, 32.30 ms/it, loss 0.463366
-Finished training it 16384/76743 of epoch 0, 32.48 ms/it, loss 0.459894
-Finished training it 16384/76743 of epoch 0, 32.26 ms/it, loss 0.460378
-Finished training it 17408/76743 of epoch 0, 31.99 ms/it, loss 0.457966
-Finished training it 17408/76743 of epoch 0, 31.97 ms/it, loss 0.460109
-Finished training it 17408/76743 of epoch 0, 32.12 ms/it, loss 0.459224
-Finished training it 17408/76743 of epoch 0, 32.18 ms/it, loss 0.458979
-Finished training it 18432/76743 of epoch 0, 31.97 ms/it, loss 0.462610
-Finished training it 18432/76743 of epoch 0, 31.77 ms/it, loss 0.456146
-Finished training it 18432/76743 of epoch 0, 32.13 ms/it, loss 0.460284
-Finished training it 18432/76743 of epoch 0, 31.87 ms/it, loss 0.460481
-Finished training it 19456/76743 of epoch 0, 31.72 ms/it, loss 0.458365
-Finished training it 19456/76743 of epoch 0, 31.71 ms/it, loss 0.459185
-Finished training it 19456/76743 of epoch 0, 31.89 ms/it, loss 0.456276
-Finished training it 19456/76743 of epoch 0, 31.58 ms/it, loss 0.457711
-Finished training it 20480/76743 of epoch 0, 31.93 ms/it, loss 0.457064
-Finished training it 20480/76743 of epoch 0, 31.93 ms/it, loss 0.458099
-Finished training it 20480/76743 of epoch 0, 31.75 ms/it, loss 0.456581
-Finished training it 20480/76743 of epoch 0, 31.79 ms/it, loss 0.457018
-Testing at - 20480/76743 of epoch 0,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2564148.0
-get out
-0 has test check 2564148.0 and sample count 3274240
- accuracy 78.313 %, best 78.313 %, roc auc score 0.7902, best 0.7902
-Testing at - 20480/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2564148.0
-get out
-2 has test check 2564148.0 and sample count 3274240
-Finished training it 21504/76743 of epoch 0, 31.83 ms/it, loss 0.457827
-Testing at - 20480/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2564148.0
-get out
-3 has test check 2564148.0 and sample count 3274240
-Finished training it 21504/76743 of epoch 0, 31.86 ms/it, loss 0.460865
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one0.0.pt
-Finished training it 21504/76743 of epoch 0, 31.78 ms/it, loss 0.457549
-Testing at - 20480/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2564148.0
-get out
-1 has test check 2564148.0 and sample count 3274240
-Finished training it 21504/76743 of epoch 0, 31.88 ms/it, loss 0.457004
-Finished training it 22528/76743 of epoch 0, 31.94 ms/it, loss 0.456516
-Finished training it 22528/76743 of epoch 0, 31.84 ms/it, loss 0.458205
-Finished training it 22528/76743 of epoch 0, 32.03 ms/it, loss 0.455002
-Finished training it 22528/76743 of epoch 0, 31.88 ms/it, loss 0.457185
-Finished training it 23552/76743 of epoch 0, 31.96 ms/it, loss 0.454395
-Finished training it 23552/76743 of epoch 0, 32.12 ms/it, loss 0.456105
-Finished training it 23552/76743 of epoch 0, 31.92 ms/it, loss 0.457815
-Finished training it 23552/76743 of epoch 0, 31.97 ms/it, loss 0.453765
-Finished training it 24576/76743 of epoch 0, 31.78 ms/it, loss 0.455903
-Finished training it 24576/76743 of epoch 0, 31.91 ms/it, loss 0.458321
-Finished training it 24576/76743 of epoch 0, 31.66 ms/it, loss 0.458023
-Finished training it 24576/76743 of epoch 0, 31.83 ms/it, loss 0.456261
-Finished training it 25600/76743 of epoch 0, 32.16 ms/it, loss 0.456551
-Finished training it 25600/76743 of epoch 0, 31.99 ms/it, loss 0.456960
-Finished training it 25600/76743 of epoch 0, 31.94 ms/it, loss 0.457547
-Finished training it 25600/76743 of epoch 0, 32.00 ms/it, loss 0.456364
-Finished training it 26624/76743 of epoch 0, 32.31 ms/it, loss 0.452095
-Finished training it 26624/76743 of epoch 0, 32.09 ms/it, loss 0.457576
-Finished training it 26624/76743 of epoch 0, 31.95 ms/it, loss 0.455646
-Finished training it 26624/76743 of epoch 0, 32.10 ms/it, loss 0.455552
-Finished training it 27648/76743 of epoch 0, 32.15 ms/it, loss 0.451141
-Finished training it 27648/76743 of epoch 0, 31.85 ms/it, loss 0.453757
-Finished training it 27648/76743 of epoch 0, 32.01 ms/it, loss 0.454921
-Finished training it 27648/76743 of epoch 0, 31.97 ms/it, loss 0.452160
-Finished training it 28672/76743 of epoch 0, 32.00 ms/it, loss 0.454067
-Finished training it 28672/76743 of epoch 0, 31.95 ms/it, loss 0.456060
-Finished training it 28672/76743 of epoch 0, 31.99 ms/it, loss 0.456644
-Finished training it 28672/76743 of epoch 0, 32.20 ms/it, loss 0.455738
-Finished training it 29696/76743 of epoch 0, 31.85 ms/it, loss 0.452986
-Finished training it 29696/76743 of epoch 0, 31.92 ms/it, loss 0.457289
-Finished training it 29696/76743 of epoch 0, 32.34 ms/it, loss 0.456585
-Finished training it 29696/76743 of epoch 0, 31.99 ms/it, loss 0.455401
-Finished training it 30720/76743 of epoch 0, 32.00 ms/it, loss 0.454150
-Finished training it 30720/76743 of epoch 0, 32.06 ms/it, loss 0.454545
-Finished training it 30720/76743 of epoch 0, 32.12 ms/it, loss 0.454376
-Finished training it 30720/76743 of epoch 0, 32.19 ms/it, loss 0.452864
-Testing at - 30720/76743 of epoch 0,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2563849.0
-get out
-0 has test check 2563849.0 and sample count 3274240
- accuracy 78.304 %, best 78.313 %, roc auc score 0.7940, best 0.7940
-Testing at - 30720/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2563849.0
-get out
-1 has test check 2563849.0 and sample count 3274240
-Finished training it 31744/76743 of epoch 0, 32.24 ms/it, loss 0.453317
-Testing at - 30720/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2563849.0
-get out
-3 has test check 2563849.0 and sample count 3274240
-Finished training it 31744/76743 of epoch 0, 32.16 ms/it, loss 0.456390
-Testing at - 30720/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2563849.0
-get out
-2 has test check 2563849.0 and sample count 3274240
-Finished training it 31744/76743 of epoch 0, 32.12 ms/it, loss 0.453583
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one1.0.pt
-Finished training it 31744/76743 of epoch 0, 32.02 ms/it, loss 0.454035
-Finished training it 32768/76743 of epoch 0, 32.41 ms/it, loss 0.454932
-Finished training it 32768/76743 of epoch 0, 32.57 ms/it, loss 0.452893
-Finished training it 32768/76743 of epoch 0, 32.28 ms/it, loss 0.454658
-Finished training it 32768/76743 of epoch 0, 32.24 ms/it, loss 0.453281
-Finished training it 33792/76743 of epoch 0, 32.20 ms/it, loss 0.454979
-Finished training it 33792/76743 of epoch 0, 32.52 ms/it, loss 0.449600
-Finished training it 33792/76743 of epoch 0, 32.29 ms/it, loss 0.453976
-Finished training it 33792/76743 of epoch 0, 32.30 ms/it, loss 0.454023
-Finished training it 34816/76743 of epoch 0, 32.17 ms/it, loss 0.452688
-Finished training it 34816/76743 of epoch 0, 32.04 ms/it, loss 0.455038
-Finished training it 34816/76743 of epoch 0, 32.07 ms/it, loss 0.452717
-Finished training it 34816/76743 of epoch 0, 31.96 ms/it, loss 0.452804
-Finished training it 35840/76743 of epoch 0, 37.65 ms/it, loss 0.451558
-Finished training it 35840/76743 of epoch 0, 37.47 ms/it, loss 0.452893
-Finished training it 35840/76743 of epoch 0, 38.30 ms/it, loss 0.453597
-Finished training it 35840/76743 of epoch 0, 37.43 ms/it, loss 0.457063
-Finished training it 36864/76743 of epoch 0, 32.52 ms/it, loss 0.452618
-Finished training it 36864/76743 of epoch 0, 32.44 ms/it, loss 0.455184
-Finished training it 36864/76743 of epoch 0, 32.55 ms/it, loss 0.453861
-Finished training it 36864/76743 of epoch 0, 32.38 ms/it, loss 0.453331
-Finished training it 37888/76743 of epoch 0, 32.28 ms/it, loss 0.452546
-Finished training it 37888/76743 of epoch 0, 32.13 ms/it, loss 0.454591
-Finished training it 37888/76743 of epoch 0, 32.18 ms/it, loss 0.453613
-Finished training it 37888/76743 of epoch 0, 31.97 ms/it, loss 0.452925
-Finished training it 38912/76743 of epoch 0, 32.15 ms/it, loss 0.452442
-Finished training it 38912/76743 of epoch 0, 32.43 ms/it, loss 0.454134
-Finished training it 38912/76743 of epoch 0, 32.31 ms/it, loss 0.451314
-Finished training it 38912/76743 of epoch 0, 32.16 ms/it, loss 0.453776
-Finished training it 39936/76743 of epoch 0, 32.28 ms/it, loss 0.453135
-Finished training it 39936/76743 of epoch 0, 32.15 ms/it, loss 0.451204
-Finished training it 39936/76743 of epoch 0, 32.23 ms/it, loss 0.453226
-Finished training it 39936/76743 of epoch 0, 32.36 ms/it, loss 0.453415
-Finished training it 40960/76743 of epoch 0, 32.33 ms/it, loss 0.449553
-Finished training it 40960/76743 of epoch 0, 32.20 ms/it, loss 0.455124
-Finished training it 40960/76743 of epoch 0, 32.14 ms/it, loss 0.453716
-Finished training it 40960/76743 of epoch 0, 32.04 ms/it, loss 0.452213
-Testing at - 40960/76743 of epoch 0,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2571488.0
-get out
-0 has test check 2571488.0 and sample count 3274240
- accuracy 78.537 %, best 78.537 %, roc auc score 0.7962, best 0.7962
-Testing at - 40960/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2571488.0
-get out
-2 has test check 2571488.0 and sample count 3274240
-Finished training it 41984/76743 of epoch 0, 32.30 ms/it, loss 0.452669
-Testing at - 40960/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2571488.0
-get out
-1 has test check 2571488.0 and sample count 3274240
-Finished training it 41984/76743 of epoch 0, 32.11 ms/it, loss 0.450283
-Testing at - 40960/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2571488.0
-get out
-3 has test check 2571488.0 and sample count 3274240
-Finished training it 41984/76743 of epoch 0, 32.43 ms/it, loss 0.450895
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one0.0.pt
-Finished training it 41984/76743 of epoch 0, 32.02 ms/it, loss 0.452270
-Finished training it 43008/76743 of epoch 0, 32.16 ms/it, loss 0.455160
-Finished training it 43008/76743 of epoch 0, 32.07 ms/it, loss 0.450538
-Finished training it 43008/76743 of epoch 0, 32.30 ms/it, loss 0.451785
-Finished training it 43008/76743 of epoch 0, 32.21 ms/it, loss 0.449267
-Finished training it 44032/76743 of epoch 0, 32.04 ms/it, loss 0.450209
-Finished training it 44032/76743 of epoch 0, 32.24 ms/it, loss 0.452813
-Finished training it 44032/76743 of epoch 0, 32.10 ms/it, loss 0.452891
-Finished training it 44032/76743 of epoch 0, 31.85 ms/it, loss 0.449309
-Finished training it 45056/76743 of epoch 0, 32.20 ms/it, loss 0.449266
-Finished training it 45056/76743 of epoch 0, 32.12 ms/it, loss 0.452407
-Finished training it 45056/76743 of epoch 0, 32.27 ms/it, loss 0.450659
-Finished training it 45056/76743 of epoch 0, 32.31 ms/it, loss 0.450929
-Finished training it 46080/76743 of epoch 0, 32.22 ms/it, loss 0.450011
-Finished training it 46080/76743 of epoch 0, 32.34 ms/it, loss 0.451887
-Finished training it 46080/76743 of epoch 0, 32.22 ms/it, loss 0.448867
-Finished training it 46080/76743 of epoch 0, 32.22 ms/it, loss 0.449158
-Finished training it 47104/76743 of epoch 0, 32.02 ms/it, loss 0.452672
-Finished training it 47104/76743 of epoch 0, 32.16 ms/it, loss 0.451115
-Finished training it 47104/76743 of epoch 0, 32.11 ms/it, loss 0.451670
-Finished training it 47104/76743 of epoch 0, 32.04 ms/it, loss 0.449989
-Finished training it 48128/76743 of epoch 0, 32.14 ms/it, loss 0.450552
-Finished training it 48128/76743 of epoch 0, 32.20 ms/it, loss 0.449861
-Finished training it 48128/76743 of epoch 0, 32.39 ms/it, loss 0.449939
-Finished training it 48128/76743 of epoch 0, 32.21 ms/it, loss 0.451990
-Finished training it 49152/76743 of epoch 0, 32.47 ms/it, loss 0.450218
-Finished training it 49152/76743 of epoch 0, 32.57 ms/it, loss 0.450866
-Finished training it 49152/76743 of epoch 0, 32.27 ms/it, loss 0.452394
-Finished training it 49152/76743 of epoch 0, 32.46 ms/it, loss 0.447936
-Finished training it 50176/76743 of epoch 0, 32.09 ms/it, loss 0.449738
-Finished training it 50176/76743 of epoch 0, 32.08 ms/it, loss 0.448305
-Finished training it 50176/76743 of epoch 0, 31.94 ms/it, loss 0.453773
-Finished training it 50176/76743 of epoch 0, 31.93 ms/it, loss 0.450318
-Finished training it 51200/76743 of epoch 0, 32.34 ms/it, loss 0.451477
-Finished training it 51200/76743 of epoch 0, 32.35 ms/it, loss 0.451784
-Finished training it 51200/76743 of epoch 0, 32.34 ms/it, loss 0.449929
-Finished training it 51200/76743 of epoch 0, 32.51 ms/it, loss 0.449452
-Testing at - 51200/76743 of epoch 0,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2574402.0
-get out
-0 has test check 2574402.0 and sample count 3274240
- accuracy 78.626 %, best 78.626 %, roc auc score 0.7974, best 0.7974
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one1.0.pt
-Finished training it 52224/76743 of epoch 0, 32.08 ms/it, loss 0.454356
-Testing at - 51200/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2574402.0
-get out
-3 has test check 2574402.0 and sample count 3274240
-Finished training it 52224/76743 of epoch 0, 32.44 ms/it, loss 0.446695
-Testing at - 51200/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2574402.0
-get out
-2 has test check 2574402.0 and sample count 3274240
-Finished training it 52224/76743 of epoch 0, 32.30 ms/it, loss 0.449786
-Testing at - 51200/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2574402.0
-get out
-1 has test check 2574402.0 and sample count 3274240
-Finished training it 52224/76743 of epoch 0, 32.28 ms/it, loss 0.450592
-Finished training it 53248/76743 of epoch 0, 32.37 ms/it, loss 0.450283
-Finished training it 53248/76743 of epoch 0, 32.55 ms/it, loss 0.451947
-Finished training it 53248/76743 of epoch 0, 32.04 ms/it, loss 0.449782
-Finished training it 53248/76743 of epoch 0, 32.33 ms/it, loss 0.448914
-Finished training it 54272/76743 of epoch 0, 32.34 ms/it, loss 0.448497
-Finished training it 54272/76743 of epoch 0, 31.88 ms/it, loss 0.450661
-Finished training it 54272/76743 of epoch 0, 32.36 ms/it, loss 0.451927
-Finished training it 54272/76743 of epoch 0, 32.28 ms/it, loss 0.449898
-Finished training it 55296/76743 of epoch 0, 32.11 ms/it, loss 0.449662
-Finished training it 55296/76743 of epoch 0, 32.47 ms/it, loss 0.448447
-Finished training it 55296/76743 of epoch 0, 32.20 ms/it, loss 0.448776
-Finished training it 55296/76743 of epoch 0, 31.88 ms/it, loss 0.451145
-Finished training it 56320/76743 of epoch 0, 32.32 ms/it, loss 0.451289
-Finished training it 56320/76743 of epoch 0, 32.37 ms/it, loss 0.449314
-Finished training it 56320/76743 of epoch 0, 32.03 ms/it, loss 0.449328
-Finished training it 56320/76743 of epoch 0, 32.47 ms/it, loss 0.449048
-Finished training it 57344/76743 of epoch 0, 32.47 ms/it, loss 0.449995
-Finished training it 57344/76743 of epoch 0, 32.55 ms/it, loss 0.449274
-Finished training it 57344/76743 of epoch 0, 32.63 ms/it, loss 0.448463
-Finished training it 57344/76743 of epoch 0, 32.07 ms/it, loss 0.449468
-Finished training it 58368/76743 of epoch 0, 32.00 ms/it, loss 0.447342
-Finished training it 58368/76743 of epoch 0, 31.87 ms/it, loss 0.449339
-Finished training it 58368/76743 of epoch 0, 32.13 ms/it, loss 0.449697
-Finished training it 58368/76743 of epoch 0, 32.10 ms/it, loss 0.451137
-Finished training it 59392/76743 of epoch 0, 32.38 ms/it, loss 0.449198
-Finished training it 59392/76743 of epoch 0, 32.44 ms/it, loss 0.444260
-Finished training it 59392/76743 of epoch 0, 32.20 ms/it, loss 0.449456
-Finished training it 59392/76743 of epoch 0, 32.31 ms/it, loss 0.448859
-Finished training it 60416/76743 of epoch 0, 32.26 ms/it, loss 0.447929
-Finished training it 60416/76743 of epoch 0, 32.56 ms/it, loss 0.451258
-Finished training it 60416/76743 of epoch 0, 32.56 ms/it, loss 0.448721
-Finished training it 60416/76743 of epoch 0, 32.25 ms/it, loss 0.449067
-Finished training it 61440/76743 of epoch 0, 32.39 ms/it, loss 0.448894
-Finished training it 61440/76743 of epoch 0, 32.47 ms/it, loss 0.452382
-Finished training it 61440/76743 of epoch 0, 32.37 ms/it, loss 0.450072
-Finished training it 61440/76743 of epoch 0, 32.14 ms/it, loss 0.450107
-Testing at - 61440/76743 of epoch 0,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2576159.0
-get out
-0 has test check 2576159.0 and sample count 3274240
- accuracy 78.680 %, best 78.680 %, roc auc score 0.7984, best 0.7984
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one0.0.pt
-Finished training it 62464/76743 of epoch 0, 31.88 ms/it, loss 0.447689
-Testing at - 61440/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2576159.0
-get out
-1 has test check 2576159.0 and sample count 3274240
-Finished training it 62464/76743 of epoch 0, 31.92 ms/it, loss 0.447649
-Testing at - 61440/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2576159.0
-get out
-3 has test check 2576159.0 and sample count 3274240
-Finished training it 62464/76743 of epoch 0, 31.94 ms/it, loss 0.448503
-Testing at - 61440/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2576159.0
-get out
-2 has test check 2576159.0 and sample count 3274240
-Finished training it 62464/76743 of epoch 0, 32.00 ms/it, loss 0.447353
-Finished training it 63488/76743 of epoch 0, 32.00 ms/it, loss 0.449096
-Finished training it 63488/76743 of epoch 0, 31.95 ms/it, loss 0.447391
-Finished training it 63488/76743 of epoch 0, 31.99 ms/it, loss 0.448193
-Finished training it 63488/76743 of epoch 0, 31.92 ms/it, loss 0.451485
-Finished training it 64512/76743 of epoch 0, 32.72 ms/it, loss 0.449875
-Finished training it 64512/76743 of epoch 0, 32.61 ms/it, loss 0.447698
-Finished training it 64512/76743 of epoch 0, 32.26 ms/it, loss 0.448622
-Finished training it 64512/76743 of epoch 0, 32.40 ms/it, loss 0.448675
-Finished training it 65536/76743 of epoch 0, 32.61 ms/it, loss 0.448954
-Finished training it 65536/76743 of epoch 0, 32.25 ms/it, loss 0.449144
-Finished training it 65536/76743 of epoch 0, 32.46 ms/it, loss 0.446334
-Finished training it 65536/76743 of epoch 0, 32.00 ms/it, loss 0.450010
-Finished training it 66560/76743 of epoch 0, 38.49 ms/it, loss 0.445229
-Finished training it 66560/76743 of epoch 0, 38.84 ms/it, loss 0.447620
-Finished training it 66560/76743 of epoch 0, 38.37 ms/it, loss 0.447578
-Finished training it 66560/76743 of epoch 0, 37.17 ms/it, loss 0.447726
-Finished training it 67584/76743 of epoch 0, 31.83 ms/it, loss 0.448132
-Finished training it 67584/76743 of epoch 0, 32.00 ms/it, loss 0.449636
-Finished training it 67584/76743 of epoch 0, 32.07 ms/it, loss 0.447397
-Finished training it 67584/76743 of epoch 0, 31.93 ms/it, loss 0.444452
-Finished training it 68608/76743 of epoch 0, 32.27 ms/it, loss 0.448635
-Finished training it 68608/76743 of epoch 0, 32.42 ms/it, loss 0.448871
-Finished training it 68608/76743 of epoch 0, 32.59 ms/it, loss 0.444800
-Finished training it 68608/76743 of epoch 0, 32.44 ms/it, loss 0.447371
-Finished training it 69632/76743 of epoch 0, 32.12 ms/it, loss 0.447368
-Finished training it 69632/76743 of epoch 0, 32.07 ms/it, loss 0.448520
-Finished training it 69632/76743 of epoch 0, 32.41 ms/it, loss 0.448942
-Finished training it 69632/76743 of epoch 0, 32.12 ms/it, loss 0.449225
-Finished training it 70656/76743 of epoch 0, 32.24 ms/it, loss 0.445481
-Finished training it 70656/76743 of epoch 0, 32.17 ms/it, loss 0.445905
-Finished training it 70656/76743 of epoch 0, 32.08 ms/it, loss 0.449889
-Finished training it 70656/76743 of epoch 0, 32.35 ms/it, loss 0.446250
-Finished training it 71680/76743 of epoch 0, 32.33 ms/it, loss 0.450676
-Finished training it 71680/76743 of epoch 0, 32.44 ms/it, loss 0.446013
-Finished training it 71680/76743 of epoch 0, 32.39 ms/it, loss 0.447615
-Finished training it 71680/76743 of epoch 0, 32.45 ms/it, loss 0.445951
-Testing at - 71680/76743 of epoch 0,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2576256.0
-get out
-0 has test check 2576256.0 and sample count 3274240
- accuracy 78.683 %, best 78.683 %, roc auc score 0.7993, best 0.7993
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one1.0.pt
-Finished training it 72704/76743 of epoch 0, 32.02 ms/it, loss 0.447375
-Testing at - 71680/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2576256.0
-get out
-3 has test check 2576256.0 and sample count 3274240
-Finished training it 72704/76743 of epoch 0, 32.70 ms/it, loss 0.446889
-Testing at - 71680/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2576256.0
-get out
-2 has test check 2576256.0 and sample count 3274240
-Finished training it 72704/76743 of epoch 0, 32.66 ms/it, loss 0.446331
-Testing at - 71680/76743 of epoch 0,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2576256.0
-get out
-1 has test check 2576256.0 and sample count 3274240
-Finished training it 72704/76743 of epoch 0, 32.29 ms/it, loss 0.446465
-Finished training it 73728/76743 of epoch 0, 32.57 ms/it, loss 0.450564
-Finished training it 73728/76743 of epoch 0, 32.82 ms/it, loss 0.444456
-Finished training it 73728/76743 of epoch 0, 32.30 ms/it, loss 0.445588
-Finished training it 73728/76743 of epoch 0, 32.73 ms/it, loss 0.444154
-Finished training it 74752/76743 of epoch 0, 32.06 ms/it, loss 0.444787
-Finished training it 74752/76743 of epoch 0, 32.16 ms/it, loss 0.446179
-Finished training it 74752/76743 of epoch 0, 32.32 ms/it, loss 0.447931
-Finished training it 74752/76743 of epoch 0, 32.25 ms/it, loss 0.445171
-Finished training it 75776/76743 of epoch 0, 32.29 ms/it, loss 0.447319
-Finished training it 75776/76743 of epoch 0, 32.17 ms/it, loss 0.447780
-Finished training it 75776/76743 of epoch 0, 32.30 ms/it, loss 0.447697
-Finished training it 75776/76743 of epoch 0, 32.34 ms/it, loss 0.446218
-Warning: Skipping the batch 76742 with size 14
-Using 16-bit precision
-Finished training it 1024/76743 of epoch 1, 49.38 ms/it, loss 0.479678
-Warning: Skipping the batch 76742 with size 14
-Using 16-bit precision
-Finished training it 1024/76743 of epoch 1, 48.82 ms/it, loss 0.479874
-Warning: Skipping the batch 76742 with size 14
-Using 16-bit precision
-Finished training it 1024/76743 of epoch 1, 49.38 ms/it, loss 0.479436
-Warning: Skipping the batch 76742 with size 14
-Using 16-bit precision
-Finished training it 1024/76743 of epoch 1, 49.39 ms/it, loss 0.476698
-Finished training it 2048/76743 of epoch 1, 64.23 ms/it, loss 0.502030
-Finished training it 2048/76743 of epoch 1, 64.37 ms/it, loss 0.502224
-Finished training it 2048/76743 of epoch 1, 63.98 ms/it, loss 0.500143
-Finished training it 2048/76743 of epoch 1, 64.36 ms/it, loss 0.501717
-Finished training it 3072/76743 of epoch 1, 64.57 ms/it, loss 0.500549
-Finished training it 3072/76743 of epoch 1, 64.41 ms/it, loss 0.497583
-Finished training it 3072/76743 of epoch 1, 64.61 ms/it, loss 0.498327
-Finished training it 3072/76743 of epoch 1, 64.25 ms/it, loss 0.499168
-Finished training it 4096/76743 of epoch 1, 64.09 ms/it, loss 0.497287
-Finished training it 4096/76743 of epoch 1, 64.05 ms/it, loss 0.496811
-Finished training it 4096/76743 of epoch 1, 63.83 ms/it, loss 0.497625
-Finished training it 4096/76743 of epoch 1, 64.04 ms/it, loss 0.496679
-Finished training it 5120/76743 of epoch 1, 63.75 ms/it, loss 0.495973
-Finished training it 5120/76743 of epoch 1, 63.51 ms/it, loss 0.495756
-Finished training it 5120/76743 of epoch 1, 63.74 ms/it, loss 0.496129
-Finished training it 5120/76743 of epoch 1, 63.77 ms/it, loss 0.497750
-Finished training it 6144/76743 of epoch 1, 63.85 ms/it, loss 0.490437
-Finished training it 6144/76743 of epoch 1, 63.61 ms/it, loss 0.492703
-Finished training it 6144/76743 of epoch 1, 63.78 ms/it, loss 0.494916
-Finished training it 6144/76743 of epoch 1, 63.77 ms/it, loss 0.493693
-Finished training it 7168/76743 of epoch 1, 64.62 ms/it, loss 0.493545
-Finished training it 7168/76743 of epoch 1, 64.60 ms/it, loss 0.491384
-Finished training it 7168/76743 of epoch 1, 64.20 ms/it, loss 0.493325
-Finished training it 7168/76743 of epoch 1, 64.48 ms/it, loss 0.491661
-Finished training it 8192/76743 of epoch 1, 64.58 ms/it, loss 0.490550
-Finished training it 8192/76743 of epoch 1, 64.41 ms/it, loss 0.487751
-Finished training it 8192/76743 of epoch 1, 64.33 ms/it, loss 0.491897
-Finished training it 8192/76743 of epoch 1, 64.64 ms/it, loss 0.491440
-Finished training it 9216/76743 of epoch 1, 63.87 ms/it, loss 0.489680
-Finished training it 9216/76743 of epoch 1, 63.78 ms/it, loss 0.492479
-Finished training it 9216/76743 of epoch 1, 63.64 ms/it, loss 0.489550
-Finished training it 9216/76743 of epoch 1, 63.84 ms/it, loss 0.493305
-Finished training it 10240/76743 of epoch 1, 63.57 ms/it, loss 0.494280
-Finished training it 10240/76743 of epoch 1, 63.41 ms/it, loss 0.489142
-Finished training it 10240/76743 of epoch 1, 63.64 ms/it, loss 0.492140
-Finished training it 10240/76743 of epoch 1, 63.62 ms/it, loss 0.490748
-Testing at - 10240/76743 of epoch 1,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2508491.0
-get out
-0 has test check 2508491.0 and sample count 3274240
- accuracy 76.613 %, best 78.683 %, roc auc score 0.7467, best 0.7993
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one1.0.pt
-Finished training it 11264/76743 of epoch 1, 63.49 ms/it, loss 0.490944
-Testing at - 10240/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2508491.0
-get out
-3 has test check 2508491.0 and sample count 3274240
-Finished training it 11264/76743 of epoch 1, 63.57 ms/it, loss 0.490079
-Testing at - 10240/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2508491.0
-get out
-1 has test check 2508491.0 and sample count 3274240
-Finished training it 11264/76743 of epoch 1, 63.54 ms/it, loss 0.491758
-Testing at - 10240/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2508491.0
-get out
-2 has test check 2508491.0 and sample count 3274240
-Finished training it 11264/76743 of epoch 1, 63.53 ms/it, loss 0.490191
-Finished training it 12288/76743 of epoch 1, 63.81 ms/it, loss 0.490321
-Finished training it 12288/76743 of epoch 1, 63.85 ms/it, loss 0.489003
-Finished training it 12288/76743 of epoch 1, 63.73 ms/it, loss 0.492171
-Finished training it 12288/76743 of epoch 1, 63.90 ms/it, loss 0.490419
-Finished training it 13312/76743 of epoch 1, 63.61 ms/it, loss 0.491366
-Finished training it 13312/76743 of epoch 1, 63.47 ms/it, loss 0.487605
-Finished training it 13312/76743 of epoch 1, 63.64 ms/it, loss 0.492136
-Finished training it 13312/76743 of epoch 1, 63.71 ms/it, loss 0.488120
-Finished training it 14336/76743 of epoch 1, 63.21 ms/it, loss 0.488727
-Finished training it 14336/76743 of epoch 1, 63.32 ms/it, loss 0.488850
-Finished training it 14336/76743 of epoch 1, 63.20 ms/it, loss 0.488404
-Finished training it 14336/76743 of epoch 1, 63.15 ms/it, loss 0.490089
-Finished training it 15360/76743 of epoch 1, 72.90 ms/it, loss 0.489515
-Finished training it 15360/76743 of epoch 1, 72.87 ms/it, loss 0.489152
-Finished training it 15360/76743 of epoch 1, 73.06 ms/it, loss 0.489751
-Finished training it 15360/76743 of epoch 1, 73.11 ms/it, loss 0.487747
-Finished training it 16384/76743 of epoch 1, 63.51 ms/it, loss 0.487327
-Finished training it 16384/76743 of epoch 1, 63.54 ms/it, loss 0.488207
-Finished training it 16384/76743 of epoch 1, 63.54 ms/it, loss 0.490450
-Finished training it 16384/76743 of epoch 1, 63.29 ms/it, loss 0.487624
-Finished training it 17408/76743 of epoch 1, 63.71 ms/it, loss 0.488309
-Finished training it 17408/76743 of epoch 1, 63.65 ms/it, loss 0.485786
-Finished training it 17408/76743 of epoch 1, 63.64 ms/it, loss 0.489264
-Finished training it 17408/76743 of epoch 1, 63.89 ms/it, loss 0.487775
-Finished training it 18432/76743 of epoch 1, 63.38 ms/it, loss 0.491140
-Finished training it 18432/76743 of epoch 1, 63.15 ms/it, loss 0.486055
-Finished training it 18432/76743 of epoch 1, 63.03 ms/it, loss 0.489899
-Finished training it 18432/76743 of epoch 1, 63.22 ms/it, loss 0.491429
-Finished training it 19456/76743 of epoch 1, 63.42 ms/it, loss 0.486662
-Finished training it 19456/76743 of epoch 1, 63.40 ms/it, loss 0.486956
-Finished training it 19456/76743 of epoch 1, 63.60 ms/it, loss 0.487817
-Finished training it 19456/76743 of epoch 1, 63.45 ms/it, loss 0.486254
-Finished training it 20480/76743 of epoch 1, 63.70 ms/it, loss 0.485250
-Finished training it 20480/76743 of epoch 1, 63.75 ms/it, loss 0.487276
-Finished training it 20480/76743 of epoch 1, 63.79 ms/it, loss 0.486131
-Finished training it 20480/76743 of epoch 1, 63.79 ms/it, loss 0.484867
-Testing at - 20480/76743 of epoch 1,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2513931.0
-get out
-0 has test check 2513931.0 and sample count 3274240
- accuracy 76.779 %, best 78.683 %, roc auc score 0.7518, best 0.7993
-Testing at - 20480/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2513931.0
-get out
-3 has test check 2513931.0 and sample count 3274240
-Finished training it 21504/76743 of epoch 1, 64.04 ms/it, loss 0.490145
-Testing at - 20480/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2513931.0
-get out
-1 has test check 2513931.0 and sample count 3274240
-Finished training it 21504/76743 of epoch 1, 63.99 ms/it, loss 0.486601
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one0.0.pt
-Finished training it 21504/76743 of epoch 1, 64.02 ms/it, loss 0.487268
-Testing at - 20480/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2513931.0
-get out
-2 has test check 2513931.0 and sample count 3274240
-Finished training it 21504/76743 of epoch 1, 64.08 ms/it, loss 0.487103
-Finished training it 22528/76743 of epoch 1, 63.51 ms/it, loss 0.486302
-Finished training it 22528/76743 of epoch 1, 63.47 ms/it, loss 0.486065
-Finished training it 22528/76743 of epoch 1, 63.63 ms/it, loss 0.488838
-Finished training it 22528/76743 of epoch 1, 63.47 ms/it, loss 0.486417
-Finished training it 23552/76743 of epoch 1, 63.24 ms/it, loss 0.484810
-Finished training it 23552/76743 of epoch 1, 63.35 ms/it, loss 0.483594
-Finished training it 23552/76743 of epoch 1, 63.27 ms/it, loss 0.484397
-Finished training it 23552/76743 of epoch 1, 63.30 ms/it, loss 0.486049
-Finished training it 24576/76743 of epoch 1, 63.41 ms/it, loss 0.488933
-Finished training it 24576/76743 of epoch 1, 63.51 ms/it, loss 0.485394
-Finished training it 24576/76743 of epoch 1, 63.55 ms/it, loss 0.485915
-Finished training it 24576/76743 of epoch 1, 63.52 ms/it, loss 0.487221
-Finished training it 25600/76743 of epoch 1, 63.69 ms/it, loss 0.487316
-Finished training it 25600/76743 of epoch 1, 63.81 ms/it, loss 0.486707
-Finished training it 25600/76743 of epoch 1, 63.52 ms/it, loss 0.486449
-Finished training it 25600/76743 of epoch 1, 63.61 ms/it, loss 0.486382
-Finished training it 26624/76743 of epoch 1, 63.23 ms/it, loss 0.485718
-Finished training it 26624/76743 of epoch 1, 63.39 ms/it, loss 0.481788
-Finished training it 26624/76743 of epoch 1, 63.26 ms/it, loss 0.485406
-Finished training it 26624/76743 of epoch 1, 63.22 ms/it, loss 0.487219
-Finished training it 27648/76743 of epoch 1, 63.76 ms/it, loss 0.485944
-Finished training it 27648/76743 of epoch 1, 63.77 ms/it, loss 0.483948
-Finished training it 27648/76743 of epoch 1, 63.88 ms/it, loss 0.483053
-Finished training it 27648/76743 of epoch 1, 63.92 ms/it, loss 0.481549
-Finished training it 28672/76743 of epoch 1, 64.43 ms/it, loss 0.486962
-Finished training it 28672/76743 of epoch 1, 64.57 ms/it, loss 0.484514
-Finished training it 28672/76743 of epoch 1, 64.40 ms/it, loss 0.484495
-Finished training it 28672/76743 of epoch 1, 64.50 ms/it, loss 0.486541
-Finished training it 29696/76743 of epoch 1, 63.24 ms/it, loss 0.486294
-Finished training it 29696/76743 of epoch 1, 63.26 ms/it, loss 0.486458
-Finished training it 29696/76743 of epoch 1, 63.31 ms/it, loss 0.485529
-Finished training it 29696/76743 of epoch 1, 63.29 ms/it, loss 0.484930
-Finished training it 30720/76743 of epoch 1, 64.01 ms/it, loss 0.484508
-Finished training it 30720/76743 of epoch 1, 63.89 ms/it, loss 0.484676
-Finished training it 30720/76743 of epoch 1, 63.81 ms/it, loss 0.484232
-Finished training it 30720/76743 of epoch 1, 63.70 ms/it, loss 0.484605
-Testing at - 30720/76743 of epoch 1,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2514894.0
-get out
-0 has test check 2514894.0 and sample count 3274240
- accuracy 76.808 %, best 78.683 %, roc auc score 0.7538, best 0.7993
-Testing at - 30720/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2514894.0
-get out
-3 has test check 2514894.0 and sample count 3274240
-Finished training it 31744/76743 of epoch 1, 63.98 ms/it, loss 0.487471
-Testing at - 30720/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2514894.0
-get out
-2 has test check 2514894.0 and sample count 3274240
-Finished training it 31744/76743 of epoch 1, 64.01 ms/it, loss 0.483768
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one1.0.pt
-Finished training it 31744/76743 of epoch 1, 63.95 ms/it, loss 0.484679
-Testing at - 30720/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2514894.0
-get out
-1 has test check 2514894.0 and sample count 3274240
-Finished training it 31744/76743 of epoch 1, 64.03 ms/it, loss 0.482646
-Finished training it 32768/76743 of epoch 1, 63.55 ms/it, loss 0.484611
-Finished training it 32768/76743 of epoch 1, 63.55 ms/it, loss 0.483519
-Finished training it 32768/76743 of epoch 1, 63.73 ms/it, loss 0.483900
-Finished training it 32768/76743 of epoch 1, 63.26 ms/it, loss 0.484972
-Finished training it 33792/76743 of epoch 1, 63.37 ms/it, loss 0.483069
-Finished training it 33792/76743 of epoch 1, 63.39 ms/it, loss 0.483812
-Finished training it 33792/76743 of epoch 1, 63.46 ms/it, loss 0.484749
-Finished training it 33792/76743 of epoch 1, 63.47 ms/it, loss 0.481109
-Finished training it 34816/76743 of epoch 1, 73.07 ms/it, loss 0.483031
-Finished training it 34816/76743 of epoch 1, 73.00 ms/it, loss 0.485489
-Finished training it 34816/76743 of epoch 1, 72.99 ms/it, loss 0.483685
-Finished training it 34816/76743 of epoch 1, 73.18 ms/it, loss 0.482776
-Finished training it 35840/76743 of epoch 1, 63.27 ms/it, loss 0.483325
-Finished training it 35840/76743 of epoch 1, 63.37 ms/it, loss 0.481940
-Finished training it 35840/76743 of epoch 1, 63.46 ms/it, loss 0.486291
-Finished training it 35840/76743 of epoch 1, 63.50 ms/it, loss 0.484300
-Finished training it 36864/76743 of epoch 1, 63.22 ms/it, loss 0.483608
-Finished training it 36864/76743 of epoch 1, 63.36 ms/it, loss 0.485005
-Finished training it 36864/76743 of epoch 1, 63.34 ms/it, loss 0.485392
-Finished training it 36864/76743 of epoch 1, 63.46 ms/it, loss 0.483771
-Finished training it 37888/76743 of epoch 1, 63.56 ms/it, loss 0.482278
-Finished training it 37888/76743 of epoch 1, 63.66 ms/it, loss 0.482655
-Finished training it 37888/76743 of epoch 1, 63.65 ms/it, loss 0.484526
-Finished training it 37888/76743 of epoch 1, 63.86 ms/it, loss 0.483608
-Finished training it 38912/76743 of epoch 1, 63.92 ms/it, loss 0.484188
-Finished training it 38912/76743 of epoch 1, 63.81 ms/it, loss 0.481962
-Finished training it 38912/76743 of epoch 1, 63.64 ms/it, loss 0.482979
-Finished training it 38912/76743 of epoch 1, 63.75 ms/it, loss 0.484449
-Finished training it 39936/76743 of epoch 1, 63.29 ms/it, loss 0.480925
-Finished training it 39936/76743 of epoch 1, 63.38 ms/it, loss 0.482830
-Finished training it 39936/76743 of epoch 1, 63.38 ms/it, loss 0.483338
-Finished training it 39936/76743 of epoch 1, 63.34 ms/it, loss 0.482491
-Finished training it 40960/76743 of epoch 1, 64.58 ms/it, loss 0.485060
-Finished training it 40960/76743 of epoch 1, 64.45 ms/it, loss 0.479251
-Finished training it 40960/76743 of epoch 1, 64.40 ms/it, loss 0.482321
-Finished training it 40960/76743 of epoch 1, 64.35 ms/it, loss 0.483573
-Testing at - 40960/76743 of epoch 1,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2520174.0
-get out
-0 has test check 2520174.0 and sample count 3274240
- accuracy 76.970 %, best 78.683 %, roc auc score 0.7571, best 0.7993
-Testing at - 40960/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2520174.0
-get out
-3 has test check 2520174.0 and sample count 3274240
-Finished training it 41984/76743 of epoch 1, 64.58 ms/it, loss 0.482078
-Testing at - 40960/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2520174.0
-get out
-2 has test check 2520174.0 and sample count 3274240
-Finished training it 41984/76743 of epoch 1, 64.65 ms/it, loss 0.481724
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one0.0.pt
-Finished training it 41984/76743 of epoch 1, 64.28 ms/it, loss 0.483169
-Testing at - 40960/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2520174.0
-get out
-1 has test check 2520174.0 and sample count 3274240
-Finished training it 41984/76743 of epoch 1, 64.34 ms/it, loss 0.481429
-Finished training it 43008/76743 of epoch 1, 64.35 ms/it, loss 0.483990
-Finished training it 43008/76743 of epoch 1, 63.96 ms/it, loss 0.480442
-Finished training it 43008/76743 of epoch 1, 64.11 ms/it, loss 0.481336
-Finished training it 43008/76743 of epoch 1, 64.40 ms/it, loss 0.479131
-Finished training it 44032/76743 of epoch 1, 64.02 ms/it, loss 0.482495
-Finished training it 44032/76743 of epoch 1, 63.65 ms/it, loss 0.479682
-Finished training it 44032/76743 of epoch 1, 63.92 ms/it, loss 0.482362
-Finished training it 44032/76743 of epoch 1, 63.91 ms/it, loss 0.480102
-Finished training it 45056/76743 of epoch 1, 63.98 ms/it, loss 0.481443
-Finished training it 45056/76743 of epoch 1, 63.59 ms/it, loss 0.483139
-Finished training it 45056/76743 of epoch 1, 63.96 ms/it, loss 0.480013
-Finished training it 45056/76743 of epoch 1, 63.98 ms/it, loss 0.480864
-Finished training it 46080/76743 of epoch 1, 63.90 ms/it, loss 0.479120
-Finished training it 46080/76743 of epoch 1, 64.04 ms/it, loss 0.479601
-Finished training it 46080/76743 of epoch 1, 64.18 ms/it, loss 0.481535
-Finished training it 46080/76743 of epoch 1, 64.15 ms/it, loss 0.478840
-Finished training it 47104/76743 of epoch 1, 63.75 ms/it, loss 0.482148
-Finished training it 47104/76743 of epoch 1, 63.62 ms/it, loss 0.482271
-Finished training it 47104/76743 of epoch 1, 63.80 ms/it, loss 0.480855
-Finished training it 47104/76743 of epoch 1, 63.86 ms/it, loss 0.481284
-Finished training it 48128/76743 of epoch 1, 64.78 ms/it, loss 0.481646
-Finished training it 48128/76743 of epoch 1, 64.74 ms/it, loss 0.479754
-Finished training it 48128/76743 of epoch 1, 64.68 ms/it, loss 0.479763
-Finished training it 48128/76743 of epoch 1, 64.53 ms/it, loss 0.480095
-Finished training it 49152/76743 of epoch 1, 63.53 ms/it, loss 0.478879
-Finished training it 49152/76743 of epoch 1, 63.34 ms/it, loss 0.481540
-Finished training it 49152/76743 of epoch 1, 63.49 ms/it, loss 0.481056
-Finished training it 49152/76743 of epoch 1, 63.54 ms/it, loss 0.479601
-Finished training it 50176/76743 of epoch 1, 63.93 ms/it, loss 0.484304
-Finished training it 50176/76743 of epoch 1, 63.87 ms/it, loss 0.479880
-Finished training it 50176/76743 of epoch 1, 64.00 ms/it, loss 0.477792
-Finished training it 50176/76743 of epoch 1, 63.79 ms/it, loss 0.479319
-Finished training it 51200/76743 of epoch 1, 63.76 ms/it, loss 0.480545
-Finished training it 51200/76743 of epoch 1, 63.84 ms/it, loss 0.481464
-Finished training it 51200/76743 of epoch 1, 63.74 ms/it, loss 0.479867
-Finished training it 51200/76743 of epoch 1, 63.84 ms/it, loss 0.480087
-Testing at - 51200/76743 of epoch 1,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2524029.0
-get out
-0 has test check 2524029.0 and sample count 3274240
- accuracy 77.087 %, best 78.683 %, roc auc score 0.7604, best 0.7993
-Testing at - 51200/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2524029.0
-get out
-1 has test check 2524029.0 and sample count 3274240
-Finished training it 52224/76743 of epoch 1, 63.98 ms/it, loss 0.480249
-Testing at - 51200/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2524029.0
-get out
-3 has test check 2524029.0 and sample count 3274240
-Finished training it 52224/76743 of epoch 1, 64.01 ms/it, loss 0.476815
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one1.0.pt
-Finished training it 52224/76743 of epoch 1, 63.72 ms/it, loss 0.482560
-Testing at - 51200/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2524029.0
-get out
-2 has test check 2524029.0 and sample count 3274240
-Finished training it 52224/76743 of epoch 1, 63.99 ms/it, loss 0.478814
-Finished training it 53248/76743 of epoch 1, 64.01 ms/it, loss 0.480580
-Finished training it 53248/76743 of epoch 1, 63.95 ms/it, loss 0.479867
-Finished training it 53248/76743 of epoch 1, 63.76 ms/it, loss 0.478854
-Finished training it 53248/76743 of epoch 1, 63.90 ms/it, loss 0.478830
-Finished training it 54272/76743 of epoch 1, 64.63 ms/it, loss 0.478963
-Finished training it 54272/76743 of epoch 1, 64.34 ms/it, loss 0.478384
-Finished training it 54272/76743 of epoch 1, 64.55 ms/it, loss 0.481582
-Finished training it 54272/76743 of epoch 1, 64.28 ms/it, loss 0.481656
-Finished training it 55296/76743 of epoch 1, 73.83 ms/it, loss 0.479368
-Finished training it 55296/76743 of epoch 1, 73.86 ms/it, loss 0.478406
-Finished training it 55296/76743 of epoch 1, 73.77 ms/it, loss 0.477785
-Finished training it 55296/76743 of epoch 1, 73.44 ms/it, loss 0.480094
-Finished training it 56320/76743 of epoch 1, 63.66 ms/it, loss 0.478533
-Finished training it 56320/76743 of epoch 1, 63.69 ms/it, loss 0.478839
-Finished training it 56320/76743 of epoch 1, 63.55 ms/it, loss 0.478317
-Finished training it 56320/76743 of epoch 1, 63.66 ms/it, loss 0.480172
-Finished training it 57344/76743 of epoch 1, 63.63 ms/it, loss 0.478644
-Finished training it 57344/76743 of epoch 1, 63.81 ms/it, loss 0.478918
-Finished training it 57344/76743 of epoch 1, 63.80 ms/it, loss 0.479042
-Finished training it 57344/76743 of epoch 1, 63.85 ms/it, loss 0.479670
-Finished training it 58368/76743 of epoch 1, 63.70 ms/it, loss 0.477614
-Finished training it 58368/76743 of epoch 1, 63.43 ms/it, loss 0.478737
-Finished training it 58368/76743 of epoch 1, 63.64 ms/it, loss 0.479306
-Finished training it 58368/76743 of epoch 1, 63.67 ms/it, loss 0.479755
-Finished training it 59392/76743 of epoch 1, 64.76 ms/it, loss 0.478522
-Finished training it 59392/76743 of epoch 1, 64.75 ms/it, loss 0.478255
-Finished training it 59392/76743 of epoch 1, 64.49 ms/it, loss 0.475202
-Finished training it 59392/76743 of epoch 1, 64.34 ms/it, loss 0.478779
-Finished training it 60416/76743 of epoch 1, 63.94 ms/it, loss 0.480341
-Finished training it 60416/76743 of epoch 1, 63.93 ms/it, loss 0.478383
-Finished training it 60416/76743 of epoch 1, 63.87 ms/it, loss 0.478400
-Finished training it 60416/76743 of epoch 1, 63.68 ms/it, loss 0.478504
-Finished training it 61440/76743 of epoch 1, 63.79 ms/it, loss 0.479095
-Finished training it 61440/76743 of epoch 1, 63.72 ms/it, loss 0.481725
-Finished training it 61440/76743 of epoch 1, 63.75 ms/it, loss 0.478982
-Finished training it 61440/76743 of epoch 1, 63.55 ms/it, loss 0.479901
-Testing at - 61440/76743 of epoch 1,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2525985.0
-get out
-0 has test check 2525985.0 and sample count 3274240
- accuracy 77.147 %, best 78.683 %, roc auc score 0.7623, best 0.7993
-Testing at - 61440/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2525985.0
-get out
-1 has test check 2525985.0 and sample count 3274240
-Finished training it 62464/76743 of epoch 1, 63.47 ms/it, loss 0.477435
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one0.0.pt
-Finished training it 62464/76743 of epoch 1, 63.26 ms/it, loss 0.477570
-Testing at - 61440/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2525985.0
-get out
-3 has test check 2525985.0 and sample count 3274240
-Finished training it 62464/76743 of epoch 1, 63.39 ms/it, loss 0.477256
-Testing at - 61440/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2525985.0
-get out
-2 has test check 2525985.0 and sample count 3274240
-Finished training it 62464/76743 of epoch 1, 63.41 ms/it, loss 0.477658
-Finished training it 63488/76743 of epoch 1, 63.36 ms/it, loss 0.481635
-Finished training it 63488/76743 of epoch 1, 63.50 ms/it, loss 0.478658
-Finished training it 63488/76743 of epoch 1, 63.32 ms/it, loss 0.476862
-Finished training it 63488/76743 of epoch 1, 63.49 ms/it, loss 0.479482
-Finished training it 64512/76743 of epoch 1, 63.44 ms/it, loss 0.480973
-Finished training it 64512/76743 of epoch 1, 63.42 ms/it, loss 0.477284
-Finished training it 64512/76743 of epoch 1, 63.27 ms/it, loss 0.477713
-Finished training it 64512/76743 of epoch 1, 63.48 ms/it, loss 0.478169
-Finished training it 65536/76743 of epoch 1, 63.60 ms/it, loss 0.479292
-Finished training it 65536/76743 of epoch 1, 63.64 ms/it, loss 0.478903
-Finished training it 65536/76743 of epoch 1, 63.65 ms/it, loss 0.475873
-Finished training it 65536/76743 of epoch 1, 63.61 ms/it, loss 0.478884
-Finished training it 66560/76743 of epoch 1, 63.43 ms/it, loss 0.477621
-Finished training it 66560/76743 of epoch 1, 63.51 ms/it, loss 0.477301
-Finished training it 66560/76743 of epoch 1, 63.49 ms/it, loss 0.478616
-Finished training it 66560/76743 of epoch 1, 63.45 ms/it, loss 0.475035
-Finished training it 67584/76743 of epoch 1, 63.61 ms/it, loss 0.480519
-Finished training it 67584/76743 of epoch 1, 63.58 ms/it, loss 0.476698
-Finished training it 67584/76743 of epoch 1, 63.60 ms/it, loss 0.477742
-Finished training it 67584/76743 of epoch 1, 63.59 ms/it, loss 0.474227
-Finished training it 68608/76743 of epoch 1, 62.94 ms/it, loss 0.478629
-Finished training it 68608/76743 of epoch 1, 63.07 ms/it, loss 0.475987
-Finished training it 68608/76743 of epoch 1, 63.04 ms/it, loss 0.475380
-Finished training it 68608/76743 of epoch 1, 63.15 ms/it, loss 0.477461
-Finished training it 69632/76743 of epoch 1, 63.50 ms/it, loss 0.478584
-Finished training it 69632/76743 of epoch 1, 63.54 ms/it, loss 0.478648
-Finished training it 69632/76743 of epoch 1, 63.58 ms/it, loss 0.478040
-Finished training it 69632/76743 of epoch 1, 63.48 ms/it, loss 0.477201
-Finished training it 70656/76743 of epoch 1, 63.51 ms/it, loss 0.479626
-Finished training it 70656/76743 of epoch 1, 63.70 ms/it, loss 0.476362
-Finished training it 70656/76743 of epoch 1, 63.65 ms/it, loss 0.474966
-Finished training it 70656/76743 of epoch 1, 63.60 ms/it, loss 0.476499
-Finished training it 71680/76743 of epoch 1, 63.34 ms/it, loss 0.477327
-Finished training it 71680/76743 of epoch 1, 63.28 ms/it, loss 0.479604
-Finished training it 71680/76743 of epoch 1, 63.39 ms/it, loss 0.475782
-Finished training it 71680/76743 of epoch 1, 63.41 ms/it, loss 0.477227
-Testing at - 71680/76743 of epoch 1,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2528304.0
-get out
-0 has test check 2528304.0 and sample count 3274240
- accuracy 77.218 %, best 78.683 %, roc auc score 0.7634, best 0.7993
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one1.0.pt
-Finished training it 72704/76743 of epoch 1, 63.79 ms/it, loss 0.477760
-Testing at - 71680/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2528304.0
-get out
-2 has test check 2528304.0 and sample count 3274240
-Finished training it 72704/76743 of epoch 1, 63.84 ms/it, loss 0.475791
-Testing at - 71680/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2528304.0
-get out
-1 has test check 2528304.0 and sample count 3274240
-Finished training it 72704/76743 of epoch 1, 63.95 ms/it, loss 0.475923
-Testing at - 71680/76743 of epoch 1,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2528304.0
-get out
-3 has test check 2528304.0 and sample count 3274240
-Finished training it 72704/76743 of epoch 1, 63.81 ms/it, loss 0.477841
-Finished training it 73728/76743 of epoch 1, 63.48 ms/it, loss 0.474872
-Finished training it 73728/76743 of epoch 1, 63.54 ms/it, loss 0.474851
-Finished training it 73728/76743 of epoch 1, 63.60 ms/it, loss 0.479313
-Finished training it 73728/76743 of epoch 1, 63.44 ms/it, loss 0.476103
-Finished training it 74752/76743 of epoch 1, 63.56 ms/it, loss 0.476716
-Finished training it 74752/76743 of epoch 1, 63.49 ms/it, loss 0.474254
-Finished training it 74752/76743 of epoch 1, 63.62 ms/it, loss 0.475376
-Finished training it 74752/76743 of epoch 1, 63.47 ms/it, loss 0.477550
-Finished training it 75776/76743 of epoch 1, 64.13 ms/it, loss 0.476135
-Finished training it 75776/76743 of epoch 1, 64.09 ms/it, loss 0.477144
-Finished training it 75776/76743 of epoch 1, 64.14 ms/it, loss 0.477411
-Finished training it 75776/76743 of epoch 1, 64.17 ms/it, loss 0.477924
-Warning: Skipping the batch 76742 with size 14
-Finished training it 1024/76743 of epoch 2, 69.28 ms/it, loss 0.477218
-Warning: Skipping the batch 76742 with size 14
-Finished training it 1024/76743 of epoch 2, 69.31 ms/it, loss 0.475268
-Warning: Skipping the batch 76742 with size 14
-Finished training it 1024/76743 of epoch 2, 69.58 ms/it, loss 0.477695
-Warning: Skipping the batch 76742 with size 14
-Finished training it 1024/76743 of epoch 2, 69.26 ms/it, loss 0.477671
-Finished training it 2048/76743 of epoch 2, 63.65 ms/it, loss 0.478695
-Finished training it 2048/76743 of epoch 2, 63.48 ms/it, loss 0.477188
-Finished training it 2048/76743 of epoch 2, 63.23 ms/it, loss 0.475701
-Finished training it 2048/76743 of epoch 2, 63.40 ms/it, loss 0.476993
-Finished training it 3072/76743 of epoch 2, 63.94 ms/it, loss 0.478606
-Finished training it 3072/76743 of epoch 2, 63.89 ms/it, loss 0.477177
-Finished training it 3072/76743 of epoch 2, 63.99 ms/it, loss 0.476064
-Finished training it 3072/76743 of epoch 2, 63.99 ms/it, loss 0.475045
-Finished training it 4096/76743 of epoch 2, 63.22 ms/it, loss 0.477038
-Finished training it 4096/76743 of epoch 2, 63.34 ms/it, loss 0.476244
-Finished training it 4096/76743 of epoch 2, 63.33 ms/it, loss 0.476786
-Finished training it 4096/76743 of epoch 2, 63.34 ms/it, loss 0.475292
-Finished training it 5120/76743 of epoch 2, 63.55 ms/it, loss 0.478381
-Finished training it 5120/76743 of epoch 2, 63.44 ms/it, loss 0.477307
-Finished training it 5120/76743 of epoch 2, 63.57 ms/it, loss 0.478865
-Finished training it 5120/76743 of epoch 2, 63.56 ms/it, loss 0.477726
-Finished training it 6144/76743 of epoch 2, 63.26 ms/it, loss 0.476127
-Finished training it 6144/76743 of epoch 2, 63.23 ms/it, loss 0.472839
-Finished training it 6144/76743 of epoch 2, 63.34 ms/it, loss 0.476921
-Finished training it 6144/76743 of epoch 2, 63.21 ms/it, loss 0.478429
-Finished training it 7168/76743 of epoch 2, 63.64 ms/it, loss 0.475452
-Finished training it 7168/76743 of epoch 2, 63.57 ms/it, loss 0.477320
-Finished training it 7168/76743 of epoch 2, 63.55 ms/it, loss 0.477509
-Finished training it 7168/76743 of epoch 2, 63.61 ms/it, loss 0.475425
-Finished training it 8192/76743 of epoch 2, 63.45 ms/it, loss 0.475581
-Finished training it 8192/76743 of epoch 2, 63.78 ms/it, loss 0.472825
-Finished training it 8192/76743 of epoch 2, 63.57 ms/it, loss 0.474907
-Finished training it 8192/76743 of epoch 2, 63.60 ms/it, loss 0.475639
-Finished training it 9216/76743 of epoch 2, 63.90 ms/it, loss 0.478718
-Finished training it 9216/76743 of epoch 2, 63.98 ms/it, loss 0.476938
-Finished training it 9216/76743 of epoch 2, 63.84 ms/it, loss 0.474433
-Finished training it 9216/76743 of epoch 2, 63.87 ms/it, loss 0.474186
-Finished training it 10240/76743 of epoch 2, 63.65 ms/it, loss 0.476392
-Finished training it 10240/76743 of epoch 2, 63.43 ms/it, loss 0.475224
-Finished training it 10240/76743 of epoch 2, 63.67 ms/it, loss 0.477329
-Finished training it 10240/76743 of epoch 2, 63.83 ms/it, loss 0.478778
-Testing at - 10240/76743 of epoch 2,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2530629.0
-get out
-0 has test check 2530629.0 and sample count 3274240
- accuracy 77.289 %, best 78.683 %, roc auc score 0.7651, best 0.7993
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one1.0.pt
-Finished training it 11264/76743 of epoch 2, 63.41 ms/it, loss 0.476302
-Testing at - 10240/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2530629.0
-get out
-2 has test check 2530629.0 and sample count 3274240
-Finished training it 11264/76743 of epoch 2, 63.38 ms/it, loss 0.475316
-Testing at - 10240/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2530629.0
-get out
-3 has test check 2530629.0 and sample count 3274240
-Finished training it 11264/76743 of epoch 2, 63.41 ms/it, loss 0.475753
-Testing at - 10240/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2530629.0
-get out
-1 has test check 2530629.0 and sample count 3274240
-Finished training it 11264/76743 of epoch 2, 63.43 ms/it, loss 0.478404
-Finished training it 12288/76743 of epoch 2, 64.02 ms/it, loss 0.478273
-Finished training it 12288/76743 of epoch 2, 64.19 ms/it, loss 0.476175
-Finished training it 12288/76743 of epoch 2, 64.04 ms/it, loss 0.476095
-Finished training it 12288/76743 of epoch 2, 64.05 ms/it, loss 0.475281
-Finished training it 13312/76743 of epoch 2, 63.81 ms/it, loss 0.473262
-Finished training it 13312/76743 of epoch 2, 63.92 ms/it, loss 0.473086
-Finished training it 13312/76743 of epoch 2, 64.06 ms/it, loss 0.475966
-Finished training it 13312/76743 of epoch 2, 63.88 ms/it, loss 0.476953
-Finished training it 14336/76743 of epoch 2, 63.57 ms/it, loss 0.474643
-Finished training it 14336/76743 of epoch 2, 63.38 ms/it, loss 0.473866
-Finished training it 14336/76743 of epoch 2, 63.41 ms/it, loss 0.473526
-Finished training it 14336/76743 of epoch 2, 63.26 ms/it, loss 0.475063
-Finished training it 15360/76743 of epoch 2, 63.49 ms/it, loss 0.473348
-Finished training it 15360/76743 of epoch 2, 63.43 ms/it, loss 0.475673
-Finished training it 15360/76743 of epoch 2, 63.64 ms/it, loss 0.475697
-Finished training it 15360/76743 of epoch 2, 63.43 ms/it, loss 0.474856
-Finished training it 16384/76743 of epoch 2, 63.07 ms/it, loss 0.474391
-Finished training it 16384/76743 of epoch 2, 63.05 ms/it, loss 0.475622
-Finished training it 16384/76743 of epoch 2, 63.02 ms/it, loss 0.474391
-Finished training it 16384/76743 of epoch 2, 63.23 ms/it, loss 0.478378
-Finished training it 17408/76743 of epoch 2, 63.33 ms/it, loss 0.476138
-Finished training it 17408/76743 of epoch 2, 63.51 ms/it, loss 0.473419
-Finished training it 17408/76743 of epoch 2, 63.57 ms/it, loss 0.475865
-Finished training it 17408/76743 of epoch 2, 63.50 ms/it, loss 0.474023
-Finished training it 18432/76743 of epoch 2, 63.74 ms/it, loss 0.478597
-Finished training it 18432/76743 of epoch 2, 63.71 ms/it, loss 0.477645
-Finished training it 18432/76743 of epoch 2, 63.66 ms/it, loss 0.473248
-Finished training it 18432/76743 of epoch 2, 63.46 ms/it, loss 0.476875
-Finished training it 19456/76743 of epoch 2, 63.22 ms/it, loss 0.474648
-Finished training it 19456/76743 of epoch 2, 63.20 ms/it, loss 0.474592
-Finished training it 19456/76743 of epoch 2, 63.34 ms/it, loss 0.475468
-Finished training it 19456/76743 of epoch 2, 63.14 ms/it, loss 0.474075
-Finished training it 20480/76743 of epoch 2, 63.04 ms/it, loss 0.475504
-Finished training it 20480/76743 of epoch 2, 63.32 ms/it, loss 0.473540
-Finished training it 20480/76743 of epoch 2, 63.24 ms/it, loss 0.473534
-Finished training it 20480/76743 of epoch 2, 63.17 ms/it, loss 0.474280
-Testing at - 20480/76743 of epoch 2,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2532758.0
-get out
-0 has test check 2532758.0 and sample count 3274240
- accuracy 77.354 %, best 78.683 %, roc auc score 0.7664, best 0.7993
-Testing at - 20480/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2532758.0
-get out
-2 has test check 2532758.0 and sample count 3274240
-Finished training it 21504/76743 of epoch 2, 63.27 ms/it, loss 0.476070
-Testing at - 20480/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2532758.0
-get out
-1 has test check 2532758.0 and sample count 3274240
-Finished training it 21504/76743 of epoch 2, 63.37 ms/it, loss 0.475178
-Testing at - 20480/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2532758.0
-get out
-3 has test check 2532758.0 and sample count 3274240
-Finished training it 21504/76743 of epoch 2, 63.32 ms/it, loss 0.479446
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one0.0.pt
-Finished training it 21504/76743 of epoch 2, 63.14 ms/it, loss 0.475460
-Finished training it 22528/76743 of epoch 2, 63.45 ms/it, loss 0.474130
-Finished training it 22528/76743 of epoch 2, 63.60 ms/it, loss 0.476449
-Finished training it 22528/76743 of epoch 2, 63.44 ms/it, loss 0.473969
-Finished training it 22528/76743 of epoch 2, 63.47 ms/it, loss 0.474433
-Finished training it 23552/76743 of epoch 2, 63.90 ms/it, loss 0.475054
-Finished training it 23552/76743 of epoch 2, 63.91 ms/it, loss 0.472809
-Finished training it 23552/76743 of epoch 2, 63.89 ms/it, loss 0.472723
-Finished training it 23552/76743 of epoch 2, 63.94 ms/it, loss 0.472091
-Finished training it 24576/76743 of epoch 2, 73.62 ms/it, loss 0.475009
-Finished training it 24576/76743 of epoch 2, 73.57 ms/it, loss 0.475844
-Finished training it 24576/76743 of epoch 2, 73.57 ms/it, loss 0.477338
-Finished training it 24576/76743 of epoch 2, 74.01 ms/it, loss 0.474457
-Finished training it 25600/76743 of epoch 2, 63.60 ms/it, loss 0.476096
-Finished training it 25600/76743 of epoch 2, 63.56 ms/it, loss 0.475564
-Finished training it 25600/76743 of epoch 2, 63.89 ms/it, loss 0.476075
-Finished training it 25600/76743 of epoch 2, 63.52 ms/it, loss 0.475021
-Finished training it 26624/76743 of epoch 2, 63.85 ms/it, loss 0.470862
-Finished training it 26624/76743 of epoch 2, 63.75 ms/it, loss 0.474793
-Finished training it 26624/76743 of epoch 2, 63.72 ms/it, loss 0.476501
-Finished training it 26624/76743 of epoch 2, 63.61 ms/it, loss 0.475392
-Finished training it 27648/76743 of epoch 2, 63.45 ms/it, loss 0.472661
-Finished training it 27648/76743 of epoch 2, 63.77 ms/it, loss 0.475041
-Finished training it 27648/76743 of epoch 2, 63.74 ms/it, loss 0.472328
-Finished training it 27648/76743 of epoch 2, 63.80 ms/it, loss 0.470978
-Finished training it 28672/76743 of epoch 2, 63.40 ms/it, loss 0.474101
-Finished training it 28672/76743 of epoch 2, 63.62 ms/it, loss 0.474051
-Finished training it 28672/76743 of epoch 2, 63.54 ms/it, loss 0.476637
-Finished training it 28672/76743 of epoch 2, 63.49 ms/it, loss 0.476295
-Finished training it 29696/76743 of epoch 2, 63.38 ms/it, loss 0.475775
-Finished training it 29696/76743 of epoch 2, 63.24 ms/it, loss 0.473657
-Finished training it 29696/76743 of epoch 2, 63.24 ms/it, loss 0.475268
-Finished training it 29696/76743 of epoch 2, 63.22 ms/it, loss 0.476544
-Finished training it 30720/76743 of epoch 2, 63.54 ms/it, loss 0.473561
-Finished training it 30720/76743 of epoch 2, 63.38 ms/it, loss 0.474279
-Finished training it 30720/76743 of epoch 2, 63.45 ms/it, loss 0.474000
-Finished training it 30720/76743 of epoch 2, 63.35 ms/it, loss 0.474082
-Testing at - 30720/76743 of epoch 2,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2533182.0
-get out
-0 has test check 2533182.0 and sample count 3274240
- accuracy 77.367 %, best 78.683 %, roc auc score 0.7678, best 0.7993
-Testing at - 30720/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2533182.0
-get out
-1 has test check 2533182.0 and sample count 3274240
-Finished training it 31744/76743 of epoch 2, 63.68 ms/it, loss 0.473443
-Testing at - 30720/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2533182.0
-get out
-2 has test check 2533182.0 and sample count 3274240
-Finished training it 31744/76743 of epoch 2, 63.53 ms/it, loss 0.473464
-Testing at - 30720/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2533182.0
-get out
-3 has test check 2533182.0 and sample count 3274240
-Finished training it 31744/76743 of epoch 2, 63.60 ms/it, loss 0.476583
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one1.0.pt
-Finished training it 31744/76743 of epoch 2, 63.46 ms/it, loss 0.474039
-Finished training it 32768/76743 of epoch 2, 63.49 ms/it, loss 0.475109
-Finished training it 32768/76743 of epoch 2, 63.51 ms/it, loss 0.473525
-Finished training it 32768/76743 of epoch 2, 63.58 ms/it, loss 0.474477
-Finished training it 32768/76743 of epoch 2, 63.68 ms/it, loss 0.474344
-Finished training it 33792/76743 of epoch 2, 63.65 ms/it, loss 0.475208
-Finished training it 33792/76743 of epoch 2, 63.86 ms/it, loss 0.471158
-Finished training it 33792/76743 of epoch 2, 63.69 ms/it, loss 0.474422
-Finished training it 33792/76743 of epoch 2, 63.59 ms/it, loss 0.473198
-Finished training it 34816/76743 of epoch 2, 63.71 ms/it, loss 0.473708
-Finished training it 34816/76743 of epoch 2, 63.55 ms/it, loss 0.476181
-Finished training it 34816/76743 of epoch 2, 63.47 ms/it, loss 0.473548
-Finished training it 34816/76743 of epoch 2, 63.48 ms/it, loss 0.474566
-Finished training it 35840/76743 of epoch 2, 63.55 ms/it, loss 0.476829
-Finished training it 35840/76743 of epoch 2, 63.62 ms/it, loss 0.472303
-Finished training it 35840/76743 of epoch 2, 63.74 ms/it, loss 0.475000
-Finished training it 35840/76743 of epoch 2, 63.58 ms/it, loss 0.474731
-Finished training it 36864/76743 of epoch 2, 63.64 ms/it, loss 0.475881
-Finished training it 36864/76743 of epoch 2, 63.76 ms/it, loss 0.474045
-Finished training it 36864/76743 of epoch 2, 63.63 ms/it, loss 0.475665
-Finished training it 36864/76743 of epoch 2, 63.56 ms/it, loss 0.474890
-Finished training it 37888/76743 of epoch 2, 63.82 ms/it, loss 0.473804
-Finished training it 37888/76743 of epoch 2, 63.86 ms/it, loss 0.475571
-Finished training it 37888/76743 of epoch 2, 63.95 ms/it, loss 0.474607
-Finished training it 37888/76743 of epoch 2, 63.73 ms/it, loss 0.472851
-Finished training it 38912/76743 of epoch 2, 63.42 ms/it, loss 0.475319
-Finished training it 38912/76743 of epoch 2, 63.12 ms/it, loss 0.474399
-Finished training it 38912/76743 of epoch 2, 63.24 ms/it, loss 0.472499
-Finished training it 38912/76743 of epoch 2, 63.25 ms/it, loss 0.475852
-Finished training it 39936/76743 of epoch 2, 63.44 ms/it, loss 0.474674
-Finished training it 39936/76743 of epoch 2, 63.21 ms/it, loss 0.473123
-Finished training it 39936/76743 of epoch 2, 63.26 ms/it, loss 0.474678
-Finished training it 39936/76743 of epoch 2, 63.18 ms/it, loss 0.474204
-Finished training it 40960/76743 of epoch 2, 63.32 ms/it, loss 0.475226
-Finished training it 40960/76743 of epoch 2, 63.25 ms/it, loss 0.471013
-Finished training it 40960/76743 of epoch 2, 63.43 ms/it, loss 0.476289
-Finished training it 40960/76743 of epoch 2, 63.33 ms/it, loss 0.474089
-Testing at - 40960/76743 of epoch 2,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2534237.0
-get out
-0 has test check 2534237.0 and sample count 3274240
- accuracy 77.399 %, best 78.683 %, roc auc score 0.7679, best 0.7993
-Testing at - 40960/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2534237.0
-get out
-2 has test check 2534237.0 and sample count 3274240
-Finished training it 41984/76743 of epoch 2, 63.44 ms/it, loss 0.473895
-Testing at - 40960/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2534237.0
-get out
-3 has test check 2534237.0 and sample count 3274240
-Finished training it 41984/76743 of epoch 2, 63.44 ms/it, loss 0.473682
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one0.0.pt
-Finished training it 41984/76743 of epoch 2, 63.32 ms/it, loss 0.474394
-Testing at - 40960/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2534237.0
-get out
-1 has test check 2534237.0 and sample count 3274240
-Finished training it 41984/76743 of epoch 2, 63.43 ms/it, loss 0.473027
-Finished training it 43008/76743 of epoch 2, 63.73 ms/it, loss 0.472258
-Finished training it 43008/76743 of epoch 2, 63.84 ms/it, loss 0.472938
-Finished training it 43008/76743 of epoch 2, 63.73 ms/it, loss 0.475944
-Finished training it 43008/76743 of epoch 2, 63.72 ms/it, loss 0.471246
-Finished training it 44032/76743 of epoch 2, 63.61 ms/it, loss 0.471183
-Finished training it 44032/76743 of epoch 2, 63.70 ms/it, loss 0.473956
-Finished training it 44032/76743 of epoch 2, 63.64 ms/it, loss 0.472121
-Finished training it 44032/76743 of epoch 2, 63.58 ms/it, loss 0.474859
-Finished training it 45056/76743 of epoch 2, 63.44 ms/it, loss 0.472602
-Finished training it 45056/76743 of epoch 2, 63.50 ms/it, loss 0.474142
-Finished training it 45056/76743 of epoch 2, 63.61 ms/it, loss 0.471450
-Finished training it 45056/76743 of epoch 2, 63.48 ms/it, loss 0.474735
-Finished training it 46080/76743 of epoch 2, 73.56 ms/it, loss 0.472009
-Finished training it 46080/76743 of epoch 2, 73.56 ms/it, loss 0.471294
-Finished training it 46080/76743 of epoch 2, 73.53 ms/it, loss 0.473238
-Finished training it 46080/76743 of epoch 2, 73.34 ms/it, loss 0.470971
-Finished training it 47104/76743 of epoch 2, 63.45 ms/it, loss 0.474952
-Finished training it 47104/76743 of epoch 2, 63.77 ms/it, loss 0.473688
-Finished training it 47104/76743 of epoch 2, 63.58 ms/it, loss 0.473067
-Finished training it 47104/76743 of epoch 2, 63.59 ms/it, loss 0.473370
-Finished training it 48128/76743 of epoch 2, 63.80 ms/it, loss 0.472285
-Finished training it 48128/76743 of epoch 2, 63.58 ms/it, loss 0.472822
-Finished training it 48128/76743 of epoch 2, 63.62 ms/it, loss 0.472059
-Finished training it 48128/76743 of epoch 2, 63.64 ms/it, loss 0.473971
-Finished training it 49152/76743 of epoch 2, 63.42 ms/it, loss 0.471321
-Finished training it 49152/76743 of epoch 2, 63.38 ms/it, loss 0.472826
-Finished training it 49152/76743 of epoch 2, 63.57 ms/it, loss 0.472389
-Finished training it 49152/76743 of epoch 2, 63.29 ms/it, loss 0.474311
-Finished training it 50176/76743 of epoch 2, 63.88 ms/it, loss 0.472154
-Finished training it 50176/76743 of epoch 2, 63.98 ms/it, loss 0.470673
-Finished training it 50176/76743 of epoch 2, 63.98 ms/it, loss 0.476934
-Finished training it 50176/76743 of epoch 2, 64.05 ms/it, loss 0.472768
-Finished training it 51200/76743 of epoch 2, 63.44 ms/it, loss 0.473489
-Finished training it 51200/76743 of epoch 2, 63.53 ms/it, loss 0.473289
-Finished training it 51200/76743 of epoch 2, 63.37 ms/it, loss 0.474775
-Finished training it 51200/76743 of epoch 2, 63.40 ms/it, loss 0.472613
-Testing at - 51200/76743 of epoch 2,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2537072.0
-get out
-0 has test check 2537072.0 and sample count 3274240
- accuracy 77.486 %, best 78.683 %, roc auc score 0.7693, best 0.7993
-Testing at - 51200/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2537072.0
-get out
-1 has test check 2537072.0 and sample count 3274240
-Finished training it 52224/76743 of epoch 2, 63.42 ms/it, loss 0.473073
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one1.0.pt
-Finished training it 52224/76743 of epoch 2, 63.26 ms/it, loss 0.475546
-Testing at - 51200/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2537072.0
-get out
-2 has test check 2537072.0 and sample count 3274240
-Finished training it 52224/76743 of epoch 2, 63.30 ms/it, loss 0.472061
-Testing at - 51200/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2537072.0
-get out
-3 has test check 2537072.0 and sample count 3274240
-Finished training it 52224/76743 of epoch 2, 63.28 ms/it, loss 0.469229
-Finished training it 53248/76743 of epoch 2, 63.44 ms/it, loss 0.472750
-Finished training it 53248/76743 of epoch 2, 63.18 ms/it, loss 0.472026
-Finished training it 53248/76743 of epoch 2, 63.37 ms/it, loss 0.473979
-Finished training it 53248/76743 of epoch 2, 63.48 ms/it, loss 0.471918
-Finished training it 54272/76743 of epoch 2, 63.38 ms/it, loss 0.475066
-Finished training it 54272/76743 of epoch 2, 63.53 ms/it, loss 0.471455
-Finished training it 54272/76743 of epoch 2, 63.41 ms/it, loss 0.472853
-Finished training it 54272/76743 of epoch 2, 63.39 ms/it, loss 0.475139
-Finished training it 55296/76743 of epoch 2, 63.55 ms/it, loss 0.472141
-Finished training it 55296/76743 of epoch 2, 63.49 ms/it, loss 0.472456
-Finished training it 55296/76743 of epoch 2, 63.37 ms/it, loss 0.474494
-Finished training it 55296/76743 of epoch 2, 63.54 ms/it, loss 0.471635
-Finished training it 56320/76743 of epoch 2, 63.58 ms/it, loss 0.471840
-Finished training it 56320/76743 of epoch 2, 63.37 ms/it, loss 0.471489
-Finished training it 56320/76743 of epoch 2, 63.45 ms/it, loss 0.472730
-Finished training it 56320/76743 of epoch 2, 63.43 ms/it, loss 0.473736
-Finished training it 57344/76743 of epoch 2, 64.09 ms/it, loss 0.472535
-Finished training it 57344/76743 of epoch 2, 63.94 ms/it, loss 0.473109
-Finished training it 57344/76743 of epoch 2, 63.86 ms/it, loss 0.471904
-Finished training it 57344/76743 of epoch 2, 63.70 ms/it, loss 0.472492
-Finished training it 58368/76743 of epoch 2, 63.42 ms/it, loss 0.472537
-Finished training it 58368/76743 of epoch 2, 63.49 ms/it, loss 0.471041
-Finished training it 58368/76743 of epoch 2, 63.46 ms/it, loss 0.473534
-Finished training it 58368/76743 of epoch 2, 63.34 ms/it, loss 0.471782
-Finished training it 59392/76743 of epoch 2, 63.35 ms/it, loss 0.472174
-Finished training it 59392/76743 of epoch 2, 63.33 ms/it, loss 0.472504
-Finished training it 59392/76743 of epoch 2, 63.42 ms/it, loss 0.468411
-Finished training it 59392/76743 of epoch 2, 63.24 ms/it, loss 0.472588
-Finished training it 60416/76743 of epoch 2, 63.43 ms/it, loss 0.473938
-Finished training it 60416/76743 of epoch 2, 63.45 ms/it, loss 0.472146
-Finished training it 60416/76743 of epoch 2, 63.55 ms/it, loss 0.471583
-Finished training it 60416/76743 of epoch 2, 63.33 ms/it, loss 0.472207
-Finished training it 61440/76743 of epoch 2, 63.69 ms/it, loss 0.473245
-Finished training it 61440/76743 of epoch 2, 63.72 ms/it, loss 0.472387
-Finished training it 61440/76743 of epoch 2, 63.82 ms/it, loss 0.472386
-Finished training it 61440/76743 of epoch 2, 63.91 ms/it, loss 0.475260
-Testing at - 61440/76743 of epoch 2,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2538359.0
-get out
-0 has test check 2538359.0 and sample count 3274240
- accuracy 77.525 %, best 78.683 %, roc auc score 0.7705, best 0.7993
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one0.0.pt
-Finished training it 62464/76743 of epoch 2, 82.29 ms/it, loss 0.471265
-Testing at - 61440/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2538359.0
-get out
-1 has test check 2538359.0 and sample count 3274240
-Finished training it 62464/76743 of epoch 2, 82.30 ms/it, loss 0.471023
-Testing at - 61440/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2538359.0
-get out
-2 has test check 2538359.0 and sample count 3274240
-Finished training it 62464/76743 of epoch 2, 82.33 ms/it, loss 0.471300
-Testing at - 61440/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2538359.0
-get out
-3 has test check 2538359.0 and sample count 3274240
-Finished training it 62464/76743 of epoch 2, 82.37 ms/it, loss 0.471261
-Finished training it 63488/76743 of epoch 2, 83.42 ms/it, loss 0.471905
-Finished training it 63488/76743 of epoch 2, 83.49 ms/it, loss 0.472937
-Finished training it 63488/76743 of epoch 2, 83.53 ms/it, loss 0.475274
-Finished training it 63488/76743 of epoch 2, 83.42 ms/it, loss 0.470873
-Finished training it 64512/76743 of epoch 2, 80.67 ms/it, loss 0.470613
-Finished training it 64512/76743 of epoch 2, 80.43 ms/it, loss 0.471313
-Finished training it 64512/76743 of epoch 2, 80.52 ms/it, loss 0.472077
-Finished training it 64512/76743 of epoch 2, 80.68 ms/it, loss 0.474535
-Finished training it 65536/76743 of epoch 2, 95.13 ms/it, loss 0.472865
-Finished training it 65536/76743 of epoch 2, 95.09 ms/it, loss 0.473546
-Finished training it 65536/76743 of epoch 2, 95.45 ms/it, loss 0.469559
-Finished training it 65536/76743 of epoch 2, 95.35 ms/it, loss 0.472994
-Finished training it 66560/76743 of epoch 2, 78.81 ms/it, loss 0.468742
-Finished training it 66560/76743 of epoch 2, 78.85 ms/it, loss 0.470846
-Finished training it 66560/76743 of epoch 2, 78.72 ms/it, loss 0.472127
-Finished training it 66560/76743 of epoch 2, 78.70 ms/it, loss 0.472625
-Finished training it 67584/76743 of epoch 2, 68.34 ms/it, loss 0.470606
-Finished training it 67584/76743 of epoch 2, 68.49 ms/it, loss 0.474197
-Finished training it 67584/76743 of epoch 2, 68.48 ms/it, loss 0.467844
-Finished training it 67584/76743 of epoch 2, 68.44 ms/it, loss 0.471048
-Finished training it 68608/76743 of epoch 2, 67.63 ms/it, loss 0.469620
-Finished training it 68608/76743 of epoch 2, 67.62 ms/it, loss 0.469760
-Finished training it 68608/76743 of epoch 2, 67.50 ms/it, loss 0.472758
-Finished training it 68608/76743 of epoch 2, 67.46 ms/it, loss 0.471480
-Finished training it 69632/76743 of epoch 2, 74.93 ms/it, loss 0.472638
-Finished training it 69632/76743 of epoch 2, 74.94 ms/it, loss 0.473261
-Finished training it 69632/76743 of epoch 2, 74.79 ms/it, loss 0.471178
-Finished training it 69632/76743 of epoch 2, 74.96 ms/it, loss 0.472413
-Finished training it 70656/76743 of epoch 2, 83.84 ms/it, loss 0.470363
-Finished training it 70656/76743 of epoch 2, 83.78 ms/it, loss 0.469545
-Finished training it 70656/76743 of epoch 2, 83.73 ms/it, loss 0.470667
-Finished training it 70656/76743 of epoch 2, 83.73 ms/it, loss 0.474102
-Finished training it 71680/76743 of epoch 2, 83.24 ms/it, loss 0.473725
-Finished training it 71680/76743 of epoch 2, 83.27 ms/it, loss 0.471453
-Finished training it 71680/76743 of epoch 2, 83.37 ms/it, loss 0.470624
-Finished training it 71680/76743 of epoch 2, 83.41 ms/it, loss 0.472114
-Testing at - 71680/76743 of epoch 2,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2538300.0
-get out
-0 has test check 2538300.0 and sample count 3274240
- accuracy 77.523 %, best 78.683 %, roc auc score 0.7706, best 0.7993
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one1.0.pt
-Finished training it 72704/76743 of epoch 2, 84.41 ms/it, loss 0.471869
-Testing at - 71680/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2538300.0
-get out
-1 has test check 2538300.0 and sample count 3274240
-Finished training it 72704/76743 of epoch 2, 84.41 ms/it, loss 0.470301
-Testing at - 71680/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2538300.0
-get out
-2 has test check 2538300.0 and sample count 3274240
-Finished training it 72704/76743 of epoch 2, 84.47 ms/it, loss 0.470362
-Testing at - 71680/76743 of epoch 2,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2538300.0
-get out
-3 has test check 2538300.0 and sample count 3274240
-Finished training it 72704/76743 of epoch 2, 84.40 ms/it, loss 0.472166
-Finished training it 73728/76743 of epoch 2, 84.13 ms/it, loss 0.468796
-Finished training it 73728/76743 of epoch 2, 84.08 ms/it, loss 0.474354
-Finished training it 73728/76743 of epoch 2, 84.14 ms/it, loss 0.469129
-Finished training it 73728/76743 of epoch 2, 83.99 ms/it, loss 0.470571
-Finished training it 74752/76743 of epoch 2, 84.16 ms/it, loss 0.470989
-Finished training it 74752/76743 of epoch 2, 84.10 ms/it, loss 0.469665
-Finished training it 74752/76743 of epoch 2, 84.08 ms/it, loss 0.469575
-Finished training it 74752/76743 of epoch 2, 84.15 ms/it, loss 0.472047
-Finished training it 75776/76743 of epoch 2, 75.71 ms/it, loss 0.470326
-Finished training it 75776/76743 of epoch 2, 75.66 ms/it, loss 0.471693
-Finished training it 75776/76743 of epoch 2, 75.59 ms/it, loss 0.472297
-Finished training it 75776/76743 of epoch 2, 75.69 ms/it, loss 0.471720
-Warning: Skipping the batch 76742 with size 14
-Finished training it 1024/76743 of epoch 3, 69.12 ms/it, loss 0.471790
-Warning: Skipping the batch 76742 with size 14
-Finished training it 1024/76743 of epoch 3, 69.47 ms/it, loss 0.469770
-Warning: Skipping the batch 76742 with size 14
-Finished training it 1024/76743 of epoch 3, 69.01 ms/it, loss 0.472189
-Warning: Skipping the batch 76742 with size 14
-Finished training it 1024/76743 of epoch 3, 69.31 ms/it, loss 0.471672
-Finished training it 2048/76743 of epoch 3, 78.09 ms/it, loss 0.469649
-Finished training it 2048/76743 of epoch 3, 78.18 ms/it, loss 0.473269
-Finished training it 2048/76743 of epoch 3, 78.08 ms/it, loss 0.471978
-Finished training it 2048/76743 of epoch 3, 78.13 ms/it, loss 0.471662
-Finished training it 3072/76743 of epoch 3, 84.02 ms/it, loss 0.470802
-Finished training it 3072/76743 of epoch 3, 84.09 ms/it, loss 0.469853
-Finished training it 3072/76743 of epoch 3, 84.05 ms/it, loss 0.473857
-Finished training it 3072/76743 of epoch 3, 84.05 ms/it, loss 0.472240
-Finished training it 4096/76743 of epoch 3, 83.41 ms/it, loss 0.470403
-Finished training it 4096/76743 of epoch 3, 83.30 ms/it, loss 0.471184
-Finished training it 4096/76743 of epoch 3, 83.41 ms/it, loss 0.469495
-Finished training it 4096/76743 of epoch 3, 83.25 ms/it, loss 0.471351
-Finished training it 5120/76743 of epoch 3, 83.99 ms/it, loss 0.472114
-Finished training it 5120/76743 of epoch 3, 84.04 ms/it, loss 0.473370
-Finished training it 5120/76743 of epoch 3, 83.95 ms/it, loss 0.472354
-Finished training it 5120/76743 of epoch 3, 84.05 ms/it, loss 0.472957
-Finished training it 6144/76743 of epoch 3, 83.80 ms/it, loss 0.473123
-Finished training it 6144/76743 of epoch 3, 83.82 ms/it, loss 0.468051
-Finished training it 6144/76743 of epoch 3, 83.77 ms/it, loss 0.470268
-Finished training it 6144/76743 of epoch 3, 83.82 ms/it, loss 0.471919
-Finished training it 7168/76743 of epoch 3, 68.80 ms/it, loss 0.472044
-Finished training it 7168/76743 of epoch 3, 68.92 ms/it, loss 0.470166
-Finished training it 7168/76743 of epoch 3, 68.77 ms/it, loss 0.470282
-Finished training it 7168/76743 of epoch 3, 68.93 ms/it, loss 0.472734
-Finished training it 8192/76743 of epoch 3, 68.50 ms/it, loss 0.470332
-Finished training it 8192/76743 of epoch 3, 68.40 ms/it, loss 0.467312
-Finished training it 8192/76743 of epoch 3, 68.32 ms/it, loss 0.470398
-Finished training it 8192/76743 of epoch 3, 68.50 ms/it, loss 0.470514
-Finished training it 9216/76743 of epoch 3, 68.05 ms/it, loss 0.469107
-Finished training it 9216/76743 of epoch 3, 68.10 ms/it, loss 0.472009
-Finished training it 9216/76743 of epoch 3, 68.12 ms/it, loss 0.469557
-Finished training it 9216/76743 of epoch 3, 68.18 ms/it, loss 0.473792
-Finished training it 10240/76743 of epoch 3, 94.86 ms/it, loss 0.470340
-Finished training it 10240/76743 of epoch 3, 95.02 ms/it, loss 0.474158
-Finished training it 10240/76743 of epoch 3, 94.97 ms/it, loss 0.472311
-Finished training it 10240/76743 of epoch 3, 95.11 ms/it, loss 0.471531
-Testing at - 10240/76743 of epoch 3,
-steps testing: 0.0steps testing: 0.007818302646495447steps testing: 0.015636605292990893steps testing: 0.023454907939486336steps testing: 0.03127321058598179steps testing: 0.039091513232477226steps testing: 0.04690981587897267steps testing: 0.05472811852546812steps testing: 0.06254642117196357steps testing: 0.07036472381845901steps testing: 0.07818302646495445steps testing: 0.0860013291114499steps testing: 0.09381963175794535steps testing: 0.1016379344044408steps testing: 0.10945623705093624steps testing: 0.11727453969743169steps testing: 0.12509284234392715steps testing: 0.13291114499042259steps testing: 0.14072944763691803steps testing: 0.14854775028341347steps testing: 0.1563660529299089steps testing: 0.16418435557640437steps testing: 0.1720026582228998steps testing: 0.17982096086939525steps testing: 0.1876392635158907steps testing: 0.19545756616238616steps testing: 0.2032758688088816steps testing: 0.21109417145537704steps testing: 0.21891247410187248steps testing: 0.22673077674836792steps testing: 0.23454907939486339steps testing: 0.24236738204135883steps testing: 0.2501856846878543steps testing: 0.2580039873343497steps testing: 0.26582228998084517steps testing: 0.2736405926273406steps testing: 0.28145889527383605steps testing: 0.2892771979203315steps testing: 0.29709550056682693steps testing: 0.3049138032133224steps testing: 0.3127321058598178steps testing: 0.3205504085063133steps testing: 0.32836871115280875steps testing: 0.33618701379930416steps testing: 0.3440053164457996steps testing: 0.35182361909229504steps testing: 0.3596419217387905steps testing: 0.36746022438528597steps testing: 0.3752785270317814steps testing: 0.38309682967827685steps testing: 0.3909151323247723steps testing: 0.39873343497126773steps testing: 0.4065517376177632steps testing: 0.4143700402642586steps testing: 0.4221883429107541steps testing: 0.43000664555724954steps testing: 0.43782494820374496steps testing: 0.4456432508502404steps testing: 0.45346155349673584steps testing: 0.4612798561432313steps testing: 0.46909815878972677steps testing: 0.4769164614362222steps testing: 0.48473476408271765steps testing: 0.49255306672921306steps testing: 0.5003713693757086steps testing: 0.508189672022204steps testing: 0.5160079746686994steps testing: 0.5238262773151948steps testing: 0.5316445799616903steps testing: 0.5394628826081858steps testing: 0.5472811852546812steps testing: 0.5550994879011767steps testing: 0.5629177905476721steps testing: 0.5707360931941675steps testing: 0.578554395840663steps testing: 0.5863726984871585steps testing: 0.5941910011336539steps testing: 0.6020093037801493steps testing: 0.6098276064266448steps testing: 0.6176459090731402steps testing: 0.6254642117196356steps testing: 0.6332825143661311steps testing: 0.6411008170126266steps testing: 0.648919119659122steps testing: 0.6567374223056175steps testing: 0.6645557249521129steps testing: 0.6723740275986083steps testing: 0.6801923302451038steps testing: 0.6880106328915992steps testing: 0.6958289355380947steps testing: 0.7036472381845901steps testing: 0.7114655408310856steps testing: 0.719283843477581steps testing: 0.7271021461240764steps testing: 0.7349204487705719steps testing: 0.7427387514170674steps testing: 0.7505570540635628steps testing: 0.7583753567100583steps testing: 0.7661936593565537steps testing: 0.7740119620030491steps testing: 0.7818302646495446steps testing: 0.78964856729604steps testing: 0.7974668699425355steps testing: 0.8052851725890309steps testing: 0.8131034752355264steps testing: 0.8209217778820218steps testing: 0.8287400805285172steps testing: 0.8365583831750127steps testing: 0.8443766858215082steps testing: 0.8521949884680036steps testing: 0.8600132911144991steps testing: 0.8678315937609945steps testing: 0.8756498964074899steps testing: 0.8834681990539853steps testing: 0.8912865017004808steps testing: 0.8991048043469763steps testing: 0.9069231069934717steps testing: 0.9147414096399672steps testing: 0.9225597122864626steps testing: 0.930378014932958steps testing: 0.9381963175794535steps testing: 0.946014620225949steps testing: 0.9538329228724444steps testing: 0.9616512255189399steps testing: 0.9694695281654353steps testing: 0.9772878308119307steps testing: 0.9851061334584261steps testing: 0.9929244361049216Warning: Skipping the batch 25580 with size 90
-rank: 0 test_accu: 2540058.0
-get out
-0 has test check 2540058.0 and sample count 3274240
- accuracy 77.577 %, best 78.683 %, roc auc score 0.7716, best 0.7993
-Testing at - 10240/76743 of epoch 3,
-Warning: Skipping the batch 25580 with size 90
-rank: 3 test_accu: 2540058.0
-get out
-3 has test check 2540058.0 and sample count 3274240
-Finished training it 11264/76743 of epoch 3, 63.72 ms/it, loss 0.470395
-Testing at - 10240/76743 of epoch 3,
-Warning: Skipping the batch 25580 with size 90
-rank: 2 test_accu: 2540058.0
-get out
-2 has test check 2540058.0 and sample count 3274240
-Finished training it 11264/76743 of epoch 3, 63.72 ms/it, loss 0.470054
-Testing at - 10240/76743 of epoch 3,
-Warning: Skipping the batch 25580 with size 90
-rank: 1 test_accu: 2540058.0
-get out
-1 has test check 2540058.0 and sample count 3274240
-Finished training it 11264/76743 of epoch 3, 63.73 ms/it, loss 0.473127
-Saving model to /rscratch/data/dlrm_criteo/save_model_after_training_one1.0.pt
-Finished training it 11264/76743 of epoch 3, 63.69 ms/it, loss 0.471993
-Finished training it 12288/76743 of epoch 3, 63.50 ms/it, loss 0.472515
-Finished training it 12288/76743 of epoch 3, 63.75 ms/it, loss 0.470583
-Finished training it 12288/76743 of epoch 3, 63.87 ms/it, loss 0.471316
-Finished training it 12288/76743 of epoch 3, 63.75 ms/it, loss 0.471062
-Finished training it 13312/76743 of epoch 3, 68.58 ms/it, loss 0.471493
-Finished training it 13312/76743 of epoch 3, 68.65 ms/it, loss 0.468554
-Finished training it 13312/76743 of epoch 3, 68.73 ms/it, loss 0.468234
-Finished training it 13312/76743 of epoch 3, 68.80 ms/it, loss 0.470979
-Finished training it 14336/76743 of epoch 3, 63.75 ms/it, loss 0.469759
-Finished training it 14336/76743 of epoch 3, 63.90 ms/it, loss 0.468479
-Finished training it 14336/76743 of epoch 3, 63.95 ms/it, loss 0.469130
-Finished training it 14336/76743 of epoch 3, 63.89 ms/it, loss 0.469940
-Finished training it 15360/76743 of epoch 3, 63.60 ms/it, loss 0.470723
-Finished training it 15360/76743 of epoch 3, 63.57 ms/it, loss 0.468412
-Finished training it 15360/76743 of epoch 3, 63.58 ms/it, loss 0.470775
-Finished training it 15360/76743 of epoch 3, 63.29 ms/it, loss 0.470122
-Finished training it 16384/76743 of epoch 3, 63.71 ms/it, loss 0.469278
-Finished training it 16384/76743 of epoch 3, 63.69 ms/it, loss 0.471021
-Finished training it 16384/76743 of epoch 3, 63.78 ms/it, loss 0.473367
-Finished training it 16384/76743 of epoch 3, 63.59 ms/it, loss 0.469992
-Finished training it 17408/76743 of epoch 3, 63.23 ms/it, loss 0.471209
-Finished training it 17408/76743 of epoch 3, 63.24 ms/it, loss 0.468874
-Finished training it 17408/76743 of epoch 3, 63.18 ms/it, loss 0.469429
-Finished training it 17408/76743 of epoch 3, 63.25 ms/it, loss 0.471101
