@@ -50,6 +50,9 @@ for table_num in range(0, 26):
     for i, l in enumerate(chicanes): 
         plt.vlines(-l, ymin = 0, ymax = y_max, color = colors[i]) 
         plt.vlines(l, ymin = 0, ymax = y_max, color = colors[i]) 
+    if len(list_one) > 1e6: 
+        plt.xlim(-0.1, 0.1) 
+    
     plt.title("table {}".format(table_num)) 
 
     logger_path = path + log_file_name 
