@@ -14,6 +14,8 @@ args = parser.parse_args()
 path = "/rscratch/data/dlrm_criteo/" 
 table_num = args.table_num 
 
+log_file_name = "documenting_dist.txt" 
+
 def finding_scale_and_params(table_num, 
                              num_bits, 
                              min, 
@@ -48,6 +50,16 @@ for table_num in range(0, 26):
     for i, l in enumerate(chicanes): 
         plt.vlines(-l, ymin = 0, ymax = y_max, color = colors[i]) 
         plt.vlines(l, ymin = 0, ymax = y_max, color = colors[i]) 
+    plt.title("table {}".format(table_num)) 
+
+    logger_path = path + log_file_name 
+    logger = open(logger_path, "a") 
+    logger.write("table {}\n".format(table_num)) 
+    logger.write(x) 
+    logger.write("\n") 
+    logger.write(y) 
+    logger.write("\n") 
+    logger.close() 
 
     list_one = [] 
     chicanes = [] 
