@@ -55,9 +55,9 @@ for table_num in range(0, 26):
     logger_path = path + log_file_name 
     logger = open(logger_path, "a") 
     logger.write("table {}\n".format(table_num)) 
-    logger.write(x) 
+    logger.write(str(x)) 
     logger.write("\n") 
-    logger.write(y) 
+    logger.write(str(y)) 
     logger.write("\n") 
     logger.close() 
 
