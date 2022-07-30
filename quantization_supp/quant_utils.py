@@ -7,6 +7,7 @@ import decimal
 from fractions import Fraction
 from decimal import Decimal
 from torch.autograd import Function, Variable
+import dlrm_s_pytorch_dp_only 
 
 
 def clamp(input, min, max, inplace=False):
@@ -127,7 +128,8 @@ def linear_dequantize(input_q, scale, zero_point, inplace=False):
 def symmetric_linear_quantization_param_two(num_bits, 
                                             embedding_bag, 
                                             embedding_bound, 
-                                            num_embeddings): 
+                                            num_embeddings, 
+                                            embedding_id): 
     # this function computes scale for embedding table only 
     # use with caution 
     
@@ -140,7 +142,9 @@ def symmetric_linear_quantization_param_two(num_bits,
                 weight = embedding_bag 
             w_min, _ = torch.min(torch.min(weight, dim = 0, out = None).values, dim = 0, out = None) # no copy of the entire table is produced or we expected 
             w_max, _ = torch.max(torch.max(weight, dim = 0, out = None).values, dim = 0, out = None) # no copy of the entire table is produced or we expected 
-        
+
+            if dlrm_s_pytorch_dp_only.iteration_num % 10240 == 0 and (embedding_id == 2 or embedding_id == 3): 
+                print(w_min, w_max) 
             n = 2 ** (num_bits - 1) - 1 
         
             scale = max(w_min.abs(), w_max.abs()) 

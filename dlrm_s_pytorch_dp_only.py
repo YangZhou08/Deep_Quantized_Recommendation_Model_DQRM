@@ -124,6 +124,7 @@ best_acc_test = 0
 best_auc_test = 0 
 full_precision_flag = True 
 path_log = None 
+iteration_num = 0 
 
 exc = getattr(builtins, "IOError", "FileNotFoundError")
 
@@ -298,7 +299,7 @@ class DLRM_Net(nn.Module):
                 EE.embs.weight.data = torch.tensor(W, requires_grad=True)
             elif self.quantization_flag: 
                 print("---------- Embedding Table {}, quantization used, n = {}, m = {}, quantization bit set to {}".format(i, n, m, self.embedding_bit)) 
-                EE = QuantEmbeddingBagTwo(n, m, self.embedding_bit) 
+                EE = QuantEmbeddingBagTwo(n, m, self.embedding_bit, i) 
             else:
                 EE = nn.EmbeddingBag(n, m, mode="sum", sparse=True) 
                 # initialize embeddings
@@ -1447,6 +1448,9 @@ def train(gpu, args):
             if k < skip_upto_epoch: 
                 continue 
             for j, inputBatch in enumerate(train_loader): 
+                global iteration_num 
+                iteration_num = j 
+
                 if j < skip_upto_batch: 
                     continue 
                 
