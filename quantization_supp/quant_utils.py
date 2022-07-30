@@ -7,7 +7,8 @@ import decimal
 from fractions import Fraction
 from decimal import Decimal
 from torch.autograd import Function, Variable
-import dlrm_s_pytorch_dp_only 
+
+iteration_num = 0 
 
 
 def clamp(input, min, max, inplace=False):
@@ -134,6 +135,7 @@ def symmetric_linear_quantization_param_two(num_bits,
     # use with caution 
     
     with torch.no_grad(): 
+        '''
         if num_embeddings > 1e6: 
             # using embedding table weight min and max 
             if isinstance(embedding_bag, torch.nn.Module): 
@@ -163,11 +165,15 @@ def symmetric_linear_quantization_param_two(num_bits,
         w_min, _ = torch.min(torch.min(weight, dim = 0, out = None).values, dim = 0, out = None) # no copy of the entire table is produced or we expected 
         w_max, _ = torch.max(torch.max(weight, dim = 0, out = None).values, dim = 0, out = None) # no copy of the entire table is produced or we expected 
         
+        global iteration_num 
+        iteration_num += 1 
+
+        if iteration_num % (26 * 100) == 0 and (embedding_id == 2 or embedding_id == 3): 
+            print("Note: Table {}, wmin {}, wmax {}".format(embedding_id, w_min, w_max)) 
         n = 2 ** (num_bits - 1) - 1 
         
         scale = max(w_min.abs(), w_max.abs()) 
         scale = torch.clamp(scale, min = 1e-8) / n 
-        ''' 
         
     return scale 
 
