@@ -168,7 +168,7 @@ def symmetric_linear_quantization_param_two(num_bits,
         global iteration_num 
         iteration_num += 1 
 
-        if iteration_num % (26 * 100) == 0 and (embedding_id == 2 or embedding_id == 3): 
+        if iteration_num % (26 * 100) == 0: 
             print("Note: Table {}, wmin {}, wmax {}".format(embedding_id, w_min, w_max)) 
         n = 2 ** (num_bits - 1) - 1 
         
