@@ -299,7 +299,7 @@ class DLRM_Net(nn.Module):
                 EE.embs.weight.data = torch.tensor(W, requires_grad=True)
             elif self.quantization_flag: 
                 print("---------- Embedding Table {}, quantization used, n = {}, m = {}, quantization bit set to {}".format(i, n, m, self.embedding_bit)) 
-                EE = QuantEmbeddingBagTwo(n, m, self.embedding_bit, i) 
+                EE = QuantEmbeddingBagTwo(n, m, self.embedding_bit, embedding_id = i) 
             else:
                 EE = nn.EmbeddingBag(n, m, mode="sum", sparse=True) 
                 # initialize embeddings
