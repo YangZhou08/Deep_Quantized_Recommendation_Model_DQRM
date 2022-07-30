@@ -41,7 +41,7 @@ for table_num in range(0, 26):
             list_one.append(float(word_with_value)) 
     print(len(list_one)) 
 
-    y, x, _ = plt.hist(list_one, bins = 100) 
+    y, x, _ = plt.hist(list_one, bins = 1000) 
     y_max = np.max(y) 
     chicanes.append(np.sqrt(1/n_l[table_num])) 
     for ratio in thr_r: 
