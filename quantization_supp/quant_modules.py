@@ -262,6 +262,10 @@ class QuantEmbeddingBagTwo(Module):
         ''' 
         self.register_buffer('output_integer', torch.zeros((1, 16)), persistent = False) 
         self.register_buffer('embedding_bound', torch.sqrt(torch.tensor(1/self.num_embeddings)) * (4.0), persistent = False) 
+        
+        # periodic update 
+        self.register_buffer('now_iteration', torch.zeros(1), persistent = True) 
+        self.register_buffer('iteration_bound', torch.zeros(1), persistent = True) 
 
         self.embedding_id = embedding_id  
         
@@ -291,7 +295,7 @@ class QuantEmbeddingBagTwo(Module):
     def unfix(self):
         self.fix_flag = False 
         
-    def forward(self, input, offsets = None, per_sample_weights = None, full_precision_flag = False): 
+    def forward(self, input, offsets = None, per_sample_weights = None, full_precision_flag = False, test_mode = False): 
         """
         using quantized weights to forward activation x 
         """ 
