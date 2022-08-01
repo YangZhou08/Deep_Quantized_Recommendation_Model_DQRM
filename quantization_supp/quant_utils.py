@@ -164,12 +164,13 @@ def symmetric_linear_quantization_param_two(num_bits,
             weight = embedding_bag 
         w_min, _ = torch.min(torch.min(weight, dim = 0, out = None).values, dim = 0, out = None) # no copy of the entire table is produced or we expected 
         w_max, _ = torch.max(torch.max(weight, dim = 0, out = None).values, dim = 0, out = None) # no copy of the entire table is produced or we expected 
-        
+        '''
         global iteration_num 
         iteration_num += 1 
 
         if iteration_num % (26 * 200) == 3 or iteration_num % (26 * 200) == 4 or iteration_num % (26 * 200) == 21: 
             print("Note: Table {}, wmin {}, wmax {}".format(embedding_id, w_min, w_max)) 
+        ''' 
         n = 2 ** (num_bits - 1) - 1 
         
         scale = max(w_min.abs(), w_max.abs()) 
