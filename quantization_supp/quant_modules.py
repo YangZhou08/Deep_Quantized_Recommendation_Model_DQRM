@@ -263,7 +263,7 @@ class QuantEmbeddingBagTwo(Module):
         self.register_buffer('output_integer', torch.zeros((1, 16)), persistent = False) 
         self.register_buffer('embedding_bound', torch.sqrt(torch.tensor(1/self.num_embeddings)) * (4.0), persistent = False) 
 
-        self.embedding_id = embedding_id 
+        self.embedding_id = embedding_id  
         
         # weight initialization 
         W = np.random.uniform(
