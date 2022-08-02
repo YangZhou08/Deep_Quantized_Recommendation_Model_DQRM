@@ -298,7 +298,7 @@ class QuantEmbeddingBagTwo(Module):
 
     def set_iteration_bound(self): 
         # fixed value 
-        self.iteration_bound = 200 
+        self.iteration_bound = self.iteration_bound 
         
     def forward(self, input, offsets = None, per_sample_weights = None, full_precision_flag = False, test_mode = False): 
         """
