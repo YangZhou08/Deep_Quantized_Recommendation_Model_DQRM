@@ -315,7 +315,7 @@ class DLRM_Net(nn.Module):
                 ).astype(np.float32) 
                 ''' 
                 W = np.random.normal(
-                    loc = 0, scale = np.cbrt(1/n), size = (n, m)
+                    loc = 0, scale = 0.3, size = (n, m) 
                 ).astype(np.float32) 
                 # approach 1
                 EE.weight.data = torch.tensor(W, requires_grad=True)
@@ -789,7 +789,7 @@ def run():
     '''
     os.environ['MASTER_PORT'] = '29500' 
     ''' 
-    os.environ['MASTER_PORT'] = '29517' 
+    os.environ['MASTER_PORT'] = '29518' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
   
