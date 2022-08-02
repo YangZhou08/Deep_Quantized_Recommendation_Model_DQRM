@@ -256,7 +256,8 @@ class QuantEmbeddingBagTwo(Module):
         self.quant_mode = quant_mode 
         self.fix_flag = fix_flag 
         self.weight_percentile = weight_percentile 
-        self.register_buffer('eb_scaling_factor', torch.zeros(1), persistent = False) # TODO re-check the dimension 
+        self.batch_size = 128 
+        self.register_buffer('eb_scaling_factor', torch.zeros(self.batch_size, 1), persistent = True) # TODO re-check the dimension 
         '''
         self.register_buffer('eb_scaling_factor', torch.ones(1)) # testing whether finding scale takes large delay 
         ''' 
@@ -294,6 +295,10 @@ class QuantEmbeddingBagTwo(Module):
 
     def unfix(self):
         self.fix_flag = False 
+
+    def set_iteration_bound(self): 
+        # fixed value 
+        self.iteration_bound = 200 
         
     def forward(self, input, offsets = None, per_sample_weights = None, full_precision_flag = False, test_mode = False): 
         """
@@ -306,7 +311,7 @@ class QuantEmbeddingBagTwo(Module):
             self.weight_function = AsymmetricQuantFunction.apply 
         else: 
             raise ValueError("unknown quant mode: {}".format(self.quant_mode)) 
-        if not full_precision_flag: 
+        if not full_precision_flag and not test_mode and (self.now_iteration == self.iteration_bound): 
             if self.quant_mode == "symmetric": 
                 self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag, self.embedding_bound, self.num_embeddings, self.embedding_id) 
                 '''
@@ -314,6 +319,10 @@ class QuantEmbeddingBagTwo(Module):
                 ''' 
             else: 
                 raise Exception("for embedding weights, we only support symmetric quantization") 
+            
+            # update period info 
+            self.now_iteration = 0 
+            self.set_iteration_bound() 
             
         if per_sample_weights is not None: 
             print("Warning: Embedding Table Assumes per_sample_weights to be None but it is not") 
