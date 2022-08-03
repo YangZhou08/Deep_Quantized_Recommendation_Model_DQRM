@@ -315,7 +315,7 @@ class DLRM_Net(nn.Module):
                 ).astype(np.float32) 
                 ''' 
                 W = np.random.normal(
-                    loc = 0, scale = 0.3, size = (n, m) 
+                    loc = 0, scale = 0.003, size = (n, m) 
                 ).astype(np.float32) 
                 # approach 1
                 EE.weight.data = torch.tensor(W, requires_grad=True)
