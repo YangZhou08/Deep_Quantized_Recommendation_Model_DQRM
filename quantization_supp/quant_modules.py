@@ -325,7 +325,7 @@ class QuantEmbeddingBagTwo(Module):
                     raise Exception("for embedding weights, we only support symmetric quantization") 
             
                 # update period info 
-                self.now_iteration = 0 
+                self.now_iteration -= self.now_iteration 
                 self.set_iteration_bound() 
             else: 
                 self.now_iteration += 1 
