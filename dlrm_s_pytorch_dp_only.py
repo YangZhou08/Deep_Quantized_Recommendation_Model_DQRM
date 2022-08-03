@@ -827,14 +827,15 @@ def inference_distributed(
         if args.world_size > 1 and X_test.size(0) % args.world_size != 0: 
             print("Warning: Skipping the batch %d with size %d" % (i, X_test.size(0))) 
             continue 
-        
+
         Z_test = dlrm_wrap(
             X_test, 
             lS_o_test, 
             lS_i_test, 
             use_gpu, 
             device, 
-            ndevices = 1 # check whether ndevices is needed to be used here 
+            ndevices = 1, 
+            test_mode=True 
         ) 
         
         if Z_test.is_cuda: 
