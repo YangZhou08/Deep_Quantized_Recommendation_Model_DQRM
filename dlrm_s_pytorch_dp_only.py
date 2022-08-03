@@ -508,8 +508,7 @@ class DLRM_Net(nn.Module):
                     V = E(
                         sparse_index_group_batch, 
                         sparse_offset_group_batch, 
-                        per_sample_weights = per_sample_weights, 
-                        test_mode = test_mode 
+                        per_sample_weights = per_sample_weights 
                     ) 
 
                 ly.append(V)
