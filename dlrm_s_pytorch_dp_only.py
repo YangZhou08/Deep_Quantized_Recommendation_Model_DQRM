@@ -135,7 +135,7 @@ def time_wrap(use_gpu):
     return time.time()
 
 
-def dlrm_wrap(X, lS_o, lS_i, use_gpu, device, ndevices=1): 
+def dlrm_wrap(X, lS_o, lS_i, use_gpu, device, ndevices=1, test_mode = False): 
     '''
     print("print inside dlrm_wrap ndevices is ", ndevices) 
     ''' 
@@ -154,7 +154,7 @@ def dlrm_wrap(X, lS_o, lS_i, use_gpu, device, ndevices=1):
                     if isinstance(lS_o, list)
                     else lS_o.to(device)
                 )
-        return dlrm(X.to(device), lS_o, lS_i)
+        return dlrm(X.to(device), lS_o, lS_i, test_mode = test_mode) 
 
 
 def loss_fn_wrap(Z, T, use_gpu, device, args): 
@@ -449,7 +449,7 @@ class DLRM_Net(nn.Module):
         # approach 2: use Sequential container to wrap all layers
         return layers(x)
 
-    def apply_emb(self, lS_o, lS_i, emb_l, v_W_l):
+    def apply_emb(self, lS_o, lS_i, emb_l, v_W_l, test_mode = False): 
         # WARNING: notice that we are processing the batch at once. We implicitly
         # assume that the data is laid out such that:
         # 1. each embedding is indexed with a group of sparse indices,
@@ -501,12 +501,15 @@ class DLRM_Net(nn.Module):
                         sparse_index_group_batch,
                         sparse_offset_group_batch,
                         per_sample_weights=per_sample_weights, 
-                        full_precision_flag = full_precision_flag) 
+                        full_precision_flag = full_precision_flag, 
+                        test_mode = test_mode 
+                    ) 
                 else: 
                     V = E(
                         sparse_index_group_batch, 
                         sparse_offset_group_batch, 
-                        per_sample_weights = per_sample_weights 
+                        per_sample_weights = per_sample_weights, 
+                        test_mode = test_mode 
                     ) 
 
                 ly.append(V)
@@ -569,7 +572,7 @@ class DLRM_Net(nn.Module):
 
         return R
 
-    def forward(self, dense_x, lS_o, lS_i): 
+    def forward(self, dense_x, lS_o, lS_i, test_mode = False): 
         # process dense features (using bottom mlp), resulting in a row vector
         x = self.apply_mlp(dense_x, self.bot_l)
         # debug prints
@@ -577,7 +580,7 @@ class DLRM_Net(nn.Module):
         # print(x.detach().cpu().numpy())
 
         # process sparse features(using embeddings), resulting in a list of row vectors
-        ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l)
+        ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
         # for y in ly:
         #     print(y.detach().cpu().numpy())
 

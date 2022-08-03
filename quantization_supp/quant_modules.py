@@ -298,7 +298,9 @@ class QuantEmbeddingBagTwo(Module):
 
     def set_iteration_bound(self): 
         # fixed value 
-        self.iteration_bound = self.iteration_bound 
+        if self.iteration_bound == 0: 
+            print("bound incrementing to 200") 
+            self.iteration_bound += 200 
         
     def forward(self, input, offsets = None, per_sample_weights = None, full_precision_flag = False, test_mode = False): 
         """
@@ -311,18 +313,22 @@ class QuantEmbeddingBagTwo(Module):
             self.weight_function = AsymmetricQuantFunction.apply 
         else: 
             raise ValueError("unknown quant mode: {}".format(self.quant_mode)) 
-        if not full_precision_flag: 
-            if self.quant_mode == "symmetric": 
-                self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag, self.embedding_bound, self.num_embeddings, self.embedding_id) 
-                '''
-                self.eb_scaling_factor = torch.tensor(1.0, dtype = torch.float32, requires_grad = False) # testing whether finding max and min would introduce overhead 
-                ''' 
-            else: 
-                raise Exception("for embedding weights, we only support symmetric quantization") 
+        if not full_precision_flag and not test_mode: 
+            if self.now_iteration == self.iteration_bound: 
+                if self.quant_mode == "symmetric": 
+                    print("finding scale in process ...") 
+                    self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag, self.embedding_bound, self.num_embeddings, self.embedding_id) 
+                    '''
+                    self.eb_scaling_factor = torch.tensor(1.0, dtype = torch.float32, requires_grad = False) # testing whether finding max and min would introduce overhead 
+                    ''' 
+                else: 
+                    raise Exception("for embedding weights, we only support symmetric quantization") 
             
-            # update period info 
-            self.now_iteration = 0 
-            self.set_iteration_bound() 
+                # update period info 
+                self.now_iteration = 0 
+                self.set_iteration_bound() 
+            else: 
+                self.now_iteration += 1 
             
         if per_sample_weights is not None: 
             print("Warning: Embedding Table Assumes per_sample_weights to be None but it is not") 
