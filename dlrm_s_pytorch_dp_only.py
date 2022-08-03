@@ -314,8 +314,8 @@ class DLRM_Net(nn.Module):
                     loc = 0, scale = np.sqrt(1/n), size = (n, m) 
                 ).astype(np.float32) 
                 ''' 
-                W = np.random.normal(
-                    loc = 0, scale = 0.003, size = (n, m) 
+                W = np.random.normal( 
+                    loc = 0, scale = 0.03, size = (n, m) 
                 ).astype(np.float32) 
                 # approach 1
                 EE.weight.data = torch.tensor(W, requires_grad=True)
@@ -784,14 +784,11 @@ def run():
         args.test_num_workers = args.num_workers 
     
     args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
-    '''
     os.environ['MASTER_ADDR'] = '169.229.49.62' 
-    ''' 
-    os.environ['MASTER_ADDR'] = '169.229.49.60' 
     '''
     os.environ['MASTER_PORT'] = '29500' 
     ''' 
-    os.environ['MASTER_PORT'] = '29508' 
+    os.environ['MASTER_PORT'] = '29509' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
   
