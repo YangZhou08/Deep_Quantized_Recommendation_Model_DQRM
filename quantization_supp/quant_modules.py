@@ -300,7 +300,7 @@ class QuantEmbeddingBagTwo(Module):
         # fixed value 
         if self.iteration_bound == 0: # change if do other things 
             print("bound incrementing to 200") 
-            self.iteration_bound += 200 
+            self.iteration_bound += 1000 
         
     def forward(self, input, offsets = None, per_sample_weights = None, full_precision_flag = False, test_mode = False): 
         """
