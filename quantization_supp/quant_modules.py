@@ -267,6 +267,7 @@ class QuantEmbeddingBagTwo(Module):
         # periodic update 
         self.register_buffer('now_iteration', torch.zeros(1), persistent = True) 
         self.register_buffer('iteration_bound', torch.zeros(1), persistent = True) 
+        self.register_buffer('iteration_nt', torch.zeros(1), persistent = True) 
 
         self.embedding_id = embedding_id  
         
@@ -298,8 +299,14 @@ class QuantEmbeddingBagTwo(Module):
 
     def set_iteration_bound(self): 
         # fixed value 
-        if self.iteration_bound == 0: # change if do other things 
-            self.iteration_bound += 1000 
+        if self.iteration_nt == 1 and self.iteration_bound == 0: # change if do other things 
+            self.iteration_bound += 100 
+            print("bound increasing to {}".format(100)) 
+        elif self.iteration_bound == 100 and self.iteration_nt > 30000: 
+            self.iteration_bound += 100 
+            print("bound increasing to {}".format(200)) 
+        elif self.iteration_bound == 200 and self.iteration_nt > 70000: 
+            self.iteration_bound += 800 
             print("bound increasing to {}".format(1000)) 
         
     def forward(self, input, offsets = None, per_sample_weights = None, full_precision_flag = False, test_mode = False): 
@@ -324,9 +331,11 @@ class QuantEmbeddingBagTwo(Module):
                     raise Exception("for embedding weights, we only support symmetric quantization") 
             
                 # update period info 
+                self.iteration_nt += 1 
                 self.now_iteration -= self.now_iteration 
                 self.set_iteration_bound() 
             else: 
+                self.iteration_nt += 1 
                 self.now_iteration += 1 
             
         if per_sample_weights is not None: 
