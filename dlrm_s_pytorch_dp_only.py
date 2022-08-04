@@ -99,7 +99,7 @@ from tricks.md_embedding_bag import PrEmbeddingBag, md_solver
 from tricks.qr_embedding_bag import QREmbeddingBag 
 from quantization_supp.quant_modules import QuantEmbeddingBag 
 from quantization_supp.quant_modules import QuantEmbeddingBagTwo 
-from quantization_supp.quant_modules import QuantEmbeddingBagThree 
+from quantization_supp.quant_modules import QuantLinear 
 
 # below are not imported in the original script 
 import os 
@@ -232,7 +232,7 @@ class DLRM_Net(nn.Module):
             n = ln[i]
             m = ln[i + 1]
 
-            # construct fully connected operator
+            # construct fully connected operator 
             LL = nn.Linear(int(n), int(m), bias=True)
 
             # initialize the weights
@@ -252,7 +252,15 @@ class DLRM_Net(nn.Module):
             # approach 3
             # LL.weight = Parameter(torch.tensor(W),requires_grad=True)
             # LL.bias = Parameter(torch.tensor(bt),requires_grad=True)
-            layers.append(LL)
+            if self.quantization_flag: 
+                QuantLnr = QuantLinear( 
+                    weight_bit = 4, 
+                    bias_bit = 4 
+                ) 
+                QuantLnr.set_param(LL) 
+                layers.append(QuantLnr) 
+            else: 
+                layers.append(LL) 
 
             # construct sigmoid or relu operator
             if i == sigmoid_layer:
@@ -791,7 +799,7 @@ def run():
     '''
     os.environ['MASTER_PORT'] = '29500' 
     ''' 
-    os.environ['MASTER_PORT'] = '29503' 
+    os.environ['MASTER_PORT'] = '29501' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
   
