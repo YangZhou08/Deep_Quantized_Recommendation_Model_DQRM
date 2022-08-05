@@ -1375,8 +1375,7 @@ def train(gpu, args):
     print("number of devices " + str(ndevices)) 
     
     global dlrm 
-    dlrm = DLRM_Net(
-        m_spa,
+    dlrm = DLRM_Net(m_spa,
         ln_emb,
         ln_bot,
         ln_top,
@@ -1396,7 +1395,8 @@ def train(gpu, args):
         weighted_pooling=args.weighted_pooling,
         loss_function=args.loss_function, 
         quantization_flag = args.quantization_flag, 
-        embedding_bit = args.embedding_bit 
+        embedding_bit = args.embedding_bit, 
+        modify_feature_interaction = args.modify_feature_interaction 
     ) 
 
     global path_log 
