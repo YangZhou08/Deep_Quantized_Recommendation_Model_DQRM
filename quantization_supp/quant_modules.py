@@ -127,10 +127,18 @@ class QuantLinear(Module):
         if prev_act_scaling_factor is not None: 
             prev_act_scaling_factor = prev_act_scaling_factor.view(1, -1)
             x_int = x / prev_act_scaling_factor 
+        else: 
+            x_int = x 
         correct_output_scale = bias_scaling_factor[0].view(1, -1)
-
+        
+        # quantization needs passing on of factors, and recommendation systems have multiple sequantial blocks linear 
+        '''
         return ste_round.apply(
             F.linear(x_int, weight=self.weight_integer, bias=self.bias_integer)) * correct_output_scale 
+        ''' 
+        return (ste_round.apply(
+            F.linear(x_int, weight = self.weight_integer, bias = self.bias_integer) 
+            ) * correct_output_scale, bias_scaling_factor) 
 
 class QuantEmbeddingBagThree(Module): 
     """

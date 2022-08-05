@@ -100,6 +100,9 @@ from tricks.qr_embedding_bag import QREmbeddingBag
 from quantization_supp.quant_modules import QuantEmbeddingBag 
 from quantization_supp.quant_modules import QuantEmbeddingBagTwo 
 from quantization_supp.quant_modules import QuantLinear 
+from quantization_supp.quant_modules import QuantAct 
+from quantization_supp.quant_utils import symmetric_linear_quantization_params 
+from quantization_supp.quant_utils import SymmetricQuantFunction 
 
 # below are not imported in the original script 
 import os 
@@ -270,8 +273,11 @@ class DLRM_Net(nn.Module):
 
         # approach 1: use ModuleList
         # return layers
-        # approach 2: use Sequential container to wrap all layers
-        return torch.nn.Sequential(*layers)
+        # approach 2: use Sequential container to wrap all layers 
+        if not self.quantization_flag: 
+            return torch.nn.Sequential(*layers) 
+        else: 
+            return layers 
 
     def create_emb(self, m, ln, weighted_pooling=None):
         emb_l = nn.ModuleList()
@@ -360,7 +366,8 @@ class DLRM_Net(nn.Module):
         weighted_pooling=None,
         loss_function="bce", 
         quantization_flag = False, 
-        embedding_bit = 32 
+        embedding_bit = 32, 
+        modify_feature_interaction = False 
     ): 
         super(DLRM_Net, self).__init__()
 
@@ -386,6 +393,14 @@ class DLRM_Net(nn.Module):
             # add quantization identification 
             self.quantization_flag = quantization_flag 
             self.embedding_bit = embedding_bit 
+            self.modify_feature_interaction = modify_feature_interaction 
+
+            if self.quantization_flag: 
+                self.quant_input = QuantAct() 
+                self.quant_feature_outputs = QuantAct(fixed_point_quantization = True, activation_bit = 4) # recheck activation_bit 
+                self.register_buffer('feature_xmin', torch.zeros(1)) 
+                self.register_buffer('feature_xmax', torch.zeros(1)) 
+                self.register_buffer('features_scaling_factor', torch.zeros(1)) 
             
             if weighted_pooling is not None and weighted_pooling != "fixed":
                 self.weighted_pooling = "learned"
@@ -449,13 +464,21 @@ class DLRM_Net(nn.Module):
                     "ERROR: --loss-function=" + self.loss_function + " is not supported"
                 ) 
 
-    def apply_mlp(self, x, layers):
+    def apply_mlp(self, x, layers, prev_act_scaling_factor = None): 
         # approach 1: use ModuleList
         # for layer in layers:
         #     x = layer(x)
         # return x
-        # approach 2: use Sequential container to wrap all layers
-        return layers(x)
+        # approach 2: use Sequential container to wrap all layers 
+        if not self.quantization_flag: 
+            return layers(x) 
+        else: 
+            for layer in layers: 
+                if isinstance(layer, QuantLinear): 
+                    x, prev_act_scaling_factor = layer(x, prev_act_scaling_factor) 
+                else: 
+                    x = layer(x) 
+            return x 
 
     def apply_emb(self, lS_o, lS_i, emb_l, v_W_l, test_mode = False): 
         # WARNING: notice that we are processing the batch at once. We implicitly
@@ -546,65 +569,137 @@ class DLRM_Net(nn.Module):
 
     def interact_features(self, x, ly):
 
-        if self.arch_interaction_op == "dot":
-            # concatenate dense and sparse features
-            (batch_size, d) = x.shape
-            T = torch.cat([x] + ly, dim=1).view((batch_size, -1, d))
-            # perform a dot product
-            Z = torch.bmm(T, torch.transpose(T, 1, 2))
-            # append dense feature with the interactions (into a row vector)
-            # approach 1: all
-            # Zflat = Z.view((batch_size, -1))
-            # approach 2: unique
-            _, ni, nj = Z.shape
-            # approach 1: tril_indices
-            # offset = 0 if self.arch_interaction_itself else -1
-            # li, lj = torch.tril_indices(ni, nj, offset=offset)
-            # approach 2: custom
-            offset = 1 if self.arch_interaction_itself else 0
-            li = torch.tensor([i for i in range(ni) for j in range(i + offset)])
-            lj = torch.tensor([j for i in range(nj) for j in range(i + offset)])
-            Zflat = Z[:, li, lj]
-            # concatenate dense features and interactions
-            R = torch.cat([x] + [Zflat], dim=1)
-        elif self.arch_interaction_op == "cat":
-            # concatenation features (into a row vector)
-            R = torch.cat([x] + ly, dim=1)
-        else:
-            sys.exit(
-                "ERROR: --arch-interaction-op="
-                + self.arch_interaction_op
-                + " is not supported"
-            )
+        if not self.modify_feature_interaction: 
+            # no quantization 
+            if self.arch_interaction_op == "dot":
+                # concatenate dense and sparse features
+                (batch_size, d) = x.shape
+                T = torch.cat([x] + ly, dim=1).view((batch_size, -1, d))
+                # perform a dot product
+                Z = torch.bmm(T, torch.transpose(T, 1, 2))
+                # append dense feature with the interactions (into a row vector)
+                # approach 1: all
+                # Zflat = Z.view((batch_size, -1))
+                # approach 2: unique
+                _, ni, nj = Z.shape
+                # approach 1: tril_indices
+                # offset = 0 if self.arch_interaction_itself else -1
+                # li, lj = torch.tril_indices(ni, nj, offset=offset)
+                # approach 2: custom
+                offset = 1 if self.arch_interaction_itself else 0
+                li = torch.tensor([i for i in range(ni) for j in range(i + offset)])
+                lj = torch.tensor([j for i in range(nj) for j in range(i + offset)])
+                Zflat = Z[:, li, lj]
+                # concatenate dense features and interactions
+                R = torch.cat([x] + [Zflat], dim=1)
+            elif self.arch_interaction_op == "cat":
+                # concatenation features (into a row vector)
+                R = torch.cat([x] + ly, dim=1)
+            else:
+                sys.exit(
+                    "ERROR: --arch-interaction-op="
+                    + self.arch_interaction_op
+                    + " is not supported"
+                ) 
+            
+            # change on return values 
+            '''
+            return R 
+            ''' 
+        else: 
+            # quantization used to make possible bmm operation in context of integers 
+            if not self.quantization_flag: 
+                print("Warning: modify interaction features only happens when quantization_flag is set now it is not set results is not expected to be valid") 
+            if self.arch_interaction_op == "dot": 
+                (batch_size, d) = x.shape 
+                T = torch.cat([x] + ly, dim = 1).view((batch_size, -1, d)) 
+                x_min = T.data.min() 
+                x_max = T.data.max() 
 
-        return R
+                # Initialization 
+                if self.feature_xmin == self.feature_xmax: 
+                    self.feature_xmin += x_min 
+                    self.feature_xmax += x_max 
+                else: 
+                    self.feature_xmin = self.feature_xmin * 0.95 + x_min * (1 - 0.95) 
+                    self.feature_xmax = self.feature_xmax * 0.95 + x_max * (1 - 0.95) 
+            
+                # finding scale 
+                self.feature_scaling_factor = symmetric_linear_quantization_params(4, self.feature_xmin, self.feature_xmax, False) 
+
+                T_integers = SymmetricQuantFunction.apply(T, 4, self.feature_scaling_factor) # TODO recheck activation_bit 
+
+                Z_integers = torch.bmm(T_integers, torch.transpose(T_integers, 1, 2)) 
+
+                Z = Z_integers * (self.feature_scaling_factor ** 2) 
+
+                # incorporate features are copied 
+                _, ni, nj = Z.shape
+                # approach 1: tril_indices
+                # offset = 0 if self.arch_interaction_itself else -1
+                # li, lj = torch.tril_indices(ni, nj, offset=offset)
+                # approach 2: custom
+                offset = 1 if self.arch_interaction_itself else 0
+                li = torch.tensor([i for i in range(ni) for j in range(i + offset)])
+                lj = torch.tensor([j for i in range(nj) for j in range(i + offset)])
+                Zflat = Z[:, li, lj]
+                # concatenate dense features and interactions
+                R = torch.cat([x] + [Zflat], dim=1) 
+
+                # since Z is of different scale 
+                # quantize again 
+            elif self.arch_interaction_op == "cat": 
+                # concatenation is copied 
+                R = torch.cat([x] + ly, dim=1) 
+
+        if not self.quantization_flag: 
+            return R 
+        else: 
+            R, feature_scaling_factor_at_bmlp = self.quant_feature_outputs(R) 
+            return R, feature_scaling_factor_at_bmlp 
+
 
     def forward(self, dense_x, lS_o, lS_i, test_mode = False): 
-        # process dense features (using bottom mlp), resulting in a row vector
-        x = self.apply_mlp(dense_x, self.bot_l)
-        # debug prints
-        # print("intermediate")
-        # print(x.detach().cpu().numpy())
+        if self.quantization_flag: 
+            # process dense features (using bottom mlp), resulting in a row vector
+            x = self.apply_mlp(dense_x, self.bot_l)
+            # debug prints
+            # print("intermediate")
+            # print(x.detach().cpu().numpy())
 
-        # process sparse features(using embeddings), resulting in a list of row vectors
-        ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
-        # for y in ly:
-        #     print(y.detach().cpu().numpy())
+            # process sparse features(using embeddings), resulting in a list of row vectors
+            ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
+            # for y in ly:
+            #     print(y.detach().cpu().numpy())
 
-        # interact features (dense and sparse)
-        z = self.interact_features(x, ly)
-        # print(z.detach().cpu().numpy())
+            # interact features (dense and sparse)
+            z = self.interact_features(x, ly)
+            # print(z.detach().cpu().numpy())
 
-        # obtain probability of a click (using top mlp)
-        p = self.apply_mlp(z, self.top_l)
+            # obtain probability of a click (using top mlp)
+            p = self.apply_mlp(z, self.top_l)
 
-        # clamp output if needed
-        if 0.0 < self.loss_threshold and self.loss_threshold < 1.0:
-            z = torch.clamp(p, min=self.loss_threshold, max=(1.0 - self.loss_threshold))
-        else:
-            z = p
+            # clamp output if needed
+            if 0.0 < self.loss_threshold and self.loss_threshold < 1.0:
+                z = torch.clamp(p, min=self.loss_threshold, max=(1.0 - self.loss_threshold))
+            else:
+                z = p
 
-        return z 
+            return z 
+        else: 
+            x, act_scaling_factor = self.quant_input(dense_x) 
+            x = self.apply_mlp(x, self.bot_l, prev_act_scaling_factor = act_scaling_factor) 
+            ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
+            z, feature_scaling_factor = self.interact_features(x, ly) 
+            p = self.apply_mlp(z, self.top_l, prev_act_scaling_factor = feature_scaling_factor) 
+
+            # copy clamp 
+            if 0.0 < self.loss_threshold and self.loss_threshold < 1.0:
+                z = torch.clamp(p, min=self.loss_threshold, max=(1.0 - self.loss_threshold))
+            else:
+                z = p
+
+            return z 
     
     def documenting_weights_tables(self, path, epoch_num): 
         with torch.no_grad(): 
@@ -770,6 +865,7 @@ def run():
     parser.add_argument("--lr-num-decay-steps", type=int, default=0) 
     parser.add_argument("--investigating-inputs", action = "store_true", default = False) 
     parser.add_argument("--pretrain_and_quantize", action = "store_true", default = False) 
+    parser.add_argument("--modify_feature_interaction", action = "store_true", default = False) 
     parser.add_argument("--documenting_table_weight", action = "store_true", default = False) 
     parser.add_argument('-n', '--nodes', default=1,
                         type=int, metavar='N')
