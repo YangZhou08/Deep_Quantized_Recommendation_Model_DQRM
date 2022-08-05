@@ -660,7 +660,7 @@ class DLRM_Net(nn.Module):
 
 
     def forward(self, dense_x, lS_o, lS_i, test_mode = False): 
-        if self.quantization_flag: 
+        if not self.quantization_flag: 
             # process dense features (using bottom mlp), resulting in a row vector
             x = self.apply_mlp(dense_x, self.bot_l)
             # debug prints
