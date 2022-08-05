@@ -257,8 +257,8 @@ class DLRM_Net(nn.Module):
             # LL.bias = Parameter(torch.tensor(bt),requires_grad=True)
             if self.quantization_flag: 
                 QuantLnr = QuantLinear( 
-                    weight_bit = 4, 
-                    bias_bit = 4 
+                    weight_bit = 16, 
+                    bias_bit = 16 
                 ) 
                 QuantLnr.set_param(LL) 
                 layers.append(QuantLnr) 
@@ -396,8 +396,8 @@ class DLRM_Net(nn.Module):
             self.modify_feature_interaction = modify_feature_interaction 
 
             if self.quantization_flag: 
-                self.quant_input = QuantAct() 
-                self.quant_feature_outputs = QuantAct(fixed_point_quantization = True, activation_bit = 4) # recheck activation_bit 
+                self.quant_input = QuantAct(activation_bit = 16) 
+                self.quant_feature_outputs = QuantAct(fixed_point_quantization = True, activation_bit = 16) # recheck activation_bit 
                 self.register_buffer('feature_xmin', torch.zeros(1)) 
                 self.register_buffer('feature_xmax', torch.zeros(1)) 
                 self.register_buffer('features_scaling_factor', torch.zeros(1)) 
