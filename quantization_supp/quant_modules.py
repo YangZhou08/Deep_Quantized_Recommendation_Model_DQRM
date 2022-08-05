@@ -136,9 +136,10 @@ class QuantLinear(Module):
         return ste_round.apply(
             F.linear(x_int, weight=self.weight_integer, bias=self.bias_integer)) * correct_output_scale 
         ''' 
-        return (ste_round.apply(
+        return ste_round.apply(
             F.linear(x_int, weight = self.weight_integer, bias = self.bias_integer) 
-            ) * correct_output_scale, bias_scaling_factor) 
+        ) * correct_output_scale, correct_output_scale 
+        
 
 class QuantEmbeddingBagThree(Module): 
     """
