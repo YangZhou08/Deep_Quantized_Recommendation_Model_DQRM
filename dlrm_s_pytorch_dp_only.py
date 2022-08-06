@@ -695,6 +695,7 @@ class DLRM_Net(nn.Module):
             else:
                 z = p
 
+            print(z) 
             return z 
         else: 
             x, act_scaling_factor = self.quant_input(dense_x) 
