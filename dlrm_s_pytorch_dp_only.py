@@ -234,7 +234,7 @@ class DLRM_Net(nn.Module):
         for i in range(0, ln.size - 1):
             n = ln[i]
             m = ln[i + 1]
-
+            '''
             # construct fully connected operator 
             LL = nn.Linear(int(n), int(m), bias=True)
 
@@ -245,10 +245,17 @@ class DLRM_Net(nn.Module):
             std_dev = np.sqrt(2 / (m + n))  # np.sqrt(1 / m) # np.sqrt(1 / n)
             W = np.random.normal(mean, std_dev, size=(m, n)).astype(np.float32)
             std_dev = np.sqrt(1 / m)  # np.sqrt(2 / (m + 1))
-            bt = np.random.normal(mean, std_dev, size=m).astype(np.float32)
+            bt = np.random.normal(mean, std_dev, size=m).astype(np.float32) 
+            ''' 
+            LL = nn.Linear(int(n), int(m), bias = False) 
+            mean = 0.0 
+            std_dev = np.sqrt(2 / (m + n)) 
+            W = np.random.normal(mean, std_dev, size = (m, n)).astype(np.float32) 
             # approach 1
-            LL.weight.data = torch.tensor(W, requires_grad=True)
-            LL.bias.data = torch.tensor(bt, requires_grad=True)
+            LL.weight.data = torch.tensor(W, requires_grad=True) 
+            '''
+            LL.bias.data = torch.tensor(bt, requires_grad=True) 
+            ''' 
             # approach 2
             # LL.weight.data.copy_(torch.tensor(W))
             # LL.bias.data.copy_(torch.tensor(bt))
