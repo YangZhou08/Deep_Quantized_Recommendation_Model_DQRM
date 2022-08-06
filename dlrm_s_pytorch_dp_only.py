@@ -700,7 +700,7 @@ class DLRM_Net(nn.Module):
             ''' 
             x = self.apply_mlp(x, self.bot_l) 
             ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
-            z = self.interact_features(x, ly) 
+            z, _ = self.interact_features(x, ly) 
             p = self.apply_mlp(z, self.top_l) 
             # copy clamp 
             if 0.0 < self.loss_threshold and self.loss_threshold < 1.0:
