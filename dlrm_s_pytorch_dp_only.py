@@ -318,19 +318,19 @@ class DLRM_Net(nn.Module):
                 EE = nn.EmbeddingBag(n, m, mode="sum", sparse=True) 
                 # initialize embeddings
                 # nn.init.uniform_(EE.weight, a=-np.sqrt(1 / n), b=np.sqrt(1 / n)) 
-                '''
                 W = np.random.uniform(
                     low=-np.sqrt(1 / n), high=np.sqrt(1 / n), size=(n, m)
                 ).astype(np.float32) 
-                ''' 
                 '''
                 W = np.random.normal(
                     loc = 0, scale = np.sqrt(1/n), size = (n, m) 
                 ).astype(np.float32) 
                 ''' 
+                '''
                 W = np.random.normal( 
                     loc = 0, scale = 0.03, size = (n, m) 
                 ).astype(np.float32) 
+                ''' 
                 # approach 1
                 EE.weight.data = torch.tensor(W, requires_grad=True)
                 # approach 2
