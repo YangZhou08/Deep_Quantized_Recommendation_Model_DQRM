@@ -695,7 +695,6 @@ class DLRM_Net(nn.Module):
             else:
                 z = p
 
-            print(z) 
             return z 
         else: 
             x, act_scaling_factor = self.quant_input(dense_x) 
@@ -717,6 +716,7 @@ class DLRM_Net(nn.Module):
             else:
                 z = p
 
+            print(z) 
             return z 
     
     def documenting_weights_tables(self, path, epoch_num): 
