@@ -487,6 +487,7 @@ class DLRM_Net(nn.Module):
                 else: 
                     if not isinstance(layer, nn.ReLU) and not isinstance(layer, nn.Sigmoid): 
                         print("Warning, cannot identify QuantLinear") 
+                    print(layer) 
                     x = layer(x) 
             return x 
 
@@ -717,7 +718,6 @@ class DLRM_Net(nn.Module):
             else:
                 z = p
 
-            print(z) 
             return z 
     
     def documenting_weights_tables(self, path, epoch_num): 
