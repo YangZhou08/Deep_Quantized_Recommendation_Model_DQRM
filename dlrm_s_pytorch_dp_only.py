@@ -274,7 +274,7 @@ class DLRM_Net(nn.Module):
         # approach 1: use ModuleList
         # return layers
         # approach 2: use Sequential container to wrap all layers 
-        if not self.quantization_flag: 
+        if self.quantization_flag: # TODO recheck intentionally reversed logic 
             return torch.nn.Sequential(*layers) 
         else: 
             return layers 
@@ -699,7 +699,7 @@ class DLRM_Net(nn.Module):
             z, feature_scaling_factor = self.interact_features(x, ly) 
             p = self.apply_mlp(z, self.top_l, prev_act_scaling_factor = feature_scaling_factor) 
             ''' 
-            x = self.apply_mlp(x[0], self.bot_l) 
+            x = self.apply_mlp(x, self.bot_l) 
             ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
             z = self.interact_features(x, ly) 
             p = self.apply_mlp(z, self.top_l) 
