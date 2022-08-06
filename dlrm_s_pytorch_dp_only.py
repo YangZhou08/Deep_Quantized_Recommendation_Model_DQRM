@@ -255,7 +255,7 @@ class DLRM_Net(nn.Module):
             # approach 3
             # LL.weight = Parameter(torch.tensor(W),requires_grad=True)
             # LL.bias = Parameter(torch.tensor(bt),requires_grad=True)
-            if self.quantization_flag: 
+            if not self.quantization_flag: # TODO recheck intentionally reverse logic 
                 QuantLnr = QuantLinear( 
                     weight_bit = 16, 
                     bias_bit = 16 
@@ -470,7 +470,7 @@ class DLRM_Net(nn.Module):
         #     x = layer(x)
         # return x
         # approach 2: use Sequential container to wrap all layers 
-        if not self.quantization_flag: 
+        if self.quantization_flag: # TODO recheck intentional reverse logic 
             return layers(x) 
         else: 
             for layer in layers: 
