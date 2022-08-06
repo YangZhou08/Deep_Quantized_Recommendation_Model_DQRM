@@ -574,7 +574,6 @@ class DLRM_Net(nn.Module):
         if not self.modify_feature_interaction: 
             # no quantization 
             if self.arch_interaction_op == "dot": 
-                print("dot") 
                 # concatenate dense and sparse features
                 (batch_size, d) = x.shape
                 T = torch.cat([x] + ly, dim=1).view((batch_size, -1, d))
@@ -655,7 +654,7 @@ class DLRM_Net(nn.Module):
                 # concatenation is copied 
                 R = torch.cat([x] + ly, dim=1) 
 
-        if self.embedding_bit: # recheck intentional reverse logic 
+        if not self.quantization_flag:  # recheck intentional reverse logic 
             return R 
         else: 
             R, feature_scaling_factor_at_bmlp = self.quant_feature_outputs(R) 
