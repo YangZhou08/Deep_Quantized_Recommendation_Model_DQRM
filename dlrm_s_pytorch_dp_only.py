@@ -255,7 +255,7 @@ class DLRM_Net(nn.Module):
             # approach 3
             # LL.weight = Parameter(torch.tensor(W),requires_grad=True)
             # LL.bias = Parameter(torch.tensor(bt),requires_grad=True)
-            if not self.quantization_flag: # TODO recheck intentionally reverse logic 
+            if self.quantization_flag: # TODO recheck intentionally reverse logic updated: checked 
                 QuantLnr = QuantLinear( 
                     weight_bit = 16, 
                     bias_bit = 16 
@@ -274,7 +274,7 @@ class DLRM_Net(nn.Module):
         # approach 1: use ModuleList
         # return layers
         # approach 2: use Sequential container to wrap all layers 
-        if self.quantization_flag: # TODO recheck intentionally reversed logic 
+        if not self.quantization_flag: # TODO recheck intentionally reversed logic updated: checked 
             return torch.nn.Sequential(*layers) 
         else: 
             return layers 
@@ -470,11 +470,13 @@ class DLRM_Net(nn.Module):
         #     x = layer(x)
         # return x
         # approach 2: use Sequential container to wrap all layers 
-        if self.quantization_flag: # TODO recheck intentional reverse logic 
+        if not self.quantization_flag: # TODO recheck intentional reverse logic updated: check 
             return layers(x) 
         else: 
             for layer in layers: 
                 if isinstance(layer, QuantLinear): 
+                    if prev_act_scaling_factor is None: 
+                        print("Warning: find scale None") 
                     x, prev_act_scaling_factor = layer(x, prev_act_scaling_factor) 
                 else: 
                     if not isinstance(layer, nn.ReLU) and not isinstance(layer, nn.Sigmoid): 
@@ -654,7 +656,7 @@ class DLRM_Net(nn.Module):
                 # concatenation is copied 
                 R = torch.cat([x] + ly, dim=1) 
 
-        if not self.quantization_flag:  # recheck intentional reverse logic 
+        if not self.quantization_flag:  # recheck intentional reverse logic updated: check 
             return R 
         else: 
             R, feature_scaling_factor_at_bmlp = self.quant_feature_outputs(R) 
@@ -692,16 +694,16 @@ class DLRM_Net(nn.Module):
             x, act_scaling_factor = self.quant_input(dense_x) 
             if act_scaling_factor is None: 
                 print("tuple is x") 
-            '''
             x = self.apply_mlp(x, self.bot_l, prev_act_scaling_factor = act_scaling_factor) 
             ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
             z, feature_scaling_factor = self.interact_features(x, ly) 
             p = self.apply_mlp(z, self.top_l, prev_act_scaling_factor = feature_scaling_factor) 
-            ''' 
+            '''
             x = self.apply_mlp(x, self.bot_l) 
             ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
             z, _ = self.interact_features(x, ly) 
             p = self.apply_mlp(z, self.top_l) 
+            ''' 
             # copy clamp 
             if 0.0 < self.loss_threshold and self.loss_threshold < 1.0:
                 z = torch.clamp(p, min=self.loss_threshold, max=(1.0 - self.loss_threshold))
