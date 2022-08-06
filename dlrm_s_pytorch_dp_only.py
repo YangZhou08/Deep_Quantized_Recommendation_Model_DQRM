@@ -477,6 +477,8 @@ class DLRM_Net(nn.Module):
                 if isinstance(layer, QuantLinear): 
                     x, prev_act_scaling_factor = layer(x, prev_act_scaling_factor) 
                 else: 
+                    if not isinstance(layer, nn.ReLU) and not isinstance(layer, nn.Sigmoid): 
+                        print("Warning, cannot identify QuantLinear") 
                     x = layer(x) 
             return x 
 
