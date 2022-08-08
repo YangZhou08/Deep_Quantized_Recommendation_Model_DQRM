@@ -660,18 +660,15 @@ class DLRM_Net(nn.Module):
             elif self.arch_interaction_op == "cat": 
                 # concatenation is copied 
                 R = torch.cat([x] + ly, dim=1) 
-        '''
         if not self.quantization_flag:  # recheck intentional reverse logic updated: check 
             return R 
         else: 
             R, feature_scaling_factor_at_bmlp = self.quant_feature_outputs(R) 
             return R, feature_scaling_factor_at_bmlp 
-        ''' 
-        return R 
 
 
     def forward(self, dense_x, lS_o, lS_i, test_mode = False): 
-        if not self.quantization_flag or True: 
+        if not self.quantization_flag: 
             # process dense features (using bottom mlp), resulting in a row vector
             x = self.apply_mlp(dense_x, self.bot_l)
             # debug prints
@@ -697,7 +694,6 @@ class DLRM_Net(nn.Module):
                 z = p
 
             return z 
-        '''
         else: 
             x, act_scaling_factor = self.quant_input(dense_x) 
             if act_scaling_factor is None: 
@@ -713,7 +709,6 @@ class DLRM_Net(nn.Module):
                 z = p
 
             return z 
-        ''' 
     
     def documenting_weights_tables(self, path, epoch_num): 
         with torch.no_grad(): 
