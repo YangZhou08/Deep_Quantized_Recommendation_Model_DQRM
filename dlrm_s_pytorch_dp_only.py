@@ -260,7 +260,8 @@ class DLRM_Net(nn.Module):
             # LL.bias.data.copy_(torch.tensor(bt))
             # approach 3
             # LL.weight = Parameter(torch.tensor(W),requires_grad=True)
-            # LL.bias = Parameter(torch.tensor(bt),requires_grad=True)
+            # LL.bias = Parameter(torch.tensor(bt),requires_grad=True) 
+            '''
             if self.quantization_flag: # TODO recheck intentionally reverse logic updated: checked 
                 QuantLnr = QuantLinear( 
                     weight_bit = 16, 
@@ -270,20 +271,25 @@ class DLRM_Net(nn.Module):
                 layers.append(QuantLnr) 
             else: 
                 layers.append(LL) 
-
+            ''' 
+            layers.append(LL) 
             # construct sigmoid or relu operator
             if i == sigmoid_layer:
                 layers.append(nn.Sigmoid())
             else:
-                layers.append(nn.ReLU())
+                layers.append(nn.ReLU()) 
+                layers.append(QuantAct) 
 
         # approach 1: use ModuleList
         # return layers
         # approach 2: use Sequential container to wrap all layers 
+        '''
         if not self.quantization_flag: # TODO recheck intentionally reversed logic updated: checked 
             return torch.nn.Sequential(*layers) 
         else: 
             return layers 
+        ''' 
+        return torch.nn.Sequential(*layers) 
 
     def create_emb(self, m, ln, weighted_pooling=None):
         emb_l = nn.ModuleList()
@@ -476,6 +482,7 @@ class DLRM_Net(nn.Module):
         #     x = layer(x)
         # return x
         # approach 2: use Sequential container to wrap all layers 
+        '''
         if not self.quantization_flag: # TODO recheck intentional reverse logic updated: check 
             return layers(x) 
         else: 
@@ -491,6 +498,8 @@ class DLRM_Net(nn.Module):
                         print(x) 
                     x = layer(x) 
             return x 
+        ''' 
+        return layers(x) 
 
     def apply_emb(self, lS_o, lS_i, emb_l, v_W_l, test_mode = False): 
         # WARNING: notice that we are processing the batch at once. We implicitly
@@ -663,16 +672,18 @@ class DLRM_Net(nn.Module):
             elif self.arch_interaction_op == "cat": 
                 # concatenation is copied 
                 R = torch.cat([x] + ly, dim=1) 
-
+        '''
         if not self.quantization_flag:  # recheck intentional reverse logic updated: check 
             return R 
         else: 
             R, feature_scaling_factor_at_bmlp = self.quant_feature_outputs(R) 
             return R, feature_scaling_factor_at_bmlp 
+        ''' 
+        return R 
 
 
     def forward(self, dense_x, lS_o, lS_i, test_mode = False): 
-        if not self.quantization_flag: 
+        if not self.quantization_flag or True: 
             # process dense features (using bottom mlp), resulting in a row vector
             x = self.apply_mlp(dense_x, self.bot_l)
             # debug prints
@@ -699,6 +710,7 @@ class DLRM_Net(nn.Module):
 
             print(z) 
             return z 
+        '''
         else: 
             x, act_scaling_factor = self.quant_input(dense_x) 
             if act_scaling_factor is None: 
@@ -707,19 +719,14 @@ class DLRM_Net(nn.Module):
             ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
             z, feature_scaling_factor = self.interact_features(x, ly) 
             p = self.apply_mlp(z, self.top_l, prev_act_scaling_factor = feature_scaling_factor) 
-            '''
-            x = self.apply_mlp(x, self.bot_l) 
-            ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
-            z, _ = self.interact_features(x, ly) 
-            p = self.apply_mlp(z, self.top_l) 
-            ''' 
             # copy clamp 
             if 0.0 < self.loss_threshold and self.loss_threshold < 1.0:
-                z = torch.clamp(p, min=self.loss_threshold, max=(1.0 - self.loss_threshold))
+                z = torch.clamp(p, min=self.loss_threshold, max=(1.0 - self.loss_threshold)) 
             else:
                 z = p
 
             return z 
+        ''' 
     
     def documenting_weights_tables(self, path, epoch_num): 
         with torch.no_grad(): 
