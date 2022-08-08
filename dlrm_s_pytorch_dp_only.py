@@ -919,7 +919,7 @@ def run():
     '''
     os.environ['MASTER_ADDR'] = '169.229.49.62' 
     ''' 
-    os.environ['MASTER_ADDR'] = '169.229.49.65' 
+    os.environ['MASTER_ADDR'] = '169.229.49.60' 
     '''
     os.environ['MASTER_PORT'] = '29500' 
     ''' 
