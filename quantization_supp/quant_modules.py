@@ -284,14 +284,14 @@ class QuantEmbeddingBagTwo(Module):
         self.embedding_id = embedding_id  
         
         # weight initialization 
-        '''
         W = np.random.uniform(
             low = -np.sqrt(1/self.num_embeddings), high = np.sqrt(1/self.num_embeddings), size = (self.num_embeddings, self.embedding_dim)
         ).astype(np.float32) 
-        ''' 
+        '''
         W = np.random.normal( 
             loc = 0, scale = 0.03, size = (self.num_embeddings, self.embedding_dim) 
         ).astype(np.float32) 
+        ''' 
         
         # built-in module with embeddingbag 
         self.embedding_bag = nn.EmbeddingBag(self.num_embeddings, self.embedding_dim, mode = "sum", sparse = True) 

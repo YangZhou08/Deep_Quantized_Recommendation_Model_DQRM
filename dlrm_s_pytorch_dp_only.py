@@ -228,7 +228,7 @@ class LRPolicyScheduler(_LRScheduler):
 
 ### define dlrm in PyTorch ###
 class DLRM_Net(nn.Module):
-    def create_mlp(self, ln, sigmoid_layer):
+    def create_mlp(self, ln, sigmoid_layer, quant_linear_layer = False): 
         # build MLP layer by layer
         layers = nn.ModuleList()
         for i in range(0, ln.size - 1):
@@ -261,8 +261,8 @@ class DLRM_Net(nn.Module):
             # approach 3
             # LL.weight = Parameter(torch.tensor(W),requires_grad=True)
             # LL.bias = Parameter(torch.tensor(bt),requires_grad=True) 
-            '''
-            if self.quantization_flag: # TODO recheck intentionally reverse logic updated: checked 
+            if self.quantization_flag and quant_linear_layer: # TODO recheck intentionally reverse logic updated: checked 
+                print("use quant linear in the network") 
                 QuantLnr = QuantLinear( 
                     weight_bit = 16, 
                     bias_bit = 16 
@@ -271,27 +271,19 @@ class DLRM_Net(nn.Module):
                 layers.append(QuantLnr) 
             else: 
                 layers.append(LL) 
-            ''' 
-            layers.append(LL) 
             # construct sigmoid or relu operator
             if i == sigmoid_layer:
-                layers.append(nn.Sigmoid())
+                layers.append(nn.Sigmoid()) 
             else:
                 layers.append(nn.ReLU()) 
-                '''
-                layers.append(QuantAct) 
-                ''' 
 
         # approach 1: use ModuleList
         # return layers
         # approach 2: use Sequential container to wrap all layers 
-        '''
         if not self.quantization_flag: # TODO recheck intentionally reversed logic updated: checked 
             return torch.nn.Sequential(*layers) 
         else: 
             return layers 
-        ''' 
-        return torch.nn.Sequential(*layers) 
 
     def create_emb(self, m, ln, weighted_pooling=None):
         emb_l = nn.ModuleList()
@@ -454,8 +446,11 @@ class DLRM_Net(nn.Module):
                     for w in w_list:
                         self.v_W_l.append(Parameter(w))
                 else:
-                    self.v_W_l = w_list
-            self.bot_l = self.create_mlp(ln_bot, sigmoid_bot)
+                    self.v_W_l = w_list 
+            '''
+            self.bot_l = self.create_mlp(ln_bot, sigmoid_bot) 
+            ''' 
+            self.bot_l = self.create_mlp(ln_bot, sigmoid_bot, quant_linear_layer = True) 
             self.top_l = self.create_mlp(ln_top, sigmoid_top)
 
             # quantization
@@ -484,24 +479,15 @@ class DLRM_Net(nn.Module):
         #     x = layer(x)
         # return x
         # approach 2: use Sequential container to wrap all layers 
-        '''
         if not self.quantization_flag: # TODO recheck intentional reverse logic updated: check 
             return layers(x) 
         else: 
             for layer in layers: 
                 if isinstance(layer, QuantLinear): 
-                    if prev_act_scaling_factor is None: 
-                        print("Warning: find scale None") 
                     x, prev_act_scaling_factor = layer(x, prev_act_scaling_factor) 
                 else: 
-                    if not isinstance(layer, nn.ReLU) and not isinstance(layer, nn.Sigmoid): 
-                        print("Warning, cannot identify QuantLinear") 
-                    if isinstance(layer, nn.Sigmoid): 
-                        print(x) 
                     x = layer(x) 
             return x 
-        ''' 
-        return layers(x) 
 
     def apply_emb(self, lS_o, lS_i, emb_l, v_W_l, test_mode = False): 
         # WARNING: notice that we are processing the batch at once. We implicitly
