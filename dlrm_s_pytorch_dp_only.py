@@ -278,7 +278,9 @@ class DLRM_Net(nn.Module):
                 layers.append(nn.Sigmoid())
             else:
                 layers.append(nn.ReLU()) 
+                '''
                 layers.append(QuantAct) 
+                ''' 
 
         # approach 1: use ModuleList
         # return layers
