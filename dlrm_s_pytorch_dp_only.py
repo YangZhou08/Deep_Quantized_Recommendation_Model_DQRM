@@ -264,8 +264,8 @@ class DLRM_Net(nn.Module):
             if self.quantization_flag and quant_linear_layer: # TODO recheck intentionally reverse logic updated: checked 
                 print("use quant linear in the network") 
                 QuantLnr = QuantLinear( 
-                    weight_bit = 16, 
-                    bias_bit = 16 
+                    weight_bit = self.embedding_bit, 
+                    bias_bit = self.embedding_bit 
                 ) 
                 QuantLnr.set_param(LL) 
                 layers.append(QuantLnr) 
@@ -405,8 +405,8 @@ class DLRM_Net(nn.Module):
             self.modify_feature_interaction = modify_feature_interaction 
 
             if self.quantization_flag: 
-                self.quant_input = QuantAct(activation_bit = 16, act_range_momentum = -1) 
-                self.quant_feature_outputs = QuantAct(fixed_point_quantization = True, activation_bit = 16, act_range_momentum = -1) # recheck activation_bit 
+                self.quant_input = QuantAct(activation_bit = self.embedding_bit, act_range_momentum = -1) 
+                self.quant_feature_outputs = QuantAct(fixed_point_quantization = True, activation_bit = self.embedding_bit, act_range_momentum = -1) # recheck activation_bit 
                 self.register_buffer('feature_xmin', torch.zeros(1)) 
                 self.register_buffer('feature_xmax', torch.zeros(1)) 
                 self.register_buffer('features_scaling_factor', torch.zeros(1)) 
