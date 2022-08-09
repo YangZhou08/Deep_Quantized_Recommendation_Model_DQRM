@@ -63,11 +63,13 @@ class QuantLinear(Module):
         self.out_features = linear.out_features
         self.register_buffer('fc_scaling_factor', torch.zeros(self.out_features))
         self.weight = Parameter(linear.weight.data.clone()) 
+        '''
         print("Before calling") 
         print("weight") 
         print(self.weight) 
         self.register_buffer('weight_integer', torch.zeros_like(self.weight))
-        self.register_buffer('bias_integer', torch.zeros_like(linear.bias))
+        self.register_buffer('bias_integer', torch.zeros_like(linear.bias)) 
+        ''' 
         try:
             self.bias = Parameter(linear.bias.data.clone())
         except AttributeError:
@@ -135,6 +137,7 @@ class QuantLinear(Module):
         correct_output_scale = bias_scaling_factor[0].view(1, -1)
         
         # quantization needs passing on of factors, and recommendation systems have multiple sequantial blocks linear 
+        '''
         print("'''''''''''''''''''' Look inside layer ''''''''''''''''''''") 
         print("x_int") 
         print(x_int[0 : 10]) 
@@ -152,6 +155,7 @@ class QuantLinear(Module):
         print(self.bias_integer) 
         print("bias integer multiplies correct_output_scale") 
         print(self.bias_integer * correct_output_scale) 
+        ''' 
 
         '''
         return ste_round.apply(

@@ -504,6 +504,7 @@ class DLRM_Net(nn.Module):
         for layer in layers: 
             if isinstance(layer, QuantLinear): 
                 x, prev_act_scaling_factor = layer(x, prev_act_scaling_factor) 
+                '''
                 print("ooooooooooooooooooo LAYER {} oooooooooooooooooooo".format(count)) 
                 print("output") 
                 print(x[0 : 10]) 
@@ -516,6 +517,7 @@ class DLRM_Net(nn.Module):
                 print("output") 
                 print(x[0 : 10]) 
                 count += 1 
+            ''' 
             else: 
                 x = layer(x) 
         return x 
