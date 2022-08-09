@@ -280,10 +280,13 @@ class DLRM_Net(nn.Module):
         # approach 1: use ModuleList
         # return layers
         # approach 2: use Sequential container to wrap all layers 
+        '''
         if not self.quantization_flag: # TODO recheck intentionally reversed logic updated: checked 
             return torch.nn.Sequential(*layers) 
         else: 
             return layers 
+        ''' 
+        return layers 
 
     def create_emb(self, m, ln, weighted_pooling=None):
         emb_l = nn.ModuleList()
@@ -479,6 +482,7 @@ class DLRM_Net(nn.Module):
         #     x = layer(x)
         # return x
         # approach 2: use Sequential container to wrap all layers 
+        '''
         count = 0 
         if not self.quantization_flag: # TODO recheck intentional reverse logic updated: check 
             return layers(x) 
@@ -495,6 +499,28 @@ class DLRM_Net(nn.Module):
                 else: 
                     x = layer(x) 
             return x 
+        ''' 
+        count = 0 
+        for layer in layers: 
+            if isinstance(layer, QuantLinear): 
+                x, prev_act_scaling_factor = layer(x, prev_act_scaling_factor) 
+                print("ooooooooooooooooooo LAYER {} oooooooooooooooooooo".format(count)) 
+                print("output") 
+                print(x) 
+                print("scale") 
+                print(prev_act_scaling_factor) 
+                count += 1 
+            elif isinstance(layer, nn.Linear): 
+                x = layer(x) 
+                print("ooooooooooooooooooo LAYER {} oooooooooooooooooooo".format(count)) 
+                print("output") 
+                print(x) 
+                print("scale") 
+                print(prev_act_scaling_factor) 
+                count += 1 
+            else: 
+                x = layer(x) 
+        return x 
 
     def apply_emb(self, lS_o, lS_i, emb_l, v_W_l, test_mode = False): 
         # WARNING: notice that we are processing the batch at once. We implicitly
