@@ -261,7 +261,7 @@ class DLRM_Net(nn.Module):
             # approach 3
             # LL.weight = Parameter(torch.tensor(W),requires_grad=True)
             # LL.bias = Parameter(torch.tensor(bt),requires_grad=True) 
-            if self.quantization_flag and quant_linear_layer: # TODO recheck intentionally reverse logic updated: checked 
+            if self.quantization_flag and quant_linear_layer and i == 0: # TODO recheck intentionally reverse logic updated: checked 
                 print("use quant linear in the network") 
                 QuantLnr = QuantLinear( 
                     weight_bit = 16, 
