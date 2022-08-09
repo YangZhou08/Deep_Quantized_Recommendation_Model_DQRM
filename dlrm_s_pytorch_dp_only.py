@@ -479,12 +479,15 @@ class DLRM_Net(nn.Module):
         #     x = layer(x)
         # return x
         # approach 2: use Sequential container to wrap all layers 
+        count = 0 
         if not self.quantization_flag: # TODO recheck intentional reverse logic updated: check 
             return layers(x) 
         else: 
             for layer in layers: 
                 if isinstance(layer, QuantLinear): 
                     x, prev_act_scaling_factor = layer(x, prev_act_scaling_factor) 
+                    print("oooooooooooooooooo LAYER {} ooooooooooooooooo".format(count)) 
+                    count += 1 
                 else: 
                     x = layer(x) 
             return x 
