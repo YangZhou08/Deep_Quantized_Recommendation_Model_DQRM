@@ -454,7 +454,7 @@ class DLRM_Net(nn.Module):
             self.bot_l = self.create_mlp(ln_bot, sigmoid_bot) 
             ''' 
             self.bot_l = self.create_mlp(ln_bot, sigmoid_bot, quant_linear_layer = True) 
-            self.top_l = self.create_mlp(ln_top, sigmoid_bot, quant_linear_layer = True) 
+            self.top_l = self.create_mlp(ln_top, sigmoid_top, quant_linear_layer = True) 
 
             # quantization
             self.quantize_emb = False
