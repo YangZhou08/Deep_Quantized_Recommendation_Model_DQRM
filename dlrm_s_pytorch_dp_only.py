@@ -685,7 +685,7 @@ class DLRM_Net(nn.Module):
                     print("Z_integer * (feature_scaling_factor ** 2)") 
                     print(Z[0 : 10]) 
                     print("T dot production with T") 
-                    print(torch.bmm(T, torch.transpose(T, 1, 2))) 
+                    print(torch.bmm(T, torch.transpose(T, 1, 2))[0 : 10]) 
 
                 # incorporate features are copied 
                 _, ni, nj = Z.shape
