@@ -683,7 +683,7 @@ class DLRM_Net(nn.Module):
 
                 with torch.no_grad(): 
                     print("Z_integer * (feature_scaling_factor ** 2)") 
-                    print(Z) 
+                    print(Z[0 : 10]) 
                     print("T dot production with T") 
                     print(torch.bmm(T, torch.transpose(T, 1, 2))) 
 
