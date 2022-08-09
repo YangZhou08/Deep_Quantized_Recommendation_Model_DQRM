@@ -790,7 +790,8 @@ def dash_separated_floats(value):
     return value
    
 def run(): 
-    ### parse arguments ###
+    ### parse arguments ### 
+    torch.set_printoptions(linewidth = 200) 
     parser = argparse.ArgumentParser(
         description="Train Deep Learning Recommendation Model (DLRM)"
     )
