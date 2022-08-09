@@ -659,19 +659,23 @@ class DLRM_Net(nn.Module):
                 T = torch.cat([x] + ly, dim = 1).view((batch_size, -1, d)) 
                 x_min = T.data.min() 
                 x_max = T.data.max() 
-
+                '''
                 # Initialization 
                 if self.feature_xmin == self.feature_xmax: 
                     self.feature_xmin += x_min 
                     self.feature_xmax += x_max 
+                
                 else: 
                     self.feature_xmin = self.feature_xmin * 0.95 + x_min * (1 - 0.95) 
                     self.feature_xmax = self.feature_xmax * 0.95 + x_max * (1 - 0.95) 
+                ''' 
+                self.feature_xmin = x_min 
+                self.feature_xmax = x_max 
             
                 # finding scale 
                 self.feature_scaling_factor = symmetric_linear_quantization_params(4, self.feature_xmin, self.feature_xmax, False) 
 
-                T_integers = SymmetricQuantFunction.apply(T, 4, self.feature_scaling_factor) # TODO recheck activation_bit 
+                T_integers = SymmetricQuantFunction.apply(T, 16, self.feature_scaling_factor) # TODO recheck activation_bit 
 
                 Z_integers = torch.bmm(T_integers, torch.transpose(T_integers, 1, 2)) 
 
