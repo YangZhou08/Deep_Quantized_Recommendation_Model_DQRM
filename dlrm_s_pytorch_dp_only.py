@@ -631,7 +631,7 @@ class DLRM_Net(nn.Module):
                 # li, lj = torch.tril_indices(ni, nj, offset=offset)
                 # approach 2: custom
                 offset = 1 if self.arch_interaction_itself else 0
-                li = torch.tensor([i for i in range(ni) for j in range(i + offset)])
+                li = torch.tensor([i for i in range(ni) for j in range(i + offset)]) 
                 lj = torch.tensor([j for i in range(nj) for j in range(i + offset)])
                 Zflat = Z[:, li, lj]
                 # concatenate dense features and interactions
@@ -680,6 +680,12 @@ class DLRM_Net(nn.Module):
                 Z_integers = torch.bmm(T_integers, torch.transpose(T_integers, 1, 2)) 
 
                 Z = Z_integers * (self.feature_scaling_factor ** 2) 
+
+                with torch.no_grad(): 
+                    print("Z_integer * (feature_scaling_factor ** 2)") 
+                    print(Z) 
+                    print("T dot production with T") 
+                    print(torch.bmm(T, torch.transpose(T, 1, 2))) 
 
                 # incorporate features are copied 
                 _, ni, nj = Z.shape
