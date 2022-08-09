@@ -264,8 +264,8 @@ class DLRM_Net(nn.Module):
             if self.quantization_flag and quant_linear_layer: # TODO recheck intentionally reverse logic updated: checked 
                 print("use quant linear in the network") 
                 QuantLnr = QuantLinear( 
-                    weight_bit = self.embedding_bit, 
-                    bias_bit = self.embedding_bit 
+                    weight_bit = self.weight_bit, 
+                    bias_bit = self.weight_bit 
                 ) 
                 QuantLnr.set_param(LL) 
                 layers.append(QuantLnr) 
@@ -376,7 +376,8 @@ class DLRM_Net(nn.Module):
         loss_function="bce", 
         quantization_flag = False, 
         embedding_bit = 32, 
-        modify_feature_interaction = False 
+        modify_feature_interaction = False, 
+        weight_bit = 8 
     ): 
         super(DLRM_Net, self).__init__()
 
@@ -403,10 +404,11 @@ class DLRM_Net(nn.Module):
             self.quantization_flag = quantization_flag 
             self.embedding_bit = embedding_bit 
             self.modify_feature_interaction = modify_feature_interaction 
+            self.weight_bit = weight_bit 
 
             if self.quantization_flag: 
-                self.quant_input = QuantAct(activation_bit = self.embedding_bit, act_range_momentum = -1) 
-                self.quant_feature_outputs = QuantAct(fixed_point_quantization = True, activation_bit = self.embedding_bit, act_range_momentum = -1) # recheck activation_bit 
+                self.quant_input = QuantAct(activation_bit = self.weight_bit, act_range_momentum = -1) 
+                self.quant_feature_outputs = QuantAct(fixed_point_quantization = True, activation_bit = self.weight_bit, act_range_momentum = -1) # recheck activation_bit 
                 self.register_buffer('feature_xmin', torch.zeros(1)) 
                 self.register_buffer('feature_xmax', torch.zeros(1)) 
                 self.register_buffer('features_scaling_factor', torch.zeros(1)) 
@@ -823,6 +825,7 @@ def run():
     # quantization options args 
     parser.add_argument("--quantization_flag", action = "store_true", default = False) 
     parser.add_argument("--embedding_bit", type = int, default = None) 
+    parser.add_argument("--weight_bit", type = int, default = None) 
     # activations and loss
     parser.add_argument("--activation-function", type=str, default="relu")
     parser.add_argument("--loss-function", type=str, default="mse")  # or bce or wbce
@@ -1447,7 +1450,8 @@ def train(gpu, args):
         loss_function=args.loss_function, 
         quantization_flag = args.quantization_flag, 
         embedding_bit = args.embedding_bit, 
-        modify_feature_interaction = args.modify_feature_interaction 
+        modify_feature_interaction = args.modify_feature_interaction, 
+        weight_bit = args.weight_bit 
     ) 
 
     global path_log 
