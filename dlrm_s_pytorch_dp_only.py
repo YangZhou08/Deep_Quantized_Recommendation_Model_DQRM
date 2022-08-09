@@ -506,7 +506,7 @@ class DLRM_Net(nn.Module):
                 x, prev_act_scaling_factor = layer(x, prev_act_scaling_factor) 
                 print("ooooooooooooooooooo LAYER {} oooooooooooooooooooo".format(count)) 
                 print("output") 
-                print(x) 
+                print(x[0 : 10]) 
                 print("scale") 
                 print(prev_act_scaling_factor) 
                 count += 1 
@@ -514,7 +514,7 @@ class DLRM_Net(nn.Module):
                 x = layer(x) 
                 print("ooooooooooooooooooo LAYER {} oooooooooooooooooooo".format(count)) 
                 print("output") 
-                print(x) 
+                print(x[0 : 10]) 
                 count += 1 
             else: 
                 x = layer(x) 
@@ -732,7 +732,7 @@ class DLRM_Net(nn.Module):
             else: 
                 print("oooooooooooooooooooo First oooooooooooooooooooo") 
                 print("output") 
-                print(x) 
+                print(x[0 : 10]) 
                 print("scale") 
                 print(act_scaling_factor) 
             x = self.apply_mlp(x, self.bot_l, prev_act_scaling_factor = act_scaling_factor) 
