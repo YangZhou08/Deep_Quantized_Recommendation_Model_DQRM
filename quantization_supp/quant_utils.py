@@ -319,9 +319,10 @@ class SymmetricQuantFunction(Function):
             raise ValueError("The SymmetricQuantFunction requires a pre-calculated scaling factor")
 
         zero_point = torch.tensor(0.).cuda()
-
+        '''
         new_quant_x = linear_quantize(x, scale, zero_point, inplace = True) 
-
+        ''' 
+        new_quant_x = linear_quantize(x, scale, zero_point, inplace = False) 
         new_quant_x = torch.clamp(new_quant_x, -n - 1, n)
 
         ctx.scale = scale
