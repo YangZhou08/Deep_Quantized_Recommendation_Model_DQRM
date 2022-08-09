@@ -791,7 +791,6 @@ def dash_separated_floats(value):
    
 def run(): 
     ### parse arguments ### 
-    torch.set_printoptions(linewidth = 200) 
     parser = argparse.ArgumentParser(
         description="Train Deep Learning Recommendation Model (DLRM)"
     )
@@ -1200,6 +1199,7 @@ def train(gpu, args):
     torch.cuda.set_device(gpu) # TODO think about using cpu and change code 
     batch_size = args.mini_batch_size # TODO recheck the batch_size and run the script again 
 
+    torch.set_printoptions(linewidth = 200) 
     global full_precision_flag 
     full_precision_flag = args.pretrain_and_quantize 
     
