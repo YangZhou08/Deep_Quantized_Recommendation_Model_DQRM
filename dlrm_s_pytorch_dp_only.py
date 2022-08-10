@@ -682,6 +682,10 @@ class DLRM_Net(nn.Module):
                 Z = Z_integers * (self.feature_scaling_factor ** 2) 
 
                 with torch.no_grad(): 
+                    print("max bound") 
+                    print(self.feature_xmax) 
+                    print("min bound") 
+                    print(self.feature_xmin) 
                     print("Z_integer * (feature_scaling_factor ** 2)") 
                     print(Z[0 : 10]) 
                     print("T dot production with T") 
