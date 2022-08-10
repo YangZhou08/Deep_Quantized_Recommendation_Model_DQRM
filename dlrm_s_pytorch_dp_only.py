@@ -673,14 +673,14 @@ class DLRM_Net(nn.Module):
                 self.feature_xmax = x_max 
             
                 # finding scale 
-                self.feature_scaling_factor = symmetric_linear_quantization_params(16, self.feature_xmin, self.feature_xmax, False) 
+                self.feature_scaling_factor = symmetric_linear_quantization_params(8, self.feature_xmin, self.feature_xmax, False) 
 
-                T_integers = SymmetricQuantFunction.apply(T, 16, self.feature_scaling_factor) # TODO recheck activation_bit 
+                T_integers = SymmetricQuantFunction.apply(T, 8, self.feature_scaling_factor) # TODO recheck activation_bit 
 
                 Z_integers = torch.bmm(T_integers, torch.transpose(T_integers, 1, 2)) 
 
                 Z = Z_integers * (self.feature_scaling_factor ** 2) 
-                '''
+
                 with torch.no_grad(): 
                     print("max bound") 
                     print(self.feature_xmax) 
@@ -690,7 +690,7 @@ class DLRM_Net(nn.Module):
                     print(Z[0 : 10]) 
                     print("T dot production with T") 
                     print(torch.bmm(T, torch.transpose(T, 1, 2))[0 : 10]) 
-                ''' 
+                
                 # incorporate features are copied 
                 _, ni, nj = Z.shape
                 # approach 1: tril_indices
