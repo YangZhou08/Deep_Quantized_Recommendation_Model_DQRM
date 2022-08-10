@@ -673,7 +673,7 @@ class DLRM_Net(nn.Module):
                 self.feature_xmax = x_max 
             
                 # finding scale 
-                self.feature_scaling_factor = symmetric_linear_quantization_params(4, self.feature_xmin, self.feature_xmax, False) 
+                self.feature_scaling_factor = symmetric_linear_quantization_params(16, self.feature_xmin, self.feature_xmax, False) 
 
                 T_integers = SymmetricQuantFunction.apply(T, 16, self.feature_scaling_factor) # TODO recheck activation_bit 
 
