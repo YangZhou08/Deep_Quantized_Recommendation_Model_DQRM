@@ -953,7 +953,9 @@ def run():
     global args
     global nbatches
     global nbatches_test
-    global writer
+    global writer 
+    global change_bitw 
+    global change_bitw2 
     args = parser.parse_args() 
     
     if args.test_mini_batch_size < 0:
