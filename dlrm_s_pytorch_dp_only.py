@@ -511,6 +511,7 @@ class DLRM_Net(nn.Module):
                 if change_bitw: 
                     self.weight_bit = change_bitw2 
                     layer.weight_bit = change_bitw2 
+                    layer.bias_bit = change_bitw2 
                     change_bitw = False 
                     print("change bit width to {}".format(change_bitw2)) 
 
@@ -1239,7 +1240,7 @@ def train(gpu, args):
     global change_bitw 
     global change_bitw2 
     change_bitw = False 
-    change_bitw2 = args.weight_bit 
+    change_bitw2 = 8 
     
     use_gpu = args.use_gpu and torch.cuda.is_available() 
     '''
@@ -1646,7 +1647,10 @@ def train(gpu, args):
             if args.linear_shift_down_bit_width: 
                 if k == 1: 
                     change_bitw = True 
-                    change_bitw2 = 4 
+                    change_bitw = 8 
+                elif k == 2: 
+                    change_bitw = True 
+                    change_bitw = args.weight_bit 
             if k < skip_upto_epoch: 
                 continue 
             for j, inputBatch in enumerate(train_loader): 
