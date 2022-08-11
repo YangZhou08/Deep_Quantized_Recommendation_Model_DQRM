@@ -509,6 +509,7 @@ class DLRM_Net(nn.Module):
             if isinstance(layer, QuantLinear): 
                 global change_bitw, change_bitw2 
                 if change_bitw: 
+                    self.weight_bit = change_bitw2 
                     layer.weight_bit = change_bitw2 
                     change_bitw = False 
                     print("change bit width to {}".format(change_bitw2)) 
@@ -1481,7 +1482,7 @@ def train(gpu, args):
         quantization_flag = args.quantization_flag, 
         embedding_bit = args.embedding_bit, 
         modify_feature_interaction = args.modify_feature_interaction, 
-        weight_bit = args.weight_bit 
+        weight_bit = 16 
     ) 
 
     global path_log 
