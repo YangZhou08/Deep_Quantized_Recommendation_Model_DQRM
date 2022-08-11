@@ -1482,7 +1482,7 @@ def train(gpu, args):
         quantization_flag = args.quantization_flag, 
         embedding_bit = args.embedding_bit, 
         modify_feature_interaction = args.modify_feature_interaction, 
-        weight_bit = 16 
+        weight_bit = 16 if args.linear_shift_down_bit_width else args.weight_bit 
     ) 
 
     global path_log 
