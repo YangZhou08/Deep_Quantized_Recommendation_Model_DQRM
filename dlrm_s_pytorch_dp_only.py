@@ -1237,7 +1237,7 @@ def train(gpu, args):
 
     global change_bitw 
     global change_bitw2 
-    change_bitw = args.linear_shift_down_bitwidth 
+    change_bitw = False 
     change_bitw2 = args.weight_bit 
     
     use_gpu = args.use_gpu and torch.cuda.is_available() 
