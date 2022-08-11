@@ -266,8 +266,8 @@ class DLRM_Net(nn.Module):
             if self.quantization_flag and quant_linear_layer: # TODO recheck intentionally reverse logic updated: checked 
                 print("use quant linear, input {}, output {}, weight_bit {}".format(n, m, self.weight_bit)) 
                 QuantLnr = QuantLinear( 
-                    weight_bit = 16, 
-                    bias_bit = 16 
+                    weight_bit = self.weight_bit, 
+                    bias_bit = self.weight_bit 
                 ) 
                 QuantLnr.set_param(LL) 
                 layers.append(QuantLnr) 
