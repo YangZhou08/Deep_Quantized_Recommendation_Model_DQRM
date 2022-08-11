@@ -1229,7 +1229,7 @@ def train(gpu, args):
     
     torch.manual_seed(0) 
     torch.cuda.set_device(gpu) # TODO think about using cpu and change code 
-    batch_size = args.mini_batch_size # TODO recheck the batch_size and run the script again 
+    batch_size = int(args.mini_batch_size / rank) # TODO recheck the batch_size and run the script again 
 
     torch.set_printoptions(profile = "full") 
     global full_precision_flag 
