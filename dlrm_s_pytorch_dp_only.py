@@ -1647,10 +1647,12 @@ def train(gpu, args):
             if args.linear_shift_down_bit_width: 
                 if k == 1: 
                     change_bitw = True 
-                    change_bitw = 8 
+                    change_bitw2 = args.weight_bit 
+                '''
                 elif k == 2: 
                     change_bitw = True 
                     change_bitw = args.weight_bit 
+                ''' 
             if k < skip_upto_epoch: 
                 continue 
             for j, inputBatch in enumerate(train_loader): 
