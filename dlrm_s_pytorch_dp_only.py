@@ -1644,7 +1644,6 @@ def train(gpu, args):
                 print("Using {}-bit precision".format(int(args.embedding_bit)) if args.embedding_bit is not None else "Still using full precision") 
             if args.linear_shift_down_bit_width: 
                 if k == 1: 
-                    global change_bitw, change_bitw2 
                     change_bitw = True 
                     change_bitw2 = 4 
             if k < skip_upto_epoch: 
