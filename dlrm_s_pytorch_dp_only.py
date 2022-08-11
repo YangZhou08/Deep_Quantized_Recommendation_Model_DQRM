@@ -128,6 +128,8 @@ best_auc_test = 0
 full_precision_flag = True 
 path_log = None 
 iteration_num = 0 
+change_bitw = False 
+change_bitw2 = 4 
 
 exc = getattr(builtins, "IOError", "FileNotFoundError")
 
@@ -264,8 +266,8 @@ class DLRM_Net(nn.Module):
             if self.quantization_flag and quant_linear_layer: # TODO recheck intentionally reverse logic updated: checked 
                 print("use quant linear, input {}, output {}, weight_bit {}".format(n, m, self.weight_bit)) 
                 QuantLnr = QuantLinear( 
-                    weight_bit = self.weight_bit, 
-                    bias_bit = self.weight_bit 
+                    weight_bit = 16, 
+                    bias_bit = 16 
                 ) 
                 QuantLnr.set_param(LL) 
                 layers.append(QuantLnr) 
@@ -505,6 +507,12 @@ class DLRM_Net(nn.Module):
         count = 0 
         for layer in layers: 
             if isinstance(layer, QuantLinear): 
+                global change_bitw, change_bitw2 
+                if change_bitw: 
+                    layer.weight_bit = change_bitw2 
+                    change_bitw = False 
+                    print("change bit width to {}".format(change_bitw2)) 
+
                 x, prev_act_scaling_factor = layer(x, prev_act_scaling_factor) 
                 '''
                 print("ooooooooooooooooooo LAYER {} oooooooooooooooooooo".format(count)) 
@@ -933,6 +941,7 @@ def run():
     parser.add_argument("--investigating-inputs", action = "store_true", default = False) 
     parser.add_argument("--pretrain_and_quantize", action = "store_true", default = False) 
     parser.add_argument("--modify_feature_interaction", action = "store_true", default = False) 
+    parser.add_argument("--linear_shift_down_bit_width", action = "store_true", default = False) 
     parser.add_argument("--documenting_table_weight", action = "store_true", default = False) 
     parser.add_argument('-n', '--nodes', default=1,
                         type=int, metavar='N')
@@ -958,7 +967,7 @@ def run():
     '''
     os.environ['MASTER_ADDR'] = '169.229.49.62' 
     ''' 
-    os.environ['MASTER_ADDR'] = '169.229.49.63' 
+    os.environ['MASTER_ADDR'] = '169.229.49.60' 
     '''
     os.environ['MASTER_PORT'] = '29500' 
     ''' 
@@ -1223,6 +1232,9 @@ def train(gpu, args):
     torch.set_printoptions(profile = "full") 
     global full_precision_flag 
     full_precision_flag = args.pretrain_and_quantize 
+
+    global change_bitw2 
+    change_bitw2 = args.weight_bit 
     
     use_gpu = args.use_gpu and torch.cuda.is_available() 
     '''
@@ -1626,6 +1638,11 @@ def train(gpu, args):
                 # one epoch of pretraining and one epoch of quantization-aware training 
                 full_precision_flag = False 
                 print("Using {}-bit precision".format(int(args.embedding_bit)) if args.embedding_bit is not None else "Still using full precision") 
+            if args.linear_shift_down_bit_width: 
+                if k == 1: 
+                    global change_bitw, change_bitw2 
+                    change_bitw = True 
+                    change_bitw2 = 4 
             if k < skip_upto_epoch: 
                 continue 
             for j, inputBatch in enumerate(train_loader): 
