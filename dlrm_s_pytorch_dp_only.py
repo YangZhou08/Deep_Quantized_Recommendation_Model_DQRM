@@ -975,7 +975,7 @@ def run():
     '''
     os.environ['MASTER_PORT'] = '29500' 
     ''' 
-    os.environ['MASTER_PORT'] = '29572' 
+    os.environ['MASTER_PORT'] = '29573' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
   
@@ -1647,12 +1647,10 @@ def train(gpu, args):
             if args.linear_shift_down_bit_width: 
                 if k == 1: 
                     change_bitw = True 
-                    change_bitw2 = args.weight_bit 
-                '''
+                    change_bitw2 = 8 
                 elif k == 2: 
                     change_bitw = True 
-                    change_bitw = args.weight_bit 
-                ''' 
+                    change_bitw2 = args.weight_bit 
             if k < skip_upto_epoch: 
                 continue 
             for j, inputBatch in enumerate(train_loader): 
