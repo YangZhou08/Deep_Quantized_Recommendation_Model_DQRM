@@ -379,8 +379,8 @@ class DLRM_Net(nn.Module):
         quantization_flag = False, 
         embedding_bit = 32, 
         modify_feature_interaction = False, 
-        weight_bit = 8 
-    ): 
+        weight_bit = 8, 
+        quantize_act_and_lin = False): 
         super(DLRM_Net, self).__init__()
 
         if (
@@ -945,6 +945,7 @@ def run():
     parser.add_argument("--modify_feature_interaction", action = "store_true", default = False) 
     parser.add_argument("--linear_shift_down_bit_width", action = "store_true", default = False) 
     parser.add_argument("--documenting_table_weight", action = "store_true", default = False) 
+    parser.add_argument("--lin_and_act_pretrain_and_quantize", action = "store_true", default = False) 
     parser.add_argument('-n', '--nodes', default=1,
                         type=int, metavar='N')
     parser.add_argument('-g', '--gpus', default=1, type=int,
