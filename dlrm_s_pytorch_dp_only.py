@@ -267,8 +267,7 @@ class DLRM_Net(nn.Module):
                 print("use quant linear, input {}, output {}, weight_bit {}".format(n, m, self.weight_bit)) 
                 QuantLnr = QuantLinear( 
                     weight_bit = self.weight_bit, 
-                    bias_bit = self.weight_bit, 
-                    full_precision_flag = not self.quantize_act_and_lin 
+                    bias_bit = self.weight_bit 
                 ) 
                 QuantLnr.set_param(LL) 
                 layers.append(QuantLnr) 
