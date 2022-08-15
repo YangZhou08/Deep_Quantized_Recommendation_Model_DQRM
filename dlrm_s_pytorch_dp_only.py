@@ -267,7 +267,8 @@ class DLRM_Net(nn.Module):
                 print("use quant linear, input {}, output {}, weight_bit {}".format(n, m, self.weight_bit)) 
                 QuantLnr = QuantLinear( 
                     weight_bit = self.weight_bit, 
-                    bias_bit = self.weight_bit 
+                    bias_bit = self.weight_bit, 
+                    full_precision_flag = not self.quantize_act_and_lin 
                 ) 
                 QuantLnr.set_param(LL) 
                 layers.append(QuantLnr) 
@@ -407,6 +408,7 @@ class DLRM_Net(nn.Module):
             self.embedding_bit = embedding_bit 
             self.modify_feature_interaction = modify_feature_interaction 
             self.weight_bit = weight_bit 
+            self.quantize_act_and_lin = quantize_act_and_lin 
 
             if self.quantization_flag: 
                 self.quant_input = QuantAct(activation_bit = self.weight_bit, act_range_momentum = -1) 

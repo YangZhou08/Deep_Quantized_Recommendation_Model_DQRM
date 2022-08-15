@@ -62,6 +62,7 @@ class QuantLinear(Module):
         self.in_features = linear.in_features
         self.out_features = linear.out_features
         self.register_buffer('fc_scaling_factor', torch.zeros(self.out_features))
+        self.register_buffer('correct_output_scale', torch.ones(self.out_features)) 
         self.weight = Parameter(linear.weight.data.clone()) 
         '''
         print("Before calling") 
@@ -132,9 +133,9 @@ class QuantLinear(Module):
         if prev_act_scaling_factor is not None: 
             prev_act_scaling_factor = prev_act_scaling_factor.view(1, -1)
             x_int = x / prev_act_scaling_factor 
+            correct_output_scale = bias_scaling_factor[0].view(1, -1) 
         else: 
             x_int = x 
-        correct_output_scale = bias_scaling_factor[0].view(1, -1)
         
         # quantization needs passing on of factors, and recommendation systems have multiple sequantial blocks linear 
         '''
@@ -162,8 +163,8 @@ class QuantLinear(Module):
             F.linear(x_int, weight=self.weight_integer, bias=self.bias_integer)) * correct_output_scale 
         ''' 
         return ste_round.apply(
-            F.linear(x_int, weight = self.weight_integer, bias = self.bias_integer) 
-        ) * correct_output_scale, correct_output_scale 
+                F.linear(x_int, weight = self.weight_integer, bias = self.bias_integer) 
+            ) * correct_output_scale, correct_output_scale 
         
 
 class QuantEmbeddingBagThree(Module): 
