@@ -85,86 +85,86 @@ class QuantLinear(Module):
     def forward(self, x, prev_act_scaling_factor=None):
         """
         using quantized weights to forward activation x
-        """
-        if type(x) is tuple:
-            prev_act_scaling_factor = x[1]
-            x = x[0]
+        """ 
+        if not self.full_precision_flag: 
+            if type(x) is tuple:
+                prev_act_scaling_factor = x[1]
+                x = x[0]
 
-        if self.quant_mode == "symmetric":
-            self.weight_function = SymmetricQuantFunction.apply
-        elif self.quant_mode == "asymmetric":
-            self.weight_function = AsymmetricQuantFunction.apply
-        else:
-            raise ValueError("unknown quant mode: {}".format(self.quant_mode))
-
-        w = self.weight
-        w_transform = w.data.detach()
-        # calculate the quantization range of weights and bias
-        if self.per_channel:
-            w_min, _ = torch.min(w_transform, dim=1, out=None)
-            w_max, _ = torch.max(w_transform, dim=1, out=None)
-            if self.quantize_bias:
-                b_min = self.bias.data
-                b_max = self.bias.data
-        else:
-            w_min = w_transform.min().expand(1)
-            w_max = w_transform.max().expand(1)
-            if self.quantize_bias:
-                b_min = self.bias.data.min()
-                b_max = self.bias.data.max()
-
-        # perform the quantization
-        if not self.full_precision_flag:
-            if self.quant_mode == 'symmetric':
-                self.fc_scaling_factor = symmetric_linear_quantization_params(self.weight_bit, w_min, w_max,
-                                                                              self.per_channel)
-                self.weight_integer = self.weight_function(self.weight, self.weight_bit, self.fc_scaling_factor)
-                if prev_act_scaling_factor is not None: 
-                    bias_scaling_factor = self.fc_scaling_factor.view(1, -1) * prev_act_scaling_factor.view(1, -1) 
-                else: 
-                    bias_scaling_factor = self.fc_scaling_factor.view(1, -1) 
-                self.bias_integer = self.weight_function(self.bias, self.bias_bit, bias_scaling_factor)
+            if self.quant_mode == "symmetric":
+                self.weight_function = SymmetricQuantFunction.apply
+            elif self.quant_mode == "asymmetric":
+                self.weight_function = AsymmetricQuantFunction.apply
             else:
-                raise Exception('For weight, we only support symmetric quantization.')
-        else:
-            self.weight_integer = self.weight 
-            self.bias_integer = self.bias 
+                raise ValueError("unknown quant mode: {}".format(self.quant_mode))
 
-        if prev_act_scaling_factor is not None: 
-            prev_act_scaling_factor = prev_act_scaling_factor.view(1, -1)
-            x_int = x / prev_act_scaling_factor 
-            correct_output_scale = bias_scaling_factor[0].view(1, -1) 
-        else: 
-            x_int = x 
+            w = self.weight
+            w_transform = w.data.detach()
+            # calculate the quantization range of weights and bias
+            if self.per_channel:
+                w_min, _ = torch.min(w_transform, dim=1, out=None)
+                w_max, _ = torch.max(w_transform, dim=1, out=None)
+                if self.quantize_bias:
+                    b_min = self.bias.data
+                    b_max = self.bias.data
+            else:
+                w_min = w_transform.min().expand(1)
+                w_max = w_transform.max().expand(1)
+                if self.quantize_bias:
+                    b_min = self.bias.data.min()
+                    b_max = self.bias.data.max()
+
+            # perform the quantization
+            if not self.full_precision_flag:
+                if self.quant_mode == 'symmetric':
+                    self.fc_scaling_factor = symmetric_linear_quantization_params(self.weight_bit, w_min, w_max,
+                                                                                self.per_channel)
+                    self.weight_integer = self.weight_function(self.weight, self.weight_bit, self.fc_scaling_factor)
+                    if prev_act_scaling_factor is not None: 
+                        bias_scaling_factor = self.fc_scaling_factor.view(1, -1) * prev_act_scaling_factor.view(1, -1) 
+                    else: 
+                        bias_scaling_factor = self.fc_scaling_factor.view(1, -1) 
+                    self.bias_integer = self.weight_function(self.bias, self.bias_bit, bias_scaling_factor)
+                else:
+                    raise Exception('For weight, we only support symmetric quantization.') 
+
+            if prev_act_scaling_factor is not None: 
+                prev_act_scaling_factor = prev_act_scaling_factor.view(1, -1)
+                x_int = x / prev_act_scaling_factor 
+                correct_output_scale = bias_scaling_factor[0].view(1, -1) 
+            else: 
+                x_int = x 
         
-        # quantization needs passing on of factors, and recommendation systems have multiple sequantial blocks linear 
-        '''
-        print("'''''''''''''''''''' Look inside layer ''''''''''''''''''''") 
-        print("x_int") 
-        print(x_int[0 : 10]) 
-        print("x_int * prev_act_scaling_factor") 
-        print((x_int * prev_act_scaling_factor)[0 : 10]) 
-        print("weight") 
-        print(self.weight) 
-        print("weight_integer") 
-        print(self.weight_integer) 
-        print("weight integer * fc_scaling_factor") 
-        print(self.weight_integer * self.fc_scaling_factor) 
-        print("bias") 
-        print(self.bias) 
-        print("bias integer") 
-        print(self.bias_integer) 
-        print("bias integer multiplies correct_output_scale") 
-        print(self.bias_integer * correct_output_scale) 
-        ''' 
+            # quantization needs passing on of factors, and recommendation systems have multiple sequantial blocks linear 
+            '''
+            print("'''''''''''''''''''' Look inside layer ''''''''''''''''''''") 
+            print("x_int") 
+            print(x_int[0 : 10]) 
+            print("x_int * prev_act_scaling_factor") 
+            print((x_int * prev_act_scaling_factor)[0 : 10]) 
+            print("weight") 
+            print(self.weight) 
+            print("weight_integer") 
+            print(self.weight_integer) 
+            print("weight integer * fc_scaling_factor") 
+            print(self.weight_integer * self.fc_scaling_factor) 
+            print("bias") 
+            print(self.bias) 
+            print("bias integer") 
+            print(self.bias_integer) 
+            print("bias integer multiplies correct_output_scale") 
+            print(self.bias_integer * correct_output_scale) 
+            ''' 
 
-        '''
-        return ste_round.apply(
-            F.linear(x_int, weight=self.weight_integer, bias=self.bias_integer)) * correct_output_scale 
-        ''' 
-        return ste_round.apply(
-                F.linear(x_int, weight = self.weight_integer, bias = self.bias_integer) 
-            ) * correct_output_scale, correct_output_scale 
+            '''
+            return ste_round.apply(
+                F.linear(x_int, weight=self.weight_integer, bias=self.bias_integer)) * correct_output_scale 
+            ''' 
+            return ste_round.apply(
+                    F.linear(x_int, weight = self.weight_integer, bias = self.bias_integer) 
+                ) * correct_output_scale, correct_output_scale 
+        else: 
+            return F.linear(x, weight = self.weight, bias = self.bias), None 
         
 
 # TODO re-check the dimension 

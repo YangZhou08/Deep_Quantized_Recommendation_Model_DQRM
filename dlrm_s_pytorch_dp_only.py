@@ -264,7 +264,7 @@ class DLRM_Net(nn.Module):
             # LL.weight = Parameter(torch.tensor(W),requires_grad=True)
             # LL.bias = Parameter(torch.tensor(bt),requires_grad=True) 
             if self.quantization_flag and quant_linear_layer: # TODO recheck intentionally reverse logic updated: checked 
-                print("use quant linear, input {}, output {}, weight_bit {}".format(n, m, self.weight_bit)) 
+                print("use quant linear, input {}, output {}, quantization bit width {}, use full precision {}".format(n, m, self.weight_bit, "32-bit single precision" if not self.quantize_act_and_lin else "quantized")) 
                 QuantLnr = QuantLinear( 
                     weight_bit = self.weight_bit, 
                     bias_bit = self.weight_bit, 
@@ -954,7 +954,7 @@ def run():
     parser.add_argument("--modify_feature_interaction", action = "store_true", default = False) 
     parser.add_argument("--linear_shift_down_bit_width", action = "store_true", default = False) 
     parser.add_argument("--documenting_table_weight", action = "store_true", default = False) 
-    parser.add_argument("--lin_and_act_pretrain_and_quantize", action = "store_true", default = False) 
+    parser.add_argument("--quantize_act_and_lin", action = "store_true", default = False) 
     parser.add_argument('-n', '--nodes', default=1,
                         type=int, metavar='N')
     parser.add_argument('-g', '--gpus', default=1, type=int,
@@ -1493,7 +1493,8 @@ def train(gpu, args):
         quantization_flag = args.quantization_flag, 
         embedding_bit = args.embedding_bit, 
         modify_feature_interaction = args.modify_feature_interaction, 
-        weight_bit = 16 if args.linear_shift_down_bit_width else args.weight_bit 
+        weight_bit = 16 if args.linear_shift_down_bit_width else args.weight_bit, 
+        quantize_act_and_lin = args.quantize_act_and_lin 
     ) 
 
     global path_log 
