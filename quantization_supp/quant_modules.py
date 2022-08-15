@@ -289,7 +289,9 @@ class QuantEmbeddingBagTwo(Module):
                 # update period info 
                 self.iteration_nt += 1 
                 self.now_iteration -= self.now_iteration 
+                '''
                 print("cleared now iteration") 
+                ''' 
                 self.set_iteration_bound() 
             else: 
                 self.iteration_nt += 1 
