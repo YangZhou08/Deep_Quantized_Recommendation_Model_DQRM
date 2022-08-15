@@ -255,7 +255,7 @@ class QuantEmbeddingBagTwo(Module):
         # fixed value 
         if self.iteration_nt == 1 and self.iteration_bound == 0: # change if do other things 
             self.iteration_nt += 300 
-            print("bound increasing to {}".format(300)) 
+            print("bound increasing to {}".format(self.iteration_nt.item())) 
         '''
         elif self.iteration_bound == 100 and self.iteration_nt > 30000: 
             self.iteration_bound += 100 
@@ -289,6 +289,7 @@ class QuantEmbeddingBagTwo(Module):
                 # update period info 
                 self.iteration_nt += 1 
                 self.now_iteration -= self.now_iteration 
+                print("cleared now iteration") 
                 self.set_iteration_bound() 
             else: 
                 self.iteration_nt += 1 
