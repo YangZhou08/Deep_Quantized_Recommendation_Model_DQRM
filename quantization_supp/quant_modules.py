@@ -127,8 +127,8 @@ class QuantLinear(Module):
             else:
                 raise Exception('For weight, we only support symmetric quantization.')
         else:
-            w = self.weight
-            b = self.bias
+            self.weight_integer = self.weight 
+            self.bias_integer = self.bias 
 
         if prev_act_scaling_factor is not None: 
             prev_act_scaling_factor = prev_act_scaling_factor.view(1, -1)

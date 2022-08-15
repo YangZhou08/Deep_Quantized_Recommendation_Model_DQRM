@@ -267,7 +267,8 @@ class DLRM_Net(nn.Module):
                 print("use quant linear, input {}, output {}, weight_bit {}".format(n, m, self.weight_bit)) 
                 QuantLnr = QuantLinear( 
                     weight_bit = self.weight_bit, 
-                    bias_bit = self.weight_bit 
+                    bias_bit = self.weight_bit, 
+                    full_precision_flag = not self.quantize_act_and_lin 
                 ) 
                 QuantLnr.set_param(LL) 
                 layers.append(QuantLnr) 
@@ -407,7 +408,7 @@ class DLRM_Net(nn.Module):
             self.embedding_bit = embedding_bit 
             self.modify_feature_interaction = modify_feature_interaction 
             self.weight_bit = weight_bit 
-            self.quantize_act_and_lin = quantize_act_and_lin 
+            self.quantize_act_and_lin = quantize_act_and_lin and quantization_flag # only if both is true 
 
             if self.quantization_flag: 
                 self.quant_input = QuantAct(activation_bit = self.weight_bit, act_range_momentum = -1) 
@@ -755,21 +756,28 @@ class DLRM_Net(nn.Module):
 
             return z 
         else: 
-            x, act_scaling_factor = self.quant_input(dense_x) 
-            if act_scaling_factor is None: 
-                print("tuple is x") 
-            '''
+            if not self.quantize_act_and_lin: 
+                x, act_scaling_factor = self.quant_input(dense_x) 
+                x = self.apply_mlp(x, self.bot_l) 
+                ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
+                z, feature_scaling_factor = self.interact_features(x, ly) 
+                p = self.apply_mlp(z, self.top_l) 
             else: 
-                print("oooooooooooooooooooo First oooooooooooooooooooo") 
-                print("output") 
-                print(x[0 : 10]) 
-                print("scale") 
-                print(act_scaling_factor) 
-            ''' 
-            x = self.apply_mlp(x, self.bot_l, prev_act_scaling_factor = act_scaling_factor) 
-            ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
-            z, feature_scaling_factor = self.interact_features(x, ly) 
-            p = self.apply_mlp(z, self.top_l, prev_act_scaling_factor = feature_scaling_factor) 
+                x, act_scaling_factor = self.quant_input(dense_x) 
+                if act_scaling_factor is None: 
+                    print("tuple is x") 
+                '''
+                else: 
+                    print("oooooooooooooooooooo First oooooooooooooooooooo") 
+                    print("output") 
+                    print(x[0 : 10]) 
+                    print("scale") 
+                    print(act_scaling_factor) 
+                ''' 
+                x = self.apply_mlp(x, self.bot_l, prev_act_scaling_factor = act_scaling_factor) 
+                ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
+                z, feature_scaling_factor = self.interact_features(x, ly) 
+                p = self.apply_mlp(z, self.top_l, prev_act_scaling_factor = feature_scaling_factor) 
             # copy clamp 
             if 0.0 < self.loss_threshold and self.loss_threshold < 1.0:
                 z = torch.clamp(p, min=self.loss_threshold, max=(1.0 - self.loss_threshold)) 
