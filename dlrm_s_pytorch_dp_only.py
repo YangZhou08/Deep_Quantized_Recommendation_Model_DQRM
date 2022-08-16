@@ -1684,8 +1684,9 @@ def train(gpu, args):
             if args.pretrain_and_quantize_lin: 
                 if k == 2: 
                     change_lin_full_quantize = True 
-            '''
+
             if args.linear_shift_down_bit_width: 
+                '''
                 if k == 1: 
                     change_bitw = True 
                     change_bitw2 = 8 
@@ -1695,7 +1696,11 @@ def train(gpu, args):
                 elif k == 3: 
                     change_bitw = True 
                     change_bitw2 = args.weight_bit 
-            ''' 
+                ''' 
+                if k == 3: 
+                    change_bitw = True 
+                    change_bitw2 = args.weight_bit 
+
             if k < skip_upto_epoch: 
                 continue 
             for j, inputBatch in enumerate(train_loader): 
@@ -1707,10 +1712,11 @@ def train(gpu, args):
                 if j == 1025: 
                     change_lin_full_quantize = True 
                 ''' 
-
+                '''
                 if args.linear_shift_down_bit_width and j == 2015: 
                     change_bitw = True 
                     change_bitw2 = args.weight_bit 
+                ''' 
 
                 if j < skip_upto_batch: 
                     continue 
