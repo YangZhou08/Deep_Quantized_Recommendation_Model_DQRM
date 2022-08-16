@@ -1681,6 +1681,9 @@ def train(gpu, args):
                 # one epoch of pretraining and one epoch of quantization-aware training 
                 full_precision_flag = False 
                 print("Using {}-bit precision".format(int(args.embedding_bit)) if args.embedding_bit is not None else "Still using full precision") 
+            if args.pretrain_and_quantize_lin: 
+                if k == 2: 
+                    change_lin_full_quantize = True 
             if args.linear_shift_down_bit_width: 
                 if k == 1: 
                     change_bitw = True 
@@ -1698,8 +1701,10 @@ def train(gpu, args):
                 iteration_num = j 
 
                 # testing full lin to quantized 
+                '''
                 if j == 1025: 
                     change_lin_full_quantize = True 
+                ''' 
 
                 if j < skip_upto_batch: 
                     continue 
