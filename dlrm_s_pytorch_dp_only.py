@@ -774,6 +774,7 @@ class DLRM_Net(nn.Module):
                 z, feature_scaling_factor = self.interact_features(x, ly) 
                 p = self.apply_mlp(z, self.top_l) 
             else: 
+                print("model path changed") 
                 x, act_scaling_factor = self.quant_input(dense_x) 
                 if act_scaling_factor is None: 
                     print("tuple is x") 

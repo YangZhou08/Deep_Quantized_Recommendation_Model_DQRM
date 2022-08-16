@@ -87,6 +87,7 @@ class QuantLinear(Module):
         using quantized weights to forward activation x
         """ 
         if not self.full_precision_flag: 
+            print("use quantization in layer") 
             if type(x) is tuple:
                 prev_act_scaling_factor = x[1]
                 x = x[0]
