@@ -1697,7 +1697,7 @@ def train(gpu, args):
                 iteration_num = j 
 
                 # testing full lin to quantized 
-                if j == 10241: 
+                if j == 1025: 
                     change_lin_full_quantize = True 
 
                 if j < skip_upto_batch: 
