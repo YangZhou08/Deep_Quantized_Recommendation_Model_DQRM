@@ -131,6 +131,8 @@ iteration_num = 0
 change_bitw = False 
 change_bitw2 = 4 
 
+change_lin_full_quantize = False 
+
 exc = getattr(builtins, "IOError", "FileNotFoundError")
 
 
@@ -409,10 +411,11 @@ class DLRM_Net(nn.Module):
             self.modify_feature_interaction = modify_feature_interaction 
             self.weight_bit = weight_bit 
             self.quantize_act_and_lin = quantize_act_and_lin and quantization_flag # only if both is true 
+            self.change_lin_from_full_to_quantized = False 
 
             if self.quantization_flag: 
-                self.quant_input = QuantAct(activation_bit = self.weight_bit, act_range_momentum = -1) 
-                self.quant_feature_outputs = QuantAct(fixed_point_quantization = True, activation_bit = self.weight_bit, act_range_momentum = -1) # recheck activation_bit 
+                self.quant_input = QuantAct(activation_bit = self.weight_bit if self.weight_bit >= 8 else 8, act_range_momentum = -1) 
+                self.quant_feature_outputs = QuantAct(fixed_point_quantization = True, activation_bit = self.weight_bit if self.weight_bit >= 8 else 8, act_range_momentum = -1) # recheck activation_bit 
                 self.register_buffer('feature_xmin', torch.zeros(1)) 
                 self.register_buffer('feature_xmax', torch.zeros(1)) 
                 self.register_buffer('features_scaling_factor', torch.zeros(1)) 
@@ -514,8 +517,11 @@ class DLRM_Net(nn.Module):
                     self.weight_bit = change_bitw2 
                     layer.weight_bit = change_bitw2 
                     layer.bias_bit = change_bitw2 
-                    change_bitw = False 
                     print("change bit width to {}".format(change_bitw2)) 
+                
+                if self.change_lin_from_full_to_quantized: 
+                    layer.full_precision_flag = False 
+                    print("from full to {} bit quantized".format(layer.weight_bit)) 
 
                 x, prev_act_scaling_factor = layer(x, prev_act_scaling_factor) 
                 '''
@@ -729,6 +735,10 @@ class DLRM_Net(nn.Module):
 
 
     def forward(self, dense_x, lS_o, lS_i, test_mode = False): 
+        global change_lin_full_quantize 
+        if change_lin_full_quantize: 
+            self.quantize_act_and_lin = True 
+            self.change_lin_from_full_to_quantized = True 
         if not self.quantization_flag: 
             # process dense features (using bottom mlp), resulting in a row vector
             x = self.apply_mlp(dense_x, self.bot_l)
@@ -783,6 +793,15 @@ class DLRM_Net(nn.Module):
                 z = torch.clamp(p, min=self.loss_threshold, max=(1.0 - self.loss_threshold)) 
             else:
                 z = p
+
+            global change_bitw 
+            if change_bitw: 
+                change_bitw = False 
+                print("find that change bit enabled, all linear layer has changed back to the start") 
+            
+            if self.change_lin_from_full_to_quantized: 
+                self.change_lin_from_full_to_quantized = False 
+                print("find that lin from full to quantized enabled, changes made") 
 
             return z 
     
@@ -954,6 +973,7 @@ def run():
     parser.add_argument("--modify_feature_interaction", action = "store_true", default = False) 
     parser.add_argument("--linear_shift_down_bit_width", action = "store_true", default = False) 
     parser.add_argument("--documenting_table_weight", action = "store_true", default = False) 
+    parser.add_argument("--pretrain_and_quantize_lin", action = "store_true", default = False) 
     parser.add_argument("--quantize_act_and_lin", action = "store_true", default = False) 
     parser.add_argument('-n', '--nodes', default=1,
                         type=int, metavar='N')
@@ -976,6 +996,8 @@ def run():
     if args.test_num_workers < 0:
         # if the parameter is not set, use the same parameter for training
         args.test_num_workers = args.num_workers 
+    if args.pretrain_and_quantize_lin: 
+        args.quantize_act_and_lin = False 
     
     args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
     '''
@@ -1251,6 +1273,9 @@ def train(gpu, args):
     global change_bitw2 
     change_bitw = False 
     change_bitw2 = 8 
+
+    global change_lin_full_quantize 
+    change_lin_full_quantize = False 
     
     use_gpu = args.use_gpu and torch.cuda.is_available() 
     '''
@@ -1670,6 +1695,10 @@ def train(gpu, args):
             for j, inputBatch in enumerate(train_loader): 
                 global iteration_num 
                 iteration_num = j 
+
+                # testing full lin to quantized 
+                if j == 10241: 
+                    change_lin_full_quantize = True 
 
                 if j < skip_upto_batch: 
                     continue 
