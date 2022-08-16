@@ -737,6 +737,7 @@ class DLRM_Net(nn.Module):
     def forward(self, dense_x, lS_o, lS_i, test_mode = False): 
         global change_lin_full_quantize 
         if change_lin_full_quantize: 
+            change_lin_full_quantize = False 
             self.quantize_act_and_lin = True 
             self.change_lin_from_full_to_quantized = True 
         if not self.quantization_flag: 
