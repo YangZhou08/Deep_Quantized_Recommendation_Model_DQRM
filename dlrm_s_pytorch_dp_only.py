@@ -735,11 +735,13 @@ class DLRM_Net(nn.Module):
 
 
     def forward(self, dense_x, lS_o, lS_i, test_mode = False): 
+        # check whether mlp is converted from full precision to weight_bit quantized bit width 
         global change_lin_full_quantize 
         if change_lin_full_quantize: 
-            change_lin_full_quantize = False 
+            change_lin_full_quantize = False # clear flag 
             self.quantize_act_and_lin = True 
             self.change_lin_from_full_to_quantized = True 
+
         if not self.quantization_flag: 
             # process dense features (using bottom mlp), resulting in a row vector
             x = self.apply_mlp(dense_x, self.bot_l)
@@ -768,12 +770,14 @@ class DLRM_Net(nn.Module):
             return z 
         else: 
             if not self.quantize_act_and_lin: 
+                # used for cases where embedding tables are quantized while mlp is in full precision 
                 x, act_scaling_factor = self.quant_input(dense_x) 
-                x = self.apply_mlp(x, self.bot_l) 
+                x = self.apply_mlp(x, self.bot_l) # not used with scale 
                 ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
                 z, feature_scaling_factor = self.interact_features(x, ly) 
-                p = self.apply_mlp(z, self.top_l) 
+                p = self.apply_mlp(z, self.top_l) # not used with scale 
             else: 
+                # used for cases where embedding tables and mlp are quantized 
                 x, act_scaling_factor = self.quant_input(dense_x) 
                 if act_scaling_factor is None: 
                     print("tuple is x") 
@@ -798,7 +802,7 @@ class DLRM_Net(nn.Module):
             global change_bitw 
             if change_bitw: 
                 change_bitw = False 
-                print("find that change bit enabled, all linear layer has changed back to the start") 
+                print("find that bit width change enables, all linear layers are with updated bit width") 
             
             if self.change_lin_from_full_to_quantized: 
                 self.change_lin_from_full_to_quantized = False 
