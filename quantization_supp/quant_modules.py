@@ -287,12 +287,16 @@ class QuantEmbeddingBagTwo(Module):
                     raise Exception("for embedding weights, we only support symmetric quantization") 
             
                 # update period info 
+                '''
                 self.iteration_nt += 1 
                 self.now_iteration -= self.now_iteration 
                 self.set_iteration_bound() 
+                ''' 
             else: 
+                '''
                 self.iteration_nt += 1 
                 self.now_iteration += 1 
+                ''' 
             
         if per_sample_weights is not None: 
             print("Warning: Embedding Table Assumes per_sample_weights to be None but it is not") 
