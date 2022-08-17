@@ -270,7 +270,8 @@ class DLRM_Net(nn.Module):
                 QuantLnr = QuantLinear( 
                     weight_bit = self.weight_bit, 
                     bias_bit = self.weight_bit, 
-                    full_precision_flag = not self.quantize_act_and_lin 
+                    full_precision_flag = not self.quantize_act_and_lin, 
+                    per_channel = True 
                 ) 
                 QuantLnr.set_param(LL) 
                 layers.append(QuantLnr) 
@@ -1012,7 +1013,7 @@ def run():
     '''
     os.environ['MASTER_PORT'] = '29500' 
     ''' 
-    os.environ['MASTER_PORT'] = '29578' 
+    os.environ['MASTER_PORT'] = '29579' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
   
