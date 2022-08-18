@@ -141,7 +141,7 @@ class QuantLinear(Module):
             print("x_int") 
             print(x_int[0]) 
             print("x_int * prev_act_scaling_factor") 
-            print((x_int * prev_act_scaling_factor)[0]) 
+            print("not valid") 
             print("weight") 
             print(self.weight[0]) 
             print("bit width") 
@@ -155,7 +155,7 @@ class QuantLinear(Module):
             print("bias integer") 
             print(self.bias_integer[0]) 
             print("bias integer multiplies correct_output_scale") 
-            print((self.bias_integer * correct_output_scale)[0]) 
+            print((self.bias_integer * (self.fc_scaling_factor.view(1, -1)))[0]) 
             '''
             return ste_round.apply(
                 F.linear(x_int, weight=self.weight_integer, bias=self.bias_integer)) * correct_output_scale 
