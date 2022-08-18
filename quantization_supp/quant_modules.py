@@ -136,7 +136,7 @@ class QuantLinear(Module):
                 x_int = x 
         
             # quantization needs passing on of factors, and recommendation systems have multiple sequantial blocks linear 
-            if self.weight != 4: 
+            if self.weight_bit is not 4: 
                 print("'''''''''''''''''''' Look inside layer ''''''''''''''''''''") 
                 print("x_int") 
                 print(x_int[0]) 
