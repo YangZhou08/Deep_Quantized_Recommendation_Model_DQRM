@@ -232,7 +232,7 @@ class LRPolicyScheduler(_LRScheduler):
 
 ### define dlrm in PyTorch ###
 class DLRM_Net(nn.Module):
-    def create_mlp(self, ln, sigmoid_layer, quant_linear_layer = False): 
+    def create_mlp(self, ln, sigmoid_layer, quant_linear_layer = False, channelwise_lin = False): 
         # build MLP layer by layer
         layers = nn.ModuleList()
         for i in range(0, ln.size - 1):
@@ -266,11 +266,15 @@ class DLRM_Net(nn.Module):
             # LL.weight = Parameter(torch.tensor(W),requires_grad=True)
             # LL.bias = Parameter(torch.tensor(bt),requires_grad=True) 
             if self.quantization_flag and quant_linear_layer: # TODO recheck intentionally reverse logic updated: checked 
+                '''
                 print("use quant linear, input {}, output {}, quantization bit width {}, use full precision {}".format(n, m, self.weight_bit, "32-bit single precision" if not self.quantize_act_and_lin else "quantized")) 
+                ''' 
+                print("use quant linear, input {}, output {}, quantization bit width {}, use full precision {} and channelwise status {}".format(n, m, self.weight_bit, "32-bit single precision" if not self.quantize_act_and_lin else "quantized", "channelwise" if self.channelwise_lin else "not channelwise")) 
                 QuantLnr = QuantLinear( 
                     weight_bit = self.weight_bit, 
                     bias_bit = self.weight_bit, 
-                    full_precision_flag = not self.quantize_act_and_lin 
+                    full_precision_flag = not self.quantize_act_and_lin, 
+                    per_channel = channelwise_lin 
                 ) 
                 QuantLnr.set_param(LL) 
                 layers.append(QuantLnr) 
@@ -383,7 +387,8 @@ class DLRM_Net(nn.Module):
         embedding_bit = 32, 
         modify_feature_interaction = False, 
         weight_bit = 8, 
-        quantize_act_and_lin = False): 
+        quantize_act_and_lin = False, 
+        mlp_channelwise = False): 
         super(DLRM_Net, self).__init__()
 
         if (
@@ -412,6 +417,7 @@ class DLRM_Net(nn.Module):
             self.weight_bit = weight_bit 
             self.quantize_act_and_lin = quantize_act_and_lin and quantization_flag # only if both is true 
             self.change_lin_from_full_to_quantized = False 
+            self.channelwise_lin = mlp_channelwise 
 
             if self.quantization_flag: 
                 self.quant_input = QuantAct(activation_bit = self.weight_bit if self.weight_bit >= 8 else 8, act_range_momentum = -1) 
@@ -462,8 +468,8 @@ class DLRM_Net(nn.Module):
             '''
             self.bot_l = self.create_mlp(ln_bot, sigmoid_bot) 
             ''' 
-            self.bot_l = self.create_mlp(ln_bot, sigmoid_bot, quant_linear_layer = True) 
-            self.top_l = self.create_mlp(ln_top, sigmoid_top, quant_linear_layer = True) 
+            self.bot_l = self.create_mlp(ln_bot, sigmoid_bot, quant_linear_layer = True, channelwise_lin = self.channelwise_lin) 
+            self.top_l = self.create_mlp(ln_top, sigmoid_top, quant_linear_layer = True, channelwise_lin = self.channelwise_lin) 
 
             # quantization
             self.quantize_emb = False
@@ -739,8 +745,11 @@ class DLRM_Net(nn.Module):
         if not self.quantization_flag:  # recheck intentional reverse logic updated: check 
             return R 
         else: 
-            R, feature_scaling_factor_at_bmlp = self.quant_feature_outputs(R) 
-            return R, feature_scaling_factor_at_bmlp 
+            if not self.channelwise_lin: 
+                R, feature_scaling_factor_at_bmlp = self.quant_feature_outputs(R) 
+                return R, feature_scaling_factor_at_bmlp 
+            else: 
+                return R, None 
 
 
     def forward(self, dense_x, lS_o, lS_i, test_mode = False): 
@@ -785,6 +794,11 @@ class DLRM_Net(nn.Module):
                 ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
                 z, feature_scaling_factor = self.interact_features(x, ly) 
                 p = self.apply_mlp(z, self.top_l) # not used with scale 
+            elif self.channelwise_lin: 
+                x = self.apply_mlp(x, self.bot_l, prev_act_scaling_factor = None) 
+                ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
+                z, feature_scaling_factor = self.interact_features(x, ly) 
+                p = self.apply_mlp(z, self.top_l, prev_act_scaling_factor = feature_scaling_factor) 
             else: 
                 # used for cases where embedding tables and mlp are quantized 
                 x, act_scaling_factor = self.quant_input(dense_x) 
@@ -991,6 +1005,7 @@ def run():
     parser.add_argument("--linear_shift_down_bit_width", action = "store_true", default = False) 
     parser.add_argument("--documenting_table_weight", action = "store_true", default = False) 
     parser.add_argument("--pretrain_and_quantize_lin", action = "store_true", default = False) 
+    parser.add_argument("--linear_channel", action = "store_true", default = False) 
     parser.add_argument("--quantize_act_and_lin", action = "store_true", default = False) 
     parser.add_argument('-n', '--nodes', default=1,
                         type=int, metavar='N')
@@ -1024,7 +1039,7 @@ def run():
     '''
     os.environ['MASTER_PORT'] = '29500' 
     ''' 
-    os.environ['MASTER_PORT'] = '29579' 
+    os.environ['MASTER_PORT'] = '29580' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
   
@@ -1536,7 +1551,8 @@ def train(gpu, args):
         embedding_bit = args.embedding_bit, 
         modify_feature_interaction = args.modify_feature_interaction, 
         weight_bit = 8 if args.linear_shift_down_bit_width else args.weight_bit, 
-        quantize_act_and_lin = args.quantize_act_and_lin 
+        quantize_act_and_lin = args.quantize_act_and_lin, 
+        mlp_channelwise = args.linear_channel 
     ) 
 
     global path_log 

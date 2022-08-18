@@ -162,9 +162,12 @@ class QuantLinear(Module):
             return ste_round.apply(
                 F.linear(x_int, weight=self.weight_integer, bias=self.bias_integer)) * correct_output_scale 
             ''' 
-            return ste_round.apply(
-                    F.linear(x_int, weight = self.weight_integer, bias = self.bias_integer) 
-                ) * correct_output_scale, correct_output_scale 
+            if not self.per_channel: 
+                return ste_round.apply(
+                        F.linear(x_int, weight = self.weight_integer, bias = self.bias_integer) 
+                    ) * correct_output_scale, correct_output_scale 
+            else: 
+                return F.linear(x_int, weight = self.weight_integer, bias = self.bias_integer) * correct_output_scale, None 
         else: 
             return F.linear(x, weight = self.weight, bias = self.bias), None 
         
