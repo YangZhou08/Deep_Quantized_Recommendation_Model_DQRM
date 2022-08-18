@@ -137,28 +137,25 @@ class QuantLinear(Module):
                 x_int = x 
         
             # quantization needs passing on of factors, and recommendation systems have multiple sequantial blocks linear 
-            '''
-            if self.weight_bit == 4: 
-                print("'''''''''''''''''''' Look inside layer ''''''''''''''''''''") 
-                print("x_int") 
-                print(x_int[0]) 
-                print("x_int * prev_act_scaling_factor") 
-                print((x_int * prev_act_scaling_factor)[0]) 
-                print("weight") 
-                print(self.weight[0]) 
-                print("bit width") 
-                print(self.weight_bit) 
-                print("weight_integer") 
-                print(self.weight_integer[0]) 
-                print("weight integer * fc_scaling_factor") 
-                print((self.weight_integer * self.fc_scaling_factor)[0]) 
-                print("bias") 
-                print(self.bias[0]) 
-                print("bias integer") 
-                print(self.bias_integer[0]) 
-                print("bias integer multiplies correct_output_scale") 
-                print((self.bias_integer * correct_output_scale)[0]) 
-            ''' 
+            print("'''''''''''''''''''' Look inside layer ''''''''''''''''''''") 
+            print("x_int") 
+            print(x_int[0]) 
+            print("x_int * prev_act_scaling_factor") 
+            print((x_int * prev_act_scaling_factor)[0]) 
+            print("weight") 
+            print(self.weight[0]) 
+            print("bit width") 
+            print(self.weight_bit) 
+            print("weight_integer") 
+            print(self.weight_integer[0]) 
+            print("weight integer * fc_scaling_factor") 
+            print((self.weight_integer * self.fc_scaling_factor)[0]) 
+            print("bias") 
+            print(self.bias[0]) 
+            print("bias integer") 
+            print(self.bias_integer[0]) 
+            print("bias integer multiplies correct_output_scale") 
+            print((self.bias_integer * correct_output_scale)[0]) 
             '''
             return ste_round.apply(
                 F.linear(x_int, weight=self.weight_integer, bias=self.bias_integer)) * correct_output_scale 
@@ -168,6 +165,10 @@ class QuantLinear(Module):
                         F.linear(x_int, weight = self.weight_integer, bias = self.bias_integer) 
                     ) * correct_output_scale, correct_output_scale 
             else: 
+                print("output weight") 
+                print(F.linear(x_int, weight = self.weight, bias = self.bias_integer)[0]) 
+                print("output got") 
+                print((F.linear(x_int, weight = self.weight_integer, bias = self.bias_integer) * (self.fc_scaling_factor.view(1, -1)))[0]) 
                 return F.linear(x_int, weight = self.weight_integer, bias = self.bias_integer) * (self.fc_scaling_factor.view(1, -1)), None 
         else: 
             return F.linear(x, weight = self.weight, bias = self.bias), None 
