@@ -302,24 +302,24 @@ class QuantEmbeddingBagTwo(Module):
             print("Warning: Embedding Table Assumes per_sample_weights to be None but it is not") 
         
         self.output_integer = self.embedding_bag(input, offsets, per_sample_weights = None) 
-
+        '''
         # checking quantization 
         print("unquantized output vectors") 
         print(self.output_integer[0]) 
-
+        ''' 
         
         if not full_precision_flag: 
             self.output_integer = self.weight_function(self.output_integer, self.embedding_bit, self.eb_scaling_factor) # quantization 
             '''
             self.output_integer = output # testing whether quantization introduces large overhead 
             ''' 
-
+            '''
             # checking quantization 
             print("quantized output vectors") 
             print(self.output_integer[0]) 
             print("output_integer * eb_scaling_factor") 
             print(self.output_integer[0] * self.eb_scaling_factor) 
-
+            ''' 
             return self.output_integer * self.eb_scaling_factor # dequantization 
         else: 
             return self.output_integer 
