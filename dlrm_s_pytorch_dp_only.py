@@ -522,6 +522,11 @@ class DLRM_Net(nn.Module):
                 if self.change_lin_from_full_to_quantized: 
                     layer.full_precision_flag = False 
                     print("from full to {} bit quantized".format(layer.weight_bit)) 
+                
+                # identifying layer count 
+                if not layer.full_precision_flag: 
+                    print("layer", count) 
+                    count += 1 
 
                 x, prev_act_scaling_factor = layer(x, prev_act_scaling_factor) 
                 '''
