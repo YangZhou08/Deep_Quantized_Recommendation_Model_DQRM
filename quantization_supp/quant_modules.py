@@ -166,7 +166,7 @@ class QuantLinear(Module):
                     ) * correct_output_scale, correct_output_scale 
             else: 
                 print("output weight") 
-                print(F.linear(x_int, weight = self.weight, bias = self.bias_integer)[0]) 
+                print(F.linear(x_int, weight = self.weight, bias = self.bias)[0]) 
                 print("output got") 
                 print((F.linear(x_int, weight = self.weight_integer, bias = self.bias_integer) * (self.fc_scaling_factor.view(1, -1)))[0]) 
                 return F.linear(x_int, weight = self.weight_integer, bias = self.bias_integer) * (self.fc_scaling_factor.view(1, -1)), None 
