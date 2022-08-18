@@ -270,8 +270,7 @@ class DLRM_Net(nn.Module):
                 QuantLnr = QuantLinear( 
                     weight_bit = self.weight_bit, 
                     bias_bit = self.weight_bit, 
-                    full_precision_flag = not self.quantize_act_and_lin, 
-                    per_channel = True 
+                    full_precision_flag = not self.quantize_act_and_lin 
                 ) 
                 QuantLnr.set_param(LL) 
                 layers.append(QuantLnr) 
@@ -525,6 +524,7 @@ class DLRM_Net(nn.Module):
                     print("from full to {} bit quantized".format(layer.weight_bit)) 
 
                 x, prev_act_scaling_factor = layer(x, prev_act_scaling_factor) 
+                print("layer {}".format(count)) 
                 print(prev_act_scaling_factor.shape) 
                 '''
                 print("ooooooooooooooooooo LAYER {} oooooooooooooooooooo".format(count)) 
