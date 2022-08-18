@@ -524,8 +524,10 @@ class DLRM_Net(nn.Module):
                     print("from full to {} bit quantized".format(layer.weight_bit)) 
 
                 x, prev_act_scaling_factor = layer(x, prev_act_scaling_factor) 
+                '''
                 print("layer {}".format(count)) 
                 print(prev_act_scaling_factor.shape) 
+                ''' 
                 '''
                 print("ooooooooooooooooooo LAYER {} oooooooooooooooooooo".format(count)) 
                 print("output") 
