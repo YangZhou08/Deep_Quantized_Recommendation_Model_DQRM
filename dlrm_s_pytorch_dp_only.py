@@ -524,7 +524,7 @@ class DLRM_Net(nn.Module):
                     print("from full to {} bit quantized".format(layer.weight_bit)) 
                 
                 # identifying layer count 
-                if not layer.full_precision_flag: 
+                if layer.weight_bit == 4: 
                     print("layer", count) 
                     count += 1 
 
