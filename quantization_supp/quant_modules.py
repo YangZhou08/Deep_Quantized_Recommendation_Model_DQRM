@@ -149,7 +149,7 @@ class QuantLinear(Module):
             print("weight_integer") 
             print(self.weight_integer[0]) 
             print("weight integer * fc_scaling_factor") 
-            print((self.weight_integer * self.fc_scaling_factor)[0]) 
+            print((self.weight_integer * self.fc_scaling_factor.view(1, -1))[0]) 
             print("bias") 
             print(self.bias[0]) 
             print("bias integer") 
