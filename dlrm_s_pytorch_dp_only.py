@@ -1728,11 +1728,11 @@ def train(gpu, args):
                 if j == 1025: 
                     change_lin_full_quantize = True 
                 ''' 
-                
+                '''
                 if args.linear_shift_down_bit_width and j == 1025: 
                     change_bitw = True 
                     change_bitw2 = args.weight_bit 
-                
+                ''' 
                 if j < skip_upto_batch: 
                     continue 
                 
