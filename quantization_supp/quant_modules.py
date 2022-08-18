@@ -119,7 +119,8 @@ class QuantLinear(Module):
                 if self.quant_mode == 'symmetric':
                     self.fc_scaling_factor = symmetric_linear_quantization_params(self.weight_bit, w_min, w_max,
                                                                                 self.per_channel)
-                    self.weight_integer = self.weight_function(self.weight, self.weight_bit, self.fc_scaling_factor)
+                    self.weight_integer = self.weight_function(self.weight, self.weight_bit, self.fc_scaling_factor) 
+                    print(self.fc_scaling_factor.shape) 
                     if prev_act_scaling_factor is not None: 
                         bias_scaling_factor = self.fc_scaling_factor.view(1, -1) * prev_act_scaling_factor.view(1, -1) 
                     else: 
