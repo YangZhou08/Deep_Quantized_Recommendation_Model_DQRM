@@ -136,7 +136,6 @@ class QuantLinear(Module):
                 x_int = x 
         
             # quantization needs passing on of factors, and recommendation systems have multiple sequantial blocks linear 
-            '''
             print("'''''''''''''''''''' Look inside layer ''''''''''''''''''''") 
             print("x_int") 
             print(x_int[0 : 10]) 
@@ -144,6 +143,8 @@ class QuantLinear(Module):
             print((x_int * prev_act_scaling_factor)[0 : 10]) 
             print("weight") 
             print(self.weight) 
+            print("bit width") 
+            print(self.weight_bit) 
             print("weight_integer") 
             print(self.weight_integer) 
             print("weight integer * fc_scaling_factor") 
@@ -154,7 +155,6 @@ class QuantLinear(Module):
             print(self.bias_integer) 
             print("bias integer multiplies correct_output_scale") 
             print(self.bias_integer * correct_output_scale) 
-            ''' 
 
             '''
             return ste_round.apply(
