@@ -72,3 +72,4 @@ for table_num in range(0, 26):
     ''' 
     print("min: {}, max: {}, mean: {}, standard deviation: {}".format(np.min(list_one), np.max(list_one), np.mean(list_one), np.std(list_one))) 
     print() 
+    list_one = [] 
