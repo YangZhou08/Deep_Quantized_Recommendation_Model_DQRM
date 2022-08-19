@@ -30,6 +30,7 @@ colors = ['red', 'green', 'yellow', 'purple', 'black', 'navy']
 list_one = [] 
 chicanes = [] 
 for table_num in range(0, 26): 
+    '''
     file_name = "table" + str(table_num) + "epoch" + "1.txt" 
 
     file_path = path + file_name 
@@ -39,8 +40,12 @@ for table_num in range(0, 26):
         line_seg = line.split(", ") 
         for word_with_value in line_seg: 
             list_one.append(float(word_with_value)) 
+    ''' 
     print("table", table_num) 
+    print(np.sqrt(1/n_l[table_num])) 
+    '''
     print(len(list_one)) 
+    ''' 
     '''
     y, x, _ = plt.hist(list_one, bins = 1000) 
     y_max = np.max(y) 
@@ -70,6 +75,8 @@ for table_num in range(0, 26):
     plt.savefig("hist" + str(table_num) + "_.png") 
     plt.clf() 
     ''' 
+    '''
     print("min: {}, max: {}, mean: {}, standard deviation: {}".format(np.min(list_one), np.max(list_one), np.mean(list_one), np.std(list_one))) 
     print() 
+    ''' 
     list_one = [] 
