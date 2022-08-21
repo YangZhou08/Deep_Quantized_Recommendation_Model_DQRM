@@ -38,8 +38,8 @@ class QuantLinear(Module):
                  quant_mode='symmetric',
                  per_channel=False,
                  fix_flag=False,
-                 weight_percentile=0,
-                 ):
+                 weight_percentile=0, 
+                 quantize_activation = False): 
         super(QuantLinear, self).__init__()
         self.full_precision_flag = full_precision_flag
         self.weight_bit = weight_bit
@@ -50,7 +50,8 @@ class QuantLinear(Module):
         self.bias_bit = bias_bit
         self.quantize_bias = (False if bias_bit is None else True)
         self.quant_mode = quant_mode
-        self.counter = 0
+        self.counter = 0 
+        self.quantize_activation = quantize_activation 
 
     def __repr__(self):
         s = super(QuantLinear, self).__repr__()
@@ -136,7 +137,6 @@ class QuantLinear(Module):
                 x_int = x 
         
             # quantization needs passing on of factors, and recommendation systems have multiple sequantial blocks linear 
-            '''
             print("'''''''''''''''''''' Look inside layer ''''''''''''''''''''") 
             print("x_int") 
             print(x_int[0]) 
@@ -158,12 +158,11 @@ class QuantLinear(Module):
             print(self.bias_integer[0]) 
             print("bias integer multiplies correct_output_scale") 
             print((self.bias_integer * (self.fc_scaling_factor.view(1, -1)))[0]) 
-            ''' 
             '''
             return ste_round.apply(
                 F.linear(x_int, weight=self.weight_integer, bias=self.bias_integer)) * correct_output_scale 
             ''' 
-            if not self.per_channel: 
+            if self.quantize_activation: 
                 return ste_round.apply(
                         F.linear(x_int, weight = self.weight_integer, bias = self.bias_integer) 
                     ) * correct_output_scale, correct_output_scale 
