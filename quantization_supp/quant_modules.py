@@ -141,7 +141,7 @@ class QuantLinear(Module):
             print("x_int") 
             print(x_int[0]) 
             print("x_int * prev_act_scaling_factor") 
-            print("not valid" if self.per_channel else (x_int * perv_act_scaling_factor)[0]) 
+            print("not valid" if self.per_channel or not self.quantize_activation else (x_int * prev_act_scaling_factor)[0]) 
             print("weight") 
             print(self.weight[0]) 
             print("bit width") 
