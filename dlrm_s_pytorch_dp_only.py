@@ -103,6 +103,8 @@ from quantization_supp.quant_modules import QuantLinear
 from quantization_supp.quant_modules import QuantAct 
 from quantization_supp.quant_utils import symmetric_linear_quantization_params 
 from quantization_supp.quant_utils import SymmetricQuantFunction 
+from sgd_quantized_gradients import quantized_gradients_update 
+from sgd_quantized_gradients import clear_gradients 
 
 # below are not imported in the original script 
 import os 
@@ -1794,12 +1796,19 @@ def train(gpu, args):
                 L = E.detach().cpu().numpy() 
                 
                 # backward propagation 
+                # tried to see if the gradients can be modified 
+                '''
                 optimizer.zero_grad() 
+                ''' 
+                clear_gradients(dlrm) 
                 '''
                 print(E.get_device()) 
                 ''' 
                 E.backward() 
+                '''
                 optimizer.step() 
+                ''' 
+                quantized_gradients_update(dlrm, args, lr_scheduler.get_lr()) 
                 lr_scheduler.step() 
                 
                 t2 = time_wrap(use_gpu) 
