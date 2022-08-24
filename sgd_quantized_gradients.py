@@ -19,7 +19,9 @@ def quantized_gradients_update(model, arg, lr):
         for name, param in model.named_parameters(): 
             update = param.grad # finding the gradient of the data by layer 
             dist.all_reduce(update, op=dist.ReduceOp.SUM) 
+            '''
             print(lr) 
+            ''' 
             param.add_(-lr[-1], update) 
             '''
             param.grad.data *= 0 
@@ -28,6 +30,8 @@ def quantized_gradients_update(model, arg, lr):
 def clear_gradients(model): 
     with torch.no_grad(): 
         for name, param in model.named_parameters(): 
+            '''
             print(name) 
+            ''' 
             if param.grad is not None: 
                 param.grad *= 0 
