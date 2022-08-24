@@ -22,7 +22,7 @@ def quantized_gradients_update(model, arg, lr):
             '''
             print(lr) 
             ''' 
-            param.add_(-lr[-1], update) 
+            param.add_(update, -lr[-1]) 
             '''
             param.grad.data *= 0 
             ''' 
