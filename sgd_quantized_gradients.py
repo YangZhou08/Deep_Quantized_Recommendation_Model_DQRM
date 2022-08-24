@@ -18,7 +18,8 @@ def quantized_gradients_update(model, arg, lr):
         world_size = float(arg.world_size) 
         for name, param in model.named_parameters(): 
             update = param.grad # finding the gradient of the data by layer 
-            dist.all_reduce(update, op=dist.ReduceOp.SUM) 
+            if arg.world_size != 1: 
+                dist.all_reduce(update, op=dist.ReduceOp.SUM) 
             '''
             print(lr) 
             ''' 
@@ -26,7 +27,6 @@ def quantized_gradients_update(model, arg, lr):
             '''
             param.grad.data *= 0 
             ''' 
-        print("one more iteration") 
 
 def clear_gradients(model): 
     with torch.no_grad(): 
