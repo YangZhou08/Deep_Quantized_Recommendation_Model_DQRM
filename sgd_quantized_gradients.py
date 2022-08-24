@@ -26,5 +26,5 @@ def quantized_gradients_update(model, arg, lr):
 def clear_gradients(model): 
     for name, param in model.named_parameters(): 
         print(name) 
-        if param.grad.data is not None: 
+        if param.grad is not None: 
             param.grad.data *= 0 
