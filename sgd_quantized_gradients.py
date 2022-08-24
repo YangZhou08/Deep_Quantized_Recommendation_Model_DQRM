@@ -23,10 +23,10 @@ def quantized_gradients_update(model, arg, lr):
             print(lr) 
             ''' 
             param.add_(update * (-lr[0])) 
-            print("one more") 
             '''
             param.grad.data *= 0 
             ''' 
+        print("one more iteration") 
 
 def clear_gradients(model): 
     with torch.no_grad(): 
