@@ -18,8 +18,10 @@ def quantized_gradients_update(model, arg, lr):
         world_size = float(arg.world_size) 
         for name, param in model.named_parameters(): 
             update = param.grad # finding the gradient of the data by layer 
+            '''
             print(name) 
             print(update.shape) 
+            ''' 
             param.add_(update * (-lr[0])) 
 
 def clear_gradients(model): 
