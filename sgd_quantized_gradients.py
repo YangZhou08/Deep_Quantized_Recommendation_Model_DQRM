@@ -19,6 +19,7 @@ def quantized_gradients_update(model, arg, lr):
         for name, param in model.named_parameters(): 
             update = param.grad # finding the gradient of the data by layer 
             dist.all_reduce(update, op=dist.ReduceOp.SUM) 
+            print(lr) 
             param.add_(-lr, update) 
             '''
             param.grad.data *= 0 
