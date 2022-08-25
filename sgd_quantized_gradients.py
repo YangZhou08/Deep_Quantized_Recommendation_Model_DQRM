@@ -135,9 +135,6 @@ def sgd(params: List[Tensor],
     if foreach is None:
         # Placeholder for more complex foreach logic to be added when value is not set
         foreach = False 
-    
-    if foreach: 
-        print("foreach") 
 
     if foreach and torch.jit.is_scripting():
         raise RuntimeError('torch.jit.script not supported with foreach optimizers')

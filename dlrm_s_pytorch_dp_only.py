@@ -863,6 +863,11 @@ class DLRM_Net(nn.Module):
                     file.write(row) 
                     file.write("\n") 
                 file.close() 
+    
+    def show_output_linear_layer_grad(self): 
+        with torch.no_grad(): 
+            if self.top_l[-2].grad is not None: 
+                print(self.top_l[-2].grad) 
 
 def dash_separated_ints(value):
     vals = value.split("-")
@@ -1811,7 +1816,12 @@ def train(gpu, args):
                 '''
                 print(E.get_device()) 
                 ''' 
+                '''
                 E.backward() 
+                ''' 
+                # quantization of gradient 
+                torch.autograd.backward(E) 
+                dlrm.show_output_linear_layer_grad() 
                 
                 optimizer.step() 
                 '''
