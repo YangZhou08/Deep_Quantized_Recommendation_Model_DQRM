@@ -103,6 +103,8 @@ from quantization_supp.quant_modules import QuantLinear
 from quantization_supp.quant_modules import QuantAct 
 from quantization_supp.quant_utils import symmetric_linear_quantization_params 
 from quantization_supp.quant_utils import SymmetricQuantFunction 
+
+from sgd_quantized_gradients import quantized_sgd 
 from sgd_quantized_gradients import quantized_gradients_update 
 from sgd_quantized_gradients import clear_gradients 
 
@@ -1613,7 +1615,10 @@ def train(gpu, args):
         
         parameters = (dlrm.parameters()) 
         print("optimizer selected is ", args.optimizer) 
+        '''
         optimizer = opts[args.optimizer](parameters, lr = args.learning_rate) 
+        ''' 
+        optimizer = quantized_sgd(parameters, lr = args.learning_rate) 
         lr_scheduler = LRPolicyScheduler(
             optimizer, 
             args.lr_num_warmup_steps, 
