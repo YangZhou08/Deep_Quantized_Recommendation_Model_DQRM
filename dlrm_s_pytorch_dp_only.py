@@ -1802,19 +1802,21 @@ def train(gpu, args):
                 
                 # backward propagation 
                 # tried to see if the gradients can be modified 
-                '''
+                
                 optimizer.zero_grad() 
-                ''' 
+                '''
                 clear_gradients(dlrm) 
+                ''' 
                 torch.cuda.synchronize() 
                 '''
                 print(E.get_device()) 
                 ''' 
                 E.backward() 
-                '''
+                
                 optimizer.step() 
-                ''' 
+                '''
                 quantized_gradients_update(dlrm, args, lr_scheduler.get_lr()) 
+                ''' 
                 torch.cuda.synchronize() 
                 lr_scheduler.step() 
                 
