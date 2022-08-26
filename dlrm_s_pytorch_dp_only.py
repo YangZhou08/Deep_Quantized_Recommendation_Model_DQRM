@@ -394,7 +394,8 @@ class DLRM_Net(nn.Module):
         weight_bit = 8, 
         quantize_act_and_lin = False, 
         mlp_channelwise = False, 
-        quantize_activation = False 
+        quantize_activation = False, 
+        deviceid = None 
     ): 
         super(DLRM_Net, self).__init__()
 
@@ -426,6 +427,7 @@ class DLRM_Net(nn.Module):
             self.change_lin_from_full_to_quantized = False 
             self.channelwise_lin = mlp_channelwise 
             self.quantize_activation = quantize_activation 
+            self.deviceid = deviceid 
 
             if self.quantization_flag: 
                 self.quant_input = QuantAct(activation_bit = self.weight_bit if self.weight_bit >= 8 else 8, act_range_momentum = -1) 
@@ -867,7 +869,8 @@ class DLRM_Net(nn.Module):
     def show_output_linear_layer_grad(self): 
         with torch.no_grad(): 
             if self.top_l[-2].weight.grad is not None: 
-                print(self.top_l[-2].weight.grad) 
+                print("device: {}".format(self.deviceid)) 
+                print(self.top_l[-2].weight.grad[: 20]) 
 
 def dash_separated_ints(value):
     vals = value.split("-")
@@ -1572,7 +1575,8 @@ def train(gpu, args):
         weight_bit = 8 if args.linear_shift_down_bit_width else args.weight_bit, 
         quantize_act_and_lin = args.quantize_act_and_lin, 
         mlp_channelwise = args.linear_channel, 
-        quantize_activation = args.quantize_activation) 
+        quantize_activation = args.quantize_activation, 
+        deviceid = gpu) 
 
     global path_log 
     lstr = args.raw_data_file.split("/") 
