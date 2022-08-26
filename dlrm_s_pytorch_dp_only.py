@@ -1821,7 +1821,7 @@ def train(gpu, args):
                 ''' 
                 # quantization of gradient 
                 torch.autograd.backward(E) 
-                dlrm.show_output_linear_layer_grad() 
+                dlrm.module.show_output_linear_layer_grad() 
                 
                 optimizer.step() 
                 '''
