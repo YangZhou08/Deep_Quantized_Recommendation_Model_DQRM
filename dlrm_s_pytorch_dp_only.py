@@ -1820,11 +1820,8 @@ def train(gpu, args):
                 '''
                 print(E.get_device()) 
                 ''' 
-                '''
                 E.backward() 
-                ''' 
                 # quantization of gradient 
-                torch.autograd.backward(E, dlrm.parameters()) 
                 dlrm.show_output_linear_layer_grad() 
                 
                 optimizer.step() 
