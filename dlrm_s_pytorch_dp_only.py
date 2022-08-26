@@ -867,7 +867,7 @@ class DLRM_Net(nn.Module):
     def show_output_linear_layer_grad(self): 
         with torch.no_grad(): 
             if self.top_l[-2].weight.grad is not None: 
-                print(self.top_l[-2].grad) 
+                print(self.top_l[-2].weight.grad) 
 
 def dash_separated_ints(value):
     vals = value.split("-")
