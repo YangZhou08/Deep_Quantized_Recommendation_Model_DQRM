@@ -27,6 +27,7 @@ def quantized_gradients_update(model, arg, lr):
             print(update.shape) 
             ''' 
             param.add_(update * (-lr[0])) 
+            param.grad *= 0 
 
 def clear_gradients(model): 
     with torch.no_grad(): 
