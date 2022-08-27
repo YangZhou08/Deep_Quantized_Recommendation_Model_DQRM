@@ -69,9 +69,12 @@ class QuantLinear(Module):
         print("Before calling") 
         print("weight") 
         print(self.weight) 
-        self.register_buffer('weight_integer', torch.zeros_like(self.weight))
-        self.register_buffer('bias_integer', torch.zeros_like(linear.bias)) 
         ''' 
+        self.register_buffer('weight_integer', torch.zeros_like(self.weight), persistent = False) 
+        self.register_buffer('bias_integer', torch.zeros_like(linear.bias), persistent = False) 
+
+        self.register_buffer('weight_grad_buffer', torch.zeros_like(self.weight), persistent = False) 
+        self.register_buffer('bias_grad_buffer', torch.zeros_like(linear.bias), persistent = False) 
         try:
             self.bias = Parameter(linear.bias.data.clone())
         except AttributeError:
@@ -242,6 +245,9 @@ class QuantEmbeddingBagTwo(Module):
         W = np.random.uniform(
             low = -np.sqrt(1/self.num_embeddings), high = np.sqrt(1/self.num_embeddings), size = (self.num_embeddings, self.embedding_dim)
         ).astype(np.float32) 
+
+        self.register_buffer('embedding_grad_buffer', torch.zeros((self.num_embeddings, self.embedding_dim)), persistent = False) 
+
         '''
         W = np.random.normal( 
             loc = 0, scale = 0.03, size = (self.num_embeddings, self.embedding_dim) 

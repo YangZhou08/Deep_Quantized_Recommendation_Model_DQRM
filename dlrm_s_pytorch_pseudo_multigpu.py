@@ -1,118 +1,51 @@
-# Copyright (c) Facebook, Inc. and its affiliates.
-#
-# This source code is licensed under the MIT license found in the
-# LICENSE file in the root directory of this source tree.
-#
-# Description: an implementation of a deep learning recommendation model (DLRM)
-# The model input consists of dense and sparse features. The former is a vector
-# of floating point values. The latter is a list of sparse indices into
-# embedding tables, which consist of vectors of floating point values.
-# The selected vectors are passed to mlp networks denoted by triangles,
-# in some cases the vectors are interacted through operators (Ops).
-#
-# output:
-#                         vector of values
-# model:                        |
-#                              /\
-#                             /__\
-#                               |
-#       _____________________> Op  <___________________
-#     /                         |                      \
-#    /\                        /\                      /\
-#   /__\                      /__\           ...      /__\
-#    |                          |                       |
-#    |                         Op                      Op
-#    |                    ____/__\_____           ____/__\____
-#    |                   |_Emb_|____|__|    ...  |_Emb_|__|___|
-# input:
-# [ dense features ]     [sparse indices] , ..., [sparse indices]
-#
-# More precise definition of model layers:
-# 1) fully connected layers of an mlp
-# z = f(y)
-# y = Wx + b
-#
-# 2) embedding lookup (for a list of sparse indices p=[p1,...,pk])
-# z = Op(e1,...,ek)
-# obtain vectors e1=E[:,p1], ..., ek=E[:,pk]
-#
-# 3) Operator Op can be one of the following
-# Sum(e1,...,ek) = e1 + ... + ek
-# Dot(e1,...,ek) = [e1'e1, ..., e1'ek, ..., ek'e1, ..., ek'ek]
-# Cat(e1,...,ek) = [e1', ..., ek']'
-# where ' denotes transpose operation
-#
-# References:
-# [1] Maxim Naumov, Dheevatsa Mudigere, Hao-Jun Michael Shi, Jianyu Huang,
-# Narayanan Sundaram, Jongsoo Park, Xiaodong Wang, Udit Gupta, Carole-Jean Wu,
-# Alisson G. Azzolini, Dmytro Dzhulgakov, Andrey Mallevich, Ilia Cherniavskii,
-# Yinghai Lu, Raghuraman Krishnamoorthi, Ansha Yu, Volodymyr Kondratenko,
-# Stephanie Pereira, Xianjie Chen, Wenlin Chen, Vijay Rao, Bill Jia, Liang Xiong,
-# Misha Smelyanskiy, "Deep Learning Recommendation Model for Personalization and
-# Recommendation Systems", CoRR, arXiv:1906.00091, 2019
-
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import argparse
-
-# miscellaneous
-import builtins
-import datetime
-import json
-import sys
+import os
+import random
+import shutil
 import time
-
-# onnx
-# The onnx import causes deprecation warnings every time workers
-# are spawned during testing. So, we filter out those warnings.
+import logging
 import warnings
 
-# data generation
-import dlrm_data_pytorch as dp
+import builtins 
+import datetime 
+import json 
+import sys 
+import time 
 
-# For distributed run
-import extend_distributed as ext_dist
-import torch.distributed as dist 
-import mlperf_logger
+import dlrm_data_pytorch as dp 
 
-# numpy
+import extend_distributed as ext_dist 
+
+# mixed dimension 
+from torch.utils.tensorboard import SummaryWriter 
+
+# quotient-reminder 
+from tricks.md_embedding_bag import PrEmbeddingBag, md_solver 
+
 import numpy as np
-import sklearn.metrics
-
-# pytorch
 import torch
 import torch.nn as nn
-from torch._ops import ops
-from torch.autograd.profiler import record_function
-from torch.nn.parallel.parallel_apply import parallel_apply
-from torch.nn.parallel.replicate import replicate
-from torch.nn.parallel.scatter_gather import gather, scatter
-from torch.nn.parameter import Parameter
-from torch.optim.lr_scheduler import _LRScheduler
-import optim.rwsadagrad as RowWiseSparseAdagrad
-from torch.utils.tensorboard import SummaryWriter
+import torch.nn.parallel
+import torch.backends.cudnn as cudnn
+import torch.distributed as dist
+import torch.optim 
+from torch.optim.lr_scheduler import _LRScheduler 
+from torch.nn.parameter import Parameter 
+import sklearn.metrics 
 
-# mixed-dimension trick
-from tricks.md_embedding_bag import PrEmbeddingBag, md_solver
+from torch._ops import ops 
+from torch.autograd.profiler import record_function 
 
-# quotient-remainder trick
-from tricks.qr_embedding_bag import QREmbeddingBag 
-from quantization_supp.quant_modules import QuantEmbeddingBag 
 from quantization_supp.quant_modules import QuantEmbeddingBagTwo 
 from quantization_supp.quant_modules import QuantLinear 
 from quantization_supp.quant_modules import QuantAct 
 from quantization_supp.quant_utils import symmetric_linear_quantization_params 
 from quantization_supp.quant_utils import SymmetricQuantFunction 
 
-from sgd_quantized_gradients import quantized_sgd 
-from sgd_quantized_gradients import quantized_gradients_update 
 from sgd_quantized_gradients import clear_gradients 
-
-# below are not imported in the original script 
-import os 
-import torch.multiprocessing as mp 
-
-import tqdm 
+from sgd_quantized_gradients import weights_update 
+from sgd_quantized_gradients import grad_buffer_zeroing 
+from sgd_quantized_gradients import grad_buffer_update 
 
 '''
 with warnings.catch_warnings():
@@ -134,6 +67,9 @@ path_log = None
 iteration_num = 0 
 change_bitw = False 
 change_bitw2 = 4 
+dlrm = None 
+args = None 
+buffer_clean = False 
 
 change_lin_full_quantize = False 
 
@@ -871,7 +807,6 @@ class DLRM_Net(nn.Module):
             if self.top_l[-2].weight.grad is not None: 
                 print("device: {}".format(self.deviceid)) 
                 print(self.top_l[-2].weight.grad[: 20]) 
-
 def dash_separated_ints(value):
     vals = value.split("-")
     for val in vals:
@@ -895,9 +830,9 @@ def dash_separated_floats(value):
                 "%s is not a valid dash separated list of floats" % value
             )
 
-    return value
-   
-def run(): 
+    return value 
+
+def main(): 
     ### parse arguments ### 
     parser = argparse.ArgumentParser(
         description="Train Deep Learning Recommendation Model (DLRM)"
@@ -1027,12 +962,8 @@ def run():
     parser.add_argument("--quantize_activation", action = "store_true", default = False) 
     parser.add_argument("--linear_channel", action = "store_true", default = False) 
     parser.add_argument("--quantize_act_and_lin", action = "store_true", default = False) 
-    parser.add_argument('-n', '--nodes', default=1,
-                        type=int, metavar='N')
-    parser.add_argument('-g', '--gpus', default=1, type=int,
-                        help='number of gpus per node')
-    parser.add_argument('-nr', '--nr', default=0, type=int,
-                        help='ranking within the nodes')
+    parser.add_argument("--number_of_gpus_pseudo", type = int, default = 1) 
+    parser.add_argument("--number_of_gpus", type = int, default = 1) 
 
     global args
     global nbatches
@@ -1040,6 +971,7 @@ def run():
     global writer 
     global change_bitw 
     global change_bitw2 
+
     args = parser.parse_args() 
     
     if args.test_mini_batch_size < 0:
@@ -1052,19 +984,9 @@ def run():
         args.quantize_act_and_lin = False 
     if args.linear_channel: 
         args.quantize_activation = False 
-    
-    args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
-    '''
-    os.environ['MASTER_ADDR'] = '169.229.49.62' 
-    ''' 
-    os.environ['MASTER_ADDR'] = '169.229.49.63' 
-    '''
-    os.environ['MASTER_PORT'] = '29500' 
-    ''' 
-    os.environ['MASTER_PORT'] = '29570' 
-    os.environ['WORLD_SIZE'] = str(args.world_size) 
-    mp.spawn(train, nprocs = args.gpus, args = (args,)) 
-  
+
+    train(0, args) 
+
 def inference_distributed(
     rank, 
     args, 
@@ -1122,58 +1044,28 @@ def inference_distributed(
         
         test_accu += A_test 
         test_samp += mbs_test 
-        
+        '''
         if rank == 0 and i % 200 == 0: 
             print("steps testing: {}".format(float(i)/num_batch), end = "\r") 
-        
-        dist.barrier() 
+        ''' 
+        if i % 200 == 0: 
+            print("steps testing: {}".format(float(i)/num_batch), end = "\r") 
     
-    print("rank: {} test_accu: {}".format(rank, test_accu)) 
+    print("test_accu: {}".format(rank, test_accu)) 
     print("get out") 
-    '''
-    print(test_accu.type) 
-    print(test_samp.type) 
-    total_accu = torch.tensor([0.0]) 
-    total_samp = torch.tensor([0.0]) 
-    for i in range(args.nodes * args.gpus): 
-        if i == rank: 
-            test_accu_hol = torch.tensor([test_accu], dtype = torch.float32, requires_grad = False, device = device) 
-        else: 
-            test_accu_hol = torch.zeros(1, dtype = torch.float32, requires_grad = False, device = device) 
-        try: 
-            dist.broadcast(test_accu_hol, src = rank) 
-        except: 
-            print("cannot broadcast") 
-        print("receive from source: {}".format(i)) 
-        if i == rank: 
-            total_samp_hol = torch.tensor([test_samp], dtype = torch.float32, requires_grad = False, device = device) 
-        else: 
-            total_samp_hol = torch.zeros(1, dtype = torch.float32, requires_grad = False, device = device) 
-        dist.broadcast(total_samp_hol, src = rank) 
-        print("others receive from source: {}".format(i)) 
-        total_accu += test_accu_hol.data 
-        total_samp += total_samp_hol.data 
-    
-    test_accu = total_accu.item() 
-    test_samp = total_samp.item() 
-    ''' 
-    
-    print("{} has test check {} and sample count {}".format(rank, test_accu, test_samp)) 
-    
+
+    print("{} has test check {} and sample count {}".format(0, test_accu, test_samp)) 
+
     acc_test = test_accu / test_samp 
-    '''
-    writer.add_scalar("Test/Acc", acc_test, log_iter) 
-    ''' 
-    
-    if rank == 0: 
-        model_metrics_dict = {
-            "nepochs": args.nepochs,
-            "nbatches": nbatches,
-            "nbatches_test": nbatches_test,
-            "state_dict": dlrm.state_dict(),
-            "test_acc": acc_test,
-        } 
-    
+
+    model_metrics_dict = {
+        "nepochs": args.nepochs,
+        "nbatches": nbatches,
+        "nbatches_test": nbatches_test,
+        "state_dict": dlrm.state_dict(),
+        "test_acc": acc_test,
+    } 
+
     global best_acc_test 
     is_best = acc_test > best_acc_test 
     if is_best: 
@@ -1185,141 +1077,25 @@ def inference_distributed(
     
     global best_auc_test 
     best_auc_test = roc_auc if roc_auc > best_auc_test else best_auc_test 
-    
-    '''
-    print(
-        " accuracy {:3.3f} %, best {:3.3f} %".format(
-            acc_test * 100, best_acc_test * 100 
-        ), 
-        flush = True, 
-    ) 
-    ''' 
-    if rank == 0: 
-        print(
-            " accuracy {:3.3f} %, best {:3.3f} %, roc auc score {:.4f}, best {:.4f}".format(
-                acc_test * 100, best_acc_test * 100, roc_auc, best_auc_test), 
-            flush = True 
-            )
-        return model_metrics_dict, is_best 
-    else: 
-        return 
-    
-def inference(
-    args,
-    dlrm,
-    best_acc_test,
-    best_auc_test,
-    test_ld,
-    device,
-    use_gpu,
-    log_iter=-1, 
-    nbatches = -1, 
-    nbatches_test = -1, 
-    writer = None
-): 
-    test_accu = 0
-    test_samp = 0 
-    
-    scores = [] 
-    targets = [] 
-    
-    # the function operates on one gpu 
-    
-    num_batch = len(test_ld) 
-    for i, testBatch in enumerate(test_ld): 
-        if nbatches > 0 and i >= nbatches: 
-            break 
-        
-        X_test, lS_o_test, lS_i_test, T_test, W_test, CBPP_test = unpack_batch(
-            testBatch 
-        ) 
-        
-        if args.world_size > 1 and X_test.size(0) % args.world_size != 0: 
-            print("Warning: Skipping the batch %d with size %d" % (i, X_test.size(0))) 
-            continue 
-        
-        Z_test = dlrm_wrap(
-            X_test, 
-            lS_o_test, 
-            lS_i_test, 
-            use_gpu, 
-            device, 
-            ndevices = 1 # check whether ndevices is needed to be used here 
-        ) 
-        
-        if Z_test.is_cuda: 
-            torch.cuda.synchronize() 
-        
-        S_test = Z_test.detach().cpu().numpy() 
-        T_test = T_test.detach().cpu().numpy() 
-        
-        # calculating roc auc score 
-        scores.append(S_test) 
-        targets.append(T_test) 
-        
-        mbs_test = T_test.shape[0] 
-        A_test = np.sum((np.round(S_test, 0) == T_test).astype(np.uint8)) 
-        
-        test_accu += A_test 
-        test_samp += mbs_test 
-        
-        if i % 200 == 0: 
-            print("steps testing: {}\r".format(float(i)/num_batch)) 
-    
-    acc_test = test_accu / test_samp 
-    print(acc_test) 
-    writer.add_scalar("Test/Acc", acc_test, log_iter) 
-    print("writter added") 
-    
-    model_metrics_dict = {
-        "nepochs": args.nepochs,
-        "nbatches": nbatches,
-        "nbatches_test": nbatches_test,
-        "state_dict": dlrm.state_dict(),
-        "test_acc": acc_test,
-    } 
-    
-    print("find stat_dict") 
-    
-    is_best = acc_test > best_acc_test 
-    if is_best: 
-        best_acc_test = acc_test 
-        
-    scores = np.concatenate(scores, axis = 0) 
-    targets = np.concatenate(targets, axis = 0) 
-    roc_auc = sklearn.metrics.roc_auc_score(targets, scores) 
-    
-    best_auc_test = roc_auc if roc_auc > best_auc_test else best_auc_test 
-    
-    '''
-    print(
-        " accuracy {:3.3f} %, best {:3.3f} %".format(
-            acc_test * 100, best_acc_test * 100 
-        ), 
-        flush = True, 
-    ) 
-    ''' 
+
     print(
         " accuracy {:3.3f} %, best {:3.3f} %, roc auc score {:.4f}, best {:.4f}".format(
             acc_test * 100, best_acc_test * 100, roc_auc, best_auc_test), 
         flush = True 
         )
     return model_metrics_dict, is_best 
-    
+
 def train(gpu, args): 
-    rank = args.nr * args.gpus + gpu # make global rank 
-    dist.init_process_group(
-        backend = "gloo", 
-        init_method = 'env://', 
-        world_size = args.world_size, 
-        rank = rank
-    ) 
-    
+    rank = gpu 
+
     torch.manual_seed(0) 
-    torch.cuda.set_device(gpu) # TODO think about using cpu and change code 
-    batch_size = args.mini_batch_size # TODO recheck the batch_size and run the script again 
+    torch.cuda.set_device(gpu) 
+    batch_size = args.mini_batch_size 
 
     torch.set_printoptions(profile = "full") 
+    global buffer_clean 
+    buffer_clean = False 
+
     global full_precision_flag 
     full_precision_flag = args.pretrain_and_quantize 
 
@@ -1330,7 +1106,7 @@ def train(gpu, args):
 
     global change_lin_full_quantize 
     change_lin_full_quantize = False 
-    
+
     use_gpu = args.use_gpu and torch.cuda.is_available() 
     '''
     print("use gpu" if use_gpu else "not use gpu") 
@@ -1355,35 +1131,25 @@ def train(gpu, args):
     train_dataset, test_dataset = dp.make_criteo_data_and_loaders_two(args) 
     
     # train sampler 
+    '''
     train_sampler = torch.utils.data.distributed.DistributedSampler(train_dataset, num_replicas = args.world_size, rank = rank) 
+    ''' 
     '''
     test_sampler = torch.utils.data.distributed.DistributedSampler(test_dataset, num_replicas = args.world_size, rank = rank) 
     ''' 
     
     collate_wrapper_criteo = dp.collate_wrapper_criteo_offset 
     
-    train_loader = torch.utils.data.DataLoader(
+    train_loader = torch.utils.data.DataLoader( 
         dataset = train_dataset, 
         batch_size = batch_size, 
-        shuffle = False, 
+        shuffle = True, 
         num_workers = 0, 
         pin_memory = True, 
-        sampler = train_sampler, 
         collate_fn = collate_wrapper_criteo, 
         drop_last = False 
     ) 
-    '''
-    test_loader = torch.utils.data.DataLoader(
-        dataset = test_dataset, 
-        batch_size = args.test_mini_batch_size, 
-        shuffle = False, 
-        num_workers = args.test_num_workers, 
-        pin_memory = True, 
-        sampler = test_sampler, 
-        collate_fn = collate_wrapper_criteo, 
-        drop_last = False 
-    )
-    ''' 
+
     test_loader = torch.utils.data.DataLoader(
         dataset = test_dataset, 
         batch_size = args.test_mini_batch_size, 
@@ -1417,7 +1183,7 @@ def train(gpu, args):
     ln_bot[0] = m_den 
     
     args.ln_emb = ln_emb.tolist() 
-    
+
     m_spa = args.arch_sparse_feature_size 
     ln_emb = np.asarray(ln_emb) 
     num_fea = ln_emb.size + 1 
@@ -1438,7 +1204,7 @@ def train(gpu, args):
         ) 
     arch_mlp_top_adjusted = str(num_int) + "-" + args.arch_mlp_top 
     ln_top = np.fromstring(arch_mlp_top_adjusted, dtype = int, sep = "-") 
-    
+
     # sanity check: feature sizes and mlp dimensions must match
     if m_den != ln_bot[0]:
         sys.exit(
@@ -1624,10 +1390,13 @@ def train(gpu, args):
         
         parameters = (dlrm.parameters()) 
         print("optimizer selected is ", args.optimizer) 
+        '''
         optimizer = opts[args.optimizer](parameters, lr = args.learning_rate) 
+        ''' 
         '''
         optimizer = quantized_sgd(parameters, lr = args.learning_rate) 
         ''' 
+        optimizer = opts[args.optimizer](parameters, lr = args.learning_rate) 
         lr_scheduler = LRPolicyScheduler(
             optimizer, 
             args.lr_num_warmup_steps, 
@@ -1742,23 +1511,11 @@ def train(gpu, args):
             if args.pretrain_and_quantize_lin: 
                 if k == 2: 
                     change_lin_full_quantize = True 
-
+            
             if args.linear_shift_down_bit_width: 
-                '''
-                if k == 1: 
-                    change_bitw = True 
-                    change_bitw2 = 8 
-                elif k == 2: 
-                    change_bitw = True 
-                    change_bitw2 = 6 
-                elif k == 3: 
-                    change_bitw = True 
-                    change_bitw2 = args.weight_bit 
-                ''' 
                 if k == 3: 
                     change_bitw = True 
                     change_bitw2 = args.weight_bit 
-
             if k < skip_upto_epoch: 
                 continue 
             for j, inputBatch in enumerate(train_loader): 
@@ -1814,25 +1571,23 @@ def train(gpu, args):
                 '''
                 optimizer.zero_grad() 
                 ''' 
-                clear_gradients(dlrm) 
+                clear_gradients(dlrm) # gradients zeroing (clearing) 
 
-                torch.cuda.synchronize() 
-                '''
-                print(E.get_device()) 
-                ''' 
+                if buffer_clean: 
+                    grad_buffer_zeroing(dlrm) # buffers zeroing (clearing) 
+                    buffer_clean = False 
+                
                 E.backward() 
                 # quantization of gradient 
-                '''
-                optimizer.step() 
-                ''' 
+                
+                grad_buffer_update(dlrm) # update buffers 
 
-                quantized_gradients_update(dlrm, args, lr_scheduler.get_lr()) 
-                '''
+                if j % args.number_of_gpus == 0: 
+                    weights_update(dlrm, lr_scheduler.get_lr()[-1]) 
+                    lr_scheduler.step() 
+                    buffer_clean = True 
+                
                 dlrm.show_output_linear_layer_grad() 
-                ''' 
-
-                torch.cuda.synchronize() 
-                lr_scheduler.step() 
                 
                 t2 = time_wrap(use_gpu) 
                 total_time += t2 - t1 
@@ -1886,53 +1641,39 @@ def train(gpu, args):
                     print(
                         "Testing at - {}/{} of epoch {},".format(j + 1, nbatches, k)
                     ) 
+                    '''
                     if rank == 0: 
-                        model_metrics_dict, is_best = inference_distributed(
-                            rank, 
-                            args, 
-                            dlrm, 
-                            test_loader, 
-                            device, 
-                            use_gpu, 
-                            log_iter, 
-                            nbatches, 
-                            nbatches_test, 
-                            writer 
-                        ) 
-                    else: 
-                        inference_distributed(
-                            rank, 
-                            args, 
-                            dlrm, 
-                            test_loader, 
-                            device, 
-                            use_gpu, 
-                            log_iter, 
-                            nbatches, 
-                            nbatches_test, 
-                            writer 
-                        ) 
-                    if rank == 0: 
-                        if not (args.save_model == "") and not args.inference_only: 
-                            model_metrics_dict["epoch"] = k
-                            model_metrics_dict["iter"] = j + 1
-                            model_metrics_dict["train_loss"] = train_loss
-                            model_metrics_dict["total_loss"] = total_loss
-                            model_metrics_dict[
-                                "opt_state_dict"
-                            ] = optimizer.state_dict()
-                            # added to make sure even if internet crashes during training, at least one checkpoint is successfully saved 
-                            # save_addr = args.save_model + str(((j + 1)/10240)%2) 
-                            save_addr = args.save_model.split(".")[0] + str(((j + 1)/10240)%2) + ".pt" 
-                            '''
-                            print("Saving model to {}".format(args.save_model))
-                            torch.save(model_metrics_dict, args.save_model)
-                            ''' 
-                            print("Saving model to {}".format(save_addr)) 
-                            torch.save(model_metrics_dict, save_addr) 
-                    dist.barrier() 
+                    ''' 
+                    model_metrics_dict, is_best = inference_distributed(
+                        rank, 
+                        args, 
+                        dlrm, 
+                        test_loader, 
+                        device, 
+                        use_gpu, 
+                        log_iter, 
+                        nbatches, 
+                        nbatches_test, 
+                        writer 
+                    ) 
+                    if not (args.save_model == "") and not args.inference_only: 
+                        model_metrics_dict["epoch"] = k 
+                        model_metrics_dict["iter"] = j + 1 
+                        model_metrics_dict["train_loss"] = train_loss 
+                        model_metrics_dict["total_loss"] = total_loss 
+                        model_metrics_dict[
+                            "opt_state_dict"
+                        ] = optimizer.state_dict()
+                        # added to make sure even if internet crashes during training, at least one checkpoint is successfully saved 
+                        # save_addr = args.save_model + str(((j + 1)/10240)%2) 
+                        save_addr = args.save_model.split(".")[0] + str(((j + 1)/10240)%2) + ".pt" 
+                        '''
+                        print("Saving model to {}".format(args.save_model))
+                        torch.save(model_metrics_dict, args.save_model)
+                        ''' 
+                        print("Saving model to {}".format(save_addr)) 
+                        torch.save(model_metrics_dict, save_addr) 
             k += 1 
-                            
     else: 
         print("Testing for inference only") 
         inference_distributed(
@@ -1945,124 +1686,64 @@ def train(gpu, args):
             log_iter = -1, 
             nbatches = nbatches, 
             nbatches_test = nbatches_test, 
-            writer = writer
+            writer = writer 
         ) 
 
         print("finish execution of inference") 
-        if rank == 0 and args.documenting_table_weight: 
-            # recording embedding table weights the second time 
+        if args.documenting_table_weight: 
             dlrm.module.documenting_weights_tables(path_log, 1) 
-        dist.barrier() 
         return 
-        '''
-        if args.nr == 0 and gpu == 0: 
-            print("Testing for inference only") 
-            inference(
-                args, 
-                dlrm, 
-                best_acc_test, 
-                best_auc_test, 
-                test_loader, 
-                device, 
-                use_gpu 
-            ) 
-            print("finish execution of inference") 
-        dist.barrier() 
-        return 
-        ''' 
-        
+    
     if args.nr == 0 and gpu == 0: 
-        '''
-        if args.enable_profiling:
-            time_stamp = str(datetime.datetime.now()).replace(" ", "_")
-            with open("dlrm_s_pytorch" + time_stamp + "_shape.prof", "w") as prof_f:
-                prof_f.write(
-                    prof.key_averages(group_by_input_shape=True).table(
-                    sort_by="self_cpu_time_total"
-                )
-            )
-            with open("dlrm_s_pytorch" + time_stamp + "_total.prof", "w") as prof_f:
-                prof_f.write(prof.key_averages().table(sort_by="self_cpu_time_total"))
-            prof.export_chrome_trace("dlrm_s_pytorch" + time_stamp + ".json")
-            # print(prof.key_averages().table(sort_by="cpu_time_total"))
-        ''' 
-
-        # plot compute graph
-        if args.plot_compute_graph:
+        if args.plot_compute_graph: 
             sys.exit(
                 "ERROR: Please install pytorchviz package in order to use the"
                 + " visualization. Then, uncomment its import above as well as"
                 + " three lines below and run the code again."
-            )
-            # V = Z.mean() if args.inference_only else E
-            # dot = make_dot(V, params=dict(dlrm.named_parameters()))
-            # dot.render('dlrm_s_pytorch_graph') # write .pdf file
+            ) 
 
-        # test prints
-    
     if not args.inference_only: 
-        '''
-        print("updated parameters (weights and bias):")
-        for param in dlrm.parameters():
-            print(param.detach().cpu().numpy()) 
-        ''' 
         # test on the first gpu on the first node 
         epoch_num_float = (j + 1) / len(train_loader) 
         print(
             "Testing at - {}/{} of epoch {},".format(j + 1, nbatches, k)
         ) 
-        if rank == 0: 
-            model_metrics_dict, is_best = inference_distributed(
-                rank, 
-                args, 
-                dlrm, 
-                test_loader, 
-                device, 
-                use_gpu, 
-                log_iter, 
-                nbatches, 
-                nbatches_test, 
-                writer 
-            ) 
-        else: 
-            inference_distributed(
-                rank, 
-                args, 
-                dlrm, 
-                test_loader, 
-                device, 
-                use_gpu, 
-                log_iter, 
-                nbatches, 
-                nbatches_test, 
-                writer 
-            ) 
-        if rank == 0: 
-            if (
-                is_best
-                and not (args.save_model == "")
-                and not args.inference_only
-            ):
-                model_metrics_dict["epoch"] = k
-                model_metrics_dict["iter"] = j + 1
-                model_metrics_dict["train_loss"] = train_loss
-                model_metrics_dict["total_loss"] = total_loss
-                model_metrics_dict[
-                    "opt_state_dict"
-                ] = optimizer.state_dict()
-                # added to make sure even if internet crashes during training, at least one checkpoint is successfully saved 
-                # save_addr = args.save_model + str(((j + 1)/10240)%2) 
-                save_addr = args.save_model.split(".")[0] + str(((j + 1)/10240)%2) + ".pt" 
-                '''
-                print("Saving model to {}".format(args.save_model))
-                torch.save(model_metrics_dict, args.save_model)
-                ''' 
-                print("Saving model to {}".format(save_addr)) 
-                '''
-                torch.save(model_metrics_dict, save_addr) 
-                ''' 
-        dist.barrier() 
+        model_metrics_dict, is_best = inference_distributed(
+            rank, 
+            args, 
+            dlrm, 
+            test_loader, 
+            device, 
+            use_gpu, 
+            log_iter, 
+            nbatches, 
+            nbatches_test, 
+            writer 
+        ) 
+
+        if (
+            is_best 
+            and not (args.save_model == "") 
+            and not args.inference_only 
+        ): 
+            model_metrics_dict["epoch"] = k 
+            model_metrics_dict["iter"] = j + 1 
+            model_metrics_dict["train_loss"] = train_loss 
+            model_metrics_dict["total_loss"] = total_loss 
+            model_metrics_dict[
+                "opt_state_dict"
+            ] = optimizer.state_dict()
+            # added to make sure even if internet crashes during training, at least one checkpoint is successfully saved 
+            # save_addr = args.save_model + str(((j + 1)/10240)%2) 
+            save_addr = args.save_model.split(".")[0] + str(((j + 1)/10240)%2) + ".pt" 
+            '''
+            print("Saving model to {}".format(args.save_model))
+            torch.save(model_metrics_dict, args.save_model)
+            ''' 
+            print("Saving model to {}".format(save_addr)) 
+            '''
+            torch.save(model_metrics_dict, save_addr) 
+            ''' 
 
 if __name__ == "__main__": 
-    run() 
-    
+    main() 

@@ -14,6 +14,104 @@ import torch.distributed as dist
 from torch import Tensor 
 from torch.optim.optimizer import Optimizer, required 
 from typing import List, Optional 
+from quantization_supp.quant_modules import QuantLinear 
+
+def grad_buffer_update(model): 
+    """  
+    The function updates all the layer's grad buffer by the updated gradients across all layers in the model 
+    The method is only called in single GPU training between loss.backward() and weights update 
+
+    Parameter: 
+    ---------- 
+    model: the model that is training 
+
+    Return: 
+    ---------- 
+    None 
+    """ 
+    
+    with torch.no_grad(): 
+        if model.emb_l is not None: 
+            for emb_table in model.emb_l: 
+                emb_table.embedding_grad_buffer.add_(emb_table.embedding_bag.weight.grad) 
+        else: 
+            raise Warning("Cannot find the list of embedding tables") 
+        if model.bot_l is not None: 
+            for layer_one in model.bot_l and isinstance(layer_one, QuantLinear): 
+                layer_one.weight_grad_buffer.add_(layer_one.weight.grad) 
+                layer_one.bias_grad_buffer.add_(layer_one.bias.grad) 
+        else: 
+            raise Warning("Cannot find the list of bottom linear layers") 
+        if model.top_l is not None: 
+            for layer_one in model.top_l and isinstance(layer_one, QuantLinear): 
+                layer_one.weight_grad_buffer.add_(layer_one.weight.grad) 
+                layer_one.bias_grad_buffer.add_(layer_one.bias.grad) 
+        else: 
+            raise Warning("Cannot find the list of top linear layers") 
+
+def grad_buffer_zeroing(model): 
+    """ 
+    The function zeros out all the grad buffer of the model's parameter 
+
+    Parameter: 
+    ---------- 
+    model: the model that is training 
+
+    Return: 
+    ---------- 
+    None 
+    """ 
+
+    if model.emb_l is not None: 
+        for emb_table in model.emb_l: 
+            emb_table.embedding_grad_buffer *= 0 
+    else: 
+        raise Warning("Cannot find the list of embedding tables") 
+    if model.bot_l is not None: 
+        for layer_one in model.bot_l and isinstance(layer_one, QuantLinear): 
+            layer_one.weight_grad_buffer *= 0 
+            layer_one.bias_grad_buffer *= 0 
+    else: 
+        raise Warning("Cannot find the list of bottom linear layers") 
+    if model.top_l is not None: 
+        for layer_one in model.top_l and isinstance(layer_one, QuantLinear): 
+            layer_one.weight_grad_buffer *= 0 
+            layer_one.bias_grad_buffer *= 0 
+    else: 
+        raise Warning("Cannot find the list of top linear layers") 
+
+def weights_update(model, lr): 
+    """ 
+    The function does step() function, and update all the parameters in the model 
+    by using the buffer stored in each layer 
+
+    Parameter: 
+    ---------- 
+    model: the model that is training 
+    lr: the latest learning rate 
+     
+    Return: 
+    ---------- 
+    None 
+    """ 
+    with torch.no_grad(): 
+        if model.emb_l is not None: 
+            for emb_table in model.emb_l: 
+                emb_table.embedding_table.weight.data.add_(-lr * emb_table.embedding_grad_buffer) 
+        else: 
+            raise Warning("Cannot find the list of embedding tables") 
+        if model.bot_l is not None: 
+            for layer_one in model.bot_l and isinstance(layer_one, QuantLinear): 
+                layer_one.weight.data.add_(-lr * layer_one.weight_grad_buffer) 
+                layer_one.bias.data.add_(-lr * layer_one.bias_grad_buffer) 
+        else: 
+            raise Warning("Cannot find the list of bottom linear layers") 
+        if model.top_l is not None: 
+            for layer_one in model.top_l and isinstance(layer_one, QuantLinear): 
+                layer_one.weight.data.add_(-lr * layer_one.weight_grad_buffer) 
+                layer_one.bias.data.add_(-lr * layer_one.bias_grad_buffer) 
+        else: 
+            raise Warning("Cannot find the list of top linear layers") 
 
 def quantized_gradients_update(model, arg, lr): 
     # no weight decay is used 
