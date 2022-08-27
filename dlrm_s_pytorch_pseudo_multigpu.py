@@ -1018,7 +1018,7 @@ def inference_distributed(
             testBatch 
         ) 
         
-        if args.world_size > 1 and X_test.size(0) % args.world_size != 0: 
+        if X_test.size(0) % args.world_size != 0: 
             print("Warning: Skipping the batch %d with size %d" % (i, X_test.size(0))) 
             continue 
 
@@ -1589,9 +1589,9 @@ def train(gpu, args):
                     weights_update(dlrm, lr_scheduler.get_lr()[-1]) 
                     lr_scheduler.step() 
                     buffer_clean = True 
-                
+                '''
                 dlrm.show_output_linear_layer_grad() 
-                
+                ''' 
                 t2 = time_wrap(use_gpu) 
                 total_time += t2 - t1 
                 
