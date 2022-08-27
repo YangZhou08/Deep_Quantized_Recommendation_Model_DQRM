@@ -101,7 +101,7 @@ def weights_update(model, lr):
     with torch.no_grad(): 
         if model.emb_l is not None: 
             for emb_table in model.emb_l: 
-                emb_table.embedding_table.weight.data.add_(-lr * emb_table.embedding_grad_buffer) 
+                emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_grad_buffer) 
         else: 
             raise Warning("Cannot find the list of embedding tables") 
         if model.bot_l is not None: 
