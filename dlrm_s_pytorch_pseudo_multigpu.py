@@ -975,6 +975,7 @@ def main():
     global change_bitw2 
 
     args = parser.parse_args() 
+    args.world_size = 1 
     
     if args.test_mini_batch_size < 0:
         # if the parameter is not set, use the training batch size
