@@ -1544,7 +1544,7 @@ def train(gpu, args):
                 if nbatches > 0 and j >= nbatches: 
                     break 
                 
-                if args.world_size > 1 and X.size(0) % args.world_size != 0: 
+                if X.size(0) % args.world_size != 0: 
                     print(
                         "Warning: Skipping the batch %d with size %d" 
                         % (j, X.size(0)) 
