@@ -37,15 +37,17 @@ def grad_buffer_update(model):
         else: 
             raise Warning("Cannot find the list of embedding tables") 
         if model.bot_l is not None: 
-            for layer_one in model.bot_l and isinstance(layer_one, QuantLinear): 
-                layer_one.weight_grad_buffer.add_(layer_one.weight.grad) 
-                layer_one.bias_grad_buffer.add_(layer_one.bias.grad) 
+            for layer_one in model.bot_l: 
+                if isinstance(layer_one, QuantLinear): 
+                    layer_one.weight_grad_buffer.add_(layer_one.weight.grad) 
+                    layer_one.bias_grad_buffer.add_(layer_one.bias.grad) 
         else: 
             raise Warning("Cannot find the list of bottom linear layers") 
         if model.top_l is not None: 
-            for layer_one in model.top_l and isinstance(layer_one, QuantLinear): 
-                layer_one.weight_grad_buffer.add_(layer_one.weight.grad) 
-                layer_one.bias_grad_buffer.add_(layer_one.bias.grad) 
+            for layer_one in model.top_l: 
+                if isinstance(layer_one, QuantLinear): 
+                    layer_one.weight_grad_buffer.add_(layer_one.weight.grad) 
+                    layer_one.bias_grad_buffer.add_(layer_one.bias.grad) 
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
@@ -68,15 +70,17 @@ def grad_buffer_zeroing(model):
     else: 
         raise Warning("Cannot find the list of embedding tables") 
     if model.bot_l is not None: 
-        for layer_one in model.bot_l and isinstance(layer_one, QuantLinear): 
-            layer_one.weight_grad_buffer *= 0 
-            layer_one.bias_grad_buffer *= 0 
+        for layer_one in model.bot_l: 
+            if isinstance(layer_one, QuantLinear): 
+                layer_one.weight_grad_buffer *= 0 
+                layer_one.bias_grad_buffer *= 0 
     else: 
         raise Warning("Cannot find the list of bottom linear layers") 
     if model.top_l is not None: 
-        for layer_one in model.top_l and isinstance(layer_one, QuantLinear): 
-            layer_one.weight_grad_buffer *= 0 
-            layer_one.bias_grad_buffer *= 0 
+        for layer_one in model.top_l: 
+            if isinstance(layer_one, QuantLinear): 
+                layer_one.weight_grad_buffer *= 0 
+                layer_one.bias_grad_buffer *= 0 
     else: 
         raise Warning("Cannot find the list of top linear layers") 
 
@@ -101,15 +105,17 @@ def weights_update(model, lr):
         else: 
             raise Warning("Cannot find the list of embedding tables") 
         if model.bot_l is not None: 
-            for layer_one in model.bot_l and isinstance(layer_one, QuantLinear): 
-                layer_one.weight.data.add_(-lr * layer_one.weight_grad_buffer) 
-                layer_one.bias.data.add_(-lr * layer_one.bias_grad_buffer) 
+            for layer_one in model.bot_l: 
+                if isinstance(layer_one, QuantLinear): 
+                    layer_one.weight.data.add_(-lr * layer_one.weight_grad_buffer) 
+                    layer_one.bias.data.add_(-lr * layer_one.bias_grad_buffer) 
         else: 
             raise Warning("Cannot find the list of bottom linear layers") 
         if model.top_l is not None: 
-            for layer_one in model.top_l and isinstance(layer_one, QuantLinear): 
-                layer_one.weight.data.add_(-lr * layer_one.weight_grad_buffer) 
-                layer_one.bias.data.add_(-lr * layer_one.bias_grad_buffer) 
+            for layer_one in model.top_l: 
+                if isinstance(layer_one, QuantLinear): 
+                    layer_one.weight.data.add_(-lr * layer_one.weight_grad_buffer) 
+                    layer_one.bias.data.add_(-lr * layer_one.bias_grad_buffer) 
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
