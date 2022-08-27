@@ -15,7 +15,6 @@ from torch import Tensor
 from torch.optim.optimizer import Optimizer, required 
 from typing import List, Optional 
 from quantization_supp.quant_modules import QuantLinear 
-import optim.rwsadagrad as RowWiseSparseAdagrad 
 
 def grad_buffer_update(model): 
     """  

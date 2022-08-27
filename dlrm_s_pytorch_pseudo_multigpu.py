@@ -47,6 +47,8 @@ from sgd_quantized_gradients import weights_update
 from sgd_quantized_gradients import grad_buffer_zeroing 
 from sgd_quantized_gradients import grad_buffer_update 
 
+import optim.rwsadagrad as RowWiseSparseAdagrad 
+
 '''
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore", category=DeprecationWarning)
