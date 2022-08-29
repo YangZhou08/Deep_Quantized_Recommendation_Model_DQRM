@@ -1093,7 +1093,7 @@ def inference_distributed(
 
 def train(gpu, args): 
     rank = gpu 
-    print("number of gpu simulated is: {}".format(args.numbers_of_gpu)) 
+    print("number of gpu simulated is: {}".format(args.number_of_gpus)) 
 
     torch.manual_seed(0) 
     torch.cuda.set_device(gpu) 
