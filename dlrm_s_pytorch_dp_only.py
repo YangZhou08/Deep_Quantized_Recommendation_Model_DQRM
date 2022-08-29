@@ -870,7 +870,10 @@ class DLRM_Net(nn.Module):
         with torch.no_grad(): 
             if self.top_l[-2].weight.grad is not None: 
                 print("device: {}".format(self.deviceid)) 
+                '''
                 print(self.top_l[-2].weight.grad[: 20]) 
+                ''' 
+                print(self.top_l[-2].weight.grad[0][: 20]) 
 
 def dash_separated_ints(value):
     vals = value.split("-")
@@ -1605,14 +1608,9 @@ def train(gpu, args):
         for k, w in enumerate(dlrm.v_W_l):
             dlrm.v_W_l[k] = w.cuda() 
     
-    '''
-    dlrm.emb_l, dlrm.v_W_l = dlrm.create_emb(
-        m_spa, ln_emb, args.weighted_pooling 
-    ) 
-    ''' 
-    '''
+
     dlrm = nn.parallel.DistributedDataParallel(dlrm, device_ids = [gpu]) 
-    ''' 
+    
     if not args.inference_only: 
         if use_gpu and args.optimizer in ["rwsadagrad", "adagrad"]: # TODO check whether PyTorch support adagrad 
             sys.exit("GPU version of Adagrad is not supported by PyTorch.") 
@@ -1825,11 +1823,9 @@ def train(gpu, args):
                 '''
                 optimizer.step() 
                 ''' 
-
                 quantized_gradients_update(dlrm, args, lr_scheduler.get_lr()) 
-                '''
+                
                 dlrm.show_output_linear_layer_grad() 
-                ''' 
 
                 torch.cuda.synchronize() 
                 lr_scheduler.step() 
