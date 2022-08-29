@@ -130,7 +130,7 @@ def quantized_gradients_update(model, arg, lr):
             print(name) 
             print(update.shape) 
             ''' 
-            param.add_(update * (-lr[0])) 
+            param.add_(update * (-lr[-1])) 
 
 def clear_gradients(model): 
     """ 
