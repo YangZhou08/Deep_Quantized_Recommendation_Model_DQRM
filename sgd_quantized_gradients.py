@@ -66,21 +66,21 @@ def grad_buffer_zeroing(model):
 
     if model.emb_l is not None: 
         for emb_table in model.emb_l: 
-            emb_table.embedding_grad_buffer *= 0 
+            emb_table.embedding_grad_buffer.zero_() 
     else: 
         raise Warning("Cannot find the list of embedding tables") 
     if model.bot_l is not None: 
         for layer_one in model.bot_l: 
             if isinstance(layer_one, QuantLinear): 
-                layer_one.weight_grad_buffer *= 0 
-                layer_one.bias_grad_buffer *= 0 
+                layer_one.weight_grad_buffer.zero_() 
+                layer_one.bias_grad_buffer.zero_() 
     else: 
         raise Warning("Cannot find the list of bottom linear layers") 
     if model.top_l is not None: 
         for layer_one in model.top_l: 
             if isinstance(layer_one, QuantLinear): 
-                layer_one.weight_grad_buffer *= 0 
-                layer_one.bias_grad_buffer *= 0 
+                layer_one.weight_grad_buffer.zero_() 
+                layer_one.bias_grad_buffer.zero_() 
     else: 
         raise Warning("Cannot find the list of top linear layers") 
 
@@ -131,13 +131,29 @@ def quantized_gradients_update(model, arg, lr):
             print(update.shape) 
             ''' 
             param.add_(update * (-lr[0])) 
-            param.grad *= 0 
+            param.zero_() 
 
 def clear_gradients(model): 
+    """ 
+    Clearing or zeroing out the gradients of all the parameters 
+    of the model 
+
+    Parameter 
+    ---------- 
+    model: the model that is training 
+
+    Return 
+    ---------- 
+    None 
+    """
     with torch.no_grad(): 
         for name, param in model.named_parameters(): 
             if param.grad is not None: 
-                param.grad *= 0 
+                if param.grad.grad_fn is not None: 
+                    param.grad.detach_() 
+                else: 
+                    param.grad.requires_grad_(False) 
+                param.grad.zero_() 
 
 class quantized_sgd(Optimizer): 
     def __init__(self, params, lr=required, momentum=0, dampening=0,
