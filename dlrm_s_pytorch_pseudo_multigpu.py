@@ -808,9 +808,6 @@ class DLRM_Net(nn.Module):
         with torch.no_grad(): 
             if self.top_l[-2].weight.grad is not None: 
                 print("device: {}".format(self.deviceid)) 
-                '''
-                print(self.top_l[-2].weight.grad[: 20]) 
-                ''' 
                 print("showing gradients") 
                 print(self.top_l[-2].weight.grad[0][: 20]) 
                 print("showing buffer") 
@@ -1575,24 +1572,29 @@ def train(gpu, args):
                 clear_gradients(dlrm) # gradients zeroing (clearing) 
 
                 if buffer_clean: 
+                    '''
                     print("zeroing buffers") 
+                    ''' 
                     grad_buffer_zeroing(dlrm) # buffers zeroing (clearing) 
                     buffer_clean = False 
                 
                 E.backward() 
                 # quantization of gradient 
-                
+                '''
                 print("updating buffers") 
+                ''' 
                 grad_buffer_update(dlrm) # update buffers 
 
                 if j % args.number_of_gpus == 0: 
+                    '''
                     print("updating weights") 
+                    ''' 
                     weights_update(dlrm, lr_scheduler.get_lr()[-1]) 
                     lr_scheduler.step() 
                     buffer_clean = True 
-
+                '''
                 dlrm.show_output_linear_layer_grad() 
-
+                ''' 
                 t2 = time_wrap(use_gpu) 
                 total_time += t2 - t1 
                 
