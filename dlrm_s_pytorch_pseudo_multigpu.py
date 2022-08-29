@@ -811,6 +811,9 @@ class DLRM_Net(nn.Module):
                 '''
                 print(self.top_l[-2].weight.grad[: 20]) 
                 ''' 
+                print("showing gradients") 
+                print(self.top_l[-2].weight.grad[0][: 20]) 
+                print("showing buffer") 
                 print(self.top_l[-2].weight_grad_buffer[0][: 20]) 
 
 def dash_separated_ints(value):
