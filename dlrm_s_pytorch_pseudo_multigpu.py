@@ -964,7 +964,6 @@ def main():
     parser.add_argument("--quantize_activation", action = "store_true", default = False) 
     parser.add_argument("--linear_channel", action = "store_true", default = False) 
     parser.add_argument("--quantize_act_and_lin", action = "store_true", default = False) 
-    parser.add_argument("--number_of_gpus_pseudo", type = int, default = 1) 
     parser.add_argument("--number_of_gpus", type = int, default = 1) 
 
     global args
@@ -1526,15 +1525,6 @@ def train(gpu, args):
                 iteration_num = j 
 
                 # testing full lin to quantized 
-                '''
-                if j == 1025: 
-                    change_lin_full_quantize = True 
-                ''' 
-                '''
-                if args.linear_shift_down_bit_width and j == 1025: 
-                    change_bitw = True 
-                    change_bitw2 = args.weight_bit 
-                ''' 
                 if j < skip_upto_batch: 
                     continue 
                 
