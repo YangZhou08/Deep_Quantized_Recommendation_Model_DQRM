@@ -1813,8 +1813,6 @@ def train(gpu, args):
                 optimizer.zero_grad() 
                 ''' 
                 clear_gradients(dlrm) 
-
-                torch.cuda.synchronize() 
                 '''
                 print(E.get_device()) 
                 ''' 
@@ -1827,7 +1825,6 @@ def train(gpu, args):
                 '''
                 dlrm.show_output_linear_layer_grad() 
                 ''' 
-                torch.cuda.synchronize() 
                 lr_scheduler.step() 
                 
                 t2 = time_wrap(use_gpu) 
