@@ -1824,9 +1824,9 @@ def train(gpu, args):
                 optimizer.step() 
                 ''' 
                 quantized_gradients_update(dlrm, args, lr_scheduler.get_lr()) 
-                
+                '''
                 dlrm.show_output_linear_layer_grad() 
-
+                ''' 
                 torch.cuda.synchronize() 
                 lr_scheduler.step() 
                 
