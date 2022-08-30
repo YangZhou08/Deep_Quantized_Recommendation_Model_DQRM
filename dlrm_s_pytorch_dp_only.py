@@ -1821,7 +1821,9 @@ def train(gpu, args):
                 '''
                 optimizer.step() 
                 ''' 
-                quantized_gradients_update(dlrm, args, lr_scheduler.get_lr()) 
+                quantized_gradients_update(dlrm, args, lr_scheduler.get_lr(), args.world_size) 
+                if gpu == 0: 
+                    print(lr_scheduler.get_lr()[-1]) 
                 '''
                 dlrm.show_output_linear_layer_grad() 
                 ''' 
