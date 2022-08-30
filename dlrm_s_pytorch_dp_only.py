@@ -134,6 +134,10 @@ iteration_num = 0
 change_bitw = False 
 change_bitw2 = 4 
 
+# learning rate variables 
+learning_rate = 0.1 
+step_count = 0 
+
 change_lin_full_quantize = False 
 
 exc = getattr(builtins, "IOError", "FileNotFoundError")
@@ -232,6 +236,25 @@ class LRPolicyScheduler(_LRScheduler):
                 lr = self.base_lrs
         return lr
 
+def lr_scheduler_step(num_warmup_steps, decay_start_step, decay_end_step, num_decay_steps): 
+    global learning_rate 
+    global step_count 
+    if step_count < num_warmup_steps: 
+        # warmup 
+        scale = 1.0 - (num_warmup_steps - step_count)/num_warmup_steps 
+        learning_rate = learning_rate * scale 
+        '''leaving out updating the last learning rate''' 
+    elif decay_start_step <= step_count and step_count < decay_end_step: 
+        decay_steps = step_count - decay_start_step 
+        scale = ((num_decay_steps - decay_steps)/num_decay_steps) ** 2 
+        min_lr = 0.0000001 
+        learning_rate = max(min_lr, learning_rate * scale) 
+    else: 
+        if num_decay_steps > 0: 
+            learning_rate = learning_rate # kept learning rate unchanged 
+        else: 
+            learning_rate = 0.1 
+    return learning_rate 
 
 ### define dlrm in PyTorch ###
 class DLRM_Net(nn.Module):
@@ -1607,9 +1630,8 @@ def train(gpu, args):
         for k, w in enumerate(dlrm.v_W_l):
             dlrm.v_W_l[k] = w.cuda() 
     
-    '''
     dlrm = nn.parallel.DistributedDataParallel(dlrm, device_ids = [gpu]) 
-    ''' 
+
     if not args.inference_only: 
         if use_gpu and args.optimizer in ["rwsadagrad", "adagrad"]: # TODO check whether PyTorch support adagrad 
             sys.exit("GPU version of Adagrad is not supported by PyTorch.") 
@@ -1808,19 +1830,21 @@ def train(gpu, args):
                 
                 # backward propagation 
                 # tried to see if the gradients can be modified 
-                '''
+
                 optimizer.zero_grad() 
-                ''' 
+                '''
                 clear_gradients(dlrm) 
+                ''' 
                 '''
                 print(E.get_device()) 
                 ''' 
                 E.backward() 
                 # quantization of gradient 
-                '''
+                
                 optimizer.step() 
-                ''' 
+                '''
                 quantized_gradients_update(dlrm, args, lr_scheduler.get_lr(), args.world_size) 
+                ''' 
                 if gpu == 0: 
                     print(lr_scheduler.get_lr()[-1]) 
                 '''
