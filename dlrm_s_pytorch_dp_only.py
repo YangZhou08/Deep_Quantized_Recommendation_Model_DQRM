@@ -104,7 +104,6 @@ from quantization_supp.quant_modules import QuantAct
 from quantization_supp.quant_utils import symmetric_linear_quantization_params 
 from quantization_supp.quant_utils import SymmetricQuantFunction 
 
-from sgd_quantized_gradients import quantized_sgd 
 from sgd_quantized_gradients import quantized_gradients_update 
 from sgd_quantized_gradients import clear_gradients 
 
