@@ -1830,21 +1830,22 @@ def train(gpu, args):
                 
                 # backward propagation 
                 # tried to see if the gradients can be modified 
-
-                optimizer.zero_grad() 
                 '''
-                clear_gradients(dlrm) 
+                optimizer.zero_grad() 
                 ''' 
+                clear_gradients(dlrm) 
+                
                 '''
                 print(E.get_device()) 
                 ''' 
                 E.backward() 
                 # quantization of gradient 
-                
-                optimizer.step() 
                 '''
-                quantized_gradients_update(dlrm, args, lr_scheduler.get_lr(), args.world_size) 
+                optimizer.step() 
                 ''' 
+                
+                quantized_gradients_update(dlrm, args, lr_scheduler.get_lr(), args.world_size) 
+                
                 if gpu == 0: 
                     print(lr_scheduler.get_lr()[-1]) 
                 '''
