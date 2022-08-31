@@ -17,7 +17,7 @@ from typing import List, Optional
 from quantization_supp.quant_modules import QuantLinear 
 from quantization_supp.quant_utils import * 
 
-def grad_buffer_update(model): 
+def grad_buffer_update(model, number_of_gpus): 
     """  
     The function updates all the layer's grad buffer by the updated gradients across all layers in the model 
     The method is only called in single GPU training between loss.backward() and weights update 
@@ -34,21 +34,21 @@ def grad_buffer_update(model):
     with torch.no_grad(): 
         if model.emb_l is not None: 
             for emb_table in model.emb_l: 
-                emb_table.embedding_grad_buffer.add_(emb_table.embedding_bag.weight.grad) 
+                emb_table.embedding_grad_buffer.add_(emb_table.embedding_bag.weight.grad/number_of_gpus) 
         else: 
             raise Warning("Cannot find the list of embedding tables") 
         if model.bot_l is not None: 
             for layer_one in model.bot_l: 
                 if isinstance(layer_one, QuantLinear): 
-                    layer_one.weight_grad_buffer.add_(layer_one.weight.grad) 
-                    layer_one.bias_grad_buffer.add_(layer_one.bias.grad) 
+                    layer_one.weight_grad_buffer.add_(layer_one.weight.grad/number_of_gpus) 
+                    layer_one.bias_grad_buffer.add_(layer_one.bias.grad/number_of_gpus) 
         else: 
             raise Warning("Cannot find the list of bottom linear layers") 
         if model.top_l is not None: 
             for layer_one in model.top_l: 
                 if isinstance(layer_one, QuantLinear): 
-                    layer_one.weight_grad_buffer.add_(layer_one.weight.grad) 
-                    layer_one.bias_grad_buffer.add_(layer_one.bias.grad) 
+                    layer_one.weight_grad_buffer.add_(layer_one.weight.grad/number_of_gpus) 
+                    layer_one.bias_grad_buffer.add_(layer_one.bias.grad/number_of_gpus) 
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
