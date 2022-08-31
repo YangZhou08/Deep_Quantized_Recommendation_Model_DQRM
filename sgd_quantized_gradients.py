@@ -140,9 +140,7 @@ def quantized_gradients_update(model, arg, lr, num_gpus):
         for name, param in model.named_parameters(): 
             update = param.grad # finding the gradient of the data by layer 
             dist.all_reduce(update, op = dist.ReduceOp.SUM) 
-            '''
             update = update/num_gpus 
-            ''' 
             '''
             print(name) 
             print(update.shape) 
