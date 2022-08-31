@@ -1572,23 +1572,23 @@ def train(gpu, args):
                 clear_gradients(dlrm) # gradients zeroing (clearing) 
 
                 if buffer_clean: 
-                    '''
+                    
                     print("zeroing buffers") 
-                    ''' 
+                    
                     grad_buffer_zeroing(dlrm) # buffers zeroing (clearing) 
                     buffer_clean = False 
                 
                 E.backward() 
                 # quantization of gradient 
-                '''
+                
                 print("updating buffers") 
-                ''' 
+                
                 grad_buffer_update(dlrm) # update buffers 
 
                 if j % args.number_of_gpus == 0: 
-                    '''
+                    
                     print("updating weights") 
-                    ''' 
+                    
                     weights_update(dlrm, lr_scheduler.get_lr()[-1]) 
                     lr_scheduler.step() 
                     buffer_clean = True 
