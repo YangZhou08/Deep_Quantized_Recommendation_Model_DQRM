@@ -1948,7 +1948,7 @@ def train(gpu, args):
                             print("Saving model to {}".format(save_addr)) 
                             torch.save(model_metrics_dict, save_addr) 
                     dist.barrier() 
-            dlrm.show_output_linear_layer_grad() # checking whether the layer is consistent 
+                dlrm.show_output_linear_layer_grad() # checking whether the layer is consistent 
             k += 1 
                             
     else: 
