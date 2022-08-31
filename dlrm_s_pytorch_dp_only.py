@@ -1631,9 +1631,8 @@ def train(gpu, args):
     if dlrm.weighted_pooling == "fixed":
         for k, w in enumerate(dlrm.v_W_l):
             dlrm.v_W_l[k] = w.cuda() 
-    '''
+
     dlrm = nn.parallel.DistributedDataParallel(dlrm, device_ids = [gpu]) 
-    ''' 
 
     if not args.inference_only: 
         if use_gpu and args.optimizer in ["rwsadagrad", "adagrad"]: # TODO check whether PyTorch support adagrad 
@@ -1833,20 +1832,19 @@ def train(gpu, args):
                 
                 # backward propagation 
                 # tried to see if the gradients can be modified 
-                '''
                 optimizer.zero_grad() 
-                ''' 
+                '''
                 clear_gradients(dlrm) 
-                
+                ''' 
                 '''
                 print(E.get_device()) 
                 ''' 
                 E.backward() 
                 # quantization of gradient 
-                '''
                 optimizer.step() 
-                ''' 
+                '''
                 quantized_gradients_update(dlrm, args, lr_scheduler.get_lr(), args.world_size) 
+                ''' 
                 '''
                 if gpu == 0: 
                     print(lr_scheduler.get_lr()[-1]) 
@@ -1953,7 +1951,7 @@ def train(gpu, args):
                             print("Saving model to {}".format(save_addr)) 
                             torch.save(model_metrics_dict, save_addr) 
                     dist.barrier() 
-                dlrm.show_output_linear_layer_grad() # checking whether the layer is consistent 
+                dlrm.module.show_output_linear_layer_grad() # checking whether the layer is consistent 
             k += 1 
                             
     else: 
