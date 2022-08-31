@@ -893,9 +893,9 @@ class DLRM_Net(nn.Module):
             if self.top_l[-2].weight.grad is not None: 
                 print("device: {}".format(self.deviceid)) 
                 '''
-                print(self.top_l[-2].weight.grad[: 20]) 
-                ''' 
                 print(self.top_l[-2].weight.grad[0][: 20]) 
+                ''' 
+                print(self.top_l[-2].weight[0][: 20]) 
 
 def dash_separated_ints(value):
     vals = value.split("-")
@@ -1079,14 +1079,11 @@ def run():
         args.quantize_activation = False 
     
     args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
-    '''
     os.environ['MASTER_ADDR'] = '169.229.49.62' 
-    ''' 
-    os.environ['MASTER_ADDR'] = '169.229.49.63' 
     '''
     os.environ['MASTER_PORT'] = '29500' 
     ''' 
-    os.environ['MASTER_PORT'] = '29572' 
+    os.environ['MASTER_PORT'] = '29573' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
   
@@ -1951,6 +1948,7 @@ def train(gpu, args):
                             print("Saving model to {}".format(save_addr)) 
                             torch.save(model_metrics_dict, save_addr) 
                     dist.barrier() 
+            dlrm.show_output_linear_layer_grad() # checking whether the layer is consistent 
             k += 1 
                             
     else: 
