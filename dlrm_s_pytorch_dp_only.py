@@ -1600,6 +1600,9 @@ def train(gpu, args):
         quantize_activation = args.quantize_activation, 
         deviceid = gpu) 
 
+    print("before training, checking models") 
+    dlrm.show_output_linear_layer_grad() 
+
     global path_log 
     lstr = args.raw_data_file.split("/") 
     path_log = "/".join(lstr[0: -1]) + "/" 
