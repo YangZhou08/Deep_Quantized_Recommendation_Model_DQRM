@@ -1603,7 +1603,7 @@ def train(gpu, args):
         deviceid = gpu) 
 
     print("before training, checking models") 
-    dlrm.show_output_linear_layer_grad() 
+    dlrm.show_output_linear_layer_grad(start = True) 
 
     global path_log 
     lstr = args.raw_data_file.split("/") 
