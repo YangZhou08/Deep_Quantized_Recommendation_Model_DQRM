@@ -52,6 +52,77 @@ def grad_buffer_update(model, number_of_gpus):
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
+def grad_buffer_update_added_quantization(model, number_of_gpus): 
+    """ 
+    The function updates all the layer's grad buffer by the updated gradients across all layers in the model 
+    The updates are quantized. 
+    The method is only called in single GPU training between loss.backward() and weights update 
+
+    Parameter: 
+    ---------- 
+    model: the model that is training 
+
+    Return: 
+    ---------- 
+    None 
+    """ 
+    # dequantize 
+    # do conversion to floating point full precision number back in weight_update function 
+    with torch.no_grad(): 
+        if model.emb_l is not None: 
+            for emb_table in model.emb_l: 
+                # quantize 
+                if not torch.is_nonzero(emb_table.emb_scaling_factor): # check if scale is set to zero 
+                    buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 16, parallel = False) 
+                    emb_table.emb_scaling_factor = scale 
+                else: 
+                    buffer_changes, _ = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 16, parallel = False, scale = emb_table.emb_scaling_factor) 
+                emb_table.embedding_grad_buffer.add_(buffer_changes) # buffer accumulates integer tensors, scales handles the batch size 
+        else: 
+            raise Warning("Cannot find the list of embedding tables") 
+        
+        if model.bot_l is not None: 
+            for layer_one in model.bot_l: 
+                if isinstance(layer_one, QuantLinear): 
+                    # weights 
+                    if not torch.is_nonzero(layer_one.weight_scaling_factor): # check if scale is set to zero 
+                        buffer_changes, scale = quantize_linear_grad(layer_one.weight.grad, num_bits = 16, parallel = False) 
+                        layer_one.weight_scaling_factor = scale 
+                    else: 
+                        buffer_changes, _ = quantize_linear_grad(layer_one.weight.grad, num_bits = 16, parallel = False, scale = layer_one.weight_scaling_factor) 
+                    layer_one.weight_grad_buffer.add_(buffer_changes) 
+
+                    # bias 
+                    if not torch.is_nonzero(layer_one.bias_scaling_factor): # check if scale is set to zero 
+                        buffer_changes, scale = quantize_bias_grad(layer_one.bias.grad, num_bits = 16, parallel = False) 
+                        layer_one.bias_scaling_factor = scale 
+                    else: 
+                        buffer_changes, _ = quantize_bias_grad(layer_one.bias.grad, num_bits = 16, parallel = False, scale = layer_one.bias_scaling_factor) 
+                    layer_one.bias_grad_buffer.add_(buffer_changes) 
+        else: 
+            raise Warning("Cannot find the list of bottom linear layers") 
+        
+        if model.top_l is not None: 
+            for layer_one in model.top_l: 
+                if isinstance(layer_one, QuantLinear): 
+                    # weights 
+                    if not torch.is_nonzero(layer_one.weight_scaling_factor): # check if scale is set to zero 
+                        buffer_changes, scale = quantize_linear_grad(layer_one.weight.grad, num_bits = 16, parallel = False) 
+                        layer_one.weight_scaling_factor = scale 
+                    else: 
+                        buffer_changes, _ = quantize_linear_grad(layer_one.weight.grad, num_bits = 16, parallel = False, scale = layer_one.weight_scaling_factor) 
+                    layer_one.weight_grad_buffer.add_(buffer_changes) 
+
+                    # bias 
+                    if not torch.is_nonzero(layer_one.bias_scaling_factor): # check if scale is set to zero 
+                        buffer_changes, scale = quantize_bias_grad(layer_one.bias.grad, num_bits = 16, parallel = False) 
+                        layer_one.bias_scaling_factor = scale 
+                    else: 
+                        buffer_changes, _ = quantize_bias_grad(layer_one.bias.grad, num_bits = 16, parallel = False, scale = layer_one.bias_scaling_factor) 
+                    layer_one.bias_grad_buffer.add_(buffer_changes) 
+        else: 
+            raise Warning("Cannot find the list of top linear layers") 
+
 def grad_buffer_zeroing(model): 
     """ 
     The function zeros out all the grad buffer of the model's parameter 
@@ -68,20 +139,31 @@ def grad_buffer_zeroing(model):
     if model.emb_l is not None: 
         for emb_table in model.emb_l: 
             emb_table.embedding_grad_buffer.zero_() 
+            emb_table.emb_scaling_factor.zero_() # zero out the scale 
     else: 
         raise Warning("Cannot find the list of embedding tables") 
     if model.bot_l is not None: 
         for layer_one in model.bot_l: 
             if isinstance(layer_one, QuantLinear): 
+                # weights 
                 layer_one.weight_grad_buffer.zero_() 
+                layer_one.weight_scaling_factor.zero_() 
+
+                # bias 
                 layer_one.bias_grad_buffer.zero_() 
+                layer_one.bias_scaling_factor.zero_() 
     else: 
         raise Warning("Cannot find the list of bottom linear layers") 
     if model.top_l is not None: 
         for layer_one in model.top_l: 
             if isinstance(layer_one, QuantLinear): 
+                # weights 
                 layer_one.weight_grad_buffer.zero_() 
+                layer_one.weight_scaling_factor.zero_() 
+
+                # bias 
                 layer_one.bias_grad_buffer.zero_() 
+                layer_one.bias_scaling_factor.zero_() 
     else: 
         raise Warning("Cannot find the list of top linear layers") 
 
@@ -169,7 +251,7 @@ def clear_gradients(model):
                     param.grad.requires_grad_(False) 
                 param.grad.zero_() 
 
-def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None): 
+def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scale = None): 
     with torch.no_grad(): 
         if embedding_table.grad_fn is not None: 
             embedding_table.detach_() 
@@ -180,31 +262,32 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None):
         max = None 
         count = 0 
         used_rows_list = [] 
-        for i in range(embedding_table.shape[0]): 
-            if embedding_table[i][0] == 0: 
-                if embedding_table[i][1] == 0: 
-                    continue 
-                    
-            count += 1 
-            used_rows_list.append(i) 
+        if scale is None: 
+            for i in range(embedding_table.shape[0]): 
+                if embedding_table[i][0] == 0: 
+                    if embedding_table[i][1] == 0: 
+                        continue 
+                        
+                count += 1 
+                used_rows_list.append(i) 
 
-            if min is None: 
-                min, _ = torch.min(embedding_table[i], dim = 0) 
-            else: 
-                new_min, _ = torch.min(embedding_table[i], dim = 0) 
-                if new_min < min: 
-                    min = new_min 
-            if max is None: 
-                max, _ = torch.max(embedding_table[i], dim = 0) 
-            else: 
-                new_max, _ = torch.max(embedding_table[i], dim = 0) 
-                if new_max > max: 
-                    max = new_max 
-        print("sparsity level is {}".format(1 - float(count)/embedding_table.shape[0])) 
-        n = 2 ** (num_bits - 1) - 1 
+                if min is None: 
+                    min, _ = torch.min(embedding_table[i], dim = 0) 
+                else: 
+                    new_min, _ = torch.min(embedding_table[i], dim = 0) 
+                    if new_min < min: 
+                        min = new_min 
+                if max is None: 
+                    max, _ = torch.max(embedding_table[i], dim = 0) 
+                else: 
+                    new_max, _ = torch.max(embedding_table[i], dim = 0) 
+                    if new_max > max: 
+                        max = new_max 
+            print("sparsity level is {}".format(1 - float(count)/embedding_table.shape[0])) 
+            n = 2 ** (num_bits - 1) - 1 
 
-        scale = max(min.abs(), max.abs()) 
-        scale = torch.clamp(scale, min = 1e-8)/n 
+            scale = max(min.abs(), max.abs()) 
+            scale = torch.clamp(scale, min = 1e-8)/n 
 
         if parallel: 
             dist.all_reduce(scale, dist.ReduceOp.SUM) 
@@ -212,36 +295,40 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None):
         # quantize 
         return SymmetricQuantFunction.apply(embedding_table[used_rows_list], num_bits, scale), scale 
 
-def quantize_linear_grad(weight, num_bits, parallel, num_gpus = None, per_channel = True): 
+def quantize_linear_grad(weight, num_bits, parallel, num_gpus = None, per_channel = True, scale = None): 
     with torch.no_grad(): 
         if weight.grad_fn is not None: 
             weight.detach_() 
         else: 
             weight.requires_grad_(False) 
-        # finding scale 
-        if per_channel: 
-            w_min, _ = torch.min(weight, dim = 1, out = None) 
-            w_max, _ = torch.max(weight, dim = 1, out = None) 
+        if scale is None: 
+            # finding scale 
+            if per_channel: 
+                w_min, _ = torch.min(weight, dim = 1, out = None) 
+                w_max, _ = torch.max(weight, dim = 1, out = None) 
+            else: 
+                w_min = weight.min().expand(1) 
+                w_max = weight.max().expand(1) 
+            fc_scaling_factor = symmetric_linear_quantization_params(num_bits, w_min, w_max, per_channel) 
         else: 
-            w_min = weight.min().expand(1) 
-            w_max = weight.max().expand(1) 
-        fc_scaling_factor = symmetric_linear_quantization_params(num_bits, w_min, w_max, per_channel) 
+            fc_scaling_factor = scale 
         if parallel: 
             dist.all_reduce(fc_scaling_factor, dist.ReduceOp.SUM) 
             fc_scaling_factor = fc_scaling_factor/num_gpus 
         # quantize 
         return SymmetricQuantFunction.apply(weight, num_bits, fc_scaling_factor), fc_scaling_factor 
 
-def quantize_bias_grad(bias, num_bits, parallel, num_gpus = None): 
+def quantize_bias_grad(bias, num_bits, parallel, num_gpus = None, scale = None): 
     with torch.no_grad(): 
         if bias.grad_fn is not None: 
             bias.detach_() 
         else: 
             bias.requires_grad_(False) 
-        # finding scale 
-        min = torch.min(bias, dim = 0, out = None) 
-        max = torch.max(bias, dim = 0, out = None) 
-        scale = symmetric_linear_quantization_params(num_bits, min, max) 
+        if scale is None: 
+            # finding scale 
+            min = torch.min(bias, dim = 0, out = None) 
+            max = torch.max(bias, dim = 0, out = None) 
+            scale = symmetric_linear_quantization_params(num_bits, min, max) 
         if parallel: 
             dist.all_reduce(scale, dist.ReduceOp.SUM) 
             scale = scale/num_gpus 

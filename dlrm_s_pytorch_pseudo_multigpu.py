@@ -1743,8 +1743,8 @@ def train(gpu, args):
             # save_addr = args.save_model + str(((j + 1)/10240)%2) 
             save_addr = args.save_model.split(".")[0] + str(((j + 1)/10240)%2) + ".pt" 
             '''
-            print("Saving model to {}".format(args.save_model))
-            torch.save(model_metrics_dict, args.save_model)
+            print("Saving model to {}".format(args.save_model)) 
+            torch.save(model_metrics_dict, args.save_model) 
             ''' 
             print("Saving model to {}".format(save_addr)) 
             '''
