@@ -307,8 +307,8 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
         else: 
             embedding_table.requires_grad_(False) 
         # finding scale 
-        min = None 
-        max = None 
+        min_ten = None 
+        max_ten = None 
         count = 0 
         used_rows_list = [] 
         if scale is None: 
@@ -320,22 +320,22 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
                 count += 1 
                 used_rows_list.append(i) 
 
-                if min is None: 
-                    min, _ = torch.min(embedding_table[i], dim = 0) 
+                if min_ten is None: 
+                    min_ten, _ = torch.min(embedding_table[i], dim = 0) 
                 else: 
                     new_min, _ = torch.min(embedding_table[i], dim = 0) 
-                    if new_min < min: 
-                        min = new_min 
-                if max is None: 
-                    max, _ = torch.max(embedding_table[i], dim = 0) 
+                    if new_min < min_ten: 
+                        min_ten = new_min 
+                if max_ten is None: 
+                    max_ten, _ = torch.max(embedding_table[i], dim = 0) 
                 else: 
                     new_max, _ = torch.max(embedding_table[i], dim = 0) 
-                    if new_max > max: 
-                        max = new_max 
+                    if new_max > max_ten: 
+                        max_ten = new_max 
             print("sparsity level is {}".format(1 - float(count)/embedding_table.shape[0])) 
             n = 2 ** (num_bits - 1) - 1 
 
-            scale = max(min.abs(), max.abs()) 
+            scale = max(min_ten.abs(), max_ten.abs()) 
             scale = torch.clamp(scale, min = 1e-8)/n 
 
         if parallel: 
