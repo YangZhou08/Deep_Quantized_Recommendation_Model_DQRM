@@ -44,8 +44,10 @@ from quantization_supp.quant_utils import SymmetricQuantFunction
 
 from sgd_quantized_gradients import clear_gradients 
 from sgd_quantized_gradients import weights_update 
+from sgd_quantized_gradients import weights_update_added_quantization 
 from sgd_quantized_gradients import grad_buffer_zeroing 
 from sgd_quantized_gradients import grad_buffer_update 
+from sgd_quantized_gradients import grad_buffer_update_added_quantization 
 
 import optim.rwsadagrad as RowWiseSparseAdagrad 
 
@@ -1583,13 +1585,19 @@ def train(gpu, args):
                 '''
                 print("updating buffers") 
                 ''' 
+                '''
                 grad_buffer_update(dlrm, args.number_of_gpus) # update buffers 
+                ''' 
+                grad_buffer_update_added_quantization(dlrm, args.number_of_gpus) 
 
                 if j % args.number_of_gpus == 0: 
                     '''
                     print("updating weights") 
                     ''' 
+                    '''
                     weights_update(dlrm, lr_scheduler.get_lr()[-1]) 
+                    ''' 
+                    weights_update_added_quantization(dlrm, lr_scheduler.get_lr()[-1], args.number_of_gpus) 
                     lr_scheduler.step() 
                     buffer_clean = True 
                 '''

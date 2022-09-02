@@ -202,6 +202,55 @@ def weights_update(model, lr):
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
+def weights_update_added_quantization(model, lr, num_gpus): 
+    """ 
+    The function does step() function, and update all all the parameters in the model 
+    by using the buffer stored in each layer 
+    The function uses buffer that contains integer, which are then dequantized and used 
+    to update the weights 
+
+    Parameter: 
+    ---------- 
+    model: the model that is training 
+    lr: the latest learning rate 
+    num_gpus: the number of gpus 
+
+    Return: 
+    ---------- 
+    None 
+    """ 
+    with torch.no_grad(): 
+        if model.emb_l is not None: 
+            for emb_table in model.emb_l: 
+                weight_update = emb_table.embedding_grad_buffer * (emb_table.emb_scaling_factor/num_gpus) # dequantize 
+                emb_table.embedding_bag.weight.data.add_(-lr * weight_update) # update 
+        else: 
+            raise Warning("Cannot find the list of embedding tables") 
+        if model.bot_l is not None: 
+            for layer_one in model.bot_l: 
+                if isinstance(layer_one, QuantLinear): 
+                    # weight 
+                    weight_update = layer_one.weight_grad_buffer * (layer_one.weight_scaling_factor/num_gpus) # dequantize 
+                    layer_one.weight.data.add_(-lr * weight_update) # update 
+
+                    # bias 
+                    bias_update = layer_one.bias_grad_buffer * (layer_one.bias_scaling_factor/num_gpus) # dequantize 
+                    layer_one.bias.data.add_(-lr * bias_update) # update 
+        else: 
+            raise Warning("Cannot find the list of bottom linear layers") 
+        if model.top_l is not None: 
+            for layer_one in model.top_l: 
+                if isinstance(layer_one, QuantLinear): 
+                    # weight 
+                    weight_update = layer_one.weight_grad_buffer * (layer_one.weight_scaling_factor/num_gpus) # dequantize 
+                    layer_one.weight.data.add_(-lr * weight_update) # update 
+
+                    # bias 
+                    bias_update = layer_one.bias_grad_buffer * (layer_one.bias_scaling_factor/num_gpus) # dequantize 
+                    layer_one.bias.data.add_(-lr * bias_update) # update 
+        else: 
+            raise Warning("Cannot find the list of top linear layers") 
+
 def quantized_gradients_update(model, arg, lr, num_gpus): 
     """ 
     Communicating updates across all gpus, and do one step of weights update 
