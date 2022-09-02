@@ -74,10 +74,10 @@ class QuantLinear(Module):
         self.register_buffer('bias_integer', torch.zeros_like(linear.bias), persistent = False) 
 
         self.register_buffer('weight_grad_buffer', torch.zeros_like(self.weight), persistent = False) 
-        self.register_buffer('weight_scaling_factor', torch.zeros_like(self.out_features), persistent = True) 
+        self.register_buffer('weight_scaling_factor', torch.zeros(self.out_features)) 
 
         self.register_buffer('bias_grad_buffer', torch.zeros_like(self.out_features)) 
-        self.register_buffer('bias_scaling_factor', torch.zeros_like(self.out_features)) 
+        self.register_buffer('bias_scaling_factor', torch.zeros(self.out_features)) 
         try:
             self.bias = Parameter(linear.bias.data.clone())
         except AttributeError:
