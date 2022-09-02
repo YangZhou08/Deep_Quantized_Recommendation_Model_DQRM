@@ -342,7 +342,7 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
             dist.all_reduce(scale, dist.ReduceOp.SUM) 
             scale = scale/num_gpus 
         # quantize 
-        return SymmetricQuantFunction.apply(embedding_table[used_rows_list], num_bits, scale), scale 
+        return SymmetricQuantFunction.apply(embedding_table, num_bits, scale) 
 
 def quantize_linear_grad(weight, num_bits, parallel, num_gpus = None, per_channel = True, scale = None): 
     with torch.no_grad(): 
