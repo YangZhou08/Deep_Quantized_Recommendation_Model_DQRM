@@ -95,7 +95,7 @@ def linear_quantize(input, scale, zero_point, inplace=False):
         scale = scale.view(-1)
         zero_point = zero_point.view(-1)
     if inplace:
-        input.mul_(1. / scale.item()).round_() 
+        input.mul_(1. / scale.item()).to(torch.int32) 
         return input
     if len(scale.shape) != 1 or scale.shape[0] != 1: 
         return torch.round(1. / scale * input + zero_point) 
