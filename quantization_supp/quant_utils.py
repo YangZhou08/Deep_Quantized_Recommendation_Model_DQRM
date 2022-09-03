@@ -313,7 +313,7 @@ class SymmetricQuantFunction(Function):
     """
 
     @staticmethod
-    def forward(ctx, x, k, specified_scale=None):
+    def forward(ctx, x, k, specified_scale=None, backwardpass = False): 
         """
         x: floating point tensor to be quantized
         k: quantization bitwidth
@@ -328,10 +328,10 @@ class SymmetricQuantFunction(Function):
             raise ValueError("The SymmetricQuantFunction requires a pre-calculated scaling factor")
 
         zero_point = torch.tensor(0.).cuda()
-        '''
-        new_quant_x = linear_quantize(x, scale, zero_point, inplace = True) 
-        ''' 
-        new_quant_x = linear_quantize(x, scale, zero_point, inplace = False) 
+        if backwardpass: # add the conditional checking 
+            new_quant_x = linear_quantize(x, scale, zero_point, inplace = True) 
+        else: 
+            new_quant_x = linear_quantize(x, scale, zero_point, inplace = False) 
         new_quant_x = torch.clamp(new_quant_x, -n - 1, n)
 
         ctx.scale = scale
