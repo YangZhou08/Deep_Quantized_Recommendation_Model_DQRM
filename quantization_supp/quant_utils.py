@@ -97,7 +97,10 @@ def linear_quantize(input, scale, zero_point, inplace=False):
     if inplace:
         input.mul_(1. / scale).add_(zero_point).round_()
         return input
-    return torch.round(1. / scale * input + zero_point) 
+    if len(scale.shape) != 1 or scale.shape[0] != 1: 
+        return torch.round(1. / scale * input + zero_point) 
+    else: 
+        return torch.round(1. / scale.item() * input + zero_point) 
 
 
 def linear_dequantize(input_q, scale, zero_point, inplace=False):
