@@ -330,6 +330,8 @@ class SymmetricQuantFunction(Function):
         zero_point = torch.tensor(0.).cuda()
         if backwardpass: # add the conditional checking 
             new_quant_x = linear_quantize(x, scale, zero_point, inplace = True) 
+            ctx.scale = scale 
+            return new_quant_x 
         else: 
             new_quant_x = linear_quantize(x, scale, zero_point, inplace = False) 
         new_quant_x = torch.clamp(new_quant_x, -n - 1, n)
