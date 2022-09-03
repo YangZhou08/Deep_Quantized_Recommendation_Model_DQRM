@@ -307,8 +307,8 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
         else: 
             embedding_table.requires_grad_(False) 
         # finding scale 
-        print(embedding_table.indices.shape) 
-        print(embedding_table.values.shape) 
+        print(embedding_table.indices) 
+        print(embedding_table.values) 
         print(embedding_table.layout) 
         '''
         min_ten = None 
