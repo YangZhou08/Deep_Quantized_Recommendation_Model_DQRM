@@ -307,6 +307,10 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
         else: 
             embedding_table.requires_grad_(False) 
         # finding scale 
+        print(embedding_table.indices.shape) 
+        print(embedding_table.values.shape) 
+        print(embedding_table.layout) 
+        '''
         min_ten = None 
         max_ten = None 
         count = 0 
@@ -344,6 +348,7 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
         scale = scale.view(-1) 
         # quantize 
         return SymmetricQuantFunction.apply(embedding_table, num_bits, scale, True), scale 
+        ''' 
 
 def quantize_linear_grad(weight, num_bits, parallel, num_gpus = None, per_channel = True, scale = None): 
     with torch.no_grad(): 
