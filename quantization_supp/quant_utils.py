@@ -88,7 +88,7 @@ def linear_quantize(input, scale, zero_point, inplace=False):
         zero_point = zero_point.view(-1, 1, 1, 1)
     # reshape scale and zeropoint for linear weights
     elif len(input.shape) == 2:
-        if len(scale.shape) != 1: 
+        if len(scale.shape) != 1 and scale.shape[0] != 1: 
             scale = scale.view(-1, 1) # ask whether this is valid TODO ask about the change 
         zero_point = zero_point.view(-1, 1)
     else:
