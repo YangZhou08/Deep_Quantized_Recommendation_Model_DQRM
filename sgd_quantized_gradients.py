@@ -342,7 +342,6 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
             dist.all_reduce(scale, dist.ReduceOp.SUM) 
             scale = scale/num_gpus 
         scale = scale.view(-1) 
-        print(scale.shape) 
         # quantize 
         return SymmetricQuantFunction.apply(embedding_table, num_bits, scale), scale 
 
