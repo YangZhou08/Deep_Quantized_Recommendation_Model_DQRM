@@ -101,7 +101,7 @@ def linear_quantize(input, scale, zero_point, inplace=False):
         return torch.round(1. / scale * input + zero_point) 
     else: 
         if not zero_point.is_nonzero(): 
-            return torch.round(1. / scale.item() * input) 
+            return torch.round(zero_point + 1. / scale.item() * input) 
         return torch.round(1. / scale.item() * input + zero_point) 
 
 
