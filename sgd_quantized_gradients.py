@@ -232,8 +232,7 @@ def weights_update_added_quantization(model, lr, num_gpus):
                     # weight 
                     print(layer_one.weight_grad_buffer.shape) 
                     print(layer_one.weight_scaling_factor.view(1, -1).shape) 
-                    weight_update = layer_one.weight_grad_buffer * (layer_one.weight_scaling_factor.view(1, -1)/num_gpus) # dequantize 
-                    weight_update = layer_one.weight_grad_buffer * (layer_one.weight_scaling_factor.view(1, -1)/num_gpus) # dequantize 
+                    weight_update = layer_one.weight_grad_buffer * (layer_one.weight_scaling_factor.view(-1, 1)/num_gpus) # dequantize 
                     layer_one.weight.data.add_(-lr * weight_update) # update 
 
                     # bias 
@@ -245,6 +244,7 @@ def weights_update_added_quantization(model, lr, num_gpus):
             for layer_one in model.top_l: 
                 if isinstance(layer_one, QuantLinear): 
                     # weight 
+                    weight_update = layer_one.weight_grad_buffer * (layer_one.weight_scaling_factor.view(-1, 1)/num_gpus) # dequantize 
                     layer_one.weight.data.add_(-lr * weight_update) # update 
 
                     # bias 
