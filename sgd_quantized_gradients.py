@@ -311,7 +311,7 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
         print(embedding_table.coalesce().values()) 
         print(embedding_table.layout) 
         embedding_table = embedding_table.coalesce() 
-        return torch.sparse_coo_tensor(embedding_table.indices(), embedding_table.values() * 2, embedding_table.size(), device = embedding_table.device) 
+        return torch.sparse_coo_tensor(embedding_table.indices(), embedding_table.values() * 2, embedding_table.size(), device = embedding_table.device), 1.0 
         '''
         min_ten = None 
         max_ten = None 
