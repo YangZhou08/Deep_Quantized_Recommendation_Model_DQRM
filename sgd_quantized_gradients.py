@@ -97,10 +97,10 @@ def grad_buffer_update_added_quantization(model, number_of_gpus):
 
                     # bias 
                     if not torch.is_nonzero(torch.sum(layer_one.bias_scaling_factor, dim = 0)):  # check if scale is set to zero 
-                        buffer_changes, scale = quantize_bias_grad(layer_one.bias.grad, num_bits = 4, parallel = False) 
+                        buffer_changes, scale = quantize_bias_grad(layer_one.bias.grad, num_bits = 16, parallel = False) 
                         layer_one.bias_scaling_factor = scale 
                     else: 
-                        buffer_changes, _ = quantize_bias_grad(layer_one.bias.grad, num_bits = 4, parallel = False, scale = layer_one.bias_scaling_factor) 
+                        buffer_changes, _ = quantize_bias_grad(layer_one.bias.grad, num_bits = 16, parallel = False, scale = layer_one.bias_scaling_factor) 
                     print(buffer_changes) 
                     layer_one.bias_grad_buffer.add_(buffer_changes) 
         else: 
@@ -119,10 +119,10 @@ def grad_buffer_update_added_quantization(model, number_of_gpus):
 
                     # bias 
                     if not torch.is_nonzero(torch.sum(layer_one.bias_scaling_factor, dim = 0)): # check if scale is set to zero 
-                        buffer_changes, scale = quantize_bias_grad(layer_one.bias.grad, num_bits = 4, parallel = False) 
+                        buffer_changes, scale = quantize_bias_grad(layer_one.bias.grad, num_bits = 16, parallel = False) 
                         layer_one.bias_scaling_factor = scale 
                     else: 
-                        buffer_changes, _ = quantize_bias_grad(layer_one.bias.grad, num_bits = 4, parallel = False, scale = layer_one.bias_scaling_factor) 
+                        buffer_changes, _ = quantize_bias_grad(layer_one.bias.grad, num_bits = 16, parallel = False, scale = layer_one.bias_scaling_factor) 
                     print(buffer_changes) 
                     layer_one.bias_grad_buffer.add_(buffer_changes) 
         else: 
