@@ -335,6 +335,7 @@ def quantize_linear_grad(weight, num_bits, parallel, num_gpus = None, per_channe
                 w_min = weight.min().expand(1) 
                 w_max = weight.max().expand(1) 
             fc_scaling_factor = symmetric_linear_quantization_params(num_bits, w_min, w_max, per_channel) 
+            print("linear weight scale shape: {}".format(fc_scaling_factor.shape)) 
         else: 
             fc_scaling_factor = scale 
         if parallel: 
