@@ -353,7 +353,7 @@ def quantize_bias_grad(bias, num_bits, parallel, num_gpus = None, scale = None):
             # finding scale 
             bias_min, _ = torch.min(bias, dim = 0, out = None) 
             bias_max, _ = torch.max(bias, dim = 0, out = None) 
-            scale = symmetric_linear_quantization_params(num_bits, min, max) 
+            scale = symmetric_linear_quantization_params(num_bits, bias_min, bias_max) 
         if parallel: 
             dist.all_reduce(scale, dist.ReduceOp.SUM) 
             scale = scale/num_gpus 
