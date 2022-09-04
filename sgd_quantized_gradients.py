@@ -89,19 +89,19 @@ def grad_buffer_update_added_quantization(model, number_of_gpus):
                 if isinstance(layer_one, QuantLinear): 
                     # weights 
                     if not torch.is_nonzero(torch.sum(layer_one.weight_scaling_factor, dim = 0)):  # check if scale is set to zero 
-                        buffer_changes, scale = quantize_linear_grad(layer_one.weight.grad, num_bits = 4, parallel = False) 
+                        buffer_changes, scale = quantize_linear_grad(layer_one.weight.grad, num_bits = 16, parallel = False) 
                         layer_one.weight_scaling_factor = scale 
                     else: 
-                        buffer_changes, _ = quantize_linear_grad(layer_one.weight.grad, num_bits = 4, parallel = False, scale = layer_one.weight_scaling_factor) 
-                    print(buffer_changes[: 20]) 
+                        buffer_changes, _ = quantize_linear_grad(layer_one.weight.grad, num_bits = 16, parallel = False, scale = layer_one.weight_scaling_factor) 
                     layer_one.weight_grad_buffer.add_(buffer_changes) 
 
                     # bias 
                     if not torch.is_nonzero(torch.sum(layer_one.bias_scaling_factor, dim = 0)):  # check if scale is set to zero 
-                        buffer_changes, scale = quantize_bias_grad(layer_one.bias.grad, num_bits = 16, parallel = False) 
+                        buffer_changes, scale = quantize_bias_grad(layer_one.bias.grad, num_bits = 4, parallel = False) 
                         layer_one.bias_scaling_factor = scale 
                     else: 
-                        buffer_changes, _ = quantize_bias_grad(layer_one.bias.grad, num_bits = 16, parallel = False, scale = layer_one.bias_scaling_factor) 
+                        buffer_changes, _ = quantize_bias_grad(layer_one.bias.grad, num_bits = 4, parallel = False, scale = layer_one.bias_scaling_factor) 
+                    print(buffer_changes) 
                     layer_one.bias_grad_buffer.add_(buffer_changes) 
         else: 
             raise Warning("Cannot find the list of bottom linear layers") 
@@ -111,19 +111,19 @@ def grad_buffer_update_added_quantization(model, number_of_gpus):
                 if isinstance(layer_one, QuantLinear): 
                     # weights 
                     if not torch.is_nonzero(torch.sum(layer_one.weight_scaling_factor, dim = 0)): # check if scale is set to zero 
-                        buffer_changes, scale = quantize_linear_grad(layer_one.weight.grad, num_bits = 4, parallel = False) 
+                        buffer_changes, scale = quantize_linear_grad(layer_one.weight.grad, num_bits = 16, parallel = False) 
                         layer_one.weight_scaling_factor = scale 
                     else: 
-                        buffer_changes, _ = quantize_linear_grad(layer_one.weight.grad, num_bits = 4, parallel = False, scale = layer_one.weight_scaling_factor) 
-                    print(buffer_changes[: 20]) 
+                        buffer_changes, _ = quantize_linear_grad(layer_one.weight.grad, num_bits = 16, parallel = False, scale = layer_one.weight_scaling_factor) 
                     layer_one.weight_grad_buffer.add_(buffer_changes) 
 
                     # bias 
                     if not torch.is_nonzero(torch.sum(layer_one.bias_scaling_factor, dim = 0)): # check if scale is set to zero 
-                        buffer_changes, scale = quantize_bias_grad(layer_one.bias.grad, num_bits = 16, parallel = False) 
+                        buffer_changes, scale = quantize_bias_grad(layer_one.bias.grad, num_bits = 4, parallel = False) 
                         layer_one.bias_scaling_factor = scale 
                     else: 
-                        buffer_changes, _ = quantize_bias_grad(layer_one.bias.grad, num_bits = 16, parallel = False, scale = layer_one.bias_scaling_factor) 
+                        buffer_changes, _ = quantize_bias_grad(layer_one.bias.grad, num_bits = 4, parallel = False, scale = layer_one.bias_scaling_factor) 
+                    print(buffer_changes) 
                     layer_one.bias_grad_buffer.add_(buffer_changes) 
         else: 
             raise Warning("Cannot find the list of top linear layers") 
