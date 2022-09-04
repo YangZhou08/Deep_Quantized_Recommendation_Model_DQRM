@@ -101,7 +101,6 @@ def grad_buffer_update_added_quantization(model, number_of_gpus):
                         layer_one.bias_scaling_factor = scale 
                     else: 
                         buffer_changes, _ = quantize_bias_grad(layer_one.bias.grad, num_bits = 16, parallel = False, scale = layer_one.bias_scaling_factor) 
-                    print(buffer_changes) 
                     layer_one.bias_grad_buffer.add_(buffer_changes) 
         else: 
             raise Warning("Cannot find the list of bottom linear layers") 
@@ -123,7 +122,6 @@ def grad_buffer_update_added_quantization(model, number_of_gpus):
                         layer_one.bias_scaling_factor = scale 
                     else: 
                         buffer_changes, _ = quantize_bias_grad(layer_one.bias.grad, num_bits = 16, parallel = False, scale = layer_one.bias_scaling_factor) 
-                    print(buffer_changes) 
                     layer_one.bias_grad_buffer.add_(buffer_changes) 
         else: 
             raise Warning("Cannot find the list of top linear layers") 
