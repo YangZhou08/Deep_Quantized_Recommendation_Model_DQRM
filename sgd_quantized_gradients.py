@@ -351,7 +351,7 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
             scale = scale/num_gpus 
         scale = scale.view(-1) 
         # quantize 
-        return torch.sparse_coo_tensor(embedding_table.indices(), SymmetricQuantFunction.apply(embedding_table.values, num_bits, scale), size = embedding_table.size(), device = embedding_table.device), scale 
+        return torch.sparse_coo_tensor(embedding_table.indices(), SymmetricQuantFunction.apply(embedding_table.values(), num_bits, scale), size = embedding_table.size(), device = embedding_table.device) 
 
 def quantize_linear_grad(weight, num_bits, parallel, num_gpus = None, per_channel = True, scale = None): 
     with torch.no_grad(): 
