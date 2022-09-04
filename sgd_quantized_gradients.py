@@ -73,10 +73,10 @@ def grad_buffer_update_added_quantization(model, number_of_gpus):
             for emb_table in model.emb_l: 
                 # quantize 
                 if not torch.is_nonzero(emb_table.emb_scaling_factor): # check if scale is set to zero 
-                    buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 16, parallel = False) 
+                    buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 4, parallel = False) 
                     emb_table.emb_scaling_factor = scale 
                 else: 
-                    buffer_changes, _ = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 16, parallel = False, scale = emb_table.emb_scaling_factor) 
+                    buffer_changes, _ = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 4, parallel = False, scale = emb_table.emb_scaling_factor) 
                 print(buffer_changes.coalesce().values()[: 20]) 
                 emb_table.embedding_grad_buffer.add_(buffer_changes) # buffer accumulates integer tensors, scales handles the batch size 
         else: 
