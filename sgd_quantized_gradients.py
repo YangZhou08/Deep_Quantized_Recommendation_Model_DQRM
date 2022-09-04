@@ -77,6 +77,7 @@ def grad_buffer_update_added_quantization(model, number_of_gpus):
                     emb_table.emb_scaling_factor = scale 
                 else: 
                     buffer_changes, _ = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 16, parallel = False, scale = emb_table.emb_scaling_factor) 
+                print(buffer_changes.coalesce().values()[: 20]) 
                 emb_table.embedding_grad_buffer.add_(buffer_changes) # buffer accumulates integer tensors, scales handles the batch size 
         else: 
             raise Warning("Cannot find the list of embedding tables") 
@@ -222,7 +223,6 @@ def weights_update_added_quantization(model, lr, num_gpus):
     with torch.no_grad(): 
         if model.emb_l is not None: 
             for emb_table in model.emb_l: 
-                print(emb_table.embedding_grad_buffer.coalesce().values()[: 20]) 
                 weight_update = emb_table.embedding_grad_buffer * (emb_table.emb_scaling_factor/num_gpus) # dequantize 
                 emb_table.embedding_bag.weight.data.add_(-lr * weight_update) # update 
         else: 
@@ -308,11 +308,9 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
         else: 
             embedding_table.requires_grad_(False) 
         # finding scale 
-        print(embedding_table.coalesce().indices().shape) 
         embedding_table = embedding_table.coalesce() 
         if scale is None: 
             scale = symmetric_linear_quantization_param_two(num_bits, embedding_table.values(), None, None, None) 
-            print(scale) 
 
         if parallel: 
             dist.all_reduce(scale, dist.ReduceOp.SUM) 
