@@ -77,7 +77,9 @@ def grad_buffer_update_added_quantization(model, number_of_gpus):
                     emb_table.emb_scaling_factor = scale 
                 else: 
                     buffer_changes, _ = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 16, parallel = False, scale = emb_table.emb_scaling_factor) 
+                '''
                 print(buffer_changes.coalesce().values()[: 20]) 
+                ''' 
                 emb_table.embedding_grad_buffer.add_(buffer_changes) # buffer accumulates integer tensors, scales handles the batch size 
         else: 
             raise Warning("Cannot find the list of embedding tables") 
@@ -87,10 +89,11 @@ def grad_buffer_update_added_quantization(model, number_of_gpus):
                 if isinstance(layer_one, QuantLinear): 
                     # weights 
                     if not torch.is_nonzero(torch.sum(layer_one.weight_scaling_factor, dim = 0)):  # check if scale is set to zero 
-                        buffer_changes, scale = quantize_linear_grad(layer_one.weight.grad, num_bits = 16, parallel = False) 
+                        buffer_changes, scale = quantize_linear_grad(layer_one.weight.grad, num_bits = 4, parallel = False) 
                         layer_one.weight_scaling_factor = scale 
                     else: 
-                        buffer_changes, _ = quantize_linear_grad(layer_one.weight.grad, num_bits = 16, parallel = False, scale = layer_one.weight_scaling_factor) 
+                        buffer_changes, _ = quantize_linear_grad(layer_one.weight.grad, num_bits = 4, parallel = False, scale = layer_one.weight_scaling_factor) 
+                    print(buffer_changes[: 20]) 
                     layer_one.weight_grad_buffer.add_(buffer_changes) 
 
                     # bias 
@@ -108,10 +111,11 @@ def grad_buffer_update_added_quantization(model, number_of_gpus):
                 if isinstance(layer_one, QuantLinear): 
                     # weights 
                     if not torch.is_nonzero(torch.sum(layer_one.weight_scaling_factor, dim = 0)): # check if scale is set to zero 
-                        buffer_changes, scale = quantize_linear_grad(layer_one.weight.grad, num_bits = 16, parallel = False) 
+                        buffer_changes, scale = quantize_linear_grad(layer_one.weight.grad, num_bits = 4, parallel = False) 
                         layer_one.weight_scaling_factor = scale 
                     else: 
-                        buffer_changes, _ = quantize_linear_grad(layer_one.weight.grad, num_bits = 16, parallel = False, scale = layer_one.weight_scaling_factor) 
+                        buffer_changes, _ = quantize_linear_grad(layer_one.weight.grad, num_bits = 4, parallel = False, scale = layer_one.weight_scaling_factor) 
+                    print(buffer_changes[: 20]) 
                     layer_one.weight_grad_buffer.add_(buffer_changes) 
 
                     # bias 
