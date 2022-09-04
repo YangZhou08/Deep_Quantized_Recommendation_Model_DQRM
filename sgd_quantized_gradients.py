@@ -85,7 +85,7 @@ def grad_buffer_update_added_quantization(model, number_of_gpus):
             for layer_one in model.bot_l: 
                 if isinstance(layer_one, QuantLinear): 
                     # weights 
-                    if not torch.is_nonzero(layer_one.weight_scaling_factor): # check if scale is set to zero 
+                    if not torch.is_nonzero(torch.sum(layer_one.weight_scaling_factor, dim = 0)):  # check if scale is set to zero 
                         buffer_changes, scale = quantize_linear_grad(layer_one.weight.grad, num_bits = 16, parallel = False) 
                         layer_one.weight_scaling_factor = scale 
                     else: 
@@ -93,7 +93,7 @@ def grad_buffer_update_added_quantization(model, number_of_gpus):
                     layer_one.weight_grad_buffer.add_(buffer_changes) 
 
                     # bias 
-                    if not torch.is_nonzero(layer_one.bias_scaling_factor): # check if scale is set to zero 
+                    if not torch.is_nonzero(torch.sum(layer_one.bias_scaling_factor, dim = 0)):  # check if scale is set to zero 
                         buffer_changes, scale = quantize_bias_grad(layer_one.bias.grad, num_bits = 16, parallel = False) 
                         layer_one.bias_scaling_factor = scale 
                     else: 
@@ -106,7 +106,7 @@ def grad_buffer_update_added_quantization(model, number_of_gpus):
             for layer_one in model.top_l: 
                 if isinstance(layer_one, QuantLinear): 
                     # weights 
-                    if not torch.is_nonzero(layer_one.weight_scaling_factor): # check if scale is set to zero 
+                    if not torch.is_nonzero(torch.sum(layer_one.weight_scaling_factor, dim = 0)): # check if scale is set to zero 
                         buffer_changes, scale = quantize_linear_grad(layer_one.weight.grad, num_bits = 16, parallel = False) 
                         layer_one.weight_scaling_factor = scale 
                     else: 
@@ -114,7 +114,7 @@ def grad_buffer_update_added_quantization(model, number_of_gpus):
                     layer_one.weight_grad_buffer.add_(buffer_changes) 
 
                     # bias 
-                    if not torch.is_nonzero(layer_one.bias_scaling_factor): # check if scale is set to zero 
+                    if not torch.is_nonzero(torch.sum(layer_one.bias_scaling_factor, dim = 0)): # check if scale is set to zero 
                         buffer_changes, scale = quantize_bias_grad(layer_one.bias.grad, num_bits = 16, parallel = False) 
                         layer_one.bias_scaling_factor = scale 
                     else: 
@@ -308,41 +308,8 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
             embedding_table.requires_grad_(False) 
         # finding scale 
         print(embedding_table.coalesce().indices().shape) 
-        print(embedding_table.coalesce().values()) 
-        print(embedding_table.layout) 
         embedding_table = embedding_table.coalesce() 
-        min_ten = None 
-        max_ten = None 
-        count = 0 
-        used_rows_list = [] 
         if scale is None: 
-            '''
-            for i in range(embedding_table.shape[0]): 
-                if embedding_table[i][0] == 0: 
-                    if embedding_table[i][1] == 0: 
-                        continue 
-                        
-                count += 1 
-                used_rows_list.append(i) 
-
-                if min_ten is None: 
-                    min_ten, _ = torch.min(embedding_table[i], dim = 0) 
-                else: 
-                    new_min, _ = torch.min(embedding_table[i], dim = 0) 
-                    if new_min < min_ten: 
-                        min_ten = new_min 
-                if max_ten is None: 
-                    max_ten, _ = torch.max(embedding_table[i], dim = 0) 
-                else: 
-                    new_max, _ = torch.max(embedding_table[i], dim = 0) 
-                    if new_max > max_ten: 
-                        max_ten = new_max 
-            print("sparsity level is {}".format(1 - float(count)/embedding_table.shape[0])) 
-            n = 2 ** (num_bits - 1) - 1 
-
-            scale = max(min_ten.abs(), max_ten.abs()) 
-            scale = torch.clamp(scale, min = 1e-8)/n 
-            ''' 
             scale = symmetric_linear_quantization_param_two(num_bits, embedding_table.values(), None, None, None) 
             print(scale) 
 
