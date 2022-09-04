@@ -311,13 +311,12 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
         print(embedding_table.coalesce().values()) 
         print(embedding_table.layout) 
         embedding_table = embedding_table.coalesce() 
-        return torch.sparse_coo_tensor(embedding_table.indices(), embedding_table.values() * 2, embedding_table.size(), device = embedding_table.device), 1.0 
-        '''
         min_ten = None 
         max_ten = None 
         count = 0 
         used_rows_list = [] 
         if scale is None: 
+            '''
             for i in range(embedding_table.shape[0]): 
                 if embedding_table[i][0] == 0: 
                     if embedding_table[i][1] == 0: 
@@ -343,14 +342,16 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
 
             scale = max(min_ten.abs(), max_ten.abs()) 
             scale = torch.clamp(scale, min = 1e-8)/n 
+            ''' 
+            scale = symmetric_linear_quantization_param_two(num_bits, embedding_table.values(), None, None, None) 
+            print(scale) 
 
         if parallel: 
             dist.all_reduce(scale, dist.ReduceOp.SUM) 
             scale = scale/num_gpus 
         scale = scale.view(-1) 
         # quantize 
-        return SymmetricQuantFunction.apply(embedding_table, num_bits, scale, True), scale 
-        ''' 
+        return torch.sparse_coo_tensor(embedding_table.indices(), SymmetricQuantFunction.apply(embedding_table.values, num_bits, scale), size = embedding_table.size(), device = embedding_table.device), scale 
 
 def quantize_linear_grad(weight, num_bits, parallel, num_gpus = None, per_channel = True, scale = None): 
     with torch.no_grad(): 
