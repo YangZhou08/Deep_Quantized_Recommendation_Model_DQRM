@@ -222,6 +222,7 @@ def weights_update_added_quantization(model, lr, num_gpus):
     with torch.no_grad(): 
         if model.emb_l is not None: 
             for emb_table in model.emb_l: 
+                print(emb_table.embedding_grad_buffer.coalesce().values()[: 20]) 
                 weight_update = emb_table.embedding_grad_buffer * (emb_table.emb_scaling_factor/num_gpus) # dequantize 
                 emb_table.embedding_bag.weight.data.add_(-lr * weight_update) # update 
         else: 
@@ -230,8 +231,6 @@ def weights_update_added_quantization(model, lr, num_gpus):
             for layer_one in model.bot_l: 
                 if isinstance(layer_one, QuantLinear): 
                     # weight 
-                    print(layer_one.weight_grad_buffer.shape) 
-                    print(layer_one.weight_scaling_factor.view(1, -1).shape) 
                     weight_update = layer_one.weight_grad_buffer * (layer_one.weight_scaling_factor.view(-1, 1)/num_gpus) # dequantize 
                     layer_one.weight.data.add_(-lr * weight_update) # update 
 
