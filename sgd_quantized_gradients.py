@@ -73,17 +73,17 @@ def grad_buffer_update_added_quantization(model, number_of_gpus):
             for emb_table in model.emb_l: 
                 # quantize 
                 if not torch.is_nonzero(emb_table.emb_scaling_factor): # check if scale is set to zero 
-                    buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 8, parallel = False) 
+                    buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 16, parallel = False) 
                     emb_table.emb_scaling_factor = scale 
                 else: 
-                    buffer_changes, _ = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 8, parallel = False, scale = emb_table.emb_scaling_factor) 
+                    buffer_changes, _ = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 16, parallel = False, scale = emb_table.emb_scaling_factor) 
                 '''
                 print(buffer_changes.coalesce().values()[: 20]) 
                 ''' 
                 emb_table.embedding_grad_buffer.add_(buffer_changes) # buffer accumulates integer tensors, scales handles the batch size 
         else: 
             raise Warning("Cannot find the list of embedding tables") 
-        
+        '''
         if model.bot_l is not None: 
             for layer_one in model.bot_l: 
                 if isinstance(layer_one, QuantLinear): 
@@ -123,6 +123,21 @@ def grad_buffer_update_added_quantization(model, number_of_gpus):
                     else: 
                         buffer_changes, _ = quantize_bias_grad(layer_one.bias.grad, num_bits = 8, parallel = False, scale = layer_one.bias_scaling_factor) 
                     layer_one.bias_grad_buffer.add_(buffer_changes) 
+        else: 
+            raise Warning("Cannot find the list of top linear layers") 
+        ''' 
+        if model.bot_l is not None: 
+            for layer_one in model.bot_l: 
+                if isinstance(layer_one, QuantLinear): 
+                    layer_one.weight_grad_buffer.add_(layer_one.weight.grad/number_of_gpus) 
+                    layer_one.bias_grad_buffer.add_(layer_one.bias.grad/number_of_gpus) 
+        else: 
+            raise Warning("Cannot find the list of bottom linear layers") 
+        if model.top_l is not None: 
+            for layer_one in model.top_l: 
+                if isinstance(layer_one, QuantLinear): 
+                    layer_one.weight_grad_buffer.add_(layer_one.weight.grad/number_of_gpus) 
+                    layer_one.bias_grad_buffer.add_(layer_one.bias.grad/number_of_gpus) 
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
