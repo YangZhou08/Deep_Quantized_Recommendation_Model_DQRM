@@ -226,7 +226,7 @@ def weights_update(model, lr):
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
-def weights_update_added_quantization(model, lr, num_gpus, emb_grad_quantized = True): 
+def weights_update_added_quantization(model, lr, num_gpus, emb_grad_quantized = True, update_embedding = True): 
     """ 
     The function does step() function, and update all all the parameters in the model 
     by using the buffer stored in each layer 
@@ -244,14 +244,14 @@ def weights_update_added_quantization(model, lr, num_gpus, emb_grad_quantized = 
     None 
     """ 
     with torch.no_grad(): 
-        if emb_grad_quantized: 
+        if emb_grad_quantized and update_embedding: 
             if model.emb_l is not None: 
                 for emb_table in model.emb_l: 
                     weight_update = emb_table.embedding_grad_buffer * (emb_table.emb_scaling_factor/num_gpus) # dequantize 
                     emb_table.embedding_bag.weight.data.add_(-lr * weight_update) # update 
             else: 
                 raise Warning("Cannot find the list of embedding tables") 
-        else: 
+        elif update_embedding: 
             if model.emb_l is not None: 
                 for emb_table in model.emb_l: 
                     emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_grad_buffer) 

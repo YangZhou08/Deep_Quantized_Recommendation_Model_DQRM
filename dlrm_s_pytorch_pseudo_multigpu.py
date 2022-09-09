@@ -1603,7 +1603,7 @@ def train(gpu, args):
                     if k <= 2: 
                         weights_update_added_quantization(dlrm, lr_scheduler.get_lr()[-1], args.number_of_gpus, emb_grad_quantized = False) 
                     else: 
-                        weights_update_added_quantization(dlrm, lr_scheduler.get_lr()[-1], args.number_of_gpus, emb_grad_quantized = True) 
+                        weights_update_added_quantization(dlrm, lr_scheduler.get_lr()[-1], args.number_of_gpus, emb_grad_quantized = True, update_embedding = False) 
                     lr_scheduler.step() 
                     buffer_clean = True 
                 '''
