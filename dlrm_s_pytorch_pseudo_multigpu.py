@@ -1588,7 +1588,7 @@ def train(gpu, args):
                 '''
                 grad_buffer_update(dlrm, args.number_of_gpus) # update buffers 
                 ''' 
-                if k <= 2: 
+                if k <= 1: 
                     grad_buffer_update_added_quantization(dlrm, args.number_of_gpus, embedding_bit = 32, linear_bit = None) 
                 else: 
                     grad_buffer_update_added_quantization(dlrm, args.number_of_gpus, embedding_bit = 8, linear_bit = None) 
