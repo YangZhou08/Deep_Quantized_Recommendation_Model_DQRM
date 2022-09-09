@@ -52,7 +52,7 @@ def grad_buffer_update(model, number_of_gpus):
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
-def grad_buffer_update_added_quantization(model, number_of_gpus): 
+def grad_buffer_update_added_quantization(model, number_of_gpus, embedding_bit, linear_bit): 
     """ 
     The function updates all the layer's grad buffer by the updated gradients across all layers in the model 
     The updates are quantized. 
@@ -61,6 +61,7 @@ def grad_buffer_update_added_quantization(model, number_of_gpus):
     Parameter: 
     ---------- 
     model: the model that is training 
+    number_of_gpus: the number of gpus that are used or simulatedly used 
 
     Return: 
     ---------- 
@@ -73,10 +74,10 @@ def grad_buffer_update_added_quantization(model, number_of_gpus):
             for emb_table in model.emb_l: 
                 # quantize 
                 if not torch.is_nonzero(emb_table.emb_scaling_factor): # check if scale is set to zero 
-                    buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 8, parallel = False) 
+                    buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = embedding_bit, parallel = False) 
                     emb_table.emb_scaling_factor = scale 
                 else: 
-                    buffer_changes, _ = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 8, parallel = False, scale = emb_table.emb_scaling_factor) 
+                    buffer_changes, _ = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = embedding_bit, parallel = False, scale = emb_table.emb_scaling_factor) 
                 emb_table.embedding_grad_buffer.add_(buffer_changes) # buffer accumulates integer tensors, scales handles the batch size 
         else: 
             raise Warning("Cannot find the list of embedding tables") 
