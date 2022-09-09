@@ -1588,7 +1588,7 @@ def train(gpu, args):
                 '''
                 grad_buffer_update(dlrm, args.number_of_gpus) # update buffers 
                 ''' 
-                if k <= 1: 
+                if k <= 2: 
                     grad_buffer_update_added_quantization(dlrm, args.number_of_gpus, emb_grad_quantized = False) 
                 else: 
                     grad_buffer_update_added_quantization(dlrm, args.number_of_gpus, emb_grad_quantized = True) 
@@ -1600,7 +1600,7 @@ def train(gpu, args):
                     '''
                     weights_update(dlrm, lr_scheduler.get_lr()[-1]) 
                     ''' 
-                    if k <= 1: 
+                    if k <= 2: 
                         weights_update_added_quantization(dlrm, lr_scheduler.get_lr()[-1], args.number_of_gpus, emb_grad_quantized = False) 
                     else: 
                         weights_update_added_quantization(dlrm, lr_scheduler.get_lr()[-1], args.number_of_gpus, emb_grad_quantized = True) 
