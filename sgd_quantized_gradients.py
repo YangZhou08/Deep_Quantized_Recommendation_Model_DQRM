@@ -52,7 +52,7 @@ def grad_buffer_update(model, number_of_gpus):
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
-def grad_buffer_update_added_quantization(model, number_of_gpus, embedding_bit, linear_bit): 
+def grad_buffer_update_added_quantization(model, number_of_gpus, emb_grad_quantized = True): 
     """ 
     The function updates all the layer's grad buffer by the updated gradients across all layers in the model 
     The updates are quantized. 
@@ -70,25 +70,24 @@ def grad_buffer_update_added_quantization(model, number_of_gpus, embedding_bit, 
     # dequantize 
     # do conversion to floating point full precision number back in weight_update function 
     with torch.no_grad(): 
-        if model.emb_l is not None: 
-            for emb_table in model.emb_l: 
-                # quantize 
-                if not torch.is_nonzero(emb_table.emb_scaling_factor): # check if scale is set to zero 
-                    buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = embedding_bit, parallel = False) 
-                    emb_table.emb_scaling_factor = scale 
-                else: 
-                    buffer_changes, _ = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = embedding_bit, parallel = False, scale = emb_table.emb_scaling_factor) 
-                emb_table.embedding_grad_buffer.add_(buffer_changes) # buffer accumulates integer tensors, scales handles the batch size 
+        if emb_grad_quantized: 
+            if model.emb_l is not None: 
+                for emb_table in model.emb_l: 
+                    # quantize 
+                    if not torch.is_nonzero(emb_table.emb_scaling_factor): # check if scale is set to zero 
+                        buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 8, parallel = False) 
+                        emb_table.emb_scaling_factor = scale 
+                    else: 
+                        buffer_changes, _ = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 8, parallel = False, scale = emb_table.emb_scaling_factor) 
+                    emb_table.embedding_grad_buffer.add_(buffer_changes) # buffer accumulates integer tensors, scales handles the batch size 
+            else: 
+                raise Warning("Cannot find the list of embedding tables") 
         else: 
-            raise Warning("Cannot find the list of embedding tables") 
-        
-        '''
-        if model.emb_l is not None: 
-            for emb_table in model.emb_l: 
-                emb_table.embedding_grad_buffer.add_(emb_table.embedding_bag.weight.grad/number_of_gpus) 
-        else: 
-            raise Warning("Cannot find the list of embedding tables") 
-        ''' 
+            if model.emb_l is not None: 
+                for emb_table in model.emb_l: 
+                    emb_table.embedding_grad_buffer.add_(emb_table.embedding_bag.weight.grad/number_of_gpus) 
+            else: 
+                raise Warning("Cannot find the list of embedding tables") 
         '''
         if model.bot_l is not None: 
             for layer_one in model.bot_l: 
@@ -227,7 +226,7 @@ def weights_update(model, lr):
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
-def weights_update_added_quantization(model, lr, num_gpus): 
+def weights_update_added_quantization(model, lr, num_gpus, emb_grad_quantized = True): 
     """ 
     The function does step() function, and update all all the parameters in the model 
     by using the buffer stored in each layer 
@@ -245,19 +244,20 @@ def weights_update_added_quantization(model, lr, num_gpus):
     None 
     """ 
     with torch.no_grad(): 
-        if model.emb_l is not None: 
-            for emb_table in model.emb_l: 
-                weight_update = emb_table.embedding_grad_buffer * (emb_table.emb_scaling_factor/num_gpus) # dequantize 
-                emb_table.embedding_bag.weight.data.add_(-lr * weight_update) # update 
+        if emb_grad_quantized: 
+            if model.emb_l is not None: 
+                for emb_table in model.emb_l: 
+                    weight_update = emb_table.embedding_grad_buffer * (emb_table.emb_scaling_factor/num_gpus) # dequantize 
+                    emb_table.embedding_bag.weight.data.add_(-lr * weight_update) # update 
+            else: 
+                raise Warning("Cannot find the list of embedding tables") 
         else: 
-            raise Warning("Cannot find the list of embedding tables") 
-        '''
-        if model.emb_l is not None: 
-            for emb_table in model.emb_l: 
-                emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_grad_buffer) 
-        else: 
-            raise Warning("Cannot find the list of embedding tables") 
-        ''' 
+            if model.emb_l is not None: 
+                for emb_table in model.emb_l: 
+                    emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_grad_buffer) 
+            else: 
+                raise Warning("Cannot find the list of embedding tables") 
+        
         '''
         if model.bot_l is not None: 
             for layer_one in model.bot_l: 
