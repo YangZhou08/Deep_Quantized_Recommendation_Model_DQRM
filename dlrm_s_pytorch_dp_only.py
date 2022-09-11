@@ -97,10 +97,15 @@ from tricks.md_embedding_bag import PrEmbeddingBag, md_solver
 
 # quotient-remainder trick
 from tricks.qr_embedding_bag import QREmbeddingBag 
+'''
 from quantization_supp.quant_modules import QuantEmbeddingBag 
 from quantization_supp.quant_modules import QuantEmbeddingBagTwo 
 from quantization_supp.quant_modules import QuantLinear 
 from quantization_supp.quant_modules import QuantAct 
+''' 
+from quantization_supp.quant_modules_not_quantize_grad import QuantEmbeddingBagTwo 
+from quantization_supp.quant_modules_not_quantize_grad import QuantLinear 
+from quantization_supp.quant_modules_not_quantize_grad import QuantAct 
 from quantization_supp.quant_utils import symmetric_linear_quantization_params 
 from quantization_supp.quant_utils import SymmetricQuantFunction 
 
