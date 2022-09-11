@@ -1983,7 +1983,7 @@ def train(gpu, args):
                     dist.barrier() 
                 if rank == 0 and inspect_weights_and_others: 
                     dlrm.module.documenting_weights_tables(path_log, k, emb_quantized = args.quantization_flag) 
-                print(j) 
+                dist.barrier() 
                 '''
                 dlrm.module.show_output_linear_layer_grad() # checking whether the layer is consistent 
                 ''' 
