@@ -1893,6 +1893,7 @@ def train(gpu, args):
                     and (args.data_generation in ["dataset", "random"])
                     and (((j + 1) % args.test_freq == 0) or (j + 1 == nbatches))
                 ) 
+                
                 inspect_weights_and_others = (
                     (args.test_freq > 0) 
                     and (args.data_generation in ["dataset", "random"]) 
@@ -1983,6 +1984,7 @@ def train(gpu, args):
                 if rank == 0 and inspect_weights_and_others: 
                     dlrm.module.documenting_weights_tables(path_log, k, emb_quantized = args.quantization_flag) 
                 dist.barrier() 
+                print(j) 
                 '''
                 dlrm.module.show_output_linear_layer_grad() # checking whether the layer is consistent 
                 ''' 
