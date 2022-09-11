@@ -1897,7 +1897,7 @@ def train(gpu, args):
                 inspect_weights_and_others = (
                     (args.test_freq > 0) 
                     and (args.data_generation in ["dataset", "random"]) 
-                    and ((j + 1) % (args.test_freq * 5) == 0) 
+                    and ((j + 1) % (args.test_freq * 3) == 0) 
                 )
                 
                 if should_print or should_test:
