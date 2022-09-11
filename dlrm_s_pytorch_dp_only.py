@@ -871,13 +871,27 @@ class DLRM_Net(nn.Module):
 
             return z 
     
-    def documenting_weights_tables(self, path, epoch_num): 
+    def documenting_weights_tables(self, path, epoch_num, emb_quantized = True): 
+        table_nums = [3, 6] 
         with torch.no_grad(): 
-            for j, embedding_table in enumerate(self.emb_l): 
-                file_name = "table" + str(j) + "epoch" + str(epoch_num) + ".txt" 
+            for table_num in table_nums: 
+                file_name = "table" + str(table_num) + "epoch" + str(epoch_num) + "_" 
+                '''
+                file_name = "table" + str(table_num) + "epoch" + str(epoch_num) 
+                ''' 
+                embedding_table = self.emb_l[table_num] 
+                if emb_quantized: 
+                    file_name += "quantized" 
+                file_name += ".txt" 
+
+                print("Start documenting table {} weights in file {}".format(table_num, file_name)) 
+
                 file_path = path + "/" + file_name 
                 file = open(file_path, "a") 
+
                 weight_list = embedding_table.weight.data.detach() 
+                if emb_quantized: 
+                    weight_list = weight_list * embedding_table.eb_scaling_factor 
                 for i in range(weight_list.shape[0]): 
                     row = "" 
                     for j in range(weight_list.shape[1]): 
@@ -887,6 +901,28 @@ class DLRM_Net(nn.Module):
                     file.write(row) 
                     file.write("\n") 
                 file.close() 
+                print("Documented table {} weights in file {}".format(table_num, file_name)) 
+
+                if emb_quantized: 
+                    file_name = "table" + str(table_num) + "epoch" + str(epoch_num) + "_" + "gradient" 
+                    file_name += ".txt" 
+
+                    print("Start documenting table {} weights in file {}".format(table_num, file_name)) 
+
+                    file_path = path + "/" + file_name 
+                    file = open(file_path, "a") 
+
+                    list_o_gradients = embedding_table.weight.grad.data.detach() 
+                    for i in range(list_o_gradients.shape[0]): 
+                        row = "" 
+                        for j in range(list_o_gradients.shape[1]): 
+                            row += str(list_o_gradients[i][j].item()) 
+                            if j != list_o_gradients.shape[1] - 1: 
+                                row += ", " 
+                        file.write(row) 
+                        file.write("\n") 
+                    file.close() 
+                    print("Documented table {} gradients in file {}".format(table_num, file_name)) 
     
     def show_output_linear_layer_grad(self, start = False): 
         with torch.no_grad(): 
@@ -1833,25 +1869,10 @@ def train(gpu, args):
                 # backward propagation 
                 # tried to see if the gradients can be modified 
                 optimizer.zero_grad() 
-                '''
-                clear_gradients(dlrm) 
-                ''' 
-                '''
-                print(E.get_device()) 
-                ''' 
                 E.backward() 
                 # quantization of gradient 
                 optimizer.step() 
-                '''
-                quantized_gradients_update(dlrm, args, lr_scheduler.get_lr(), args.world_size) 
-                ''' 
-                '''
-                if gpu == 0: 
-                    print(lr_scheduler.get_lr()[-1]) 
-                ''' 
-                '''
-                dlrm.show_output_linear_layer_grad() 
-                ''' 
+
                 lr_scheduler.step() 
                 
                 t2 = time_wrap(use_gpu) 
@@ -1869,6 +1890,11 @@ def train(gpu, args):
                     and (args.data_generation in ["dataset", "random"])
                     and (((j + 1) % args.test_freq == 0) or (j + 1 == nbatches))
                 ) 
+                inspect_weights_and_others = (
+                    (args.test_freq > 0) 
+                    and (args.data_generation in ["dataset", "random"]) 
+                    and ((j + 1) % (args.test_freq * 5) == 0) 
+                )
                 
                 if should_print or should_test:
                     gT = 1000.0 * total_time / total_iter if args.print_time else -1
@@ -1951,7 +1977,12 @@ def train(gpu, args):
                             print("Saving model to {}".format(save_addr)) 
                             torch.save(model_metrics_dict, save_addr) 
                     dist.barrier() 
+                if rank == 0 and inspect_weights_and_others: 
+                    dlrm.module.documenting_weights_tables(path_log, k, emb_quantized = args.quantization_flag) 
+                dist.barrier() 
+                '''
                 dlrm.module.show_output_linear_layer_grad() # checking whether the layer is consistent 
+                ''' 
             k += 1 
                             
     else: 
