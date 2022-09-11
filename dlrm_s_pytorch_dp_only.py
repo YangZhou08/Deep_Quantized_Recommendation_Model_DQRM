@@ -884,7 +884,7 @@ class DLRM_Net(nn.Module):
                 '''
                 file_name = "table" + str(table_num) + "epoch" + str(epoch_num) 
                 ''' 
-                embedding_table = self.emb_l[table_num] 
+                embedding_table = self.emb_l[table_num].embedding_bag 
                 if emb_quantized: 
                     file_name += "quantized" 
                 file_name += ".txt" 
@@ -1902,8 +1902,8 @@ def train(gpu, args):
                 inspect_weights_and_others = (
                     (args.test_freq > 0) 
                     and (args.data_generation in ["dataset", "random"]) 
-                    and ((j + 1) % (args.test_freq * 3) == 0) 
-                )
+                    and (j % (args.test_freq * 3) == 0) 
+                ) 
                 
                 if should_print or should_test:
                     gT = 1000.0 * total_time / total_iter if args.print_time else -1
