@@ -886,6 +886,7 @@ class DLRM_Net(nn.Module):
                 ''' 
                 if emb_quantized: 
                     embedding_table = self.emb_l[table_num].embedding_bag 
+                    eb_scaling_factor = self.emb_l[table_num].eb_scaling_factor 
                 else: 
                     embedding_table = self.emb_l[table_num] 
                 if emb_quantized: 
@@ -899,7 +900,7 @@ class DLRM_Net(nn.Module):
 
                 weight_list = embedding_table.weight.data.detach() 
                 if emb_quantized: 
-                    weight_list = weight_list * embedding_table.eb_scaling_factor 
+                    weight_list = weight_list * eb_scaling_factor 
                 for i in range(weight_list.shape[0]): 
                     row = "" 
                     for j in range(weight_list.shape[1]): 
