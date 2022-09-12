@@ -912,11 +912,11 @@ class DLRM_Net(nn.Module):
                 file.close() 
                 print("Documented table {} weights in file {}".format(table_num, file_name)) 
 
-                if emb_quantized: 
+                if emb_quantized and table_num == 6: 
                     file_name = "table" + str(table_num) + "epoch" + str(epoch_num) + "_" + "gradient" 
                     file_name += ".txt" 
 
-                    print("Start documenting table {} weights in file {}".format(table_num, file_name)) 
+                    print("Start documenting table {} gradient in {}".format(table_num, file_name)) 
 
                     file_path = path + "/" + file_name 
                     file = open(file_path, "a") 
