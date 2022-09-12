@@ -876,7 +876,7 @@ class DLRM_Net(nn.Module):
 
             return z 
     
-    def documenting_weights_tables(self, path, epoch_num, emb_quantized = True): 
+    def documenting_weights_tables(self, path, epoch_num, iter_num, emb_quantized = True): 
         table_nums = [3, 6] 
         with torch.no_grad(): 
             for table_num in table_nums: 
