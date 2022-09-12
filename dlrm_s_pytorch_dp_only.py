@@ -884,7 +884,10 @@ class DLRM_Net(nn.Module):
                 '''
                 file_name = "table" + str(table_num) + "epoch" + str(epoch_num) 
                 ''' 
-                embedding_table = self.emb_l[table_num].embedding_bag 
+                if emb_quantized: 
+                    embedding_table = self.emb_l[table_num].embedding_bag 
+                else: 
+                    embedding_table = self.emb_l[table_num] 
                 if emb_quantized: 
                     file_name += "quantized" 
                 file_name += ".txt" 
