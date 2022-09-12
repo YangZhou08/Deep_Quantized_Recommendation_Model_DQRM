@@ -44,6 +44,8 @@ for table_num in [3, 6]:
 
 for file_name in file_names: 
 
+    table_num = int(file_name[5]) 
+
     file_path = path + file_name 
     file = open(file_path, "r") 
     lines = file.readlines() 
@@ -61,7 +63,10 @@ for file_name in file_names:
     y, x, _ = plt.hist(list_one, log = True) 
     y_max = np.max(y) 
     ''' 
-    plt.hist(list_one, log = True) 
+    if table_num == 3: 
+        plt.hist(list_one, log = True, bins = 100) 
+    else: 
+        plt.hist(list_one, log = False, bins = 100) 
     '''
     chicanes.append(np.sqrt(1/n_l[table_num])) 
     for ratio in thr_r: 
