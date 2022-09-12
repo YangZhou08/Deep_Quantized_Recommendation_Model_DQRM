@@ -54,7 +54,8 @@ for file_name in file_names:
         line_seg = line.split(", ") 
         for word_with_value in line_seg: 
             list_one.append(float(word_with_value)) 
-    print("table", table_num) 
+    
+    print(file_name) 
     '''
     print(np.sqrt(1/n_l[table_num])) 
     ''' 
