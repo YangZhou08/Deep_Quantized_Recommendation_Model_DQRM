@@ -28,39 +28,53 @@ thr_r = [0.2, 0.4, 0.6, 0.8, 1.0]
 colors = ['red', 'green', 'yellow', 'purple', 'black', 'navy'] 
 
 list_one = [] 
+'''
 chicanes = [] 
-for table_num in range(0, 26): 
-    '''
-    file_name = "table" + str(table_num) + "epoch" + "1.txt" 
+''' 
+file_names = [] 
+
+for table_num in [3, 6]: 
+    name = "table" + str(table_num) + "epoch" 
+    for i in range(5): 
+        file_names.append(name + str(i) + "_.txt") 
+        file_names.append(name + str(i) + "_quantized.txt") 
+
+        if table_num == 6: 
+            file_names.append(name + str(i) + "_gradient.txt") 
+
+for file_name in file_names: 
 
     file_path = path + file_name 
     file = open(file_path, "r") 
     lines = file.readlines() 
+
     for line in lines: 
         line_seg = line.split(", ") 
         for word_with_value in line_seg: 
             list_one.append(float(word_with_value)) 
-    ''' 
     print("table", table_num) 
+    '''
     print(np.sqrt(1/n_l[table_num])) 
-    '''
-    print(len(list_one)) 
     ''' 
+    print(len(list_one)) 
     '''
-    y, x, _ = plt.hist(list_one, bins = 1000) 
+    y, x, _ = plt.hist(list_one, log = True) 
     y_max = np.max(y) 
+    ''' 
+    plt.hist(list_one, log = True) 
+    '''
     chicanes.append(np.sqrt(1/n_l[table_num])) 
     for ratio in thr_r: 
         chicanes.append(np.sqrt(1/n_l[table_num]) * (1 + ratio)) 
-
+    
     for i, l in enumerate(chicanes): 
         plt.vlines(-l, ymin = 0, ymax = y_max, color = colors[i]) 
         plt.vlines(l, ymin = 0, ymax = y_max, color = colors[i]) 
     if len(list_one) > 1e6: 
         plt.xlim(-0.1, 0.1) 
-    
-    plt.title("table {}".format(table_num)) 
-
+    ''' 
+    plt.title(file_name) 
+    '''
     logger_path = path + log_file_name 
     logger = open(logger_path, "a") 
     logger.write("table {}\n".format(table_num)) 
@@ -69,14 +83,16 @@ for table_num in range(0, 26):
     logger.write(str(y)) 
     logger.write("\n") 
     logger.close() 
-
+    ''' 
     list_one = [] 
     chicanes = [] 
-    plt.savefig("hist" + str(table_num) + "_.png") 
-    plt.clf() 
-    ''' 
+    plt.savefig(path + "hist" + str(table_num) + "_.png") 
     '''
+    plt.savefig("hist" + str(table_num) + "_.png") 
+    ''' 
+    plt.clf() 
+    
     print("min: {}, max: {}, mean: {}, standard deviation: {}".format(np.min(list_one), np.max(list_one), np.mean(list_one), np.std(list_one))) 
     print() 
-    ''' 
+    
     list_one = [] 
