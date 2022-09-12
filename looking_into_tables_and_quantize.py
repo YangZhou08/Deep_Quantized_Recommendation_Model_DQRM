@@ -89,12 +89,12 @@ for file_name in file_names:
     logger.write("\n") 
     logger.close() 
     ''' 
+    '''
     list_one = [] 
     chicanes = [] 
-    plt.savefig(path + "hist" + str(table_num) + "_.png") 
-    '''
-    plt.savefig("hist" + str(table_num) + "_.png") 
     ''' 
+    
+    plt.savefig(file_name[: -4] + "hist.png") 
     plt.clf() 
     
     print("min: {}, max: {}, mean: {}, standard deviation: {}".format(np.min(list_one), np.max(list_one), np.mean(list_one), np.std(list_one))) 
