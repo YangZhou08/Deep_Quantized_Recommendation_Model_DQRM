@@ -35,6 +35,7 @@ file_names = []
 
 file_name_fil = open("files_title.txt") 
 file_names = file_name_fil.readlines() 
+file_names[-1] += '\n' 
 '''
 for table_num in [3, 6]: 
     name = "table" + str(table_num) + "epoch" 
@@ -52,7 +53,6 @@ for file_name in file_names:
     file_path = path + file_name 
     file = open(file_path, "r") 
     lines = file.readlines() 
-    lines[-1] += '\n' 
 
     for line in lines: 
         line_seg = line.split(", ") 
