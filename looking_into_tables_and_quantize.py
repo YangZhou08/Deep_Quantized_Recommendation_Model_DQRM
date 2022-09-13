@@ -37,10 +37,12 @@ for table_num in [3, 6]:
     name = "table" + str(table_num) + "epoch" 
     for i in range(5): 
         file_names.append(name + str(i) + "_.txt") 
+        '''
         file_names.append(name + str(i) + "_quantized.txt") 
 
         if table_num == 6: 
             file_names.append(name + str(i) + "_gradient.txt") 
+        ''' 
 
 for file_name in file_names: 
 
@@ -66,8 +68,10 @@ for file_name in file_names:
     ''' 
     if table_num == 3: 
         plt.hist(list_one, log = True, bins = 100) 
+        plt.xlim(-0.3, 0.3) 
     else: 
         plt.hist(list_one, log = False, bins = 100) 
+        plt.xlim(-0.1, 0.1) 
     '''
     chicanes.append(np.sqrt(1/n_l[table_num])) 
     for ratio in thr_r: 
