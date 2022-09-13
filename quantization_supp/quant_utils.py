@@ -82,7 +82,7 @@ def linear_quantize(input, scale, zero_point, inplace=False):
     scale: scaling factor for quantization
     zero_pint: shift for quantization
     """
-    # reshape scale and zeropoint for convolutional weights and activations
+    # reshape scale and zeropoint for convolutional weights and activations 
     if len(input.shape) == 4:
         scale = scale.view(-1, 1, 1, 1)
         zero_point = zero_point.view(-1, 1, 1, 1)

@@ -901,7 +901,8 @@ class DLRM_Net(nn.Module):
 
                 weight_list = embedding_table.weight.data.detach() 
                 if emb_quantized: 
-                    weight_list = linear_quantize(weight_list, 4, eb_scaling_factor) 
+                    zero_point = torch.tensor(0.).cuda() 
+                    weight_list = linear_quantize(weight_list, eb_scaling_factor, zero_point) 
                     weight_list = weight_list * eb_scaling_factor 
                 for i in range(weight_list.shape[0]): 
                     row = "" 
