@@ -52,6 +52,7 @@ for file_name in file_names:
     file_path = path + file_name 
     file = open(file_path, "r") 
     lines = file.readlines() 
+    lines[-1] += '\n' 
 
     for line in lines: 
         line_seg = line.split(", ") 
