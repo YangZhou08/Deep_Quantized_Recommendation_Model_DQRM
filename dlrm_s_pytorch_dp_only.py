@@ -881,7 +881,7 @@ class DLRM_Net(nn.Module):
         table_nums = [3, 6] 
         with torch.no_grad(): 
             for table_num in table_nums: 
-                file_name = "table" + str(table_num) + "epoch" + str(epoch_num) + "_" 
+                file_name = "table" + str(table_num) + "epoch" + str(epoch_num) + "iter" + str(iter_num) + "_" 
                 '''
                 file_name = "table" + str(table_num) + "epoch" + str(epoch_num) 
                 ''' 
@@ -1995,7 +1995,7 @@ def train(gpu, args):
                             torch.save(model_metrics_dict, save_addr) 
                     dist.barrier() 
                 if rank == 0 and inspect_weights_and_others: 
-                    dlrm.module.documenting_weights_tables(path_log, k, emb_quantized = args.quantization_flag) 
+                    dlrm.module.documenting_weights_tables(path_log, k, j, emb_quantized = args.quantization_flag) 
                 dist.barrier() 
                 '''
                 dlrm.module.show_output_linear_layer_grad() # checking whether the layer is consistent 
