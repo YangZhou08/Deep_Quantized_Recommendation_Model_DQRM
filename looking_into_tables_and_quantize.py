@@ -48,7 +48,7 @@ for file_name in file_names:
     table_num = int(file_name[5]) 
     if table_num == 6: 
         continue 
-    
+
     file_name = file_name[: -1] 
 
     file_path = path + file_name 
@@ -70,7 +70,7 @@ for file_name in file_names:
     y_max = np.max(y) 
     ''' 
     if table_num == 3: 
-        plt.hist(list_one, log = True, bins = 100) 
+        plt.hist(list_one, log = False, bins = 100) 
         plt.xlim(-0.3, 0.3) 
     else: 
         plt.hist(list_one, log = False, bins = 100) 
