@@ -45,6 +45,7 @@ for table_num in [3, 6]:
 for file_name in file_names: 
 
     table_num = int(file_name[5]) 
+    file_names = file_names[: -1] 
 
     file_path = path + file_name 
     file = open(file_path, "r") 
