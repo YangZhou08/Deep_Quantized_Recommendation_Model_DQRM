@@ -40,7 +40,7 @@ file_names = file_name_fil.readlines()
 iterations = [0, 30270, 61440] 
 length_list = [3524178, 200272] 
 
-for table_num in [3, 6]: 
+for table_num in [6]: 
     name = "table" + str(table_num) + "epoch" 
     for i in range(5): 
         file_names.append(name + str(i) + "_.txt") 
@@ -74,7 +74,9 @@ for file_name in file_names:
             plt.xlim(-0.3, 0.3) 
         else: 
             plt.hist(list_one[i * length_list[table_num] : (i + 1) * length_list[table_num]], log = False, bins = 100) 
+            '''
             plt.xlim(-0.1, 0.1) 
+            ''' 
         '''
         chicanes.append(np.sqrt(1/n_l[table_num])) 
         for ratio in thr_r: 
