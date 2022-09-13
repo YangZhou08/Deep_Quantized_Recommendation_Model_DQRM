@@ -108,6 +108,7 @@ from quantization_supp.quant_modules_not_quantize_grad import QuantLinear
 from quantization_supp.quant_modules_not_quantize_grad import QuantAct 
 from quantization_supp.quant_utils import symmetric_linear_quantization_params 
 from quantization_supp.quant_utils import SymmetricQuantFunction 
+from quantization_supp.quant_utils import linear_quantize 
 
 from sgd_quantized_gradients import quantized_gradients_update 
 from sgd_quantized_gradients import clear_gradients 
@@ -900,7 +901,7 @@ class DLRM_Net(nn.Module):
 
                 weight_list = embedding_table.weight.data.detach() 
                 if emb_quantized: 
-                    weight_list = weight_list * eb_scaling_factor 
+                    weight_list = linear_quantize(weight_list, 4, eb_scaling_factor) 
                 for i in range(weight_list.shape[0]): 
                     row = "" 
                     for j in range(weight_list.shape[1]): 
@@ -912,6 +913,7 @@ class DLRM_Net(nn.Module):
                 file.close() 
                 print("Documented table {} weights in file {}".format(table_num, file_name)) 
 
+                '''
                 if emb_quantized and table_num == 6: 
                     file_name = "table" + str(table_num) + "epoch" + str(epoch_num) + "_" + "gradient" 
                     file_name += ".txt" 
@@ -932,6 +934,7 @@ class DLRM_Net(nn.Module):
                         file.write("\n") 
                     file.close() 
                     print("Documented table {} gradients in file {}".format(table_num, file_name)) 
+                ''' 
     
     def show_output_linear_layer_grad(self, start = False): 
         with torch.no_grad(): 
