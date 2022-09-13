@@ -2012,10 +2012,6 @@ def train(gpu, args):
                     dlrm.module.documenting_weights_tables(path_log, k, j, emb_quantized = args.quantization_flag) 
                 dist.barrier() 
                 ''' 
-                if j == 0: 
-                    optimizer.zero_grad() 
-                    for emb in dlrm.emb_l: 
-                        emb.weight.requires_grad = False 
                 '''
                 dlrm.module.show_output_linear_layer_grad() # checking whether the layer is consistent 
                 ''' 
