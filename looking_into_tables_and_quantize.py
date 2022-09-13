@@ -72,7 +72,7 @@ for file_name in file_names:
         plt.hist(list_one, log = True, bins = 100) 
         plt.xlim(-0.3, 0.3) 
     else: 
-        plt.hist(list_one, log = True, bins = 100) 
+        plt.hist(list_one, log = False, bins = 100) 
         plt.xlim(-0.1, 0.1) 
     '''
     chicanes.append(np.sqrt(1/n_l[table_num])) 
