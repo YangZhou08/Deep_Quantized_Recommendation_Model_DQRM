@@ -33,16 +33,14 @@ chicanes = []
 ''' 
 file_names = [] 
 
+file_name_fil = open("files_title.txt") 
+file_names = file_name_fil.readlines() 
+'''
 for table_num in [3, 6]: 
     name = "table" + str(table_num) + "epoch" 
     for i in range(5): 
         file_names.append(name + str(i) + "_.txt") 
-        '''
-        file_names.append(name + str(i) + "_quantized.txt") 
-
-        if table_num == 6: 
-            file_names.append(name + str(i) + "_gradient.txt") 
-        ''' 
+''' 
 
 for file_name in file_names: 
 
@@ -104,5 +102,6 @@ for file_name in file_names:
     
     print("min: {}, max: {}, mean: {}, standard deviation: {}".format(np.min(list_one), np.max(list_one), np.mean(list_one), np.std(list_one))) 
     print() 
+    file.close() 
     
     list_one = [] 
