@@ -35,7 +35,6 @@ file_names = []
 
 file_name_fil = open("files_title.txt") 
 file_names = file_name_fil.readlines() 
-file_names = [file_names[-1]] 
 '''
 for table_num in [3, 6]: 
     name = "table" + str(table_num) + "epoch" 
@@ -46,6 +45,8 @@ for table_num in [3, 6]:
 for file_name in file_names: 
 
     table_num = int(file_name[5]) 
+    if table_num == 3: 
+        continue 
     '''
     file_name = file_name[: -1] 
     ''' 
