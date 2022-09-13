@@ -1438,7 +1438,7 @@ def train(gpu, args):
     ''' 
     
     collate_wrapper_criteo = dp.collate_wrapper_criteo_offset 
-    
+    '''
     train_loader = torch.utils.data.DataLoader(
         dataset = train_dataset, 
         batch_size = batch_size, 
@@ -1446,6 +1446,16 @@ def train(gpu, args):
         num_workers = 0, 
         pin_memory = True, 
         sampler = train_sampler, 
+        collate_fn = collate_wrapper_criteo, 
+        drop_last = False 
+    ) 
+    ''' 
+    train_loader = torch.utils.data.DataLoader( 
+        dataset = train_dataset, 
+        batch_size = batch_size, 
+        shuffle = True, 
+        num_workers = 0, 
+        pin_memory = True, 
         collate_fn = collate_wrapper_criteo, 
         drop_last = False 
     ) 
@@ -1685,7 +1695,9 @@ def train(gpu, args):
         for k, w in enumerate(dlrm.v_W_l):
             dlrm.v_W_l[k] = w.cuda() 
 
+    '''
     dlrm = nn.parallel.DistributedDataParallel(dlrm, device_ids = [gpu]) 
+    ''' 
 
     if not args.inference_only: 
         if use_gpu and args.optimizer in ["rwsadagrad", "adagrad"]: # TODO check whether PyTorch support adagrad 
@@ -2003,7 +2015,7 @@ def train(gpu, args):
                 print("stop updating embedding") 
                 
                 optimizer.zero_grad() 
-                for emb in dlrm.module.emb_l: 
+                for emb in dlrm.emb_l: 
                     emb.embedding_bag.weight.requires_grad = False 
                 
                 '''
