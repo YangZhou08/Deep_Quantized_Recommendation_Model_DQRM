@@ -902,6 +902,7 @@ class DLRM_Net(nn.Module):
                 weight_list = embedding_table.weight.data.detach() 
                 if emb_quantized: 
                     weight_list = linear_quantize(weight_list, 4, eb_scaling_factor) 
+                    weight_list = weight_list * eb_scaling_factor 
                 for i in range(weight_list.shape[0]): 
                     row = "" 
                     for j in range(weight_list.shape[1]): 
