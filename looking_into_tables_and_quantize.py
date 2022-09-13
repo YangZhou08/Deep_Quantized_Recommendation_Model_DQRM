@@ -47,9 +47,7 @@ for file_name in file_names:
     table_num = int(file_name[5]) 
     if table_num == 3: 
         continue 
-    '''
     file_name = file_name[: -1] 
-    ''' 
 
     file_path = path + file_name 
     file = open(file_path, "r") 
@@ -74,7 +72,6 @@ for file_name in file_names:
         plt.xlim(-0.3, 0.3) 
     else: 
         plt.hist(list_one, log = False, bins = 100) 
-        plt.xlim(-0.1, 0.1) 
     '''
     chicanes.append(np.sqrt(1/n_l[table_num])) 
     for ratio in thr_r: 
