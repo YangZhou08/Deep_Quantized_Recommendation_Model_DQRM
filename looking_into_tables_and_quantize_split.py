@@ -88,7 +88,7 @@ for file_name in file_names:
         if len(list_one) > 1e6: 
             plt.xlim(-0.1, 0.1) 
         ''' 
-        head = file_name[: -4] + " iter" + iteration 
+        head = file_name[: -4] + "iter" + iteration 
         print(head) 
         plt.title(head) 
         '''
