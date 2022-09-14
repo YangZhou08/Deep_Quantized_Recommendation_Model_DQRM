@@ -2016,11 +2016,13 @@ def train(gpu, args):
                 dlrm.module.show_output_linear_layer_grad() # checking whether the layer is consistent 
                 ''' 
             k += 1 
+            '''
             if k == 1: 
                 print("Stop backward propagation embedding") 
                 optimizer.zero_grad() 
                 for emb in dlrm.emb_l: 
                     emb.weight.requires_grad = False 
+            ''' 
                             
     else: 
         print("Testing for inference only") 
