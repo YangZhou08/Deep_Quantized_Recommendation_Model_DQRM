@@ -67,16 +67,15 @@ for file_name in file_names:
     y, x, _ = plt.hist(list_one, log = True) 
     y_max = np.max(y) 
     ''' 
-    for i in iterations: 
-        iteration = str(i) 
+    for i in range(3): 
+        iteration = str(iterations[i]) 
         if table_num == 3: 
             plt.hist(list_one[i * length_list[table_num] : (i + 1) * length_list[table_num]], log = True, bins = 100) 
             plt.xlim(-0.3, 0.3) 
         else: 
             plt.hist(list_one[i * length_list[table_num] : (i + 1) * length_list[table_num]], log = False, bins = 100) 
-            '''
             plt.xlim(-0.1, 0.1) 
-            ''' 
+
         '''
         chicanes.append(np.sqrt(1/n_l[table_num])) 
         for ratio in thr_r: 
