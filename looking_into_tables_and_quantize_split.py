@@ -38,7 +38,8 @@ file_names = file_name_fil.readlines()
 ''' 
 
 iterations = [0, 30270, 61440] 
-length_list = [3524178, 200272] 
+
+length_list = {3 : 3524178, 6 : 200272} 
 
 for table_num in [3, 6]: 
     name = "table" + str(table_num) + "epoch" 
