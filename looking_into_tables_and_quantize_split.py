@@ -39,9 +39,11 @@ file_names = file_name_fil.readlines()
 
 iterations = [0, 30270, 61440] 
 
-length_list = {3 : 3524178, 6 : 200272} 
+length_list = {3 : 35241728, 6 : 200272} 
 
 for table_num in [3, 6]: 
+    if table_num == 6: 
+        continue 
     name = "table" + str(table_num) + "epoch" 
     for i in range(5): 
         file_names.append(name + str(i) + "_.txt") 
