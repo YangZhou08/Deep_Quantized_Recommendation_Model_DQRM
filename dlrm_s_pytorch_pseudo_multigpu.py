@@ -277,29 +277,22 @@ class DLRM_Net(nn.Module):
             elif self.quantization_flag: 
                 print("---------- Embedding Table {}, quantization used, n = {}, m = {}, quantization bit set to {}".format(i, n, m, self.embedding_bit)) 
                 EE = QuantEmbeddingBagTwo(n, m, self.embedding_bit, embedding_id = i) 
-            else:
+            else: 
+                '''
                 EE = nn.EmbeddingBag(n, m, mode="sum", sparse=True) 
                 # initialize embeddings
                 # nn.init.uniform_(EE.weight, a=-np.sqrt(1 / n), b=np.sqrt(1 / n)) 
                 W = np.random.uniform(
                     low=-np.sqrt(1 / n), high=np.sqrt(1 / n), size=(n, m)
                 ).astype(np.float32) 
-                '''
-                W = np.random.normal(
-                    loc = 0, scale = np.sqrt(1/n), size = (n, m) 
-                ).astype(np.float32) 
-                ''' 
-                '''
-                W = np.random.normal( 
-                    loc = 0, scale = 0.03, size = (n, m) 
-                ).astype(np.float32) 
-                ''' 
                 # approach 1
                 EE.weight.data = torch.tensor(W, requires_grad=True)
                 # approach 2
                 # EE.weight.data.copy_(torch.tensor(W))
                 # approach 3
                 # EE.weight = Parameter(torch.tensor(W),requires_grad=True) 
+                ''' 
+                print("---------- Embedding Table {}, quantization not used, n = {}, m = {}, gradient compression precision set to {}".format(i, n, m, 8)) 
             if weighted_pooling is None:
                 v_W_l.append(None)
             else:
