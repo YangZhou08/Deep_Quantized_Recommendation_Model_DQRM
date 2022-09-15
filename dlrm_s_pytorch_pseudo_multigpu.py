@@ -41,6 +41,7 @@ from quantization_supp.quant_modules import QuantLinear
 from quantization_supp.quant_modules import QuantAct 
 from quantization_supp.quant_utils import symmetric_linear_quantization_params 
 from quantization_supp.quant_utils import SymmetricQuantFunction 
+from quantization_supp.full_precision_modules import EmbeddingBagCompressedGrad 
 
 from sgd_quantized_gradients import clear_gradients 
 from sgd_quantized_gradients import weights_update 
@@ -293,6 +294,7 @@ class DLRM_Net(nn.Module):
                 # EE.weight = Parameter(torch.tensor(W),requires_grad=True) 
                 ''' 
                 print("---------- Embedding Table {}, quantization not used, n = {}, m = {}, gradient compression precision set to {}".format(i, n, m, 8)) 
+                EE = EmbeddingBagCompressedGrad(n, m) 
             if weighted_pooling is None:
                 v_W_l.append(None)
             else:
