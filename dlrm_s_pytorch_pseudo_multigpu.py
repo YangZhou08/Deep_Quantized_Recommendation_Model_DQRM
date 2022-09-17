@@ -369,8 +369,9 @@ class DLRM_Net(nn.Module):
             self.deviceid = deviceid 
 
             if self.quantization_flag: 
-                self.quant_input = QuantAct(activation_bit = self.weight_bit if self.weight_bit >= 8 else 8, act_range_momentum = -1) 
-                self.quant_feature_outputs = QuantAct(fixed_point_quantization = True, activation_bit = self.weight_bit if self.weight_bit >= 8 else 8, act_range_momentum = -1) # recheck activation_bit 
+                if self.weight_bit is not None: 
+                    self.quant_input = QuantAct(activation_bit = self.weight_bit if self.weight_bit >= 8 else 8, act_range_momentum = -1) 
+                    self.quant_feature_outputs = QuantAct(fixed_point_quantization = True, activation_bit = self.weight_bit if self.weight_bit >= 8 else 8, act_range_momentum = -1) # recheck activation_bit 
                 self.register_buffer('feature_xmin', torch.zeros(1)) 
                 self.register_buffer('feature_xmax', torch.zeros(1)) 
                 self.register_buffer('features_scaling_factor', torch.zeros(1)) 
@@ -417,8 +418,12 @@ class DLRM_Net(nn.Module):
             '''
             self.bot_l = self.create_mlp(ln_bot, sigmoid_bot) 
             ''' 
-            self.bot_l = self.create_mlp(ln_bot, sigmoid_bot, quant_linear_layer = True, channelwise_lin = self.channelwise_lin, quantize_activation = self.quantize_activation) 
-            self.top_l = self.create_mlp(ln_top, sigmoid_top, quant_linear_layer = True, channelwise_lin = self.channelwise_lin, quantize_activation = self.quantize_activation) 
+            if self.quantize_act_and_lin: 
+                self.bot_l = self.create_mlp(ln_bot, sigmoid_bot, quant_linear_layer = True, channelwise_lin = self.channelwise_lin, quantize_activation = self.quantize_activation) 
+                self.top_l = self.create_mlp(ln_top, sigmoid_top, quant_linear_layer = True, channelwise_lin = self.channelwise_lin, quantize_activation = self.quantize_activation) 
+            else: 
+                self.bot_l = self.create_mlp(ln_bot, sigmoid_bot) 
+                self.top_l = self.create_mlp(ln_top, sigmoid_top) 
             if self.quantize_activation: 
                 print("activation is quantized") 
             else: 

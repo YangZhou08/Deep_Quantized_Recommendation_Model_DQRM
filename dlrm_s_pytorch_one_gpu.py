@@ -833,7 +833,7 @@ class DLRM_Net(nn.Module):
 
             return z 
         else: 
-            if not self.quantize_act_and_lin: 
+            if (not self.quantize_act_and_lin) and self.quantize_activation: # quantize activation and embedding layers 
                 # used for cases where embedding tables are quantized while mlp is in full precision 
                 x, act_scaling_factor = self.quant_input(dense_x) 
                 x = self.apply_mlp(x, self.bot_l) # not used with scale 
@@ -841,6 +841,7 @@ class DLRM_Net(nn.Module):
                 z, feature_scaling_factor = self.interact_features(x, ly) 
                 p = self.apply_mlp(z, self.top_l) # not used with scale 
             elif not self.quantize_activation: 
+                # used for when activation is not quantized 
                 x = self.apply_mlp(dense_x, self.bot_l, prev_act_scaling_factor = None) 
                 ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
                 z, feature_scaling_factor = self.interact_features(x, ly) 
