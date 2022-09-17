@@ -226,6 +226,7 @@ class DLRM_Net(nn.Module):
                 QuantLnr.set_param(LL) 
                 layers.append(QuantLnr) 
             else: 
+                print("using layer linear with compressed gradient (optional)") 
                 lnr = LinearCompressedGrad(gradient_precision = 32) 
                 lnr.set_param(LL) 
                 layers.append(lnr) 
