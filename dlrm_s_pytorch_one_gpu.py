@@ -507,8 +507,12 @@ class DLRM_Net(nn.Module):
             '''
             self.bot_l = self.create_mlp(ln_bot, sigmoid_bot) 
             ''' 
-            self.bot_l = self.create_mlp(ln_bot, sigmoid_bot, quant_linear_layer = True, channelwise_lin = self.channelwise_lin, quantize_activation = self.quantize_activation) 
-            self.top_l = self.create_mlp(ln_top, sigmoid_top, quant_linear_layer = True, channelwise_lin = self.channelwise_lin, quantize_activation = self.quantize_activation) 
+            if self.quantize_act_and_lin: 
+                self.bot_l = self.create_mlp(ln_bot, sigmoid_bot, quant_linear_layer = True, channelwise_lin = self.channelwise_lin, quantize_activation = self.quantize_activation) 
+                self.top_l = self.create_mlp(ln_top, sigmoid_top, quant_linear_layer = True, channelwise_lin = self.channelwise_lin, quantize_activation = self.quantize_activation) 
+            else: 
+                self.bot_l = self.create_mlp(ln_bot, sigmoid_bot) 
+                self.top_l = self.create_mlp(ln_top, sigmoid_top) 
             if self.quantize_activation: 
                 print("activation is quantized") 
             else: 
