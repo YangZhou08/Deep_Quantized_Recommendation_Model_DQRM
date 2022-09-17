@@ -42,6 +42,7 @@ from quantization_supp.quant_modules import QuantAct
 from quantization_supp.quant_utils import symmetric_linear_quantization_params 
 from quantization_supp.quant_utils import SymmetricQuantFunction 
 from quantization_supp.full_precision_modules import EmbeddingBagCompressedGrad 
+from quantization_supp.full_precision_modules import LinearCompressedGrad 
 
 from sgd_quantized_gradients import clear_gradients 
 from sgd_quantized_gradients import weights_update 
@@ -225,7 +226,9 @@ class DLRM_Net(nn.Module):
                 QuantLnr.set_param(LL) 
                 layers.append(QuantLnr) 
             else: 
-                layers.append(LL) 
+                lnr = LinearCompressedGrad(gradient_precision = 32) 
+                lnr.set_param(LL) 
+                layers.append(lnr) 
             # construct sigmoid or relu operator
             if i == sigmoid_layer:
                 layers.append(nn.Sigmoid()) 
