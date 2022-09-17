@@ -15,6 +15,7 @@ from torch import Tensor
 from torch.optim.optimizer import Optimizer, required 
 from typing import List, Optional 
 from quantization_supp.quant_modules import QuantLinear 
+from quantization_supp.full_precision_modules import LinearCompressedGrad 
 from quantization_supp.quant_utils import * 
 
 def grad_buffer_update(model, number_of_gpus): 
@@ -39,14 +40,14 @@ def grad_buffer_update(model, number_of_gpus):
             raise Warning("Cannot find the list of embedding tables") 
         if model.bot_l is not None: 
             for layer_one in model.bot_l: 
-                if isinstance(layer_one, QuantLinear): 
+                if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
                     layer_one.weight_grad_buffer.add_(layer_one.weight.grad/number_of_gpus) 
                     layer_one.bias_grad_buffer.add_(layer_one.bias.grad/number_of_gpus) 
         else: 
             raise Warning("Cannot find the list of bottom linear layers") 
         if model.top_l is not None: 
             for layer_one in model.top_l: 
-                if isinstance(layer_one, QuantLinear): 
+                if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
                     layer_one.weight_grad_buffer.add_(layer_one.weight.grad/number_of_gpus) 
                     layer_one.bias_grad_buffer.add_(layer_one.bias.grad/number_of_gpus) 
         else: 
@@ -134,14 +135,14 @@ def grad_buffer_update_added_quantization(model, number_of_gpus, emb_grad_quanti
         
         if model.bot_l is not None: 
             for layer_one in model.bot_l: 
-                if isinstance(layer_one, QuantLinear): 
+                if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
                     layer_one.weight_grad_buffer.add_(layer_one.weight.grad/number_of_gpus) 
                     layer_one.bias_grad_buffer.add_(layer_one.bias.grad/number_of_gpus) 
         else: 
             raise Warning("Cannot find the list of bottom linear layers") 
         if model.top_l is not None: 
             for layer_one in model.top_l: 
-                if isinstance(layer_one, QuantLinear): 
+                if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
                     layer_one.weight_grad_buffer.add_(layer_one.weight.grad/number_of_gpus) 
                     layer_one.bias_grad_buffer.add_(layer_one.bias.grad/number_of_gpus) 
         else: 
@@ -168,7 +169,7 @@ def grad_buffer_zeroing(model):
         raise Warning("Cannot find the list of embedding tables") 
     if model.bot_l is not None: 
         for layer_one in model.bot_l: 
-            if isinstance(layer_one, QuantLinear): 
+            if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
                 # weights 
                 layer_one.weight_grad_buffer.zero_() 
                 layer_one.weight_scaling_factor.zero_() 
@@ -180,7 +181,7 @@ def grad_buffer_zeroing(model):
         raise Warning("Cannot find the list of bottom linear layers") 
     if model.top_l is not None: 
         for layer_one in model.top_l: 
-            if isinstance(layer_one, QuantLinear): 
+            if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
                 # weights 
                 layer_one.weight_grad_buffer.zero_() 
                 layer_one.weight_scaling_factor.zero_() 
@@ -213,14 +214,14 @@ def weights_update(model, lr):
             raise Warning("Cannot find the list of embedding tables") 
         if model.bot_l is not None: 
             for layer_one in model.bot_l: 
-                if isinstance(layer_one, QuantLinear): 
+                if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
                     layer_one.weight.data.add_(-lr * layer_one.weight_grad_buffer) 
                     layer_one.bias.data.add_(-lr * layer_one.bias_grad_buffer) 
         else: 
             raise Warning("Cannot find the list of bottom linear layers") 
         if model.top_l is not None: 
             for layer_one in model.top_l: 
-                if isinstance(layer_one, QuantLinear): 
+                if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
                     layer_one.weight.data.add_(-lr * layer_one.weight_grad_buffer) 
                     layer_one.bias.data.add_(-lr * layer_one.bias_grad_buffer) 
         else: 
@@ -287,14 +288,14 @@ def weights_update_added_quantization(model, lr, num_gpus, emb_grad_quantized = 
         
         if model.bot_l is not None: 
             for layer_one in model.bot_l: 
-                if isinstance(layer_one, QuantLinear): 
+                if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
                     layer_one.weight.data.add_(-lr * layer_one.weight_grad_buffer) 
                     layer_one.bias.data.add_(-lr * layer_one.bias_grad_buffer) 
         else: 
             raise Warning("Cannot find the list of bottom linear layers") 
         if model.top_l is not None: 
             for layer_one in model.top_l: 
-                if isinstance(layer_one, QuantLinear): 
+                if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
                     layer_one.weight.data.add_(-lr * layer_one.weight_grad_buffer) 
                     layer_one.bias.data.add_(-lr * layer_one.bias_grad_buffer) 
         else: 
