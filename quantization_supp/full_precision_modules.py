@@ -34,3 +34,25 @@ class EmbeddingBagCompressedGrad(Module):
 
     def forward(self, input, offsets, per_sample_weights): 
         return self.embedding_bag(input, offsets, per_sample_weights = None) 
+
+class LinearCompressedGrad(Module): 
+    def __init__(self, gradient_precision): 
+        self.gradient_precision = gradient_precision 
+        
+    def set_param(self, linear): 
+        self.in_features = linear.in_features
+        self.out_features = linear.out_features
+        self.weight = Parameter(linear.weight.data.clone()) 
+
+        self.register_buffer('weight_grad_buffer', torch.zeros_like(self.weight), persistent = False) 
+        self.register_buffer('weight_scaling_factor', torch.zeros(self.out_features)) 
+
+        self.register_buffer('bias_grad_buffer', torch.zeros(self.out_features)) 
+        self.register_buffer('bias_scaling_factor', torch.zeros(self.out_features)) 
+        try:
+            self.bias = Parameter(linear.bias.data.clone())
+        except AttributeError:
+            self.bias = None 
+    
+    def forward(self, x, prev_act_scaling_factor = None): 
+        return F.linear(x, weight = self.weight, bias = self.bias) 
