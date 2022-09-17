@@ -37,6 +37,7 @@ class EmbeddingBagCompressedGrad(Module):
 
 class LinearCompressedGrad(Module): 
     def __init__(self, gradient_precision): 
+        super(LinearCompressedGrad, self).__init__() 
         self.gradient_precision = gradient_precision 
         
     def set_param(self, linear): 
