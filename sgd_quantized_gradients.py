@@ -366,7 +366,11 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
             scale = scale/num_gpus 
         scale = scale.view(-1) 
         # quantize 
-        return torch.sparse_coo_tensor(embedding_table.indices(), SymmetricQuantFunction.apply(embedding_table.values(), num_bits, scale), size = embedding_table.size(), device = embedding_table.device), scale 
+        emb_gradient_update = torch.sparse_coo_tensor(embedding_table.indices(), SymmetricQuantFunction.apply(embedding_table.values(), num_bits, scale), size = embedding_table.size(), device = embedding_table.device) 
+        if parallel: 
+            dist.all_reduce(emb_gradient_update, dist.ReduceOp.SUM) 
+            emb_gradient_update /= num_gpus 
+        return emb_gradient_update, scale 
 
 def quantize_linear_grad(weight, num_bits, parallel, num_gpus = None, per_channel = True, scale = None): 
     with torch.no_grad(): 
@@ -408,3 +412,14 @@ def quantize_bias_grad(bias, num_bits, parallel, num_gpus = None, scale = None):
         # quantize 
         return SymmetricQuantFunction.apply(bias, num_bits, scale), scale 
         
+def weight_syncc(dlrm, num_gpus): 
+    with torch.no_grad(): 
+        model = dlrm 
+        for name, param in model.named_parameters(): 
+            if param.grad is not None: 
+                if param.grad.grad_fn is not None: 
+                    param.grad.detach_() 
+                else: 
+                    param.grad.requires_grad_(False) 
+            dist.all_reduce(param, dist.ReduceOp.SUM) 
+            param /= num_gpus 
