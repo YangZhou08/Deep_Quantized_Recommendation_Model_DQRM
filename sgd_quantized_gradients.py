@@ -469,7 +469,7 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
         if parallel: 
             emb_gradient_update.requires_grad_(False) 
             dist.all_reduce(emb_gradient_update, dist.ReduceOp.SUM) 
-            emb_gradient_update /= num_gpus 
+            emb_gradient_update.mul_(1. / num_gpus).round_() 
         return emb_gradient_update, scale 
 
 def quantize_linear_grad(weight, num_bits, parallel, num_gpus = None, per_channel = True, scale = None): 
@@ -497,7 +497,7 @@ def quantize_linear_grad(weight, num_bits, parallel, num_gpus = None, per_channe
         if parallel: 
             grad_up.requires_grad_(False) 
             dist.all_reduce(grad_up, dist.ReduceOp.SUM) 
-            grad_up.mul_(1. / num_gpus) 
+            grad_up.mul_(1. / num_gpus).round_() 
         return grad_up, fc_scaling_factor 
 
 def quantize_bias_grad(bias, num_bits, parallel, num_gpus = None, scale = None): 
@@ -519,7 +519,7 @@ def quantize_bias_grad(bias, num_bits, parallel, num_gpus = None, scale = None):
         if parallel: 
             grad_update.requires_grad_(False) 
             dist.all_reduce(grad_update, dist.ReduceOp.SUM) 
-            grad_update.mul_(1. / num_gpus) 
+            grad_update.mul_(1. / num_gpus).round_() 
         return grad_update, scale 
         
 def weight_syncc(dlrm, num_gpus): 
