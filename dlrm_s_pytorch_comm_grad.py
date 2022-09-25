@@ -951,7 +951,7 @@ class DLRM_Net(nn.Module):
             ''' 
             print(self.emb_l[0].embedding_bag.weight.data[0][: 20]) 
             if self.emb_l[0].embedding_bag.weight.grad is not None: 
-                print(torch.is_nonzero(self.emb_l[0].embedding_bag.weight.grad)) 
+                print(torch.sum(self.emb_l[0].embedding_bag.weight.grad[0], dim = 0)) 
 
 def dash_separated_ints(value):
     vals = value.split("-")
