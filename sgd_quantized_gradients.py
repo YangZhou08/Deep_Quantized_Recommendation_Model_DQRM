@@ -153,6 +153,7 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True):
         # only embedding gradient to be quantized do gradient changes needed, if not quantized, the gradient doesn't need to be changed 
         if emb_grad_quantized: 
             if model.emb_l is not None: 
+                count = 0 
                 for emb_table in model.emb_l: 
                     buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 8, parallel = True, num_gpus = number_of_gpus) 
                     # clear grad to be zero 
@@ -163,6 +164,9 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True):
                     emb_table.embedding_bag.weight.grad.zero_() 
                     # set grad to be the quantized value 
                     emb_table.embedding_bag.weight.grad.add_(buffer_changes) 
+                    if count == 0: 
+                        print(emb_table.embedding_bag.weight.grad[: 20]) 
+                    count += 1 
                     emb_table.emb_scaling_factor = scale 
             else: 
                 raise Warning("Cannot find the list of embedding tables") 
