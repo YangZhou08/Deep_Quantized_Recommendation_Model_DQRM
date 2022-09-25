@@ -380,7 +380,7 @@ def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_emb
             if model.emb_l is not None: 
                 for emb_table in model.emb_l: 
                     if emb_grad_quantized: 
-                        emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad * emb_table.emb_scaling_factor/num_gpus) 
+                        emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad * emb_table.emb_scaling_factor.item()/num_gpus) 
                     else: 
                         emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad/num_gpus) 
         else: 
