@@ -950,6 +950,8 @@ class DLRM_Net(nn.Module):
                 print(self.top_l[-2].weight[0][: 20]) 
             ''' 
             print(self.emb_l[0].embedding_bag.weight.data[0][: 20]) 
+            if self.emb_l[0].embedding_bag.weight.grad is not None: 
+                print(torch.is_nonzero(self.emb_l[0].embedding_bag.weight.grad)) 
 
 def dash_separated_ints(value):
     vals = value.split("-")
