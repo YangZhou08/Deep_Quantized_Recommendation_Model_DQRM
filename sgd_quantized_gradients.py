@@ -469,7 +469,7 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
         if parallel: 
             emb_gradient_update.requires_grad_(False) 
             dist.all_reduce(emb_gradient_update, dist.ReduceOp.SUM) 
-            emb_gradient_update.mul_(1. / num_gpus).round_() 
+            emb_gradient_update.mul_(1. / num_gpus) 
         return emb_gradient_update, scale 
 
 def quantize_linear_grad(weight, num_bits, parallel, num_gpus = None, per_channel = True, scale = None): 
