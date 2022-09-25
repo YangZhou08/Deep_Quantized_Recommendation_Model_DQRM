@@ -148,6 +148,72 @@ def grad_buffer_update_added_quantization(model, number_of_gpus, emb_grad_quanti
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
+def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True): 
+    with torch.no_grad(): 
+        # only embedding gradient to be quantized do gradient changes needed, if not quantized, the gradient doesn't need to be changed 
+        if emb_grad_quantized: 
+            if model.emb_l is not None: 
+                for emb_table in model.emb_l: 
+                    buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 8, parallel = False) 
+                    # clear grad to be zero 
+                    if emb_table.embedding_bag.weight.grad_fn is not None: 
+                        emb_table.embedding_bag.weight.grad.detach() 
+                    else: 
+                        emb_table.embedding_bag.weight.grad.requires_grad_(False) 
+                    emb_table.embedding_bag.weight.grad.zero_() 
+                    # set grad to be the quantized value 
+                    emb_table.embedding_bag.weight.grad.add_(buffer_changes) 
+                    emb_table.emb_scaling_factor = scale 
+            else: 
+                raise Warning("Cannot find the list of embedding tables") 
+        else: 
+            if model.emb_l is not None: 
+                for emb_table in model.emb_l: 
+                    if emb_table.embedding_bag.weight.grad_fn is not None: 
+                        emb_table.embedding_bag.weight.grad.detach() 
+                    else: 
+                        emb_table.embedding_bag.weight.grad.requires_grad_(False) 
+                    dist.all_reduce(emb_table.embedding_bag.weight.grad, dist.ReduceOp.SUM) 
+                    emb_table.embedding_bag.weight.grad.mul_(1. / number_of_gpus) 
+            else: 
+                raise Warning("Cannot find the list of embedding tables") 
+        
+        if model.bot_l is not None: 
+            for layer_one in model.bot_l: 
+                if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
+                    if layer_one.weight.grad.grad_fn is not None: 
+                        layer_one.weight.grad.detach() 
+                    else: 
+                        layer_one.weight.grad.requires_grad_(False) 
+                    dist.all_reduce(layer_one.weight.grad, dist.ReduceOp.SUM) 
+                    layer_one.weight.grad.mul_(1. / number_of_gpus) 
+                    if layer_one.bias.grad.grad_fn is not None: 
+                        layer_one.bias.grad.detach() 
+                    else: 
+                        layer_one.bias.grad.requires_grad_(False) 
+                    dist.all_reduce(layer_one.bias.grad, dist.ReduceOp.SUM) 
+                    layer_one.bias.grad.mul_(1. / number_of_gpus) 
+        else: 
+            raise Warning("Cannot find the list of bottom linear layers") 
+        
+        if model.top_l is not None: 
+            for layer_one in model.top_l: 
+                if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
+                    if layer_one.weight.grad.grad_fn is not None: 
+                        layer_one.weight.grad.detach() 
+                    else: 
+                        layer_one.weight.grad.requires_grad_(False) 
+                    dist.all_reduce(layer_one.weight.grad, dist.ReduceOp.SUM) 
+                    layer_one.weight.grad.mul_(1. / number_of_gpus) 
+                    if layer_one.bias.grad.grad_fn is not None: 
+                        layer_one.bias.grad.detach() 
+                    else: 
+                        layer_one.bias.grad.requires_grad_(False) 
+                    dist.all_reduce(layer_one.bias.grad, dist.ReduceOp.SUM) 
+                    layer_one.bias.grad.mul_(1. / number_of_gpus) 
+        else: 
+            raise Warning("Cannot find the list of top linear layers") 
+
 def grad_buffer_zeroing(model): 
     """ 
     The function zeros out all the grad buffer of the model's parameter 
@@ -298,6 +364,31 @@ def weights_update_added_quantization(model, lr, num_gpus, emb_grad_quantized = 
                 if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
                     layer_one.weight.data.add_(-lr * layer_one.weight_grad_buffer) 
                     layer_one.bias.data.add_(-lr * layer_one.bias_grad_buffer) 
+        else: 
+            raise Warning("Cannot find the list of top linear layers") 
+
+def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_embedding = True): 
+    with torch.no_grad(): 
+        if emb_grad_quantized and update_embedding: 
+            if model.emb_l is not None: 
+                for emb_table in model.emb_l: 
+                    emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad) 
+        else: 
+            raise Warning("Cannot find the list of embedding tables") 
+        
+        if model.bot_l is not None: 
+            for layer_one in model.bot_l: 
+                if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
+                    layer_one.weight.data.add_(-lr * layer_one.weight.grad) 
+                    layer_one.bias.data.add_(-lr * layer_one.bias.grad) 
+        else: 
+            raise Warning("Cannot find the list of bottom linear layers") 
+        
+        if model.top_l is not None: 
+            for layer_one in model.top_l: 
+                if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
+                    layer_one.weight.data.add_(-lr * layer_one.weight.grad) 
+                    layer_one.bias.data.add_(-lr * layer_one.bias.grad) 
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
