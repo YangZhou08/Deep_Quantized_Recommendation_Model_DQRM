@@ -1903,7 +1903,7 @@ def train(gpu, args):
                 optimizer.step() 
                 ''' 
                 grad_update_parallel_comm(dlrm, args.world_size) 
-                weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1]) 
+                weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1], num_gpus = args.world_size) 
 
                 lr_scheduler.step() 
                 

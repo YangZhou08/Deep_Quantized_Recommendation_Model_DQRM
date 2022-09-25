@@ -374,12 +374,15 @@ def weights_update_added_quantization(model, lr, num_gpus, emb_grad_quantized = 
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
-def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_embedding = True): 
+def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_embedding = True, num_gpus = 1): 
     with torch.no_grad(): 
-        if emb_grad_quantized and update_embedding: 
+        if update_embedding: 
             if model.emb_l is not None: 
                 for emb_table in model.emb_l: 
-                    emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad) 
+                    if emb_grad_quantized: 
+                        emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad * emb_table.emb_scaling_factor/num_gpus) 
+                    else: 
+                        emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad/num_gpus) 
         else: 
             raise Warning("Cannot find the list of embedding tables") 
         
