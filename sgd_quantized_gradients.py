@@ -164,10 +164,12 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True):
                     emb_table.embedding_bag.weight.grad.zero_() 
                     # set grad to be the quantized value 
                     emb_table.embedding_bag.weight.grad.add_(buffer_changes) 
+                    '''
                     if count == 0: 
                         emb_table.embedding_bag.weight.grad.coalesce() 
                         print(emb_table.embedding_bag.weight.grad.values()[0]) 
                     count += 1 
+                    ''' 
                     emb_table.emb_scaling_factor = scale 
             else: 
                 raise Warning("Cannot find the list of embedding tables") 
@@ -462,7 +464,6 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
             scale.requires_grad_(False) 
             dist.all_reduce(scale, dist.ReduceOp.SUM) 
             scale = scale/num_gpus 
-            print(scale) 
         scale = scale.view(-1) 
         # quantize 
         emb_gradient_update = torch.sparse_coo_tensor(embedding_table.indices(), SymmetricQuantFunction.apply(embedding_table.values(), num_bits, scale), size = embedding_table.size(), device = embedding_table.device) 
