@@ -165,7 +165,8 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True):
                     # set grad to be the quantized value 
                     emb_table.embedding_bag.weight.grad.add_(buffer_changes) 
                     if count == 0: 
-                        print(emb_table.embedding_bag.weight.grad[: 20]) 
+                        emb_table.embedding_bag.weight.grad.coalesce() 
+                        print(emb_table.embedding_bag.weight.grad.values()[0]) 
                     count += 1 
                     emb_table.emb_scaling_factor = scale 
             else: 
