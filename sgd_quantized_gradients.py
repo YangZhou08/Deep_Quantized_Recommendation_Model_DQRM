@@ -451,6 +451,8 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
         embedding_table = embedding_table.coalesce() 
         if scale is None: 
             scale = symmetric_linear_quantization_param_two(num_bits, embedding_table.values(), None, None, None) 
+            scale.to(embedding_table.device) 
+            print(scale) 
 
         if parallel: 
             scale.requires_grad_(False) 
