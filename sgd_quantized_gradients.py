@@ -452,12 +452,12 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
         if scale is None: 
             scale = symmetric_linear_quantization_param_two(num_bits, embedding_table.values(), None, None, None) 
             scale.to(embedding_table.device) 
-            print(scale) 
 
         if parallel: 
             scale.requires_grad_(False) 
             dist.all_reduce(scale, dist.ReduceOp.SUM) 
             scale = scale/num_gpus 
+            print(scale) 
         scale = scale.view(-1) 
         # quantize 
         emb_gradient_update = torch.sparse_coo_tensor(embedding_table.indices(), SymmetricQuantFunction.apply(embedding_table.values(), num_bits, scale), size = embedding_table.size(), device = embedding_table.device) 
