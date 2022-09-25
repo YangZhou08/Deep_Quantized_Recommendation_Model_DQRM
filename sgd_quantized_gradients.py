@@ -154,7 +154,7 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True):
         if emb_grad_quantized: 
             if model.emb_l is not None: 
                 for emb_table in model.emb_l: 
-                    buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 8, parallel = True) 
+                    buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 8, parallel = True, num_gpus = number_of_gpus) 
                     # clear grad to be zero 
                     if emb_table.embedding_bag.weight.grad_fn is not None: 
                         emb_table.embedding_bag.weight.grad.detach() 
