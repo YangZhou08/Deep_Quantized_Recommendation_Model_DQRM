@@ -110,11 +110,19 @@ from quantization_supp.quant_utils import symmetric_linear_quantization_params
 from quantization_supp.quant_utils import SymmetricQuantFunction 
 from quantization_supp.quant_utils import linear_quantize 
 
+'''
 from sgd_quantized_gradients import grad_update_parallel_comm 
 from sgd_quantized_gradients import weight_update_parallel_comm 
 from sgd_quantized_gradients import quantized_gradients_update 
 from sgd_quantized_gradients import clear_gradients 
 from sgd_quantized_gradients import weight_syncc 
+''' 
+
+from sgd_quantized_gradients_parallel_comm import grad_update_parallel_comm 
+from sgd_quantized_gradients_parallel_comm import weight_update_parallel_comm 
+from sgd_quantized_gradients_parallel_comm import quantized_gradients_update 
+from sgd_quantized_gradients_parallel_comm import clear_gradients 
+from sgd_quantized_gradients_parallel_comm import weight_syncc 
 
 # below are not imported in the original script 
 import os 

@@ -14,8 +14,8 @@ import torch.distributed as dist
 from torch import Tensor 
 from torch.optim.optimizer import Optimizer, required 
 from typing import List, Optional 
-from quantization_supp.quant_modules import QuantLinear 
 from quantization_supp.full_precision_modules import LinearCompressedGrad 
+from quantization_supp.quant_modules_not_quantize_grad import QuantLinear 
 from quantization_supp.quant_utils import * 
 
 def grad_buffer_update(model, number_of_gpus): 
