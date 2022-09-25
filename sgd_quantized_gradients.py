@@ -497,7 +497,7 @@ def quantize_linear_grad(weight, num_bits, parallel, num_gpus = None, per_channe
         if parallel: 
             grad_up.requires_grad_(False) 
             dist.all_reduce(grad_up, dist.ReduceOp.SUM) 
-            grad_up.mul_(1. / num_gpus).round_() 
+            grad_up.mul_(1. / num_gpus) 
         return grad_up, fc_scaling_factor 
 
 def quantize_bias_grad(bias, num_bits, parallel, num_gpus = None, scale = None): 
@@ -519,7 +519,7 @@ def quantize_bias_grad(bias, num_bits, parallel, num_gpus = None, scale = None):
         if parallel: 
             grad_update.requires_grad_(False) 
             dist.all_reduce(grad_update, dist.ReduceOp.SUM) 
-            grad_update.mul_(1. / num_gpus).round_() 
+            grad_update.mul_(1. / num_gpus) 
         return grad_update, scale 
         
 def weight_syncc(dlrm, num_gpus): 
