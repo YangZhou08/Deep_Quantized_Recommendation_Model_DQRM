@@ -2027,7 +2027,9 @@ def train(gpu, args):
                 for emb in dlrm.module.emb_l: 
                     emb.embedding_bag.weight.requires_grad = False 
                 ''' 
+                '''
                 dlrm.show_output_linear_layer_grad() # checking whether the layer is consistent 
+                ''' 
             k += 1 
                             
     else: 
