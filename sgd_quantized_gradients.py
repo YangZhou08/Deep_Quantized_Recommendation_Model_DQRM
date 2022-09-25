@@ -507,10 +507,7 @@ def weight_syncc(dlrm, num_gpus):
     with torch.no_grad(): 
         model = dlrm 
         for name, param in model.named_parameters(): 
-            if param.grad is not None: 
-                if param.grad.grad_fn is not None: 
-                    param.grad.detach_() 
-                else: 
-                    param.grad.requires_grad_(False) 
+            param.requires_grad_(False) 
             dist.all_reduce(param, dist.ReduceOp.SUM) 
-            param /= num_gpus 
+            param.mul_(1. / num_gpus) 
+            param.requires_grad_(True) 
