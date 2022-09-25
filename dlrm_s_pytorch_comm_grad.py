@@ -941,14 +941,15 @@ class DLRM_Net(nn.Module):
     
     def show_output_linear_layer_grad(self, start = False): 
         with torch.no_grad(): 
+            '''
             if self.top_l[-2].weight.grad is not None: 
                 print("device: {}".format(self.deviceid)) 
-                '''
                 print(self.top_l[-2].weight.grad[0][: 20]) 
-                ''' 
                 print(self.top_l[-2].weight[0][: 20]) 
             if start: 
                 print(self.top_l[-2].weight[0][: 20]) 
+            ''' 
+            print(self.emb_l[0].embedding_bag.weight.data[0][: 20]) 
 
 def dash_separated_ints(value):
     vals = value.split("-")
