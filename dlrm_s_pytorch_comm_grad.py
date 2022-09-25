@@ -2021,7 +2021,9 @@ def train(gpu, args):
                     dlrm.module.documenting_weights_tables(path_log, k, j, emb_quantized = args.quantization_flag) 
                 dist.barrier() 
                 ''' 
+                '''
                 print("stop updating embedding") 
+                ''' 
                 '''
                 optimizer.zero_grad() 
                 for emb in dlrm.module.emb_l: 
