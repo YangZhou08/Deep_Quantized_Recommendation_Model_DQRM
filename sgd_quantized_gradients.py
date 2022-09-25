@@ -154,7 +154,7 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True):
         if emb_grad_quantized: 
             if model.emb_l is not None: 
                 for emb_table in model.emb_l: 
-                    buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 8, parallel = False) 
+                    buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 8, parallel = True) 
                     # clear grad to be zero 
                     if emb_table.embedding_bag.weight.grad_fn is not None: 
                         emb_table.embedding_bag.weight.grad.detach() 
@@ -453,12 +453,14 @@ def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scal
             scale = symmetric_linear_quantization_param_two(num_bits, embedding_table.values(), None, None, None) 
 
         if parallel: 
+            scale.requires_grad_(False) 
             dist.all_reduce(scale, dist.ReduceOp.SUM) 
             scale = scale/num_gpus 
         scale = scale.view(-1) 
         # quantize 
         emb_gradient_update = torch.sparse_coo_tensor(embedding_table.indices(), SymmetricQuantFunction.apply(embedding_table.values(), num_bits, scale), size = embedding_table.size(), device = embedding_table.device) 
         if parallel: 
+            emb_gradient_update.requires_grad_(False) 
             dist.all_reduce(emb_gradient_update, dist.ReduceOp.SUM) 
             emb_gradient_update /= num_gpus 
         return emb_gradient_update, scale 
@@ -484,7 +486,12 @@ def quantize_linear_grad(weight, num_bits, parallel, num_gpus = None, per_channe
             dist.all_reduce(fc_scaling_factor, dist.ReduceOp.SUM) 
             fc_scaling_factor = fc_scaling_factor/num_gpus 
         # quantize 
-        return SymmetricQuantFunction.apply(weight, num_bits, fc_scaling_factor), fc_scaling_factor 
+        grad_up = SymmetricQuantFunction.apply(weight, num_bits, fc_scaling_factor) 
+        if parallel: 
+            grad_up.requires_grad_(False) 
+            dist.all_reduce(grad_up, dist.ReduceOp.SUM) 
+            grad_up.mul_(1. / num_gpus) 
+        return grad_up, fc_scaling_factor 
 
 def quantize_bias_grad(bias, num_bits, parallel, num_gpus = None, scale = None): 
     with torch.no_grad(): 
@@ -501,7 +508,12 @@ def quantize_bias_grad(bias, num_bits, parallel, num_gpus = None, scale = None):
             dist.all_reduce(scale, dist.ReduceOp.SUM) 
             scale = scale/num_gpus 
         # quantize 
-        return SymmetricQuantFunction.apply(bias, num_bits, scale), scale 
+        grad_update = SymmetricQuantFunction.apply(bias, num_bits, scale) 
+        if parallel: 
+            grad_update.requires_grad_(False) 
+            dist.all_reduce(grad_update, dist.ReduceOp.SUM) 
+            grad_update.mul_(1. / num_gpus) 
+        return grad_update, scale 
         
 def weight_syncc(dlrm, num_gpus): 
     with torch.no_grad(): 

@@ -110,6 +110,8 @@ from quantization_supp.quant_utils import symmetric_linear_quantization_params
 from quantization_supp.quant_utils import SymmetricQuantFunction 
 from quantization_supp.quant_utils import linear_quantize 
 
+from sgd_quantized_gradients import grad_update_parallel_comm 
+from sgd_quantized_gradients import weight_update_parallel_comm 
 from sgd_quantized_gradients import quantized_gradients_update 
 from sgd_quantized_gradients import clear_gradients 
 from sgd_quantized_gradients import weight_syncc 
@@ -1812,6 +1814,7 @@ def train(gpu, args):
     
     if not args.inference_only: 
         k = 0 
+        weight_syncc(dlrm, args.world_size) 
         while k < args.nepochs: 
             if k == 1 and args.pretrain_and_quantize: 
                 # one epoch of pretraining and one epoch of quantization-aware training 
@@ -1889,10 +1892,18 @@ def train(gpu, args):
                 
                 # backward propagation 
                 # tried to see if the gradients can be modified 
+                '''
                 optimizer.zero_grad() 
+                ''' 
+                clear_gradients(dlrm) 
+
                 E.backward() 
                 # quantization of gradient 
+                '''
                 optimizer.step() 
+                ''' 
+                grad_update_parallel_comm(dlrm, args.world_size) 
+                weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1]) 
 
                 lr_scheduler.step() 
                 
@@ -1918,7 +1929,10 @@ def train(gpu, args):
                     and (j % (args.test_freq * 3) == 0) 
                 ) 
                 
-                if should_print or should_test:
+                if should_print or should_test: 
+                    # sync up per 1000 iterations 
+                    weight_syncc(dlrm, args.world_size) 
+                    
                     gT = 1000.0 * total_time / total_iter if args.print_time else -1
                     total_time = 0
 
@@ -1999,7 +2013,9 @@ def train(gpu, args):
                             print("Saving model to {}".format(save_addr)) 
                             torch.save(model_metrics_dict, save_addr) 
                     dist.barrier() 
+                '''
                 weight_syncc(dlrm, args.world_size) 
+                ''' 
                 '''
                 if rank == 0 and inspect_weights_and_others: 
                     dlrm.module.documenting_weights_tables(path_log, k, j, emb_quantized = args.quantization_flag) 
