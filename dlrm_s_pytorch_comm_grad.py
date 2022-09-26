@@ -1443,6 +1443,10 @@ def train(gpu, args):
     print(device) 
     ''' 
     
+    if (args.quantize_embedding_bag_gradient): 
+        print("---------- embedding bag gradient quantized in {} bits".format(args.embedding_bag_gradient_bit_num)) 
+    else: 
+        print("---------- not quantize gradient") 
     ### prepare training data ### 
     ln_bot = np.fromstring(args.arch_mlp_bot, dtype = int, sep = "-") 
     
