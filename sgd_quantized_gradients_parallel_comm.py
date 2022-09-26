@@ -148,14 +148,14 @@ def grad_buffer_update_added_quantization(model, number_of_gpus, emb_grad_quanti
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
-def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True): 
+def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, num_bits = 16): 
     with torch.no_grad(): 
         # only embedding gradient to be quantized do gradient changes needed, if not quantized, the gradient doesn't need to be changed 
         if emb_grad_quantized: 
             if model.emb_l is not None: 
                 count = 0 
                 for emb_table in model.emb_l: 
-                    buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 8, parallel = True, num_gpus = number_of_gpus) 
+                    buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = num_bits, parallel = True, num_gpus = number_of_gpus) 
                     # clear grad to be zero 
                     if emb_table.embedding_bag.weight.grad_fn is not None: 
                         emb_table.embedding_bag.weight.grad.detach() 

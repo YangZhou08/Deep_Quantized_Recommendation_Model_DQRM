@@ -1118,6 +1118,9 @@ def run():
     parser.add_argument("--quantize_activation", action = "store_true", default = False) 
     parser.add_argument("--linear_channel", action = "store_true", default = False) 
     parser.add_argument("--quantize_act_and_lin", action = "store_true", default = False) 
+
+    parser.add_argument("--quantize_embedding_bag_gradient", action = "store_true", default = False) 
+    parser.add_argument("--embedding_bag_gradient_bit_num", type = int, default = 16) 
     parser.add_argument('-n', '--nodes', default=1,
                         type=int, metavar='N')
     parser.add_argument('-g', '--gpus', default=1, type=int,
@@ -1910,7 +1913,7 @@ def train(gpu, args):
                 '''
                 optimizer.step() 
                 ''' 
-                grad_update_parallel_comm(dlrm, args.world_size) 
+                grad_update_parallel_comm(dlrm, args.world_size, emb_grad_quantized = args.quantize_embedding_bag_gradient, num_bits = args.embedding_bag_gradient_bit_num) 
                 weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1], num_gpus = args.world_size) 
 
                 lr_scheduler.step() 
