@@ -380,25 +380,25 @@ def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_emb
             if model.emb_l is not None: 
                 for emb_table in model.emb_l: 
                     if emb_grad_quantized: 
-                        emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad * emb_table.emb_scaling_factor.item()/num_gpus) 
+                        emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad * emb_table.emb_scaling_factor.item()) 
                     else: 
-                        emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad/num_gpus) 
+                        emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad) 
         else: 
             raise Warning("Cannot find the list of embedding tables") 
         
         if model.bot_l is not None: 
             for layer_one in model.bot_l: 
                 if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
-                    layer_one.weight.data.add_(-lr * layer_one.weight.grad/num_gpus) 
-                    layer_one.bias.data.add_(-lr * layer_one.bias.grad/num_gpus) 
+                    layer_one.weight.data.add_(-lr * layer_one.weight.grad) 
+                    layer_one.bias.data.add_(-lr * layer_one.bias.grad) 
         else: 
             raise Warning("Cannot find the list of bottom linear layers") 
         
         if model.top_l is not None: 
             for layer_one in model.top_l: 
                 if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
-                    layer_one.weight.data.add_(-lr * layer_one.weight.grad/num_gpus) 
-                    layer_one.bias.data.add_(-lr * layer_one.bias.grad/num_gpus) 
+                    layer_one.weight.data.add_(-lr * layer_one.weight.grad) 
+                    layer_one.bias.data.add_(-lr * layer_one.bias.grad) 
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
