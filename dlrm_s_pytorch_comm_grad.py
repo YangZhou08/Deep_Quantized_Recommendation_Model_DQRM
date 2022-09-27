@@ -1918,7 +1918,7 @@ def train(gpu, args):
                 optimizer.step() 
                 ''' 
                 grad_update_parallel_comm(dlrm, args.world_size, emb_grad_quantized = args.quantize_embedding_bag_gradient, num_bits = args.embedding_bag_gradient_bit_num) 
-                weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1], num_gpus = args.world_size) 
+                weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1], emb_grad_quantized = args.quantize_embedding_bag_gradient, update_embedding = True, num_gpus = args.world_size) 
 
                 lr_scheduler.step() 
                 
