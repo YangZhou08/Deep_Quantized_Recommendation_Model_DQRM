@@ -72,13 +72,14 @@ class QuantLinear(Module):
         ''' 
         self.register_buffer('weight_integer', torch.zeros_like(self.weight), persistent = False) 
         self.register_buffer('bias_integer', torch.zeros_like(linear.bias), persistent = False) 
-        '''
         self.register_buffer('weight_grad_buffer', torch.zeros_like(self.weight), persistent = False) 
+        '''
         self.register_buffer('weight_scaling_factor', torch.zeros(self.out_features)) 
-
-        self.register_buffer('bias_grad_buffer', torch.zeros(self.out_features)) 
-        self.register_buffer('bias_scaling_factor', torch.zeros(self.out_features)) 
         ''' 
+        '''
+        self.register_buffer('bias_grad_buffer', torch.zeros(self.out_features)) 
+        ''' 
+        self.register_buffer('bias_scaling_factor', torch.zeros(self.out_features)) 
         try:
             self.bias = Parameter(linear.bias.data.clone())
         except AttributeError:
@@ -251,8 +252,8 @@ class QuantEmbeddingBagTwo(Module):
         ).astype(np.float32) 
         '''
         self.register_buffer('embedding_grad_buffer', torch.zeros((self.num_embeddings, self.embedding_dim)), persistent = False) 
-        self.register_buffer('emb_scaling_factor', torch.zeros(1), persistent = True) 
         ''' 
+        self.register_buffer('emb_scaling_factor', torch.zeros(1), persistent = True) 
         '''
         W = np.random.normal( 
             loc = 0, scale = 0.03, size = (self.num_embeddings, self.embedding_dim) 
