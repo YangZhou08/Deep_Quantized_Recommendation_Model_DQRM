@@ -180,6 +180,7 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
                         emb_table.embedding_bag.weight.grad.detach() 
                     else: 
                         emb_table.embedding_bag.weight.grad.requires_grad_(False) 
+                    emb_table.embedding_bag.weight.grad.coalesce() 
                     dist.all_reduce(emb_table.embedding_bag.weight.grad, dist.ReduceOp.SUM) 
                     emb_table.embedding_bag.weight.grad.mul_(1. / number_of_gpus) 
             else: 
