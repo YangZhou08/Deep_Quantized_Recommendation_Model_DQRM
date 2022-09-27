@@ -531,7 +531,6 @@ def weight_syncc(dlrm, num_gpus):
         model = dlrm 
         for name, param in model.named_parameters(): 
             param.requires_grad_(False) 
-            print(name, param[0][: 20]) 
             dist.all_reduce(param, dist.ReduceOp.SUM) 
             param.mul_(1. / num_gpus) 
             param.requires_grad_(True) 
