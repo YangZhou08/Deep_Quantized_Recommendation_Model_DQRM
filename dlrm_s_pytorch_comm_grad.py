@@ -839,7 +839,7 @@ class DLRM_Net(nn.Module):
 
             return z 
         else: 
-            if not self.quantize_act_and_lin: 
+            if (not self.quantize_act_and_lin) and self.quantize_activation: 
                 # used for cases where embedding tables are quantized while mlp is in full precision 
                 x, act_scaling_factor = self.quant_input(dense_x) 
                 x = self.apply_mlp(x, self.bot_l) # not used with scale 
