@@ -890,18 +890,17 @@ class DLRM_Net(nn.Module):
             return z 
     
     def documenting_weights_tables(self, path, epoch_num, iter_num, emb_quantized = True): 
-        table_nums = [3, 6] 
+        table_nums = [0, 3, 6, 18, 20] 
         with torch.no_grad(): 
             for table_num in table_nums: 
                 file_name = "table" + str(table_num) + "epoch" + str(epoch_num) + "iter" + str(iter_num) + "_" 
-                '''
-                file_name = "table" + str(table_num) + "epoch" + str(epoch_num) 
-                ''' 
+                
                 if emb_quantized: 
                     embedding_table = self.emb_l[table_num].embedding_bag 
                     eb_scaling_factor = self.emb_l[table_num].eb_scaling_factor 
                 else: 
                     embedding_table = self.emb_l[table_num] 
+                '''
                 if emb_quantized: 
                     file_name += "quantized" 
                 file_name += ".txt" 
@@ -910,7 +909,6 @@ class DLRM_Net(nn.Module):
 
                 file_path = path + "/" + file_name 
                 file = open(file_path, "a") 
-
                 weight_list = embedding_table.weight.data.detach() 
                 if emb_quantized: 
                     zero_point = torch.tensor(0.).cuda() 
@@ -926,9 +924,8 @@ class DLRM_Net(nn.Module):
                     file.write("\n") 
                 file.close() 
                 print("Documented table {} weights in file {}".format(table_num, file_name)) 
-
-                '''
-                if emb_quantized and table_num == 6: 
+                ''' 
+                if emb_quantized: 
                     file_name = "table" + str(table_num) + "epoch" + str(epoch_num) + "_" + "gradient" 
                     file_name += ".txt" 
 
@@ -937,7 +934,7 @@ class DLRM_Net(nn.Module):
                     file_path = path + "/" + file_name 
                     file = open(file_path, "a") 
 
-                    list_o_gradients = embedding_table.weight.grad.data.detach() 
+                    list_o_gradients = embedding_table.weight.grad.coalesce().values() 
                     for i in range(list_o_gradients.shape[0]): 
                         row = "" 
                         for j in range(list_o_gradients.shape[1]): 
@@ -948,7 +945,6 @@ class DLRM_Net(nn.Module):
                         file.write("\n") 
                     file.close() 
                     print("Documented table {} gradients in file {}".format(table_num, file_name)) 
-                ''' 
     
     def show_output_linear_layer_grad(self, start = False): 
         with torch.no_grad(): 
@@ -1942,7 +1938,7 @@ def train(gpu, args):
                 inspect_weights_and_others = (
                     (args.test_freq > 0) 
                     and (args.data_generation in ["dataset", "random"]) 
-                    and (j % (args.test_freq * 3) == 0) 
+                    and ((j + 1) % (args.test_freq * 2) == 0) 
                 ) 
                 
                 if should_print or should_test: 
@@ -2032,11 +2028,11 @@ def train(gpu, args):
                 '''
                 weight_syncc(dlrm, args.world_size) 
                 ''' 
-                '''
+                
                 if rank == 0 and inspect_weights_and_others: 
                     dlrm.module.documenting_weights_tables(path_log, k, j, emb_quantized = args.quantization_flag) 
                 dist.barrier() 
-                ''' 
+                
                 '''
                 print("stop updating embedding") 
                 ''' 
@@ -2045,9 +2041,7 @@ def train(gpu, args):
                 for emb in dlrm.module.emb_l: 
                     emb.embedding_bag.weight.requires_grad = False 
                 ''' 
-                '''
                 dlrm.show_output_linear_layer_grad() # checking whether the layer is consistent 
-                ''' 
             k += 1 
                             
     else: 
