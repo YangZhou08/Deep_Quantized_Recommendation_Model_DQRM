@@ -2030,7 +2030,7 @@ def train(gpu, args):
                 ''' 
                 
                 if rank == 0 and inspect_weights_and_others: 
-                    dlrm.module.documenting_weights_tables(path_log, k, j, emb_quantized = args.quantization_flag) 
+                    dlrm.documenting_weights_tables(path_log, k, j, emb_quantized = args.quantization_flag) 
                 dist.barrier() 
                 
                 '''
@@ -2041,7 +2041,9 @@ def train(gpu, args):
                 for emb in dlrm.module.emb_l: 
                     emb.embedding_bag.weight.requires_grad = False 
                 ''' 
+                '''
                 dlrm.show_output_linear_layer_grad() # checking whether the layer is consistent 
+                ''' 
             k += 1 
                             
     else: 
