@@ -51,7 +51,7 @@ for file_name in file_names:
     table_num = int(file_name[5]) 
     if table_num == 1: 
         table_num = 18 
-    elif table_num = 2: 
+    elif table_num == 2: 
         table_num = 20 
 
     file_path = path + file_name 
