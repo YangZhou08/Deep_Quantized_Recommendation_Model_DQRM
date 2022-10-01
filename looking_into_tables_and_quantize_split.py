@@ -42,8 +42,6 @@ iterations = [20480, 40960, 61440]
 length_list = {0: 36, 3: 359, 6: 401, 18: 77, 20: 392} 
 
 for table_num in [0, 3, 6, 18, 20]: 
-    if table_num == 6: 
-        continue 
     name = "table" + str(table_num) + "epoch" 
     for i in range(5): 
         file_names.append(name + str(i) + "_gradient.txt") 
@@ -70,14 +68,10 @@ for file_name in file_names:
     y, x, _ = plt.hist(list_one, log = True) 
     y_max = np.max(y) 
     ''' 
+    print(table_num) 
     for i in range(3): 
         iteration = str(iterations[i]) 
-        if table_num == 3: 
-            plt.hist(list_one[i * length_list[table_num] : (i + 1) * length_list[table_num]], log = True, bins = 100) 
-            plt.xlim(-0.3, 0.3) 
-        else: 
-            plt.hist(list_one[i * length_list[table_num] : (i + 1) * length_list[table_num]], log = False, bins = 100) 
-            plt.xlim(-0.1, 0.1) 
+        plt.hist(list_one[i * length_list[table_num] : (i + 1) * length_list[table_num]], log = False, bins = 100) 
 
         '''
         chicanes.append(np.sqrt(1/n_l[table_num])) 
