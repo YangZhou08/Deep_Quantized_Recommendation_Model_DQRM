@@ -46,7 +46,7 @@ for table_num in [0, 3, 6, 18, 20]:
         continue 
     name = "table" + str(table_num) + "epoch" 
     for i in range(5): 
-        file_names.append(name + str(i) + "_.txt") 
+        file_names.append(name + str(i) + "_gradient.txt") 
 
 for file_name in file_names: 
 
