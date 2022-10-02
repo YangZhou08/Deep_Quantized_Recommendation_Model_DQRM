@@ -152,51 +152,7 @@ exc = getattr(builtins, "IOError", "FileNotFoundError")
 def time_wrap(use_gpu):
     if use_gpu:
         torch.cuda.synchronize()
-    return time.time()
-
-
-def dlrm_wrap(X, lS_o, lS_i, use_gpu, device, ndevices=1, test_mode = False): 
-    '''
-    print("print inside dlrm_wrap ndevices is ", ndevices) 
-    ''' 
-    with record_function("DLRM forward"):
-        if use_gpu:  # .cuda()
-            # lS_i can be either a list of tensors or a stacked tensor.
-            # Handle each case below:
-            if ndevices == 1:
-                lS_i = (
-                    [S_i.to(device) for S_i in lS_i]
-                    if isinstance(lS_i, list)
-                    else lS_i.to(device)
-                )
-                lS_o = (
-                    [S_o.to(device) for S_o in lS_o]
-                    if isinstance(lS_o, list)
-                    else lS_o.to(device)
-                )
-        return dlrm(X.to(device), lS_o, lS_i, test_mode = test_mode) 
-
-
-def loss_fn_wrap(Z, T, use_gpu, device, args): 
-    with record_function("DLRM loss compute"):
-        if args.loss_function == "mse" or args.loss_function == "bce": 
-            '''
-            return dlrm.loss_fn(Z, T.to(device)) 
-            ''' 
-            if args.loss_function == "mse": 
-                loss_fn = torch.nn.MSELoss(reduction="mean") 
-            else: 
-                loss_fn = torch.nn.BCELoss(reduction="mean") 
-            return loss_fn(Z, T.to(device)) 
-        elif args.loss_function == "wbce":
-            loss_ws_ = dlrm.loss_ws[T.data.view(-1).long()].view_as(T).to(device) 
-            loss_fn = torch.nn.BCELoss(reduction="none") 
-            '''
-            loss_fn_ = dlrm.loss_fn(Z, T.to(device)) 
-            ''' 
-            loss_fn_ = loss_fn(Z, T.to(device)) 
-            loss_sc_ = loss_ws_ * loss_fn_
-            return loss_sc_.mean()
+    return time.time() 
 
 
 # The following function is a wrapper to avoid checking this multiple times in th
@@ -523,6 +479,7 @@ class DLRM_Net(nn.Module):
             self.emb_l_q = []
             self.quantize_bits = 32
 
+            '''
             # specify the loss function
             if self.loss_function == "mse":
                 self.loss_fn = torch.nn.MSELoss(reduction="mean")
@@ -537,6 +494,7 @@ class DLRM_Net(nn.Module):
                 sys.exit(
                     "ERROR: --loss-function=" + self.loss_function + " is not supported"
                 ) 
+            ''' 
 
     def apply_mlp(self, x, layers, prev_act_scaling_factor = None): 
         # approach 1: use ModuleList
@@ -1145,23 +1103,7 @@ def inference_distributed(
         if args.world_size > 1 and X_test.size(0) % args.world_size != 0: 
             print("Warning: Skipping the batch %d with size %d" % (i, X_test.size(0))) 
             continue 
-
-        Z_test = dlrm_wrap(
-            X_test, 
-            lS_o_test, 
-            lS_i_test, 
-            use_gpu, 
-            device, 
-            ndevices = 1, 
-            test_mode=True 
-        ) 
-        
-        if Z_test.is_cuda: 
-            torch.cuda.synchronize() 
-        
-        S_test = Z_test.detach().cpu().numpy() 
-        T_test = T_test.detach().cpu().numpy() 
-        
+    '''
         # calculating roc auc score 
         scores.append(S_test) 
         targets.append(T_test) 
@@ -1179,6 +1121,7 @@ def inference_distributed(
     
     print("rank: {} test_accu: {}".format(rank, test_accu)) 
     print("get out") 
+    ''' 
     '''
     print(test_accu.type) 
     print(test_samp.type) 
@@ -1206,52 +1149,6 @@ def inference_distributed(
     test_accu = total_accu.item() 
     test_samp = total_samp.item() 
     ''' 
-    
-    print("{} has test check {} and sample count {}".format(rank, test_accu, test_samp)) 
-    
-    acc_test = test_accu / test_samp 
-    '''
-    writer.add_scalar("Test/Acc", acc_test, log_iter) 
-    ''' 
-    
-    if rank == 0: 
-        model_metrics_dict = {
-            "nepochs": args.nepochs,
-            "nbatches": nbatches,
-            "nbatches_test": nbatches_test,
-            "state_dict": dlrm.state_dict(),
-            "test_acc": acc_test,
-        } 
-    
-    global best_acc_test 
-    is_best = acc_test > best_acc_test 
-    if is_best: 
-        best_acc_test = acc_test 
-        
-    scores = np.concatenate(scores, axis = 0) 
-    targets = np.concatenate(targets, axis = 0) 
-    roc_auc = sklearn.metrics.roc_auc_score(targets, scores) 
-    
-    global best_auc_test 
-    best_auc_test = roc_auc if roc_auc > best_auc_test else best_auc_test 
-    
-    '''
-    print(
-        " accuracy {:3.3f} %, best {:3.3f} %".format(
-            acc_test * 100, best_acc_test * 100 
-        ), 
-        flush = True, 
-    ) 
-    ''' 
-    if rank == 0: 
-        print(
-            " accuracy {:3.3f} %, best {:3.3f} %, roc auc score {:.4f}, best {:.4f}".format(
-                acc_test * 100, best_acc_test * 100, roc_auc, best_auc_test), 
-            flush = True 
-            )
-        return model_metrics_dict, is_best 
-    else: 
-        return 
     
 def inference(
     args,
@@ -1286,6 +1183,8 @@ def inference(
         if args.world_size > 1 and X_test.size(0) % args.world_size != 0: 
             print("Warning: Skipping the batch %d with size %d" % (i, X_test.size(0))) 
             continue 
+
+    '''
         
         Z_test = dlrm_wrap(
             X_test, 
@@ -1340,20 +1239,13 @@ def inference(
     
     best_auc_test = roc_auc if roc_auc > best_auc_test else best_auc_test 
     
-    '''
-    print(
-        " accuracy {:3.3f} %, best {:3.3f} %".format(
-            acc_test * 100, best_acc_test * 100 
-        ), 
-        flush = True, 
-    ) 
-    ''' 
     print(
         " accuracy {:3.3f} %, best {:3.3f} %, roc auc score {:.4f}, best {:.4f}".format(
             acc_test * 100, best_acc_test * 100, roc_auc, best_auc_test), 
         flush = True 
         )
     return model_metrics_dict, is_best 
+    ''' 
     
 def train(gpu, args): 
     
@@ -1396,9 +1288,9 @@ def train(gpu, args):
     
     train_dataset, test_dataset = dp.make_criteo_data_and_loaders_two(args) 
     
+    '''
     # train sampler 
     train_sampler = torch.utils.data.distributed.DistributedSampler(train_dataset, num_replicas = args.world_size, rank = rank) 
-    '''
     test_sampler = torch.utils.data.distributed.DistributedSampler(test_dataset, num_replicas = args.world_size, rank = rank) 
     ''' 
     
