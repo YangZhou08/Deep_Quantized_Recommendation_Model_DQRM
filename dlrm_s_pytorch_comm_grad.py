@@ -2028,11 +2028,11 @@ def train(gpu, args):
                 '''
                 weight_syncc(dlrm, args.world_size) 
                 ''' 
-                
+                '''
                 if rank == 0 and inspect_weights_and_others: 
                     dlrm.documenting_weights_tables(path_log, k, j, emb_quantized = args.quantization_flag) 
                 dist.barrier() 
-                
+                ''' 
                 '''
                 print("stop updating embedding") 
                 ''' 
