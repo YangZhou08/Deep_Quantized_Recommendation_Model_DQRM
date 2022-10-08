@@ -1917,7 +1917,7 @@ def train(gpu, args):
                 ''' 
                 grad_precision_and_scale(dlrm, args.world_size, rank) 
                 grad_update_parallel_comm(dlrm, args.world_size, emb_grad_quantized = args.quantize_embedding_bag_gradient, num_bits = args.embedding_bag_gradient_bit_num, ranking_range = True) 
-                weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1], emb_grad_quantized = args.quantize_embedding_bag_gradient, update_embedding = True, num_gpus = args.world_size) 
+                weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1], emb_grad_quantized = args.quantize_embedding_bag_gradient, update_embedding = True, num_gpus = args.world_size, rank_for_debug = rank) 
 
                 lr_scheduler.step() 
                 

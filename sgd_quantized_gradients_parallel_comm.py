@@ -197,13 +197,15 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug):
             # ascending order low precision to high precision list 
             if (j <= 0.5 * len(list_id)): 
                 # the 50% of the tables that have the smallest range 
-                model.emb_l[id].gradient_bit_width.zero_().add_(4) 
-            elif (j < 0.8 * len(list_id)): 
+                model.emb_l[id].gradient_bit_width.zero_().add_(0) 
+                continue 
+            elif (j < 0.9 * len(list_id)): 
                 # the 30% of the tables that have the middle range 
                 model.emb_l[id].gradient_bit_width.zero_().add_(8) 
+                continue 
             else: 
                 # the 20% of the tables that have the large range 
-                model.emb_l[id].gradient_bit_width.zero_().add_(16) 
+                model.emb_l[id].gradient_bit_width.zero_().add_(32) 
         
         # record the scale for quantizing gradients 
         id = 0 
@@ -236,6 +238,9 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
             if model.emb_l is not None: 
                 count = 0 
                 for emb_table in model.emb_l: 
+                    # skip tables that don't need update 
+                    if emb_table.gradient_bit_width.item() == 0: 
+                        continue 
                     if not ranking_range: 
                         buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = num_bits, parallel = True, num_gpus = number_of_gpus) 
                         emb_table.emb_scaling_factor = scale 
@@ -460,15 +465,21 @@ def weights_update_added_quantization(model, lr, num_gpus, emb_grad_quantized = 
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
-def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_embedding = True, num_gpus = 1): 
+def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_embedding = True, num_gpus = 1, rank_for_debug = None): 
     with torch.no_grad(): 
         if update_embedding: 
             if model.emb_l is not None: 
+                id = 0 
                 for emb_table in model.emb_l: 
+                    if emb_table.gradient_bit_width.item() == 0: 
+                        if rank_for_debug == 0: 
+                            print("table {}, weights gradient bit width is 0 and not updating".format(id)) 
+                        continue 
                     if emb_grad_quantized: 
                         emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad * emb_table.emb_scaling_factor.item()) 
                     else: 
                         emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad) 
+                    id += 1 
         else: 
             raise Warning("Cannot find the list of embedding tables") 
         
@@ -545,7 +556,10 @@ def quantize_emb_grad_two(embedding_table, num_gpus = None):
             embedding_table.embedding_bag.weight.grad.requires_grad_(False) 
         
         # quantize 
-        emb_gradient_update = torch.sparse_coo_tensor(embedding_table.embedding_bag.weight.grad.coalesce().indices(), SymmetricQuantFunction.apply(embedding_table.embedding_bag.weight.grad.coalesce().values(), embedding_table.gradient_bit_width, embedding_table.emb_scaling_factor), size = embedding_table.embedding_bag.weight.grad.size(), device = embedding_table.embedding_bag.weight.grad.device) 
+        if embedding_table.gradient_bit_width != 32: 
+            emb_gradient_update = torch.sparse_coo_tensor(embedding_table.embedding_bag.weight.grad.coalesce().indices(), SymmetricQuantFunction.apply(embedding_table.embedding_bag.weight.grad.coalesce().values(), embedding_table.gradient_bit_width, embedding_table.emb_scaling_factor), size = embedding_table.embedding_bag.weight.grad.size(), device = embedding_table.embedding_bag.weight.grad.device) 
+        else: 
+            emb_gradient_update = embedding_table.embedding_bag.weight.grad 
         emb_gradient_update.requires_grad_(False) 
         dist.all_reduce(emb_gradient_update, dist.ReduceOp.SUM) 
         emb_gradient_update.mul_(1. / num_gpus) 
