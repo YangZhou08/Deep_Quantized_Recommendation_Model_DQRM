@@ -169,7 +169,8 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug):
     with torch.no_grad(): 
         range_list = [] 
         if model.emb_l is not None: 
-            for id, emb_table in enumerate(model.emb_l): 
+            id = 0 
+            for emb_table in model.emb_l: 
                 if emb_table.embedding_bag.weight.grad.grad_fn is not None: 
                     emb_table.embedding_bag.weight.grad.detach_() 
                 else: 
@@ -185,6 +186,7 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug):
                 if rank_for_debug == 0: 
                     print("table {}, gradient scale is {}".format(id, emb_table.emb_scaling_factor)) 
                 range_list.append(range_incomplete.item()) 
+                id += 1 
 
         list_id = np.argsort(range_list) # we have a list of indices 
         if rank_for_debug == 0: 
