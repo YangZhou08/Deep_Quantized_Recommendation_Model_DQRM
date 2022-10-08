@@ -1915,7 +1915,10 @@ def train(gpu, args):
                 '''
                 optimizer.step() 
                 ''' 
-                grad_precision_and_scale(dlrm, args.world_size, rank) 
+                output_flag = ((j + 1) % args.print_freq == 0) or (
+                    j + 1 == nbatches 
+                ) 
+                grad_precision_and_scale(dlrm, args.world_size, rank, output_flag) 
                 grad_update_parallel_comm(dlrm, args.world_size, emb_grad_quantized = args.quantize_embedding_bag_gradient, num_bits = args.embedding_bag_gradient_bit_num, ranking_range = True) 
                 weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1], emb_grad_quantized = args.quantize_embedding_bag_gradient, update_embedding = True, num_gpus = args.world_size, rank_for_debug = rank) 
 
