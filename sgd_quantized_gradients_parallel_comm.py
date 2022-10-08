@@ -169,8 +169,7 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug):
     with torch.no_grad(): 
         range_list = [] 
         if model.emb_l is not None: 
-            id = 0 
-            for emb_table in model.emb_l: 
+            for id, emb_table in enumerate(model.emb_l): 
                 if emb_table.embedding_bag.weight.grad.grad_fn is not None: 
                     emb_table.embedding_bag.weight.grad.detach_() 
                 else: 
@@ -188,7 +187,6 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug):
                 if rank_for_debug == 0: 
                     print("table {}, gradient scale is {}".format(id, emb_table.emb_scaling_factor)) 
                 range_list.append(range_incomplete.item()) 
-                id += 1 
 
         list_id = np.argsort(range_list) # we have a list of indices 
         if rank_for_debug == 0: 
@@ -469,8 +467,7 @@ def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_emb
     with torch.no_grad(): 
         if update_embedding: 
             if model.emb_l is not None: 
-                id = 0 
-                for emb_table in model.emb_l: 
+                for id, emb_table in enumerate(model.emb_l): 
                     if emb_table.gradient_bit_width.item() == 0: 
                         if rank_for_debug == 0: 
                             print("table {}, weights gradient bit width is 0 and not updating".format(id)) 
@@ -479,7 +476,6 @@ def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_emb
                         emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad * emb_table.emb_scaling_factor.item()) 
                     else: 
                         emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad) 
-                    id += 1 
         else: 
             raise Warning("Cannot find the list of embedding tables") 
         
