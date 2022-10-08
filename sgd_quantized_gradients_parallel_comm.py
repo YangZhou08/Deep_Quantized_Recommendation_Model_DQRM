@@ -148,7 +148,7 @@ def grad_buffer_update_added_quantization(model, number_of_gpus, emb_grad_quanti
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
-def grad_precision_and_scale(model, number_of_gpus, rank_for_debug): 
+def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag = False): 
     ''' 
     The function is first called inside the backward propagation, then followed by gradient update with ranking_range True, and then call weight update 
     The function that uses the magnitude of the gradients to determine bit width. 
@@ -184,12 +184,14 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug):
                 dist.all_reduce(range_incomplete, op = dist.ReduceOp.SUM) 
                 range_incomplete.mul_(1./number_of_gpus) 
                 emb_table.emb_scaling_factor = range_incomplete # emb_scaling_factor to quantize gradients used as a place to store range 
+                '''
                 if rank_for_debug == 0: 
                     print("table {}, gradient scale is {}".format(id, emb_table.emb_scaling_factor)) 
+                ''' 
                 range_list.append(range_incomplete.item()) 
 
         list_id = np.argsort(range_list) # we have a list of indices 
-        if rank_for_debug == 0: 
+        if rank_for_debug == 0 and output_flag == True: 
             print("ranking from least wide range to the widest range {}".format(list_id)) 
         for j, id in enumerate(list_id): 
             # ascending order low precision to high precision list 
@@ -208,8 +210,10 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug):
         # record the scale for quantizing gradients 
         id = 0 
         for emb_table in model.emb_l: 
+            '''
             if rank_for_debug == 0: 
                 print("table {}, gradient precision {}bit".format(id, emb_table.gradient_bit_width.item())) 
+            ''' 
             n = 2 ** (emb_table.gradient_bit_width - 1) - 1 
             emb_table.emb_scaling_factor = torch.clamp(emb_table.emb_scaling_factor, min = 1e-8) / n 
             id += 1 
@@ -469,8 +473,10 @@ def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_emb
             if model.emb_l is not None: 
                 for id, emb_table in enumerate(model.emb_l): 
                     if emb_table.gradient_bit_width.item() == 0: 
+                        '''
                         if rank_for_debug == 0: 
                             print("table {}, weights gradient bit width is 0 and not updating".format(id)) 
+                        ''' 
                         continue 
                     if emb_grad_quantized: 
                         emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad * emb_table.emb_scaling_factor.item()) 
