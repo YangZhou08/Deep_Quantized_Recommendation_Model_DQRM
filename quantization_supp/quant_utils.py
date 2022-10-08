@@ -125,7 +125,18 @@ def linear_dequantize(input_q, scale, zero_point, inplace=False):
     if inplace:
         input_q.sub_(zero_point).mul_(scale)
         return input_q
-    return (input_q - zero_point) * (scale)
+    return (input_q - zero_point) * (scale) 
+
+def finding_range_for_gradient(embedding_bag): 
+    with torch.no_grad(): 
+        if isinstance(embedding_bag, torch.nn.Module): 
+            weight = embedding_bag.weight.data 
+        else: 
+            weight = embedding_bag 
+        w_min, _ = torch.min(torch.min(weight, dim = 0, out = None).values, dim = 0, out = None) # no copy of the entire table is produced or we expected 
+        w_max, _ = torch.max(torch.max(weight, dim = 0, out = None).values, dim = 0, out = None) # no copy of the entire table is produced or we expected 
+        scale = max(w_min.abs(), w_max.abs()) 
+        return scale 
 
 def symmetric_linear_quantization_param_two(num_bits, 
                                             embedding_bag, 

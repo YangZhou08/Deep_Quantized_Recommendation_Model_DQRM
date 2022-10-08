@@ -118,6 +118,7 @@ from sgd_quantized_gradients import clear_gradients
 from sgd_quantized_gradients import weight_syncc 
 ''' 
 
+from sgd_quantized_gradients_parallel_comm import grad_precision_and_scale 
 from sgd_quantized_gradients_parallel_comm import grad_update_parallel_comm 
 from sgd_quantized_gradients_parallel_comm import weight_update_parallel_comm 
 from sgd_quantized_gradients_parallel_comm import quantized_gradients_update 
@@ -1914,7 +1915,8 @@ def train(gpu, args):
                 '''
                 optimizer.step() 
                 ''' 
-                grad_update_parallel_comm(dlrm, args.world_size, emb_grad_quantized = args.quantize_embedding_bag_gradient, num_bits = args.embedding_bag_gradient_bit_num) 
+                grad_precision_and_scale(dlrm, args.world_size, rank) 
+                grad_update_parallel_comm(dlrm, args.world_size, emb_grad_quantized = args.quantize_embedding_bag_gradient, num_bits = args.embedding_bag_gradient_bit_num, ranking_range = True) 
                 weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1], emb_grad_quantized = args.quantize_embedding_bag_gradient, update_embedding = True, num_gpus = args.world_size) 
 
                 lr_scheduler.step() 

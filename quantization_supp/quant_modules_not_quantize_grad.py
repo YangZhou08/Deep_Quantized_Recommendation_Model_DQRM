@@ -254,6 +254,7 @@ class QuantEmbeddingBagTwo(Module):
         self.register_buffer('embedding_grad_buffer', torch.zeros((self.num_embeddings, self.embedding_dim)), persistent = False) 
         ''' 
         self.register_buffer('emb_scaling_factor', torch.zeros(1), persistent = True) 
+        self.register_buffer('gradient_bit_width', torch.zeros(1), persistent = True) 
         '''
         W = np.random.normal( 
             loc = 0, scale = 0.03, size = (self.num_embeddings, self.embedding_dim) 
