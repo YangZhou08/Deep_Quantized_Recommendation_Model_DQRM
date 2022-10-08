@@ -472,7 +472,7 @@ def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_emb
         if update_embedding: 
             if model.emb_l is not None: 
                 for id, emb_table in enumerate(model.emb_l): 
-                    if emb_table.gradient_bit_width.item() == 0: 
+                    if not emb_table.gradient_bit_width.is_nonzero(): 
                         if rank_for_debug == 0: 
                             print("table {}, weights gradient bit width is 0 and not updating".format(id)) 
                         continue 
@@ -480,7 +480,7 @@ def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_emb
                         if rank_for_debug == 0: 
                             print("table{} first quantized in integer or ratio then s".format(id)) 
                             print(emb_table.embedding_bag.weight.grad.coalesce().values()[0]) 
-                            print(emb_table.gradient_bit_width) 
+                            print(emb_table.gradient_bit_width.item()) 
                         emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad * emb_table.emb_scaling_factor.item()) 
                     else: 
                         emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad) 
