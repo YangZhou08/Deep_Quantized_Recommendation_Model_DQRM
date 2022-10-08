@@ -543,8 +543,7 @@ def quantize_emb_grad_two(embedding_table, num_gpus = None):
             embedding_table.embedding_bag.weight.grad.requires_grad_(False) 
         
         # quantize 
-        embedding_table.embedding_bag.weight.grad.coalesce() 
-        emb_gradient_update = torch.sparse_coo_tensor(embedding_table.embedding_bag.weight.grad.indices(), SymmetricQuantFunction.apply(embedding_table.embedding_bag.weight.grad.values(), embedding_table.gradient_bit_width, embedding_table.emb_scaling_factor), size = embedding_table.embedding_bag.weight.grad.size(), device = embedding_table.embedding_bag.weight.grad.device) 
+        emb_gradient_update = torch.sparse_coo_tensor(embedding_table.embedding_bag.weight.grad.coalesce().indices(), SymmetricQuantFunction.apply(embedding_table.embedding_bag.weight.grad.coalesce().values(), embedding_table.gradient_bit_width, embedding_table.emb_scaling_factor), size = embedding_table.embedding_bag.weight.grad.size(), device = embedding_table.embedding_bag.weight.grad.device) 
         emb_gradient_update.requires_grad_(False) 
         dist.all_reduce(emb_gradient_update, dist.ReduceOp.SUM) 
         emb_gradient_update.mul_(1. / num_gpus) 
