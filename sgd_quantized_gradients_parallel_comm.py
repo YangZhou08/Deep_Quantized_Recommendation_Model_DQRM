@@ -175,7 +175,7 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug):
                 else: 
                     emb_table.embedding_bag.weight.grad.requires_grad_(False) 
                 # finding scale 
-                emb_table.embedding_bag.weight.grad.coalesce() 
+                emb_table.embedding_bag.weight.grad.coalesce_() 
                 range_incomplete = finding_range_for_gradient(emb_table.embedding_bag.weight.grad.values()) 
                 # communicate the range bound across GPUs 
                 range_incomplete.requires_grad_(False) 
