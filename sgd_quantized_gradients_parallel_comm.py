@@ -479,7 +479,7 @@ def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_emb
                     if emb_grad_quantized: 
                         if rank_for_debug == 0: 
                             print("table{} first quantized in integer or ratio then s".format(id)) 
-                            print(emb_table.embedding_bag.weight.grad.coalesce().values[0]) 
+                            print(emb_table.embedding_bag.weight.grad.coalesce().values()[0]) 
                             print(emb_table.gradient_bit_width) 
                         emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad * emb_table.emb_scaling_factor.item()) 
                     else: 
