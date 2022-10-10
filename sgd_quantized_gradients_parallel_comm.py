@@ -191,8 +191,7 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
 
                 n = 2 ** (4 - 1) - 1 
                 # when ranking normalize the gradient min and max based on the weights min and max 
-                if rank_for_debug == 0: 
-                    print(emb_table.eb_scaling_factor) 
+                print("table {}, rank {}, ebs {}".format(id, rank_for_debug, emb_table.eb_scaling_factor)) 
                 range_list.append(range_incomplete.item()/(emb_table.eb_scaling_factor.item() * n)) 
 
         list_id = np.argsort(range_list) # we have a list of indices 
