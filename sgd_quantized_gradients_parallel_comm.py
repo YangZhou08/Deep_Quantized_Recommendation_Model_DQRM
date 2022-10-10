@@ -197,22 +197,24 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
                 range_list.append(range_incomplete.item()/(emb_table.eb_scaling_factor.item() * n)) 
 
         list_id = np.argsort(range_list) # we have a list of indices 
-        
+        '''
         print("rank {} ranking from least wide range to the widest range {}".format(rank_for_debug, list_id)) 
-
+        ''' 
         for j, id in enumerate(list_id): 
             # ascending order low precision to high precision list 
-            if (j <= 0.5 * len(list_id)): 
-                # the 50% of the tables that have the smallest range 
-                model.emb_l[id].gradient_bit_width.zero_().add_(0) 
-                continue 
-            elif (j < 0.9 * len(list_id)): 
-                # the 30% of the tables that have the middle range 
-                model.emb_l[id].gradient_bit_width.zero_().add_(8) 
-                continue 
+            if rank_for_debug == 0: 
+                if (j <= 0.5 * len(list_id)): 
+                    # the 50% of the tables that have the smallest range 
+                    model.emb_l[id].gradient_bit_width.zero_().add_(0) 
+                elif (j < 0.9 * len(list_id)): 
+                    # the 30% of the tables that have the middle range 
+                    model.emb_l[id].gradient_bit_width.zero_().add_(8) 
+                else: 
+                    # the 20% of the tables that have the large range 
+                    model.emb_l[id].gradient_bit_width.zero_().add_(32) 
             else: 
-                # the 20% of the tables that have the large range 
-                model.emb_l[id].gradient_bit_width.zero_().add_(32) 
+                model.emb_l[id].gradient_bit_width.zero_() 
+            dist.all_reduce(model.emb_l[id].gradient_bit_width, dist.ReduceOp.SUM) 
         
         # record the scale for quantizing gradients 
         id = 0 
@@ -486,19 +488,13 @@ def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_emb
             if model.emb_l is not None: 
                 for id, emb_table in enumerate(model.emb_l): 
                     if emb_table.gradient_bit_width.item() == 0: 
-                        '''
-                        if rank_for_debug == 0: 
-                            print("table {}, weights gradient bit width is 0 and not updating".format(id)) 
+                        print("rank {} table {}, weights gradient bit width is 0 and not updating".format(rank_for_debug, id)) 
                         continue 
-                        ''' 
                     if emb_grad_quantized: 
-                        '''
-                        if rank_for_debug == 0: 
-                            print("table{} first quantized in integer or ratio then s".format(id)) 
-                            print(emb_table.embedding_bag.weight.grad.coalesce().values()[0]) 
-                            print(emb_table.embedding_bag.weight.grad.coalesce().indices()) 
-                            print(emb_table.gradient_bit_width.item()) 
-                        ''' 
+                        
+                        print("rank {} table{} first quantized in integer or ratio then s".format(rank_for_debug, id)) 
+                        print(emb_table.gradient_bit_width.item()) 
+                        
                         if emb_table.gradient_bit_width.item() == 32: 
                             emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad) 
                         else: 
