@@ -197,9 +197,8 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
                 range_list.append(range_incomplete.item()/(emb_table.eb_scaling_factor.item() * n)) 
 
         list_id = np.argsort(range_list) # we have a list of indices 
-        '''
-        print("rank {} ranking from least wide range to the widest range {}".format(rank_for_debug, list_id)) 
-        ''' 
+        if rank_for_debug == 0: 
+            print("rank {} ranking from least wide range to the widest range {}".format(rank_for_debug, list_id)) 
         for j, id in enumerate(list_id): 
             # ascending order low precision to high precision list 
             if rank_for_debug == 0: 
@@ -488,12 +487,14 @@ def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_emb
             if model.emb_l is not None: 
                 for id, emb_table in enumerate(model.emb_l): 
                     if emb_table.gradient_bit_width.item() == 0: 
+                        '''
                         print("rank {} table {}, weights gradient bit width is 0 and not updating".format(rank_for_debug, id)) 
+                        ''' 
                         continue 
                     if emb_grad_quantized: 
-                        
+                        '''
                         print("rank {} table{} first quantized in integer or ratio then s, bit width {}".format(rank_for_debug, id, emb_table.gradient_bit_width.item())) 
-                        
+                        ''' 
                         if emb_table.gradient_bit_width.item() == 32: 
                             emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad) 
                         else: 
