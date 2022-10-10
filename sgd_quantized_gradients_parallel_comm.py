@@ -196,7 +196,7 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
                 range_list.append(range_incomplete.item()/(emb_table.eb_scaling_factor.item() * n)) 
 
         list_id = np.argsort(range_list) # we have a list of indices 
-        if rank_for_debug == 0 and output_flag == True: 
+        if output_flag == True: 
             print("ranking from least wide range to the widest range {}".format(list_id)) 
         for j, id in enumerate(list_id): 
             # ascending order low precision to high precision list 
