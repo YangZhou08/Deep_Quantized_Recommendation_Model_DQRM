@@ -188,7 +188,10 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
                 if rank_for_debug == 0: 
                     print("table {}, gradient scale is {}".format(id, emb_table.emb_scaling_factor)) 
                 ''' 
-                range_list.append(range_incomplete.item()) 
+
+                n = 2 ** (4 - 1) - 1 
+                # when ranking normalize the gradient min and max based on the weights min and max 
+                range_list.append(range_incomplete.item()/(emb_table.eb_scaling_factor.item() * n)) 
 
         list_id = np.argsort(range_list) # we have a list of indices 
         if rank_for_debug == 0 and output_flag == True: 
@@ -565,6 +568,54 @@ def clear_gradients(model):
                 else: 
                     param.grad.requires_grad_(False) 
                 param.grad.zero_() 
+
+def quantize_emb_grad_error_compensation(embedding_table, num_gpus = None, ranking_range = False, num_bits = None): 
+    ''' 
+    This function requires embedding_table to have a field called emb_local_err 
+    
+    The local error compensation is implemented using the error term E 
+    Z = T_g + E 
+    T_acc = int_quantize(Z) 
+    E = Z - T_acc 
+    output (T_acc, E) 
+
+    Parameter: 
+    --------- 
+    embedding_table: the embedding table that is to have the quantized gradients 
+    num_gpus: number of GPUs is used in the system 
+    ranking_range: a flag determining whether ranking range is supported 
+    num_bits: number of bits are used to quantize the embedding table 
+
+    Return: 
+    ---------- 
+    None 
+    '''
+    with torch.no_grad(): 
+        
+        # TODO remove assert 
+        assert(ranking_range == False) 
+
+        if embedding_table.embedding_bag.weight.grad.grad_fn is not None: 
+            embedding_table.embedding_bag.weight.grad.detach_() 
+        else: 
+            embedding_table.embedding_bag.weight.grad.requires_grad_(False) 
+        
+        if not ranking_range: 
+            embedding_table = embedding_table.coalesce() 
+            if scale is None: 
+                scale = symmetric_linear_quantization_param_two(num_bits, embedding_table.values(), None, None, None) 
+
+                scale.requires_grad_(False) 
+                dist.all_reduce(scale, dist.ReduceOp.SUM) 
+                scale = scale/num_gpus 
+            scale = scale.view(-1) 
+            # quantize 
+            emb_gradient_update = torch.sparse_coo_tensor(embedding_table.indices(), SymmetricQuantFunction.apply(embedding_table.values(), num_bits, scale), size = embedding_table.size(), device = embedding_table.device) 
+
+            emb_gradient_update.requires_grad_(False) 
+            dist.all_reduce(emb_gradient_update, dist.ReduceOp.SUM) 
+            emb_gradient_update.mul_(1. / num_gpus) 
+            return emb_gradient_update, scale 
 
 def quantize_emb_grad_two(embedding_table, num_gpus = None): 
     with torch.no_grad(): 
