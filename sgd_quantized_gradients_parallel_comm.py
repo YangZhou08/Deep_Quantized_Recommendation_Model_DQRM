@@ -213,6 +213,7 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
                     model.emb_l[id].gradient_bit_width.zero_().add_(32) 
             dist.barrier() 
             dist.broadcast(model.emb_l[id].gradient_bit_width, 0) 
+            print("rank {}, table {}, gradient precision set to {}".format(rank_for_debug, id, emb_table.gradient_bit_width)) 
             dist.barrier() 
         
         # record the scale for quantizing gradients 
@@ -254,16 +255,22 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
                 for id, emb_table in enumerate(model.emb_l): 
                     # skip tables that don't need update 
                     if emb_table.gradient_bit_width.item() == 0: 
+                        '''
                         print("rank {}, table {}, gradient precision set to {}".format(rank_for_debug, id, emb_table.gradient_bit_width)) 
+                        ''' 
                         continue 
                     if emb_table.gradient_bit_width.item() == 32: 
+                        '''
                         print("rank {}, table {}, gradient precision set to {}".format(rank_for_debug, id, emb_table.gradient_bit_width)) 
+                        ''' 
                         continue 
                     if not ranking_range: 
                         buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = num_bits, parallel = True, num_gpus = number_of_gpus) 
                         emb_table.emb_scaling_factor = scale 
                     else: 
+                        '''
                         print("rank {}, table {}, gradient precision set to {}".format(rank_for_debug, id, emb_table.gradient_bit_width)) 
+                        ''' 
                         buffer_changes, _ = quantize_emb_grad_two(emb_table, number_of_gpus) 
                         # clear grad to be zero 
                     if emb_table.embedding_bag.weight.grad_fn is not None: 
