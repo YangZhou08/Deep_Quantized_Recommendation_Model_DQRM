@@ -212,9 +212,6 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
                     # the 20% of the tables that have the large range 
                     model.emb_l[id].gradient_bit_width.zero_().add_(32) 
             dist.barrier() 
-            dist.broadcast(model.emb_l[id].gradient_bit_width, 0) 
-            print("rank {}, table {}, gradient precision set to {}".format(rank_for_debug, id, emb_table.gradient_bit_width)) 
-            dist.barrier() 
         
         # record the scale for quantizing gradients 
         id = 0 
@@ -223,6 +220,9 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
             if rank_for_debug == 0: 
                 print("table {}, gradient precision {}bit".format(id, emb_table.gradient_bit_width.item())) 
             ''' 
+            dist.broadcast(model.emb_l[id].gradient_bit_width, 0) 
+            print("rank {}, table {}, gradient precision set to {}".format(rank_for_debug, id, emb_table.gradient_bit_width)) 
+            dist.barrier() 
             if emb_table.gradient_bit_width == 0: 
                 continue 
             if emb_table.gradient_bit_width == 32: 
