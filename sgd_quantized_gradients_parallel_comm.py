@@ -214,6 +214,7 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
             else: 
                 model.emb_l[id].gradient_bit_width.zero_() 
             dist.broadcast(model.emb_l[id].gradient_bit_width, 0) 
+            dist.barrier() 
         
         # record the scale for quantizing gradients 
         id = 0 
