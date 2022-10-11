@@ -230,7 +230,7 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
             emb_table.emb_scaling_factor = torch.clamp(emb_table.emb_scaling_factor, min = 1e-8) / n 
             id += 1 
 
-def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, num_bits = 16, ranking_range = False): 
+def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, num_bits = 16, ranking_range = False, rank_for_debug = None): 
     ''' 
     The function quantize and synchronize the gradients 
 
@@ -241,6 +241,7 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
     emb_grad_quantized: flag to check whether to quantize embedding tables 
     num_bits: number of bits to use when emb_grad_quantized is true, otherwise None 
     ranking_range: bit width not assigned uniformly but based on their magnitude 
+    rank_for_debug: rank of the machine 
 
     Return: 
     ---------- 
@@ -250,8 +251,7 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
         # only embedding gradient to be quantized do gradient changes needed, if not quantized, the gradient doesn't need to be changed 
         if emb_grad_quantized: 
             if model.emb_l is not None: 
-                count = 0 
-                for emb_table in model.emb_l: 
+                for id, emb_table in enumerate(model.emb_l): 
                     # skip tables that don't need update 
                     if emb_table.gradient_bit_width.item() == 0: 
                         continue 
@@ -261,6 +261,7 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
                         buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = num_bits, parallel = True, num_gpus = number_of_gpus) 
                         emb_table.emb_scaling_factor = scale 
                     else: 
+                        print("rank {}, table {}, gradient precision set to {}".format(rank_for_debug, id, emb_table.gradient_bit_width)) 
                         buffer_changes, _ = quantize_emb_grad_two(emb_table, number_of_gpus) 
                         # clear grad to be zero 
                     if emb_table.embedding_bag.weight.grad_fn is not None: 
