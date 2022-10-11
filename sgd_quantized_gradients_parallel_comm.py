@@ -214,8 +214,7 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
             dist.barrier() 
         
         # record the scale for quantizing gradients 
-        id = 0 
-        for emb_table in model.emb_l: 
+        for id, emb_table in enumerate(model.emb_l): 
             '''
             if rank_for_debug == 0: 
                 print("table {}, gradient precision {}bit".format(id, emb_table.gradient_bit_width.item())) 
@@ -229,7 +228,6 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
                 continue 
             n = 2 ** (emb_table.gradient_bit_width - 1) - 1 
             emb_table.emb_scaling_factor = torch.clamp(emb_table.emb_scaling_factor, min = 1e-8) / n 
-            id += 1 
 
 def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, num_bits = 16, ranking_range = False, rank_for_debug = None): 
     ''' 
