@@ -204,7 +204,7 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
             if rank_for_debug == 0: 
                 if (j <= 0.5 * len(list_id)): 
                     # the 50% of the tables that have the smallest range 
-                    model.emb_l[id].gradient_bit_width.zero_().add_(0) 
+                    model.emb_l[id].gradient_bit_width.zero_() 
                 elif (j < 0.9 * len(list_id)): 
                     # the 30% of the tables that have the middle range 
                     model.emb_l[id].gradient_bit_width.zero_().add_(8) 
@@ -213,7 +213,8 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
                     model.emb_l[id].gradient_bit_width.zero_().add_(32) 
             else: 
                 model.emb_l[id].gradient_bit_width.zero_() 
-            dist.all_reduce(model.emb_l[id].gradient_bit_width, dist.ReduceOp.MAX) 
+            dist.barrier() 
+            dist.all_reduce(model.emb_l[id].gradient_bit_width, dist.ReduceOp.SUM) 
         
         # record the scale for quantizing gradients 
         id = 0 
