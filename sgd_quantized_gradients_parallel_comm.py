@@ -211,6 +211,7 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
                 else: 
                     # the 20% of the tables that have the large range 
                     model.emb_l[id].gradient_bit_width.zero_().add_(32) 
+            dist.barrier() 
             dist.broadcast(model.emb_l[id].gradient_bit_width, 0) 
             dist.barrier() 
         
