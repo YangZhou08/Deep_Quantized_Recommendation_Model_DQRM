@@ -196,22 +196,25 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
                 ''' 
                 range_list.append(range_incomplete.item()/(emb_table.eb_scaling_factor.item() * n)) 
 
+        '''
         list_id = np.argsort(range_list) # we have a list of indices 
-        if rank_for_debug == 0 and output_flag: 
-            print("rank {} ranking from least wide range to the widest range {}".format(rank_for_debug, list_id)) 
-        for j, id in enumerate(list_id): 
-            # ascending order low precision to high precision list 
-            if rank_for_debug == 0: 
+        ''' 
+        if rank_for_debug == 0: 
+            list_id = np.random.permutation(26) 
+            if rank_for_debug == 0 and output_flag: 
+                print("rank {} ranking from least wide range to the widest range {}".format(rank_for_debug, list_id)) 
+            for j, id in enumerate(list_id): 
+                # ascending order low precision to high precision list 
                 if (j < 0.4 * len(list_id)): 
                     # the 50% of the tables that have the smallest range 
                     model.emb_l[id].gradient_bit_width.zero_() 
-                elif (j < 0.8 * len(list_id)): 
+                elif (j < 0.9 * len(list_id)): 
                     # the 30% of the tables that have the middle range 
                     model.emb_l[id].gradient_bit_width.zero_().add_(8) 
                 else: 
                     # the 20% of the tables that have the large range 
-                    model.emb_l[id].gradient_bit_width.zero_().add_(16) 
-            dist.barrier() 
+                    model.emb_l[id].gradient_bit_width.zero_().add_(32) 
+        dist.barrier() 
         
         # record the scale for quantizing gradients 
         for id, emb_table in enumerate(model.emb_l): 
