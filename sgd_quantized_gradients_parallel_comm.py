@@ -209,7 +209,7 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
             ''' 
             if rank_for_debug == 0 and output_flag: 
                 print("rank {} ranking from least wide range to the widest range {}".format(rank_for_debug, list_id)) 
-            for j, id in enumerate(list_id): 
+            for j, id in enumerate(list_id[::-1]): 
                 # ascending order low precision to high precision list 
                 if (j < 0.4 * len(list_id)): 
                     # the 50% of the tables that have the smallest range 
