@@ -167,9 +167,11 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
     None 
     ''' 
     with torch.no_grad(): 
-        range_list = torch.Tensor([], device = model.device) 
+        range_list = torch.Tensor([]) 
         if model.emb_l is not None: 
             for id, emb_table in enumerate(model.emb_l): 
+                if id == 0: 
+                    range_list.to(emb_table.embedding_bag.weight.device) 
                 if emb_table.embedding_bag.weight.grad.grad_fn is not None: 
                     emb_table.embedding_bag.weight.grad.detach_() 
                 else: 
