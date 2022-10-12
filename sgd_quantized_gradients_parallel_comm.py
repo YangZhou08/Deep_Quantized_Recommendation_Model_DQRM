@@ -167,7 +167,7 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
     None 
     ''' 
     with torch.no_grad(): 
-        range_list = [] 
+        range_list = torch.Tensor([]) 
         if model.emb_l is not None: 
             for id, emb_table in enumerate(model.emb_l): 
                 if emb_table.embedding_bag.weight.grad.grad_fn is not None: 
@@ -194,13 +194,16 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
                 '''
                 print("table {}, rank {}, ebs {}".format(id, rank_for_debug, emb_table.eb_scaling_factor)) 
                 ''' 
-                range_list.append(range_incomplete.item()/(emb_table.eb_scaling_factor.item() * n)) 
+                range_list = torch.concat((range_list, range_incomplete/(emb_table.eb_scaling_factor * n)), dim = 0) 
 
-        '''
-        list_id = np.argsort(range_list) # we have a list of indices 
-        ''' 
         if rank_for_debug == 0: 
+            '''
             list_id = np.random.permutation(26) 
+            ''' 
+            prob_l = range_list.softmax(dim = 0).numpy() 
+            list_id = np.random.choice(26, 26, replace = False, p = prob_l) 
+            print("Probability: {}".format(prob_l)) 
+            print("samplin: {}".format(list_id)) 
             if rank_for_debug == 0 and output_flag: 
                 print("rank {} ranking from least wide range to the widest range {}".format(rank_for_debug, list_id)) 
             for j, id in enumerate(list_id): 
