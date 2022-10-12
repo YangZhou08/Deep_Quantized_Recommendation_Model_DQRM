@@ -203,8 +203,10 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
             range_list = torch.Tensor(range_list) 
             prob_l = range_list.softmax(dim = 0).numpy() 
             list_id = np.random.choice(26, 26, replace = False, p = prob_l) 
+            '''
             print("Probability: {}".format(prob_l)) 
             print("samplin: {}".format(list_id)) 
+            ''' 
             if rank_for_debug == 0 and output_flag: 
                 print("rank {} ranking from least wide range to the widest range {}".format(rank_for_debug, list_id)) 
             for j, id in enumerate(list_id): 
