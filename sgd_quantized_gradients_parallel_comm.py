@@ -202,15 +202,15 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
         for j, id in enumerate(list_id): 
             # ascending order low precision to high precision list 
             if rank_for_debug == 0: 
-                if (j <= 0.5 * len(list_id)): 
+                if (j < 0.4 * len(list_id)): 
                     # the 50% of the tables that have the smallest range 
                     model.emb_l[id].gradient_bit_width.zero_() 
-                elif (j < 0.9 * len(list_id)): 
+                elif (j < 0.8 * len(list_id)): 
                     # the 30% of the tables that have the middle range 
                     model.emb_l[id].gradient_bit_width.zero_().add_(8) 
                 else: 
                     # the 20% of the tables that have the large range 
-                    model.emb_l[id].gradient_bit_width.zero_().add_(32) 
+                    model.emb_l[id].gradient_bit_width.zero_().add_(16) 
             dist.barrier() 
         
         # record the scale for quantizing gradients 
