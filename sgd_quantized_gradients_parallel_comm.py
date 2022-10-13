@@ -197,13 +197,13 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
                 range_list.append(range_incomplete/(emb_table.eb_scaling_factor * n)) 
 
         if rank_for_debug == 0: 
-            '''
             list_id = np.random.permutation(26) 
-            ''' 
+            '''
             range_list = torch.Tensor(range_list) 
             prob_l = range_list.softmax(dim = 0).numpy() 
             list_id = np.random.choice(26, 26, replace = False, p = prob_l) 
             list_id = list_id[::-1] 
+            ''' 
             '''
             print("Probability: {}".format(prob_l)) 
             print("samplin: {}".format(list_id)) 
@@ -212,10 +212,10 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
                 print("rank {} ranking from least wide range to the widest range {}".format(rank_for_debug, list_id)) 
             for j, id in enumerate(list_id): 
                 # ascending order low precision to high precision list 
-                if (j < 0.4 * len(list_id)): 
+                if (j <= 18): 
                     # the 50% of the tables that have the smallest range 
                     model.emb_l[id].gradient_bit_width.zero_() 
-                elif (j < 0.9 * len(list_id)): 
+                elif (j <= 20): 
                     # the 30% of the tables that have the middle range 
                     model.emb_l[id].gradient_bit_width.zero_().add_(8) 
                 else: 
@@ -230,9 +230,8 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
                 print("table {}, gradient precision {}bit".format(id, emb_table.gradient_bit_width.item())) 
             ''' 
             dist.broadcast(model.emb_l[id].gradient_bit_width, 0) 
-            '''
-            print("rank {}, table {}, gradient precision set to {}".format(rank_for_debug, id, emb_table.gradient_bit_width)) 
-            ''' 
+            if rank_for_debug == 0: 
+                print("rank {}, table {}, gradient precision set to {}".format(rank_for_debug, id, emb_table.gradient_bit_width)) 
             if emb_table.gradient_bit_width == 0: 
                 continue 
             if emb_table.gradient_bit_width == 32: 
