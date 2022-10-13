@@ -214,10 +214,10 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
             ''' 
             for j, id in enumerate(list_id): 
                 # ascending order low precision to high precision list 
-                if (j <= 18): 
+                if (j <= 8): 
                     # the 50% of the tables that have the smallest range 
                     model.emb_l[id].gradient_bit_width.zero_() 
-                elif (j <= 20): 
+                elif (j <= 22): 
                     # the 30% of the tables that have the middle range 
                     model.emb_l[id].gradient_bit_width.zero_().add_(8) 
                 else: 
