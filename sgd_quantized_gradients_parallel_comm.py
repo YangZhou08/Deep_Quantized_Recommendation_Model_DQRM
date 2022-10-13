@@ -232,8 +232,10 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
                 print("table {}, gradient precision {}bit".format(id, emb_table.gradient_bit_width.item())) 
             ''' 
             dist.broadcast(model.emb_l[id].gradient_bit_width, 0) 
+            '''
             if rank_for_debug == 0: 
                 print("rank {}, table {}, gradient precision set to {}".format(rank_for_debug, id, emb_table.gradient_bit_width)) 
+            ''' 
             if emb_table.gradient_bit_width == 0: 
                 continue 
             if emb_table.gradient_bit_width == 32: 
