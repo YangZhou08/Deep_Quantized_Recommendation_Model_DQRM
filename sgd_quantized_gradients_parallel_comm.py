@@ -197,17 +197,15 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
                 range_list.append(range_incomplete/(emb_table.eb_scaling_factor * n)) 
 
         if rank_for_debug == 0: 
-            list_id = np.random.permutation(26) 
             '''
+            list_id = np.random.permutation(26) 
+            ''' 
             range_list = torch.Tensor(range_list) 
             prob_l = range_list.softmax(dim = 0).numpy() 
             list_id = np.random.choice(26, 26, replace = False, p = prob_l) 
             list_id = list_id[::-1] 
-            ''' 
-            '''
             print("Probability: {}".format(prob_l)) 
             print("samplin: {}".format(list_id)) 
-            ''' 
             '''
             if rank_for_debug == 0 and output_flag: 
                 print("rank {} ranking from least wide range to the widest range {}".format(rank_for_debug, list_id)) 
