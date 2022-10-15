@@ -201,7 +201,10 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
             list_id = np.random.permutation(26) 
             ''' 
             range_list = torch.Tensor(range_list) 
+            prob_l = range_list/(np.sum(range_list)) 
+            '''
             prob_l = range_list.softmax(dim = 0).numpy() 
+            ''' 
             list_id = np.random.choice(26, 26, replace = False, p = prob_l) 
             list_id = list_id[::-1] 
             print("range collected: {}".format(range_list)) 
