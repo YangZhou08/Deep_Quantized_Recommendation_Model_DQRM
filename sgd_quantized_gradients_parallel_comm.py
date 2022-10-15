@@ -209,9 +209,11 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
             ''' 
             list_id = np.random.choice(26, 26, replace = False, p = prob_l) 
             list_id = list_id[::-1] 
+            '''
             print("range collected: {}".format(range_list)) 
             print("Probability: {}".format(prob_l)) 
             print("samplin: {}".format(list_id)) 
+            ''' 
             '''
             if rank_for_debug == 0 and output_flag: 
                 print("rank {} ranking from least wide range to the widest range {}".format(rank_for_debug, list_id)) 
