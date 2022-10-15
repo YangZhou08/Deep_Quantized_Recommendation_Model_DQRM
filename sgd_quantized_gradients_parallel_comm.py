@@ -194,7 +194,7 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
                 '''
                 print("table {}, rank {}, ebs {}".format(id, rank_for_debug, emb_table.eb_scaling_factor)) 
                 ''' 
-                range_list.append(range_incomplete/(emb_table.eb_scaling_factor * n)) 
+                range_list.append((range_incomplete/(emb_table.eb_scaling_factor * n)).item()) 
 
         if rank_for_debug == 0: 
             '''
