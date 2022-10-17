@@ -1149,11 +1149,11 @@ def run():
     '''
     os.environ['MASTER_ADDR'] = '169.229.49.62' 
     ''' 
-    os.environ['MASTER_ADDR'] = '10.157.244.235' 
+    os.environ['MASTER_ADDR'] = '10.157.244.233' 
     '''
     os.environ['MASTER_PORT'] = '29500' 
     ''' 
-    os.environ['MASTER_PORT'] = '29520' 
+    os.environ['MASTER_PORT'] = '29510' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
   
@@ -1918,13 +1918,13 @@ def train(gpu, args):
                 output_flag = ((j + 1) % args.print_freq == 0) or (
                     j + 1 == nbatches 
                 ) 
-                '''
                 grad_precision_and_scale(dlrm, args.world_size, rank, output_flag) 
                 grad_update_parallel_comm(dlrm, args.world_size, emb_grad_quantized = args.quantize_embedding_bag_gradient, num_bits = args.embedding_bag_gradient_bit_num, ranking_range = True, rank_for_debug = rank) 
                 weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1], emb_grad_quantized = args.quantize_embedding_bag_gradient, update_embedding = True, num_gpus = args.world_size, rank_for_debug = rank) 
-                ''' 
+                '''
                 grad_update_parallel_comm(dlrm, args.world_size, emb_grad_quantized = args.quantize_embedding_bag_gradient, num_bits = args.embedding_bag_gradient_bit_num, rank_for_debug = rank) 
                 weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1], emb_grad_quantized = args.quantize_embedding_bag_gradient, update_embedding = True, num_gpus = args.world_size, rank_for_debug = rank) 
+                ''' 
                 lr_scheduler.step() 
                 
                 t2 = time_wrap(use_gpu) 
