@@ -270,14 +270,12 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
             if model.emb_l is not None: 
                 for id, emb_table in enumerate(model.emb_l): 
                     # skip tables that don't need update 
-                    if not ranking_range: 
-                        emb_table.gradient_bit_width.zero_().add_(num_bits) 
-                    if emb_table.gradient_bit_width.item() == 0: 
+                    if ranking_range and emb_table.gradient_bit_width.item() == 0: 
                         '''
                         print("rank {}, table {}, gradient precision set to {}".format(rank_for_debug, id, emb_table.gradient_bit_width)) 
                         ''' 
                         continue 
-                    if emb_table.gradient_bit_width.item() == 32: 
+                    if ranking_range and emb_table.gradient_bit_width.item() == 32: 
                         '''
                         print("rank {}, table {}, gradient precision set to {}".format(rank_for_debug, id, emb_table.gradient_bit_width)) 
                         ''' 
