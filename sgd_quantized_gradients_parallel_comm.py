@@ -508,21 +508,21 @@ def weights_update_added_quantization(model, lr, num_gpus, emb_grad_quantized = 
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
-def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_embedding = True, num_gpus = 1, rank_for_debug = None): 
+def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_embedding = True, num_gpus = 1, rank_for_debug = None, ranking_range = False): 
     with torch.no_grad(): 
         if update_embedding: 
             if model.emb_l is not None: 
                 for id, emb_table in enumerate(model.emb_l): 
-                    if emb_table.gradient_bit_width.item() == 0: 
-                        '''
-                        print("rank {} table {}, weights gradient bit width is 0 and not updating".format(rank_for_debug, id)) 
-                        ''' 
-                        continue 
                     if emb_grad_quantized: 
                         '''
                         print("rank {} table{} first quantized in integer or ratio then s, bit width {}".format(rank_for_debug, id, emb_table.gradient_bit_width.item())) 
                         ''' 
-                        if emb_table.gradient_bit_width.item() == 32: 
+                        if ranking_range and emb_table.gradient_bit_width.item() == 0: 
+                            '''
+                            print("rank {} table {}, weights gradient bit width is 0 and not updating".format(rank_for_debug, id)) 
+                            ''' 
+                            continue 
+                        if ranking_range and emb_table.gradient_bit_width.item() == 32: 
                             emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad) 
                         else: 
                             emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad * emb_table.emb_scaling_factor.item()) 

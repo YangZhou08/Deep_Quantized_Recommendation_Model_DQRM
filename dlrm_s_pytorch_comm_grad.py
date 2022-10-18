@@ -1919,12 +1919,17 @@ def train(gpu, args):
                     j + 1 == nbatches 
                 ) 
                 '''
+                # ranking range 
                 grad_precision_and_scale(dlrm, args.world_size, rank, output_flag) 
                 grad_update_parallel_comm(dlrm, args.world_size, emb_grad_quantized = args.quantize_embedding_bag_gradient, num_bits = args.embedding_bag_gradient_bit_num, ranking_range = True, rank_for_debug = rank) 
-                weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1], emb_grad_quantized = args.quantize_embedding_bag_gradient, update_embedding = True, num_gpus = args.world_size, rank_for_debug = rank) 
+                weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1], emb_grad_quantized = args.quantize_embedding_bag_gradient, update_embedding = True, num_gpus = args.world_size, rank_for_debug = rank, ranking_range = True) 
                 ''' 
+
+                # full precision gradient or uniform quantization on gradients 
                 grad_update_parallel_comm(dlrm, args.world_size, emb_grad_quantized = args.quantize_embedding_bag_gradient, num_bits = args.embedding_bag_gradient_bit_num, ranking_range = False, rank_for_debug = rank) 
                 weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1], emb_grad_quantized = args.quantize_embedding_bag_gradient, update_embedding = True, num_gpus = args.world_size, rank_for_debug = rank) 
+                # not quantize 
+                
                 lr_scheduler.step() 
                 
                 t2 = time_wrap(use_gpu) 
@@ -1942,16 +1947,21 @@ def train(gpu, args):
                     and (args.data_generation in ["dataset", "random"])
                     and (((j + 1) % args.test_freq == 0) or (j + 1 == nbatches))
                 ) 
+                syncc = ((j + 1) % 200 == 0) or (
+                    j + 1 == 200
+                )
                 
                 inspect_weights_and_others = (
                     (args.test_freq > 0) 
                     and (args.data_generation in ["dataset", "random"]) 
                     and ((j + 1) % (args.test_freq * 2) == 0) 
                 ) 
-                
-                if should_print or should_test: 
+
+                if syncc: 
                     # sync up per 1000 iterations 
                     weight_syncc(dlrm, args.world_size) 
+                
+                if should_print or should_test: 
                     
                     gT = 1000.0 * total_time / total_iter if args.print_time else -1
                     total_time = 0
