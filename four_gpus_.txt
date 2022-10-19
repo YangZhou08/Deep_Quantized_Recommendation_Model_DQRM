@@ -1,0 +1,2514 @@
+Unable to import mlperf_logging,  No module named 'mlperf_logging'
+Unable to import mlperf_logging,  No module named 'mlperf_logging'
+Warning: local_rank gpu mismatch
+4 out of -1 (GPU)
+---------- not quantize gradient
+Reading pre-processed data=/home/yzhou/dlrm_criteo_kaggle/kaggleAdDisplayChallenge_processed.npz
+Sparse fea = 26, Dense fea = 13
+Defined train indices...
+Randomized indices across days ...
+Split data according to indices...
+Reading pre-processed data=/home/yzhou/dlrm_criteo_kaggle/kaggleAdDisplayChallenge_processed.npz
+Sparse fea = 26, Dense fea = 13
+Defined test indices...
+Randomized indices across days ...
+Split data according to indices...
+number of devices 1
+world size found is -1
+---------- Embedding Table 0, quantization used, n = 1460, m = 16, quantization bit set to 4
+---------- Embedding Table 1, quantization used, n = 583, m = 16, quantization bit set to 4
+---------- Embedding Table 2, quantization used, n = 10131227, m = 16, quantization bit set to 4
+---------- Embedding Table 3, quantization used, n = 2202608, m = 16, quantization bit set to 4
+---------- Embedding Table 4, quantization used, n = 305, m = 16, quantization bit set to 4
+---------- Embedding Table 5, quantization used, n = 24, m = 16, quantization bit set to 4
+---------- Embedding Table 6, quantization used, n = 12517, m = 16, quantization bit set to 4
+---------- Embedding Table 7, quantization used, n = 633, m = 16, quantization bit set to 4
+---------- Embedding Table 8, quantization used, n = 3, m = 16, quantization bit set to 4
+---------- Embedding Table 9, quantization used, n = 93145, m = 16, quantization bit set to 4
+---------- Embedding Table 10, quantization used, n = 5683, m = 16, quantization bit set to 4
+---------- Embedding Table 11, quantization used, n = 8351593, m = 16, quantization bit set to 4
+---------- Embedding Table 12, quantization used, n = 3194, m = 16, quantization bit set to 4
+---------- Embedding Table 13, quantization used, n = 27, m = 16, quantization bit set to 4
+---------- Embedding Table 14, quantization used, n = 14992, m = 16, quantization bit set to 4
+---------- Embedding Table 15, quantization used, n = 5461306, m = 16, quantization bit set to 4
+---------- Embedding Table 16, quantization used, n = 10, m = 16, quantization bit set to 4
+---------- Embedding Table 17, quantization used, n = 5652, m = 16, quantization bit set to 4
+---------- Embedding Table 18, quantization used, n = 2173, m = 16, quantization bit set to 4
+---------- Embedding Table 19, quantization used, n = 4, m = 16, quantization bit set to 4
+---------- Embedding Table 20, quantization used, n = 7046547, m = 16, quantization bit set to 4
+---------- Embedding Table 21, quantization used, n = 18, m = 16, quantization bit set to 4
+---------- Embedding Table 22, quantization used, n = 15, m = 16, quantization bit set to 4
+---------- Embedding Table 23, quantization used, n = 286181, m = 16, quantization bit set to 4
+---------- Embedding Table 24, quantization used, n = 105, m = 16, quantization bit set to 4
+---------- Embedding Table 25, quantization used, n = 142572, m = 16, quantization bit set to 4
+use quant linear, input 13, output 512, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 512, output 256, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 256, output 64, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 64, output 16, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 367, output 512, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 512, output 256, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 256, output 1, quantization bit width 4, use full precision quantized and channelwise status channelwise
+not quantize activations, quantize weights
+before training, checking models
+tensor([ 1.2499e-02, -1.7014e-02,  7.1649e-03, -1.1422e-02,  1.4421e-02,
+        -1.0735e-02, -8.8102e-03, -8.7820e-03,  2.1255e-02,  6.7689e-05,
+         8.9818e-03, -4.6639e-03, -1.0803e-02, -3.0691e-03,  1.5275e-02,
+         1.2234e-02])
+log path is written: /home/yzhou/dlrm_criteo_kaggle/
+optimizer selected is  sgd
+Finished training it 1024/76743 of epoch 0, 118.79 ms/it, loss 0.548046
+Unable to import mlperf_logging,  No module named 'mlperf_logging'
+Warning: local_rank gpu mismatch
+4 out of -1 (GPU)
+---------- not quantize gradient
+Reading pre-processed data=/home/yzhou/dlrm_criteo_kaggle/kaggleAdDisplayChallenge_processed.npz
+Sparse fea = 26, Dense fea = 13
+Defined train indices...
+Randomized indices across days ...
+Split data according to indices...
+Reading pre-processed data=/home/yzhou/dlrm_criteo_kaggle/kaggleAdDisplayChallenge_processed.npz
+Sparse fea = 26, Dense fea = 13
+Defined test indices...
+Randomized indices across days ...
+Split data according to indices...
+number of devices 1
+world size found is -1
+---------- Embedding Table 0, quantization used, n = 1460, m = 16, quantization bit set to 4
+---------- Embedding Table 1, quantization used, n = 583, m = 16, quantization bit set to 4
+---------- Embedding Table 2, quantization used, n = 10131227, m = 16, quantization bit set to 4
+---------- Embedding Table 3, quantization used, n = 2202608, m = 16, quantization bit set to 4
+---------- Embedding Table 4, quantization used, n = 305, m = 16, quantization bit set to 4
+---------- Embedding Table 5, quantization used, n = 24, m = 16, quantization bit set to 4
+---------- Embedding Table 6, quantization used, n = 12517, m = 16, quantization bit set to 4
+---------- Embedding Table 7, quantization used, n = 633, m = 16, quantization bit set to 4
+---------- Embedding Table 8, quantization used, n = 3, m = 16, quantization bit set to 4
+---------- Embedding Table 9, quantization used, n = 93145, m = 16, quantization bit set to 4
+---------- Embedding Table 10, quantization used, n = 5683, m = 16, quantization bit set to 4
+---------- Embedding Table 11, quantization used, n = 8351593, m = 16, quantization bit set to 4
+---------- Embedding Table 12, quantization used, n = 3194, m = 16, quantization bit set to 4
+---------- Embedding Table 13, quantization used, n = 27, m = 16, quantization bit set to 4
+---------- Embedding Table 14, quantization used, n = 14992, m = 16, quantization bit set to 4
+---------- Embedding Table 15, quantization used, n = 5461306, m = 16, quantization bit set to 4
+---------- Embedding Table 16, quantization used, n = 10, m = 16, quantization bit set to 4
+---------- Embedding Table 17, quantization used, n = 5652, m = 16, quantization bit set to 4
+---------- Embedding Table 18, quantization used, n = 2173, m = 16, quantization bit set to 4
+---------- Embedding Table 19, quantization used, n = 4, m = 16, quantization bit set to 4
+---------- Embedding Table 20, quantization used, n = 7046547, m = 16, quantization bit set to 4
+---------- Embedding Table 21, quantization used, n = 18, m = 16, quantization bit set to 4
+---------- Embedding Table 22, quantization used, n = 15, m = 16, quantization bit set to 4
+---------- Embedding Table 23, quantization used, n = 286181, m = 16, quantization bit set to 4
+---------- Embedding Table 24, quantization used, n = 105, m = 16, quantization bit set to 4
+---------- Embedding Table 25, quantization used, n = 142572, m = 16, quantization bit set to 4
+use quant linear, input 13, output 512, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 512, output 256, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 256, output 64, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 64, output 16, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 367, output 512, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 512, output 256, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 256, output 1, quantization bit width 4, use full precision quantized and channelwise status channelwise
+not quantize activations, quantize weights
+before training, checking models
+tensor([-0.0231,  0.0143, -0.0189,  0.0006,  0.0160, -0.0158, -0.0159, -0.0213,
+        -0.0185, -0.0195, -0.0240,  0.0206, -0.0176, -0.0245, -0.0134, -0.0122])
+log path is written: /home/yzhou/dlrm_criteo_kaggle/
+optimizer selected is  sgd
+Finished training it 1024/76743 of epoch 0, 109.97 ms/it, loss 0.548768
+Unable to import mlperf_logging,  No module named 'mlperf_logging'
+Warning: local_rank gpu mismatch
+4 out of -1 (GPU)
+---------- not quantize gradient
+Reading pre-processed data=/home/yzhou/dlrm_criteo_kaggle/kaggleAdDisplayChallenge_processed.npz
+Sparse fea = 26, Dense fea = 13
+Defined train indices...
+Randomized indices across days ...
+Split data according to indices...
+Reading pre-processed data=/home/yzhou/dlrm_criteo_kaggle/kaggleAdDisplayChallenge_processed.npz
+Sparse fea = 26, Dense fea = 13
+Defined test indices...
+Randomized indices across days ...
+Split data according to indices...
+number of devices 1
+world size found is -1
+---------- Embedding Table 0, quantization used, n = 1460, m = 16, quantization bit set to 4
+---------- Embedding Table 1, quantization used, n = 583, m = 16, quantization bit set to 4
+---------- Embedding Table 2, quantization used, n = 10131227, m = 16, quantization bit set to 4
+---------- Embedding Table 3, quantization used, n = 2202608, m = 16, quantization bit set to 4
+---------- Embedding Table 4, quantization used, n = 305, m = 16, quantization bit set to 4
+---------- Embedding Table 5, quantization used, n = 24, m = 16, quantization bit set to 4
+---------- Embedding Table 6, quantization used, n = 12517, m = 16, quantization bit set to 4
+---------- Embedding Table 7, quantization used, n = 633, m = 16, quantization bit set to 4
+---------- Embedding Table 8, quantization used, n = 3, m = 16, quantization bit set to 4
+---------- Embedding Table 9, quantization used, n = 93145, m = 16, quantization bit set to 4
+---------- Embedding Table 10, quantization used, n = 5683, m = 16, quantization bit set to 4
+---------- Embedding Table 11, quantization used, n = 8351593, m = 16, quantization bit set to 4
+---------- Embedding Table 12, quantization used, n = 3194, m = 16, quantization bit set to 4
+---------- Embedding Table 13, quantization used, n = 27, m = 16, quantization bit set to 4
+---------- Embedding Table 14, quantization used, n = 14992, m = 16, quantization bit set to 4
+---------- Embedding Table 15, quantization used, n = 5461306, m = 16, quantization bit set to 4
+---------- Embedding Table 16, quantization used, n = 10, m = 16, quantization bit set to 4
+---------- Embedding Table 17, quantization used, n = 5652, m = 16, quantization bit set to 4
+---------- Embedding Table 18, quantization used, n = 2173, m = 16, quantization bit set to 4
+---------- Embedding Table 19, quantization used, n = 4, m = 16, quantization bit set to 4
+---------- Embedding Table 20, quantization used, n = 7046547, m = 16, quantization bit set to 4
+---------- Embedding Table 21, quantization used, n = 18, m = 16, quantization bit set to 4
+---------- Embedding Table 22, quantization used, n = 15, m = 16, quantization bit set to 4
+---------- Embedding Table 23, quantization used, n = 286181, m = 16, quantization bit set to 4
+---------- Embedding Table 24, quantization used, n = 105, m = 16, quantization bit set to 4
+---------- Embedding Table 25, quantization used, n = 142572, m = 16, quantization bit set to 4
+use quant linear, input 13, output 512, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 512, output 256, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 256, output 64, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 64, output 16, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 367, output 512, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 512, output 256, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 256, output 1, quantization bit width 4, use full precision quantized and channelwise status channelwise
+not quantize activations, quantize weights
+before training, checking models
+tensor([ 0.0152,  0.0122,  0.0072,  0.0152,  0.0067,  0.0098, -0.0151, -0.0030,
+        -0.0185,  0.0123,  0.0057,  0.0221, -0.0049,  0.0252, -0.0071,  0.0188])
+log path is written: /home/yzhou/dlrm_criteo_kaggle/
+optimizer selected is  sgd
+Finished training it 1024/76743 of epoch 0, 121.18 ms/it, loss 0.546860
+Unable to import mlperf_logging,  No module named 'mlperf_logging'
+Warning: local_rank gpu mismatch
+4 out of -1 (GPU)
+---------- not quantize gradient
+Reading pre-processed data=/home/yzhou/dlrm_criteo_kaggle/kaggleAdDisplayChallenge_processed.npz
+Sparse fea = 26, Dense fea = 13
+Defined train indices...
+Randomized indices across days ...
+Split data according to indices...
+Reading pre-processed data=/home/yzhou/dlrm_criteo_kaggle/kaggleAdDisplayChallenge_processed.npz
+Sparse fea = 26, Dense fea = 13
+Defined test indices...
+Randomized indices across days ...
+Split data according to indices...
+number of devices 1
+world size found is -1
+---------- Embedding Table 0, quantization used, n = 1460, m = 16, quantization bit set to 4
+---------- Embedding Table 1, quantization used, n = 583, m = 16, quantization bit set to 4
+---------- Embedding Table 2, quantization used, n = 10131227, m = 16, quantization bit set to 4
+---------- Embedding Table 3, quantization used, n = 2202608, m = 16, quantization bit set to 4
+---------- Embedding Table 4, quantization used, n = 305, m = 16, quantization bit set to 4
+---------- Embedding Table 5, quantization used, n = 24, m = 16, quantization bit set to 4
+---------- Embedding Table 6, quantization used, n = 12517, m = 16, quantization bit set to 4
+---------- Embedding Table 7, quantization used, n = 633, m = 16, quantization bit set to 4
+---------- Embedding Table 8, quantization used, n = 3, m = 16, quantization bit set to 4
+---------- Embedding Table 9, quantization used, n = 93145, m = 16, quantization bit set to 4
+---------- Embedding Table 10, quantization used, n = 5683, m = 16, quantization bit set to 4
+---------- Embedding Table 11, quantization used, n = 8351593, m = 16, quantization bit set to 4
+---------- Embedding Table 12, quantization used, n = 3194, m = 16, quantization bit set to 4
+---------- Embedding Table 13, quantization used, n = 27, m = 16, quantization bit set to 4
+---------- Embedding Table 14, quantization used, n = 14992, m = 16, quantization bit set to 4
+---------- Embedding Table 15, quantization used, n = 5461306, m = 16, quantization bit set to 4
+---------- Embedding Table 16, quantization used, n = 10, m = 16, quantization bit set to 4
+---------- Embedding Table 17, quantization used, n = 5652, m = 16, quantization bit set to 4
+---------- Embedding Table 18, quantization used, n = 2173, m = 16, quantization bit set to 4
+---------- Embedding Table 19, quantization used, n = 4, m = 16, quantization bit set to 4
+---------- Embedding Table 20, quantization used, n = 7046547, m = 16, quantization bit set to 4
+---------- Embedding Table 21, quantization used, n = 18, m = 16, quantization bit set to 4
+---------- Embedding Table 22, quantization used, n = 15, m = 16, quantization bit set to 4
+---------- Embedding Table 23, quantization used, n = 286181, m = 16, quantization bit set to 4
+---------- Embedding Table 24, quantization used, n = 105, m = 16, quantization bit set to 4
+---------- Embedding Table 25, quantization used, n = 142572, m = 16, quantization bit set to 4
+use quant linear, input 13, output 512, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 512, output 256, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 256, output 64, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 64, output 16, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 367, output 512, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 512, output 256, quantization bit width 4, use full precision quantized and channelwise status channelwise
+use quant linear, input 256, output 1, quantization bit width 4, use full precision quantized and channelwise status channelwise
+not quantize activations, quantize weights
+before training, checking models
+tensor([ 0.0028, -0.0025,  0.0094,  0.0052,  0.0235,  0.0204,  0.0182, -0.0175,
+        -0.0208,  0.0010,  0.0019, -0.0032,  0.0241,  0.0014,  0.0011,  0.0253])
+log path is written: /home/yzhou/dlrm_criteo_kaggle/
+optimizer selected is  sgd
+Finished training it 1024/76743 of epoch 0, 121.93 ms/it, loss 0.548559
+Finished training it 2048/76743 of epoch 0, 114.72 ms/it, loss 0.519721
+Finished training it 2048/76743 of epoch 0, 114.29 ms/it, loss 0.517600
+Finished training it 2048/76743 of epoch 0, 107.32 ms/it, loss 0.517705
+Finished training it 2048/76743 of epoch 0, 112.01 ms/it, loss 0.515855
+Finished training it 3072/76743 of epoch 0, 111.96 ms/it, loss 0.507792
+Finished training it 3072/76743 of epoch 0, 112.36 ms/it, loss 0.507775
+Finished training it 3072/76743 of epoch 0, 107.25 ms/it, loss 0.507277
+Finished training it 3072/76743 of epoch 0, 110.04 ms/it, loss 0.508210
+Finished training it 4096/76743 of epoch 0, 108.19 ms/it, loss 0.502413
+Finished training it 4096/76743 of epoch 0, 110.41 ms/it, loss 0.500031
+Finished training it 4096/76743 of epoch 0, 111.95 ms/it, loss 0.502235
+Finished training it 4096/76743 of epoch 0, 112.20 ms/it, loss 0.500906
+Finished training it 5120/76743 of epoch 0, 108.05 ms/it, loss 0.497520
+Finished training it 5120/76743 of epoch 0, 111.29 ms/it, loss 0.496133
+Finished training it 5120/76743 of epoch 0, 109.52 ms/it, loss 0.496121
+Finished training it 5120/76743 of epoch 0, 110.72 ms/it, loss 0.497561
+Finished training it 6144/76743 of epoch 0, 109.31 ms/it, loss 0.494394
+Finished training it 6144/76743 of epoch 0, 108.32 ms/it, loss 0.491246
+Finished training it 6144/76743 of epoch 0, 110.83 ms/it, loss 0.491834
+Finished training it 6144/76743 of epoch 0, 110.28 ms/it, loss 0.490932
+Finished training it 7168/76743 of epoch 0, 108.75 ms/it, loss 0.485819
+Finished training it 7168/76743 of epoch 0, 109.90 ms/it, loss 0.486602
+Finished training it 7168/76743 of epoch 0, 108.19 ms/it, loss 0.486768
+Finished training it 7168/76743 of epoch 0, 110.05 ms/it, loss 0.485364
+Finished training it 8192/76743 of epoch 0, 108.67 ms/it, loss 0.483109
+Finished training it 8192/76743 of epoch 0, 109.00 ms/it, loss 0.486370
+Finished training it 8192/76743 of epoch 0, 110.09 ms/it, loss 0.484041
+Finished training it 8192/76743 of epoch 0, 109.74 ms/it, loss 0.482739
+Finished training it 9216/76743 of epoch 0, 108.08 ms/it, loss 0.478720
+Finished training it 9216/76743 of epoch 0, 108.47 ms/it, loss 0.477011
+Finished training it 9216/76743 of epoch 0, 107.72 ms/it, loss 0.482166
+Finished training it 9216/76743 of epoch 0, 107.30 ms/it, loss 0.478136
+Finished training it 10240/76743 of epoch 0, 108.49 ms/it, loss 0.478525
+Finished training it 10240/76743 of epoch 0, 108.01 ms/it, loss 0.480800
+Finished training it 10240/76743 of epoch 0, 108.96 ms/it, loss 0.479602
+Finished training it 10240/76743 of epoch 0, 108.09 ms/it, loss 0.478444
+Testing at - 10240/76743 of epoch 0,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2535621.0
+get out
+0 has test check 2535621.0 and sample count 3273728
+ accuracy 77.454 %, best 77.454 %, roc auc score 0.7715, best 0.7715
+Testing at - 10240/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2535621.0
+get out
+2 has test check 2535621.0 and sample count 3273728
+Finished training it 11264/76743 of epoch 0, 109.37 ms/it, loss 0.472609
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 11264/76743 of epoch 0, 108.49 ms/it, loss 0.472705
+Testing at - 10240/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2535621.0
+get out
+3 has test check 2535621.0 and sample count 3273728
+Finished training it 11264/76743 of epoch 0, 109.21 ms/it, loss 0.474670
+Testing at - 10240/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2535621.0
+get out
+1 has test check 2535621.0 and sample count 3273728
+Finished training it 11264/76743 of epoch 0, 107.59 ms/it, loss 0.472813
+Finished training it 12288/76743 of epoch 0, 109.73 ms/it, loss 0.471252
+Finished training it 12288/76743 of epoch 0, 108.66 ms/it, loss 0.471679
+Finished training it 12288/76743 of epoch 0, 109.24 ms/it, loss 0.472626
+Finished training it 12288/76743 of epoch 0, 108.40 ms/it, loss 0.473000
+Finished training it 13312/76743 of epoch 0, 109.08 ms/it, loss 0.470286
+Finished training it 13312/76743 of epoch 0, 109.16 ms/it, loss 0.470857
+Finished training it 13312/76743 of epoch 0, 109.40 ms/it, loss 0.474547
+Finished training it 13312/76743 of epoch 0, 108.67 ms/it, loss 0.471191
+Finished training it 14336/76743 of epoch 0, 109.18 ms/it, loss 0.470577
+Finished training it 14336/76743 of epoch 0, 109.52 ms/it, loss 0.470455
+Finished training it 14336/76743 of epoch 0, 108.86 ms/it, loss 0.469397
+Finished training it 14336/76743 of epoch 0, 109.10 ms/it, loss 0.469431
+Finished training it 15360/76743 of epoch 0, 109.27 ms/it, loss 0.470228
+Finished training it 15360/76743 of epoch 0, 108.61 ms/it, loss 0.469271
+Finished training it 15360/76743 of epoch 0, 108.43 ms/it, loss 0.470852
+Finished training it 15360/76743 of epoch 0, 108.88 ms/it, loss 0.467875
+Finished training it 16384/76743 of epoch 0, 109.18 ms/it, loss 0.466930
+Finished training it 16384/76743 of epoch 0, 108.69 ms/it, loss 0.469079
+Finished training it 16384/76743 of epoch 0, 109.28 ms/it, loss 0.469419
+Finished training it 16384/76743 of epoch 0, 109.52 ms/it, loss 0.467930
+Finished training it 17408/76743 of epoch 0, 108.40 ms/it, loss 0.468743
+Finished training it 17408/76743 of epoch 0, 108.70 ms/it, loss 0.465596
+Finished training it 17408/76743 of epoch 0, 108.97 ms/it, loss 0.467505
+Finished training it 17408/76743 of epoch 0, 108.16 ms/it, loss 0.467132
+Finished training it 18432/76743 of epoch 0, 108.52 ms/it, loss 0.465452
+Finished training it 18432/76743 of epoch 0, 108.14 ms/it, loss 0.467956
+Finished training it 18432/76743 of epoch 0, 108.54 ms/it, loss 0.467838
+Finished training it 18432/76743 of epoch 0, 108.39 ms/it, loss 0.466082
+Finished training it 19456/76743 of epoch 0, 107.90 ms/it, loss 0.468247
+Finished training it 19456/76743 of epoch 0, 107.62 ms/it, loss 0.466903
+Finished training it 19456/76743 of epoch 0, 107.85 ms/it, loss 0.464078
+Finished training it 19456/76743 of epoch 0, 107.99 ms/it, loss 0.468877
+Finished training it 20480/76743 of epoch 0, 107.92 ms/it, loss 0.463588
+Finished training it 20480/76743 of epoch 0, 107.51 ms/it, loss 0.466121
+Finished training it 20480/76743 of epoch 0, 108.23 ms/it, loss 0.466124
+Finished training it 20480/76743 of epoch 0, 107.47 ms/it, loss 0.466277
+Testing at - 20480/76743 of epoch 0,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2542751.0
+get out
+0 has test check 2542751.0 and sample count 3273728
+ accuracy 77.671 %, best 77.671 %, roc auc score 0.7828, best 0.7828
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one0.0.pt
+Finished training it 21504/76743 of epoch 0, 109.41 ms/it, loss 0.466295
+Testing at - 20480/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2542751.0
+get out
+3 has test check 2542751.0 and sample count 3273728
+Finished training it 21504/76743 of epoch 0, 109.11 ms/it, loss 0.463563
+Testing at - 20480/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2542751.0
+get out
+2 has test check 2542751.0 and sample count 3273728
+Finished training it 21504/76743 of epoch 0, 108.90 ms/it, loss 0.463483
+Testing at - 20480/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2542751.0
+get out
+1 has test check 2542751.0 and sample count 3273728
+Finished training it 21504/76743 of epoch 0, 107.16 ms/it, loss 0.464181
+Finished training it 22528/76743 of epoch 0, 109.41 ms/it, loss 0.463149
+Finished training it 22528/76743 of epoch 0, 108.38 ms/it, loss 0.463417
+Finished training it 22528/76743 of epoch 0, 107.72 ms/it, loss 0.467107
+Finished training it 22528/76743 of epoch 0, 109.38 ms/it, loss 0.463310
+Finished training it 23552/76743 of epoch 0, 108.65 ms/it, loss 0.464486
+Finished training it 23552/76743 of epoch 0, 107.45 ms/it, loss 0.466931
+Finished training it 23552/76743 of epoch 0, 107.57 ms/it, loss 0.465021
+Finished training it 23552/76743 of epoch 0, 108.57 ms/it, loss 0.462618
+Finished training it 24576/76743 of epoch 0, 109.21 ms/it, loss 0.461931
+Finished training it 24576/76743 of epoch 0, 109.43 ms/it, loss 0.462477
+Finished training it 24576/76743 of epoch 0, 108.94 ms/it, loss 0.464240
+Finished training it 24576/76743 of epoch 0, 109.00 ms/it, loss 0.463392
+Finished training it 25600/76743 of epoch 0, 110.02 ms/it, loss 0.462125
+Finished training it 25600/76743 of epoch 0, 110.16 ms/it, loss 0.459786
+Finished training it 25600/76743 of epoch 0, 109.56 ms/it, loss 0.464989
+Finished training it 25600/76743 of epoch 0, 108.72 ms/it, loss 0.462617
+Finished training it 26624/76743 of epoch 0, 108.44 ms/it, loss 0.460962
+Finished training it 26624/76743 of epoch 0, 107.95 ms/it, loss 0.462034
+Finished training it 26624/76743 of epoch 0, 108.63 ms/it, loss 0.461575
+Finished training it 26624/76743 of epoch 0, 108.66 ms/it, loss 0.461269
+Finished training it 27648/76743 of epoch 0, 108.11 ms/it, loss 0.460090
+Finished training it 27648/76743 of epoch 0, 107.79 ms/it, loss 0.460611
+Finished training it 27648/76743 of epoch 0, 107.69 ms/it, loss 0.459567
+Finished training it 27648/76743 of epoch 0, 108.29 ms/it, loss 0.461699
+Finished training it 28672/76743 of epoch 0, 108.18 ms/it, loss 0.461075
+Finished training it 28672/76743 of epoch 0, 108.36 ms/it, loss 0.460560
+Finished training it 28672/76743 of epoch 0, 108.56 ms/it, loss 0.463208
+Finished training it 28672/76743 of epoch 0, 108.66 ms/it, loss 0.459561
+Finished training it 29696/76743 of epoch 0, 107.58 ms/it, loss 0.460906
+Finished training it 29696/76743 of epoch 0, 107.44 ms/it, loss 0.463294
+Finished training it 29696/76743 of epoch 0, 107.29 ms/it, loss 0.460315
+Finished training it 29696/76743 of epoch 0, 107.67 ms/it, loss 0.461420
+Finished training it 30720/76743 of epoch 0, 107.44 ms/it, loss 0.457398
+Finished training it 30720/76743 of epoch 0, 107.70 ms/it, loss 0.460613
+Finished training it 30720/76743 of epoch 0, 107.38 ms/it, loss 0.464365
+Finished training it 30720/76743 of epoch 0, 107.72 ms/it, loss 0.458660
+Testing at - 30720/76743 of epoch 0,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2557259.0
+get out
+0 has test check 2557259.0 and sample count 3273728
+ accuracy 78.115 %, best 78.115 %, roc auc score 0.7867, best 0.7867
+Testing at - 30720/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2557259.0
+get out
+2 has test check 2557259.0 and sample count 3273728
+Finished training it 31744/76743 of epoch 0, 108.98 ms/it, loss 0.460167
+Testing at - 30720/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2557259.0
+get out
+1 has test check 2557259.0 and sample count 3273728
+Finished training it 31744/76743 of epoch 0, 108.42 ms/it, loss 0.460732
+Testing at - 30720/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2557259.0
+get out
+3 has test check 2557259.0 and sample count 3273728
+Finished training it 31744/76743 of epoch 0, 107.64 ms/it, loss 0.462520
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 31744/76743 of epoch 0, 109.12 ms/it, loss 0.464802
+Finished training it 32768/76743 of epoch 0, 108.65 ms/it, loss 0.461274
+Finished training it 32768/76743 of epoch 0, 108.98 ms/it, loss 0.459538
+Finished training it 32768/76743 of epoch 0, 108.87 ms/it, loss 0.464413
+Finished training it 32768/76743 of epoch 0, 108.95 ms/it, loss 0.459394
+Finished training it 33792/76743 of epoch 0, 107.90 ms/it, loss 0.460134
+Finished training it 33792/76743 of epoch 0, 108.25 ms/it, loss 0.459974
+Finished training it 33792/76743 of epoch 0, 108.01 ms/it, loss 0.457026
+Finished training it 33792/76743 of epoch 0, 108.22 ms/it, loss 0.461803
+Finished training it 34816/76743 of epoch 0, 108.53 ms/it, loss 0.461572
+Finished training it 34816/76743 of epoch 0, 108.91 ms/it, loss 0.459290
+Finished training it 34816/76743 of epoch 0, 108.51 ms/it, loss 0.462617
+Finished training it 34816/76743 of epoch 0, 109.21 ms/it, loss 0.458008
+Finished training it 35840/76743 of epoch 0, 108.65 ms/it, loss 0.460536
+Finished training it 35840/76743 of epoch 0, 108.62 ms/it, loss 0.460605
+Finished training it 35840/76743 of epoch 0, 108.80 ms/it, loss 0.460011
+Finished training it 35840/76743 of epoch 0, 109.05 ms/it, loss 0.464849
+Finished training it 36864/76743 of epoch 0, 107.66 ms/it, loss 0.458241
+Finished training it 36864/76743 of epoch 0, 108.18 ms/it, loss 0.462915
+Finished training it 36864/76743 of epoch 0, 107.71 ms/it, loss 0.457795
+Finished training it 36864/76743 of epoch 0, 107.98 ms/it, loss 0.457786
+Finished training it 37888/76743 of epoch 0, 108.52 ms/it, loss 0.460384
+Finished training it 37888/76743 of epoch 0, 108.86 ms/it, loss 0.459121
+Finished training it 37888/76743 of epoch 0, 108.73 ms/it, loss 0.460113
+Finished training it 37888/76743 of epoch 0, 108.53 ms/it, loss 0.458643
+Finished training it 38912/76743 of epoch 0, 108.08 ms/it, loss 0.458387
+Finished training it 38912/76743 of epoch 0, 108.41 ms/it, loss 0.460005
+Finished training it 38912/76743 of epoch 0, 108.11 ms/it, loss 0.460902
+Finished training it 38912/76743 of epoch 0, 108.38 ms/it, loss 0.461058
+Finished training it 39936/76743 of epoch 0, 108.36 ms/it, loss 0.459183
+Finished training it 39936/76743 of epoch 0, 108.72 ms/it, loss 0.461011
+Finished training it 39936/76743 of epoch 0, 108.36 ms/it, loss 0.458268
+Finished training it 39936/76743 of epoch 0, 108.68 ms/it, loss 0.459563
+Finished training it 40960/76743 of epoch 0, 108.74 ms/it, loss 0.457243
+Finished training it 40960/76743 of epoch 0, 108.67 ms/it, loss 0.459554
+Finished training it 40960/76743 of epoch 0, 108.30 ms/it, loss 0.460275
+Finished training it 40960/76743 of epoch 0, 108.39 ms/it, loss 0.457577
+Testing at - 40960/76743 of epoch 0,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2560681.0
+get out
+0 has test check 2560681.0 and sample count 3273728
+ accuracy 78.219 %, best 78.219 %, roc auc score 0.7894, best 0.7894
+Testing at - 40960/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2560681.0
+get out
+1 has test check 2560681.0 and sample count 3273728
+Finished training it 41984/76743 of epoch 0, 108.05 ms/it, loss 0.458224
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one0.0.pt
+Finished training it 41984/76743 of epoch 0, 108.67 ms/it, loss 0.458239
+Testing at - 40960/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2560681.0
+get out
+2 has test check 2560681.0 and sample count 3273728
+Finished training it 41984/76743 of epoch 0, 108.67 ms/it, loss 0.457353
+Testing at - 40960/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2560681.0
+get out
+3 has test check 2560681.0 and sample count 3273728
+Finished training it 41984/76743 of epoch 0, 107.01 ms/it, loss 0.458789
+Finished training it 43008/76743 of epoch 0, 107.26 ms/it, loss 0.456084
+Finished training it 43008/76743 of epoch 0, 107.53 ms/it, loss 0.458833
+Finished training it 43008/76743 of epoch 0, 107.37 ms/it, loss 0.457420
+Finished training it 43008/76743 of epoch 0, 107.67 ms/it, loss 0.456842
+Finished training it 44032/76743 of epoch 0, 108.50 ms/it, loss 0.455580
+Finished training it 44032/76743 of epoch 0, 108.21 ms/it, loss 0.456360
+Finished training it 44032/76743 of epoch 0, 108.16 ms/it, loss 0.461142
+Finished training it 44032/76743 of epoch 0, 108.59 ms/it, loss 0.458326
+Finished training it 45056/76743 of epoch 0, 108.85 ms/it, loss 0.454970
+Finished training it 45056/76743 of epoch 0, 108.61 ms/it, loss 0.454191
+Finished training it 45056/76743 of epoch 0, 108.90 ms/it, loss 0.458748
+Finished training it 45056/76743 of epoch 0, 108.42 ms/it, loss 0.454991
+Finished training it 46080/76743 of epoch 0, 108.14 ms/it, loss 0.452495
+Finished training it 46080/76743 of epoch 0, 108.46 ms/it, loss 0.458413
+Finished training it 46080/76743 of epoch 0, 108.22 ms/it, loss 0.458750
+Finished training it 46080/76743 of epoch 0, 108.43 ms/it, loss 0.457971
+Finished training it 47104/76743 of epoch 0, 108.47 ms/it, loss 0.456399
+Finished training it 47104/76743 of epoch 0, 108.27 ms/it, loss 0.457421
+Finished training it 47104/76743 of epoch 0, 108.67 ms/it, loss 0.457908
+Finished training it 47104/76743 of epoch 0, 108.80 ms/it, loss 0.457929
+Finished training it 48128/76743 of epoch 0, 108.22 ms/it, loss 0.457216
+Finished training it 48128/76743 of epoch 0, 108.36 ms/it, loss 0.458180
+Finished training it 48128/76743 of epoch 0, 108.21 ms/it, loss 0.458595
+Finished training it 48128/76743 of epoch 0, 108.55 ms/it, loss 0.457573
+Finished training it 49152/76743 of epoch 0, 109.06 ms/it, loss 0.458664
+Finished training it 49152/76743 of epoch 0, 108.93 ms/it, loss 0.457540
+Finished training it 49152/76743 of epoch 0, 109.12 ms/it, loss 0.458266
+Finished training it 49152/76743 of epoch 0, 108.67 ms/it, loss 0.457938
+Finished training it 50176/76743 of epoch 0, 108.66 ms/it, loss 0.457268
+Finished training it 50176/76743 of epoch 0, 108.44 ms/it, loss 0.456980
+Finished training it 50176/76743 of epoch 0, 108.28 ms/it, loss 0.456045
+Finished training it 50176/76743 of epoch 0, 108.46 ms/it, loss 0.458891
+Finished training it 51200/76743 of epoch 0, 108.45 ms/it, loss 0.457132
+Finished training it 51200/76743 of epoch 0, 108.48 ms/it, loss 0.458887
+Finished training it 51200/76743 of epoch 0, 108.40 ms/it, loss 0.455865
+Finished training it 51200/76743 of epoch 0, 108.35 ms/it, loss 0.454365
+Testing at - 51200/76743 of epoch 0,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2564213.0
+get out
+0 has test check 2564213.0 and sample count 3273728
+ accuracy 78.327 %, best 78.327 %, roc auc score 0.7914, best 0.7914
+Testing at - 51200/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2564213.0
+get out
+3 has test check 2564213.0 and sample count 3273728
+Finished training it 52224/76743 of epoch 0, 108.35 ms/it, loss 0.456307
+Testing at - 51200/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2564213.0
+get out
+2 has test check 2564213.0 and sample count 3273728
+Finished training it 52224/76743 of epoch 0, 108.56 ms/it, loss 0.454834
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 52224/76743 of epoch 0, 108.05 ms/it, loss 0.456673
+Testing at - 51200/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2564213.0
+get out
+1 has test check 2564213.0 and sample count 3273728
+Finished training it 52224/76743 of epoch 0, 108.36 ms/it, loss 0.460910
+Finished training it 53248/76743 of epoch 0, 108.73 ms/it, loss 0.456210
+Finished training it 53248/76743 of epoch 0, 108.46 ms/it, loss 0.456407
+Finished training it 53248/76743 of epoch 0, 108.42 ms/it, loss 0.457666
+Finished training it 53248/76743 of epoch 0, 108.18 ms/it, loss 0.456047
+Finished training it 54272/76743 of epoch 0, 107.83 ms/it, loss 0.456427
+Finished training it 54272/76743 of epoch 0, 108.46 ms/it, loss 0.456072
+Finished training it 54272/76743 of epoch 0, 108.68 ms/it, loss 0.455255
+Finished training it 54272/76743 of epoch 0, 108.70 ms/it, loss 0.458509
+Finished training it 55296/76743 of epoch 0, 107.83 ms/it, loss 0.458535
+Finished training it 55296/76743 of epoch 0, 108.20 ms/it, loss 0.457684
+Finished training it 55296/76743 of epoch 0, 108.06 ms/it, loss 0.457534
+Finished training it 55296/76743 of epoch 0, 107.94 ms/it, loss 0.452996
+Finished training it 56320/76743 of epoch 0, 108.53 ms/it, loss 0.452641
+Finished training it 56320/76743 of epoch 0, 108.26 ms/it, loss 0.455307
+Finished training it 56320/76743 of epoch 0, 108.67 ms/it, loss 0.455520
+Finished training it 56320/76743 of epoch 0, 108.54 ms/it, loss 0.456071
+Finished training it 57344/76743 of epoch 0, 108.57 ms/it, loss 0.454132
+Finished training it 57344/76743 of epoch 0, 109.36 ms/it, loss 0.459287
+Finished training it 57344/76743 of epoch 0, 108.82 ms/it, loss 0.456182
+Finished training it 57344/76743 of epoch 0, 109.07 ms/it, loss 0.453077
+Finished training it 58368/76743 of epoch 0, 109.07 ms/it, loss 0.457166
+Finished training it 58368/76743 of epoch 0, 108.76 ms/it, loss 0.457518
+Finished training it 58368/76743 of epoch 0, 108.82 ms/it, loss 0.454975
+Finished training it 58368/76743 of epoch 0, 109.00 ms/it, loss 0.453249
+Finished training it 59392/76743 of epoch 0, 107.15 ms/it, loss 0.457566
+Finished training it 59392/76743 of epoch 0, 107.51 ms/it, loss 0.455313
+Finished training it 59392/76743 of epoch 0, 107.45 ms/it, loss 0.456371
+Finished training it 59392/76743 of epoch 0, 107.48 ms/it, loss 0.455426
+Finished training it 60416/76743 of epoch 0, 108.63 ms/it, loss 0.456092
+Finished training it 60416/76743 of epoch 0, 108.71 ms/it, loss 0.457432
+Finished training it 60416/76743 of epoch 0, 108.73 ms/it, loss 0.456123
+Finished training it 60416/76743 of epoch 0, 108.22 ms/it, loss 0.454665
+Finished training it 61440/76743 of epoch 0, 108.42 ms/it, loss 0.455417
+Finished training it 61440/76743 of epoch 0, 108.00 ms/it, loss 0.454002
+Finished training it 61440/76743 of epoch 0, 108.18 ms/it, loss 0.455641
+Finished training it 61440/76743 of epoch 0, 107.81 ms/it, loss 0.454921
+Testing at - 61440/76743 of epoch 0,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2563863.0
+get out
+0 has test check 2563863.0 and sample count 3273728
+ accuracy 78.316 %, best 78.327 %, roc auc score 0.7927, best 0.7927
+Testing at - 61440/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2563863.0
+get out
+1 has test check 2563863.0 and sample count 3273728
+Finished training it 62464/76743 of epoch 0, 108.58 ms/it, loss 0.454921
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one0.0.pt
+Finished training it 62464/76743 of epoch 0, 108.56 ms/it, loss 0.452889
+Testing at - 61440/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2563863.0
+get out
+3 has test check 2563863.0 and sample count 3273728
+Finished training it 62464/76743 of epoch 0, 108.82 ms/it, loss 0.459213
+Testing at - 61440/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2563863.0
+get out
+2 has test check 2563863.0 and sample count 3273728
+Finished training it 62464/76743 of epoch 0, 108.34 ms/it, loss 0.457431
+Finished training it 63488/76743 of epoch 0, 108.00 ms/it, loss 0.455764
+Finished training it 63488/76743 of epoch 0, 108.64 ms/it, loss 0.454220
+Finished training it 63488/76743 of epoch 0, 108.50 ms/it, loss 0.456789
+Finished training it 63488/76743 of epoch 0, 108.53 ms/it, loss 0.453151
+Finished training it 64512/76743 of epoch 0, 108.13 ms/it, loss 0.452597
+Finished training it 64512/76743 of epoch 0, 107.45 ms/it, loss 0.452310
+Finished training it 64512/76743 of epoch 0, 107.92 ms/it, loss 0.455328
+Finished training it 64512/76743 of epoch 0, 107.99 ms/it, loss 0.456830
+Finished training it 65536/76743 of epoch 0, 108.78 ms/it, loss 0.451746
+Finished training it 65536/76743 of epoch 0, 108.61 ms/it, loss 0.454605
+Finished training it 65536/76743 of epoch 0, 108.33 ms/it, loss 0.453664
+Finished training it 65536/76743 of epoch 0, 108.68 ms/it, loss 0.455256
+Finished training it 66560/76743 of epoch 0, 108.56 ms/it, loss 0.456685
+Finished training it 66560/76743 of epoch 0, 108.59 ms/it, loss 0.454770
+Finished training it 66560/76743 of epoch 0, 108.54 ms/it, loss 0.459522
+Finished training it 66560/76743 of epoch 0, 108.35 ms/it, loss 0.452947
+Finished training it 67584/76743 of epoch 0, 107.58 ms/it, loss 0.454170
+Finished training it 67584/76743 of epoch 0, 108.30 ms/it, loss 0.455404
+Finished training it 67584/76743 of epoch 0, 108.15 ms/it, loss 0.455890
+Finished training it 67584/76743 of epoch 0, 108.27 ms/it, loss 0.456803
+Finished training it 68608/76743 of epoch 0, 108.48 ms/it, loss 0.454009
+Finished training it 68608/76743 of epoch 0, 108.40 ms/it, loss 0.452192
+Finished training it 68608/76743 of epoch 0, 108.16 ms/it, loss 0.453370
+Finished training it 68608/76743 of epoch 0, 108.42 ms/it, loss 0.454195
+Finished training it 69632/76743 of epoch 0, 108.01 ms/it, loss 0.454588
+Finished training it 69632/76743 of epoch 0, 107.39 ms/it, loss 0.456149
+Finished training it 69632/76743 of epoch 0, 107.67 ms/it, loss 0.455149
+Finished training it 69632/76743 of epoch 0, 107.52 ms/it, loss 0.456701
+Finished training it 70656/76743 of epoch 0, 108.19 ms/it, loss 0.453279
+Finished training it 70656/76743 of epoch 0, 108.38 ms/it, loss 0.454528
+Finished training it 70656/76743 of epoch 0, 108.53 ms/it, loss 0.455307
+Finished training it 70656/76743 of epoch 0, 108.48 ms/it, loss 0.452537
+Finished training it 71680/76743 of epoch 0, 108.02 ms/it, loss 0.452993
+Finished training it 71680/76743 of epoch 0, 108.33 ms/it, loss 0.453367
+Finished training it 71680/76743 of epoch 0, 108.31 ms/it, loss 0.456914
+Finished training it 71680/76743 of epoch 0, 108.48 ms/it, loss 0.454074
+Testing at - 71680/76743 of epoch 0,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2561392.0
+get out
+0 has test check 2561392.0 and sample count 3273728
+ accuracy 78.241 %, best 78.327 %, roc auc score 0.7943, best 0.7943
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 72704/76743 of epoch 0, 108.04 ms/it, loss 0.454355
+Testing at - 71680/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2561392.0
+get out
+3 has test check 2561392.0 and sample count 3273728
+Finished training it 72704/76743 of epoch 0, 108.21 ms/it, loss 0.452690
+Testing at - 71680/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2561392.0
+get out
+1 has test check 2561392.0 and sample count 3273728
+Finished training it 72704/76743 of epoch 0, 107.91 ms/it, loss 0.456577
+Testing at - 71680/76743 of epoch 0,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2561392.0
+get out
+2 has test check 2561392.0 and sample count 3273728
+Finished training it 72704/76743 of epoch 0, 107.83 ms/it, loss 0.455071
+Finished training it 73728/76743 of epoch 0, 108.71 ms/it, loss 0.453406
+Finished training it 73728/76743 of epoch 0, 108.90 ms/it, loss 0.455180
+Finished training it 73728/76743 of epoch 0, 108.63 ms/it, loss 0.452880
+Finished training it 73728/76743 of epoch 0, 108.58 ms/it, loss 0.451680
+Finished training it 74752/76743 of epoch 0, 107.42 ms/it, loss 0.454885
+Finished training it 74752/76743 of epoch 0, 107.84 ms/it, loss 0.452166
+Finished training it 74752/76743 of epoch 0, 108.25 ms/it, loss 0.454563
+Finished training it 74752/76743 of epoch 0, 107.94 ms/it, loss 0.453438
+Finished training it 75776/76743 of epoch 0, 108.58 ms/it, loss 0.456152
+Finished training it 75776/76743 of epoch 0, 108.18 ms/it, loss 0.453093
+Finished training it 75776/76743 of epoch 0, 108.01 ms/it, loss 0.452439
+Finished training it 75776/76743 of epoch 0, 108.23 ms/it, loss 0.450015
+Warning: Skipping the batch 76742 with size 14
+Finished training it 1024/76743 of epoch 1, 109.51 ms/it, loss 0.453385
+Warning: Skipping the batch 76742 with size 14
+Finished training it 1024/76743 of epoch 1, 109.20 ms/it, loss 0.454866
+Warning: Skipping the batch 76742 with size 14
+Finished training it 1024/76743 of epoch 1, 108.91 ms/it, loss 0.455188
+Warning: Skipping the batch 76742 with size 14
+Finished training it 1024/76743 of epoch 1, 109.33 ms/it, loss 0.452519
+Finished training it 2048/76743 of epoch 1, 109.00 ms/it, loss 0.456365
+Finished training it 2048/76743 of epoch 1, 108.29 ms/it, loss 0.454946
+Finished training it 2048/76743 of epoch 1, 108.66 ms/it, loss 0.453264
+Finished training it 2048/76743 of epoch 1, 108.28 ms/it, loss 0.454690
+Finished training it 3072/76743 of epoch 1, 108.02 ms/it, loss 0.454576
+Finished training it 3072/76743 of epoch 1, 107.96 ms/it, loss 0.452170
+Finished training it 3072/76743 of epoch 1, 107.69 ms/it, loss 0.452967
+Finished training it 3072/76743 of epoch 1, 107.91 ms/it, loss 0.453988
+Finished training it 4096/76743 of epoch 1, 108.34 ms/it, loss 0.452092
+Finished training it 4096/76743 of epoch 1, 108.53 ms/it, loss 0.456236
+Finished training it 4096/76743 of epoch 1, 108.50 ms/it, loss 0.452400
+Finished training it 4096/76743 of epoch 1, 108.63 ms/it, loss 0.454617
+Finished training it 5120/76743 of epoch 1, 109.12 ms/it, loss 0.453964
+Finished training it 5120/76743 of epoch 1, 109.29 ms/it, loss 0.452329
+Finished training it 5120/76743 of epoch 1, 109.31 ms/it, loss 0.453027
+Finished training it 5120/76743 of epoch 1, 109.29 ms/it, loss 0.453748
+Finished training it 6144/76743 of epoch 1, 108.00 ms/it, loss 0.452617
+Finished training it 6144/76743 of epoch 1, 107.85 ms/it, loss 0.450545
+Finished training it 6144/76743 of epoch 1, 107.83 ms/it, loss 0.455077
+Finished training it 6144/76743 of epoch 1, 107.83 ms/it, loss 0.451115
+Finished training it 7168/76743 of epoch 1, 110.79 ms/it, loss 0.451795
+Finished training it 7168/76743 of epoch 1, 110.73 ms/it, loss 0.451153
+Finished training it 7168/76743 of epoch 1, 110.92 ms/it, loss 0.450905
+Finished training it 7168/76743 of epoch 1, 110.81 ms/it, loss 0.451514
+Finished training it 8192/76743 of epoch 1, 109.18 ms/it, loss 0.456005
+Finished training it 8192/76743 of epoch 1, 109.47 ms/it, loss 0.451693
+Finished training it 8192/76743 of epoch 1, 108.54 ms/it, loss 0.453621
+Finished training it 8192/76743 of epoch 1, 109.21 ms/it, loss 0.451229
+Finished training it 9216/76743 of epoch 1, 108.57 ms/it, loss 0.451916
+Finished training it 9216/76743 of epoch 1, 108.53 ms/it, loss 0.451799
+Finished training it 9216/76743 of epoch 1, 107.87 ms/it, loss 0.450294
+Finished training it 9216/76743 of epoch 1, 108.51 ms/it, loss 0.454671
+Finished training it 10240/76743 of epoch 1, 107.88 ms/it, loss 0.454325
+Finished training it 10240/76743 of epoch 1, 107.97 ms/it, loss 0.457420
+Finished training it 10240/76743 of epoch 1, 107.68 ms/it, loss 0.455272
+Finished training it 10240/76743 of epoch 1, 108.09 ms/it, loss 0.454118
+Testing at - 10240/76743 of epoch 1,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2570125.0
+get out
+0 has test check 2570125.0 and sample count 3273728
+ accuracy 78.508 %, best 78.508 %, roc auc score 0.7952, best 0.7952
+Testing at - 10240/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2570125.0
+get out
+1 has test check 2570125.0 and sample count 3273728
+Finished training it 11264/76743 of epoch 1, 107.24 ms/it, loss 0.452324
+Testing at - 10240/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2570125.0
+get out
+3 has test check 2570125.0 and sample count 3273728
+Finished training it 11264/76743 of epoch 1, 107.40 ms/it, loss 0.454118
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 11264/76743 of epoch 1, 107.34 ms/it, loss 0.451533
+Testing at - 10240/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2570125.0
+get out
+2 has test check 2570125.0 and sample count 3273728
+Finished training it 11264/76743 of epoch 1, 106.70 ms/it, loss 0.451292
+Finished training it 12288/76743 of epoch 1, 108.57 ms/it, loss 0.452053
+Finished training it 12288/76743 of epoch 1, 108.26 ms/it, loss 0.452800
+Finished training it 12288/76743 of epoch 1, 108.23 ms/it, loss 0.452614
+Finished training it 12288/76743 of epoch 1, 108.21 ms/it, loss 0.451105
+Finished training it 13312/76743 of epoch 1, 107.78 ms/it, loss 0.451131
+Finished training it 13312/76743 of epoch 1, 108.25 ms/it, loss 0.452614
+Finished training it 13312/76743 of epoch 1, 108.30 ms/it, loss 0.451693
+Finished training it 13312/76743 of epoch 1, 108.48 ms/it, loss 0.455619
+Finished training it 14336/76743 of epoch 1, 109.14 ms/it, loss 0.452285
+Finished training it 14336/76743 of epoch 1, 108.56 ms/it, loss 0.451686
+Finished training it 14336/76743 of epoch 1, 109.10 ms/it, loss 0.451734
+Finished training it 14336/76743 of epoch 1, 108.96 ms/it, loss 0.451670
+Finished training it 15360/76743 of epoch 1, 109.19 ms/it, loss 0.452877
+Finished training it 15360/76743 of epoch 1, 108.86 ms/it, loss 0.452320
+Finished training it 15360/76743 of epoch 1, 108.78 ms/it, loss 0.454403
+Finished training it 15360/76743 of epoch 1, 108.21 ms/it, loss 0.450952
+Finished training it 16384/76743 of epoch 1, 108.01 ms/it, loss 0.450290
+Finished training it 16384/76743 of epoch 1, 108.16 ms/it, loss 0.452830
+Finished training it 16384/76743 of epoch 1, 108.05 ms/it, loss 0.451469
+Finished training it 16384/76743 of epoch 1, 108.32 ms/it, loss 0.453126
+Finished training it 17408/76743 of epoch 1, 108.15 ms/it, loss 0.450825
+Finished training it 17408/76743 of epoch 1, 108.35 ms/it, loss 0.452303
+Finished training it 17408/76743 of epoch 1, 108.04 ms/it, loss 0.452376
+Finished training it 17408/76743 of epoch 1, 107.89 ms/it, loss 0.453965
+Finished training it 18432/76743 of epoch 1, 107.80 ms/it, loss 0.451036
+Finished training it 18432/76743 of epoch 1, 107.89 ms/it, loss 0.453394
+Finished training it 18432/76743 of epoch 1, 107.72 ms/it, loss 0.452285
+Finished training it 18432/76743 of epoch 1, 108.12 ms/it, loss 0.451795
+Finished training it 19456/76743 of epoch 1, 108.88 ms/it, loss 0.453495
+Finished training it 19456/76743 of epoch 1, 109.24 ms/it, loss 0.449539
+Finished training it 19456/76743 of epoch 1, 108.71 ms/it, loss 0.453955
+Finished training it 19456/76743 of epoch 1, 108.84 ms/it, loss 0.454614
+Finished training it 20480/76743 of epoch 1, 112.38 ms/it, loss 0.449780
+Finished training it 20480/76743 of epoch 1, 112.06 ms/it, loss 0.452941
+Finished training it 20480/76743 of epoch 1, 112.20 ms/it, loss 0.452430
+Finished training it 20480/76743 of epoch 1, 112.14 ms/it, loss 0.451975
+Testing at - 20480/76743 of epoch 1,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2569435.0
+get out
+0 has test check 2569435.0 and sample count 3273728
+ accuracy 78.487 %, best 78.508 %, roc auc score 0.7969, best 0.7969
+Testing at - 20480/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2569435.0
+get out
+1 has test check 2569435.0 and sample count 3273728
+Finished training it 21504/76743 of epoch 1, 107.26 ms/it, loss 0.450950
+Testing at - 20480/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2569435.0
+get out
+3 has test check 2569435.0 and sample count 3273728
+Finished training it 21504/76743 of epoch 1, 107.57 ms/it, loss 0.451075
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one0.0.pt
+Finished training it 21504/76743 of epoch 1, 107.34 ms/it, loss 0.453297
+Testing at - 20480/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2569435.0
+get out
+2 has test check 2569435.0 and sample count 3273728
+Finished training it 21504/76743 of epoch 1, 107.38 ms/it, loss 0.450902
+Finished training it 22528/76743 of epoch 1, 109.02 ms/it, loss 0.451029
+Finished training it 22528/76743 of epoch 1, 108.22 ms/it, loss 0.450072
+Finished training it 22528/76743 of epoch 1, 108.56 ms/it, loss 0.455841
+Finished training it 22528/76743 of epoch 1, 108.44 ms/it, loss 0.450643
+Finished training it 23552/76743 of epoch 1, 108.78 ms/it, loss 0.450425
+Finished training it 23552/76743 of epoch 1, 109.61 ms/it, loss 0.454425
+Finished training it 23552/76743 of epoch 1, 109.51 ms/it, loss 0.452062
+Finished training it 23552/76743 of epoch 1, 109.35 ms/it, loss 0.452506
+Finished training it 24576/76743 of epoch 1, 107.77 ms/it, loss 0.449596
+Finished training it 24576/76743 of epoch 1, 108.50 ms/it, loss 0.451717
+Finished training it 24576/76743 of epoch 1, 108.35 ms/it, loss 0.450234
+Finished training it 24576/76743 of epoch 1, 108.18 ms/it, loss 0.452000
+Finished training it 25600/76743 of epoch 1, 107.90 ms/it, loss 0.450274
+Finished training it 25600/76743 of epoch 1, 108.70 ms/it, loss 0.453456
+Finished training it 25600/76743 of epoch 1, 108.26 ms/it, loss 0.451678
+Finished training it 25600/76743 of epoch 1, 108.33 ms/it, loss 0.448465
+Finished training it 26624/76743 of epoch 1, 108.01 ms/it, loss 0.449698
+Finished training it 26624/76743 of epoch 1, 109.03 ms/it, loss 0.449571
+Finished training it 26624/76743 of epoch 1, 108.56 ms/it, loss 0.450627
+Finished training it 26624/76743 of epoch 1, 108.74 ms/it, loss 0.450217
+Finished training it 27648/76743 of epoch 1, 109.01 ms/it, loss 0.449671
+Finished training it 27648/76743 of epoch 1, 109.26 ms/it, loss 0.449030
+Finished training it 27648/76743 of epoch 1, 108.92 ms/it, loss 0.448940
+Finished training it 27648/76743 of epoch 1, 109.17 ms/it, loss 0.451072
+Finished training it 28672/76743 of epoch 1, 108.55 ms/it, loss 0.451922
+Finished training it 28672/76743 of epoch 1, 109.02 ms/it, loss 0.449960
+Finished training it 28672/76743 of epoch 1, 108.26 ms/it, loss 0.448745
+Finished training it 28672/76743 of epoch 1, 108.53 ms/it, loss 0.449067
+Finished training it 29696/76743 of epoch 1, 109.02 ms/it, loss 0.452671
+Finished training it 29696/76743 of epoch 1, 108.51 ms/it, loss 0.448906
+Finished training it 29696/76743 of epoch 1, 108.55 ms/it, loss 0.449858
+Finished training it 29696/76743 of epoch 1, 108.31 ms/it, loss 0.449971
+Finished training it 30720/76743 of epoch 1, 107.99 ms/it, loss 0.450522
+Finished training it 30720/76743 of epoch 1, 108.36 ms/it, loss 0.448703
+Finished training it 30720/76743 of epoch 1, 108.65 ms/it, loss 0.453365
+Finished training it 30720/76743 of epoch 1, 108.28 ms/it, loss 0.447805
+Testing at - 30720/76743 of epoch 1,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2573246.0
+get out
+0 has test check 2573246.0 and sample count 3273728
+ accuracy 78.603 %, best 78.603 %, roc auc score 0.7970, best 0.7970
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 31744/76743 of epoch 1, 108.56 ms/it, loss 0.454741
+Testing at - 30720/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2573246.0
+get out
+3 has test check 2573246.0 and sample count 3273728
+Finished training it 31744/76743 of epoch 1, 109.24 ms/it, loss 0.452306
+Testing at - 30720/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2573246.0
+get out
+1 has test check 2573246.0 and sample count 3273728
+Finished training it 31744/76743 of epoch 1, 108.82 ms/it, loss 0.450719
+Testing at - 30720/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2573246.0
+get out
+2 has test check 2573246.0 and sample count 3273728
+Finished training it 31744/76743 of epoch 1, 108.82 ms/it, loss 0.449969
+Finished training it 32768/76743 of epoch 1, 108.79 ms/it, loss 0.451917
+Finished training it 32768/76743 of epoch 1, 108.40 ms/it, loss 0.449892
+Finished training it 32768/76743 of epoch 1, 108.27 ms/it, loss 0.454292
+Finished training it 32768/76743 of epoch 1, 108.27 ms/it, loss 0.449842
+Finished training it 33792/76743 of epoch 1, 108.51 ms/it, loss 0.450602
+Finished training it 33792/76743 of epoch 1, 108.34 ms/it, loss 0.447439
+Finished training it 33792/76743 of epoch 1, 108.83 ms/it, loss 0.450499
+Finished training it 33792/76743 of epoch 1, 107.90 ms/it, loss 0.451774
+Finished training it 34816/76743 of epoch 1, 108.70 ms/it, loss 0.449430
+Finished training it 34816/76743 of epoch 1, 109.44 ms/it, loss 0.451838
+Finished training it 34816/76743 of epoch 1, 108.93 ms/it, loss 0.453045
+Finished training it 34816/76743 of epoch 1, 108.92 ms/it, loss 0.448503
+Finished training it 35840/76743 of epoch 1, 108.51 ms/it, loss 0.450995
+Finished training it 35840/76743 of epoch 1, 108.43 ms/it, loss 0.450496
+Finished training it 35840/76743 of epoch 1, 108.91 ms/it, loss 0.451553
+Finished training it 35840/76743 of epoch 1, 108.37 ms/it, loss 0.455600
+Finished training it 36864/76743 of epoch 1, 108.54 ms/it, loss 0.447802
+Finished training it 36864/76743 of epoch 1, 108.65 ms/it, loss 0.448358
+Finished training it 36864/76743 of epoch 1, 108.83 ms/it, loss 0.453949
+Finished training it 36864/76743 of epoch 1, 109.15 ms/it, loss 0.449315
+Finished training it 37888/76743 of epoch 1, 107.82 ms/it, loss 0.451295
+Finished training it 37888/76743 of epoch 1, 107.95 ms/it, loss 0.451315
+Finished training it 37888/76743 of epoch 1, 107.72 ms/it, loss 0.449246
+Finished training it 37888/76743 of epoch 1, 107.97 ms/it, loss 0.449553
+Finished training it 38912/76743 of epoch 1, 107.34 ms/it, loss 0.451794
+Finished training it 38912/76743 of epoch 1, 107.29 ms/it, loss 0.450905
+Finished training it 38912/76743 of epoch 1, 107.11 ms/it, loss 0.449071
+Finished training it 38912/76743 of epoch 1, 107.53 ms/it, loss 0.452007
+Finished training it 39936/76743 of epoch 1, 107.80 ms/it, loss 0.450162
+Finished training it 39936/76743 of epoch 1, 108.09 ms/it, loss 0.449596
+Finished training it 39936/76743 of epoch 1, 107.81 ms/it, loss 0.452142
+Finished training it 39936/76743 of epoch 1, 107.80 ms/it, loss 0.451065
+Finished training it 40960/76743 of epoch 1, 107.63 ms/it, loss 0.449134
+Finished training it 40960/76743 of epoch 1, 108.34 ms/it, loss 0.451174
+Finished training it 40960/76743 of epoch 1, 107.93 ms/it, loss 0.449003
+Finished training it 40960/76743 of epoch 1, 107.82 ms/it, loss 0.451036
+Testing at - 40960/76743 of epoch 1,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2574516.0
+get out
+0 has test check 2574516.0 and sample count 3273728
+ accuracy 78.642 %, best 78.642 %, roc auc score 0.7982, best 0.7982
+Testing at - 40960/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2574516.0
+get out
+3 has test check 2574516.0 and sample count 3273728
+Finished training it 41984/76743 of epoch 1, 108.23 ms/it, loss 0.450154
+Testing at - 40960/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2574516.0
+get out
+1 has test check 2574516.0 and sample count 3273728
+Finished training it 41984/76743 of epoch 1, 107.95 ms/it, loss 0.449564
+Testing at - 40960/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2574516.0
+get out
+2 has test check 2574516.0 and sample count 3273728
+Finished training it 41984/76743 of epoch 1, 108.06 ms/it, loss 0.448999
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one0.0.pt
+Finished training it 41984/76743 of epoch 1, 107.46 ms/it, loss 0.449309
+Finished training it 43008/76743 of epoch 1, 108.52 ms/it, loss 0.449068
+Finished training it 43008/76743 of epoch 1, 108.40 ms/it, loss 0.450327
+Finished training it 43008/76743 of epoch 1, 108.91 ms/it, loss 0.447496
+Finished training it 43008/76743 of epoch 1, 108.40 ms/it, loss 0.447638
+Finished training it 44032/76743 of epoch 1, 107.17 ms/it, loss 0.447357
+Finished training it 44032/76743 of epoch 1, 107.18 ms/it, loss 0.447939
+Finished training it 44032/76743 of epoch 1, 106.88 ms/it, loss 0.450051
+Finished training it 44032/76743 of epoch 1, 106.97 ms/it, loss 0.453404
+Finished training it 45056/76743 of epoch 1, 108.15 ms/it, loss 0.446845
+Finished training it 45056/76743 of epoch 1, 108.25 ms/it, loss 0.446843
+Finished training it 45056/76743 of epoch 1, 108.02 ms/it, loss 0.446255
+Finished training it 45056/76743 of epoch 1, 107.87 ms/it, loss 0.450451
+Finished training it 46080/76743 of epoch 1, 108.84 ms/it, loss 0.450792
+Finished training it 46080/76743 of epoch 1, 109.29 ms/it, loss 0.444333
+Finished training it 46080/76743 of epoch 1, 108.63 ms/it, loss 0.449743
+Finished training it 46080/76743 of epoch 1, 108.94 ms/it, loss 0.450239
+Finished training it 47104/76743 of epoch 1, 109.04 ms/it, loss 0.449684
+Finished training it 47104/76743 of epoch 1, 108.98 ms/it, loss 0.448479
+Finished training it 47104/76743 of epoch 1, 109.19 ms/it, loss 0.449546
+Finished training it 47104/76743 of epoch 1, 108.85 ms/it, loss 0.449209
+Finished training it 48128/76743 of epoch 1, 108.22 ms/it, loss 0.450009
+Finished training it 48128/76743 of epoch 1, 108.10 ms/it, loss 0.449095
+Finished training it 48128/76743 of epoch 1, 108.55 ms/it, loss 0.450153
+Finished training it 48128/76743 of epoch 1, 107.60 ms/it, loss 0.449191
+Finished training it 49152/76743 of epoch 1, 108.50 ms/it, loss 0.450083
+Finished training it 49152/76743 of epoch 1, 108.17 ms/it, loss 0.450431
+Finished training it 49152/76743 of epoch 1, 108.07 ms/it, loss 0.449663
+Finished training it 49152/76743 of epoch 1, 107.94 ms/it, loss 0.450180
+Finished training it 50176/76743 of epoch 1, 107.73 ms/it, loss 0.449748
+Finished training it 50176/76743 of epoch 1, 107.81 ms/it, loss 0.449833
+Finished training it 50176/76743 of epoch 1, 107.58 ms/it, loss 0.448300
+Finished training it 50176/76743 of epoch 1, 107.64 ms/it, loss 0.451224
+Finished training it 51200/76743 of epoch 1, 108.48 ms/it, loss 0.449854
+Finished training it 51200/76743 of epoch 1, 108.31 ms/it, loss 0.448661
+Finished training it 51200/76743 of epoch 1, 108.22 ms/it, loss 0.447055
+Finished training it 51200/76743 of epoch 1, 108.50 ms/it, loss 0.451973
+Testing at - 51200/76743 of epoch 1,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2574784.0
+get out
+0 has test check 2574784.0 and sample count 3273728
+ accuracy 78.650 %, best 78.650 %, roc auc score 0.7980, best 0.7982
+Testing at - 51200/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2574784.0
+get out
+2 has test check 2574784.0 and sample count 3273728
+Finished training it 52224/76743 of epoch 1, 107.93 ms/it, loss 0.447060
+Testing at - 51200/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2574784.0
+get out
+1 has test check 2574784.0 and sample count 3273728
+Finished training it 52224/76743 of epoch 1, 108.47 ms/it, loss 0.453340
+Testing at - 51200/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2574784.0
+get out
+3 has test check 2574784.0 and sample count 3273728
+Finished training it 52224/76743 of epoch 1, 108.59 ms/it, loss 0.448846
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 52224/76743 of epoch 1, 108.38 ms/it, loss 0.449331
+Finished training it 53248/76743 of epoch 1, 108.92 ms/it, loss 0.449293
+Finished training it 53248/76743 of epoch 1, 109.22 ms/it, loss 0.450340
+Finished training it 53248/76743 of epoch 1, 108.94 ms/it, loss 0.448911
+Finished training it 53248/76743 of epoch 1, 108.99 ms/it, loss 0.448214
+Finished training it 54272/76743 of epoch 1, 108.16 ms/it, loss 0.449389
+Finished training it 54272/76743 of epoch 1, 108.71 ms/it, loss 0.451477
+Finished training it 54272/76743 of epoch 1, 108.40 ms/it, loss 0.448684
+Finished training it 54272/76743 of epoch 1, 108.00 ms/it, loss 0.448009
+Finished training it 55296/76743 of epoch 1, 107.90 ms/it, loss 0.450338
+Finished training it 55296/76743 of epoch 1, 107.94 ms/it, loss 0.451587
+Finished training it 55296/76743 of epoch 1, 107.84 ms/it, loss 0.450995
+Finished training it 55296/76743 of epoch 1, 107.84 ms/it, loss 0.446365
+Finished training it 56320/76743 of epoch 1, 106.90 ms/it, loss 0.449483
+Finished training it 56320/76743 of epoch 1, 107.21 ms/it, loss 0.448975
+Finished training it 56320/76743 of epoch 1, 107.14 ms/it, loss 0.448314
+Finished training it 56320/76743 of epoch 1, 107.33 ms/it, loss 0.446254
+Finished training it 57344/76743 of epoch 1, 108.53 ms/it, loss 0.446758
+Finished training it 57344/76743 of epoch 1, 108.64 ms/it, loss 0.446982
+Finished training it 57344/76743 of epoch 1, 107.37 ms/it, loss 0.452603
+Finished training it 57344/76743 of epoch 1, 108.43 ms/it, loss 0.449004
+Finished training it 58368/76743 of epoch 1, 108.97 ms/it, loss 0.448333
+Finished training it 58368/76743 of epoch 1, 108.89 ms/it, loss 0.450701
+Finished training it 58368/76743 of epoch 1, 108.81 ms/it, loss 0.446326
+Finished training it 58368/76743 of epoch 1, 107.24 ms/it, loss 0.450263
+Finished training it 59392/76743 of epoch 1, 107.35 ms/it, loss 0.450939
+Finished training it 59392/76743 of epoch 1, 108.13 ms/it, loss 0.448762
+Finished training it 59392/76743 of epoch 1, 107.98 ms/it, loss 0.450185
+Finished training it 59392/76743 of epoch 1, 108.04 ms/it, loss 0.448647
+Finished training it 60416/76743 of epoch 1, 108.39 ms/it, loss 0.448217
+Finished training it 60416/76743 of epoch 1, 108.29 ms/it, loss 0.449434
+Finished training it 60416/76743 of epoch 1, 108.10 ms/it, loss 0.451023
+Finished training it 60416/76743 of epoch 1, 107.07 ms/it, loss 0.449263
+Finished training it 61440/76743 of epoch 1, 108.44 ms/it, loss 0.449572
+Finished training it 61440/76743 of epoch 1, 108.66 ms/it, loss 0.448178
+Finished training it 61440/76743 of epoch 1, 108.12 ms/it, loss 0.448642
+Finished training it 61440/76743 of epoch 1, 108.61 ms/it, loss 0.447896
+Testing at - 61440/76743 of epoch 1,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2569913.0
+get out
+0 has test check 2569913.0 and sample count 3273728
+ accuracy 78.501 %, best 78.650 %, roc auc score 0.7985, best 0.7985
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one0.0.pt
+Finished training it 62464/76743 of epoch 1, 108.08 ms/it, loss 0.446312
+Testing at - 61440/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2569913.0
+get out
+1 has test check 2569913.0 and sample count 3273728
+Finished training it 62464/76743 of epoch 1, 108.29 ms/it, loss 0.448630
+Testing at - 61440/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2569913.0
+get out
+3 has test check 2569913.0 and sample count 3273728
+Finished training it 62464/76743 of epoch 1, 107.57 ms/it, loss 0.452575
+Testing at - 61440/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2569913.0
+get out
+2 has test check 2569913.0 and sample count 3273728
+Finished training it 62464/76743 of epoch 1, 108.25 ms/it, loss 0.451112
+Finished training it 63488/76743 of epoch 1, 108.58 ms/it, loss 0.449837
+Finished training it 63488/76743 of epoch 1, 108.14 ms/it, loss 0.448254
+Finished training it 63488/76743 of epoch 1, 108.65 ms/it, loss 0.450532
+Finished training it 63488/76743 of epoch 1, 108.81 ms/it, loss 0.447132
+Finished training it 64512/76743 of epoch 1, 108.07 ms/it, loss 0.449583
+Finished training it 64512/76743 of epoch 1, 108.21 ms/it, loss 0.450761
+Finished training it 64512/76743 of epoch 1, 108.21 ms/it, loss 0.446320
+Finished training it 64512/76743 of epoch 1, 106.76 ms/it, loss 0.446661
+Finished training it 65536/76743 of epoch 1, 108.29 ms/it, loss 0.447743
+Finished training it 65536/76743 of epoch 1, 109.25 ms/it, loss 0.449010
+Finished training it 65536/76743 of epoch 1, 109.41 ms/it, loss 0.445621
+Finished training it 65536/76743 of epoch 1, 109.25 ms/it, loss 0.448630
+Finished training it 66560/76743 of epoch 1, 106.72 ms/it, loss 0.451056
+Finished training it 66560/76743 of epoch 1, 107.69 ms/it, loss 0.453416
+Finished training it 66560/76743 of epoch 1, 107.89 ms/it, loss 0.448636
+Finished training it 66560/76743 of epoch 1, 107.60 ms/it, loss 0.447093
+Finished training it 67584/76743 of epoch 1, 107.12 ms/it, loss 0.450566
+Finished training it 67584/76743 of epoch 1, 108.20 ms/it, loss 0.449866
+Finished training it 67584/76743 of epoch 1, 108.30 ms/it, loss 0.448297
+Finished training it 67584/76743 of epoch 1, 108.41 ms/it, loss 0.449150
+Finished training it 68608/76743 of epoch 1, 107.89 ms/it, loss 0.447294
+Finished training it 68608/76743 of epoch 1, 107.73 ms/it, loss 0.446440
+Finished training it 68608/76743 of epoch 1, 107.02 ms/it, loss 0.448126
+Finished training it 68608/76743 of epoch 1, 107.51 ms/it, loss 0.448295
+Finished training it 69632/76743 of epoch 1, 108.67 ms/it, loss 0.449335
+Finished training it 69632/76743 of epoch 1, 108.88 ms/it, loss 0.451089
+Finished training it 69632/76743 of epoch 1, 107.75 ms/it, loss 0.448789
+Finished training it 69632/76743 of epoch 1, 108.52 ms/it, loss 0.450282
+Finished training it 70656/76743 of epoch 1, 108.68 ms/it, loss 0.447485
+Finished training it 70656/76743 of epoch 1, 107.65 ms/it, loss 0.449682
+Finished training it 70656/76743 of epoch 1, 108.56 ms/it, loss 0.446745
+Finished training it 70656/76743 of epoch 1, 108.48 ms/it, loss 0.449103
+Finished training it 71680/76743 of epoch 1, 109.14 ms/it, loss 0.447493
+Finished training it 71680/76743 of epoch 1, 109.29 ms/it, loss 0.451441
+Finished training it 71680/76743 of epoch 1, 108.30 ms/it, loss 0.448590
+Finished training it 71680/76743 of epoch 1, 109.31 ms/it, loss 0.447170
+Testing at - 71680/76743 of epoch 1,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2571526.0
+get out
+0 has test check 2571526.0 and sample count 3273728
+ accuracy 78.550 %, best 78.650 %, roc auc score 0.7995, best 0.7995
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 72704/76743 of epoch 1, 107.63 ms/it, loss 0.449218
+Testing at - 71680/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2571526.0
+get out
+2 has test check 2571526.0 and sample count 3273728
+Finished training it 72704/76743 of epoch 1, 107.24 ms/it, loss 0.449943
+Testing at - 71680/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2571526.0
+get out
+1 has test check 2571526.0 and sample count 3273728
+Finished training it 72704/76743 of epoch 1, 107.66 ms/it, loss 0.450909
+Testing at - 71680/76743 of epoch 1,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2571526.0
+get out
+3 has test check 2571526.0 and sample count 3273728
+Finished training it 72704/76743 of epoch 1, 106.45 ms/it, loss 0.447293
+Finished training it 73728/76743 of epoch 1, 108.80 ms/it, loss 0.447772
+Finished training it 73728/76743 of epoch 1, 107.46 ms/it, loss 0.449851
+Finished training it 73728/76743 of epoch 1, 108.83 ms/it, loss 0.445994
+Finished training it 73728/76743 of epoch 1, 108.80 ms/it, loss 0.447253
+Finished training it 74752/76743 of epoch 1, 108.48 ms/it, loss 0.449178
+Finished training it 74752/76743 of epoch 1, 109.25 ms/it, loss 0.448247
+Finished training it 74752/76743 of epoch 1, 109.08 ms/it, loss 0.447116
+Finished training it 74752/76743 of epoch 1, 109.06 ms/it, loss 0.449482
+Finished training it 75776/76743 of epoch 1, 108.66 ms/it, loss 0.447293
+Finished training it 75776/76743 of epoch 1, 108.57 ms/it, loss 0.444620
+Finished training it 75776/76743 of epoch 1, 107.77 ms/it, loss 0.450292
+Finished training it 75776/76743 of epoch 1, 108.69 ms/it, loss 0.447007
+Warning: Skipping the batch 76742 with size 14
+Finished training it 1024/76743 of epoch 2, 110.18 ms/it, loss 0.448312
+Warning: Skipping the batch 76742 with size 14
+Finished training it 1024/76743 of epoch 2, 109.65 ms/it, loss 0.449745
+Warning: Skipping the batch 76742 with size 14
+Finished training it 1024/76743 of epoch 2, 109.75 ms/it, loss 0.449756
+Warning: Skipping the batch 76742 with size 14
+Finished training it 1024/76743 of epoch 2, 108.88 ms/it, loss 0.447563
+Finished training it 2048/76743 of epoch 2, 109.49 ms/it, loss 0.449535
+Finished training it 2048/76743 of epoch 2, 108.64 ms/it, loss 0.451462
+Finished training it 2048/76743 of epoch 2, 109.47 ms/it, loss 0.449825
+Finished training it 2048/76743 of epoch 2, 109.26 ms/it, loss 0.448491
+Finished training it 3072/76743 of epoch 2, 108.78 ms/it, loss 0.447593
+Finished training it 3072/76743 of epoch 2, 109.61 ms/it, loss 0.446762
+Finished training it 3072/76743 of epoch 2, 109.64 ms/it, loss 0.449348
+Finished training it 3072/76743 of epoch 2, 109.62 ms/it, loss 0.448868
+Finished training it 4096/76743 of epoch 2, 108.65 ms/it, loss 0.451121
+Finished training it 4096/76743 of epoch 2, 108.75 ms/it, loss 0.449070
+Finished training it 4096/76743 of epoch 2, 107.30 ms/it, loss 0.446723
+Finished training it 4096/76743 of epoch 2, 108.74 ms/it, loss 0.447419
+Finished training it 5120/76743 of epoch 2, 109.48 ms/it, loss 0.448633
+Finished training it 5120/76743 of epoch 2, 108.45 ms/it, loss 0.447878
+Finished training it 5120/76743 of epoch 2, 108.76 ms/it, loss 0.448674
+Finished training it 5120/76743 of epoch 2, 109.34 ms/it, loss 0.447325
+Finished training it 6144/76743 of epoch 2, 108.08 ms/it, loss 0.447342
+Finished training it 6144/76743 of epoch 2, 109.13 ms/it, loss 0.446057
+Finished training it 6144/76743 of epoch 2, 109.14 ms/it, loss 0.449509
+Finished training it 6144/76743 of epoch 2, 109.22 ms/it, loss 0.445869
+Finished training it 7168/76743 of epoch 2, 108.03 ms/it, loss 0.445961
+Finished training it 7168/76743 of epoch 2, 108.80 ms/it, loss 0.446174
+Finished training it 7168/76743 of epoch 2, 108.88 ms/it, loss 0.447154
+Finished training it 7168/76743 of epoch 2, 108.73 ms/it, loss 0.446159
+Finished training it 8192/76743 of epoch 2, 108.18 ms/it, loss 0.446416
+Finished training it 8192/76743 of epoch 2, 108.20 ms/it, loss 0.450738
+Finished training it 8192/76743 of epoch 2, 108.21 ms/it, loss 0.446144
+Finished training it 8192/76743 of epoch 2, 107.60 ms/it, loss 0.448244
+Finished training it 9216/76743 of epoch 2, 346.15 ms/it, loss 0.449847
+Finished training it 9216/76743 of epoch 2, 344.70 ms/it, loss 0.445083
+Finished training it 9216/76743 of epoch 2, 345.00 ms/it, loss 0.446848
+Finished training it 9216/76743 of epoch 2, 345.42 ms/it, loss 0.447350
+Finished training it 10240/76743 of epoch 2, 109.81 ms/it, loss 0.449339
+Finished training it 10240/76743 of epoch 2, 108.70 ms/it, loss 0.450582
+Finished training it 10240/76743 of epoch 2, 109.01 ms/it, loss 0.453047
+Finished training it 10240/76743 of epoch 2, 109.06 ms/it, loss 0.448685
+Testing at - 10240/76743 of epoch 2,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2576735.0
+get out
+0 has test check 2576735.0 and sample count 3273728
+ accuracy 78.710 %, best 78.710 %, roc auc score 0.7998, best 0.7998
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 11264/76743 of epoch 2, 107.96 ms/it, loss 0.446449
+Testing at - 10240/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2576735.0
+get out
+3 has test check 2576735.0 and sample count 3273728
+Finished training it 11264/76743 of epoch 2, 107.03 ms/it, loss 0.448834
+Testing at - 10240/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2576735.0
+get out
+1 has test check 2576735.0 and sample count 3273728
+Finished training it 11264/76743 of epoch 2, 107.75 ms/it, loss 0.447442
+Testing at - 10240/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2576735.0
+get out
+2 has test check 2576735.0 and sample count 3273728
+Finished training it 11264/76743 of epoch 2, 107.76 ms/it, loss 0.446502
+Finished training it 12288/76743 of epoch 2, 108.61 ms/it, loss 0.447586
+Finished training it 12288/76743 of epoch 2, 108.41 ms/it, loss 0.448305
+Finished training it 12288/76743 of epoch 2, 108.39 ms/it, loss 0.446396
+Finished training it 12288/76743 of epoch 2, 107.34 ms/it, loss 0.446512
+Finished training it 13312/76743 of epoch 2, 107.73 ms/it, loss 0.450262
+Finished training it 13312/76743 of epoch 2, 108.68 ms/it, loss 0.447128
+Finished training it 13312/76743 of epoch 2, 108.74 ms/it, loss 0.447726
+Finished training it 13312/76743 of epoch 2, 108.81 ms/it, loss 0.446461
+Finished training it 14336/76743 of epoch 2, 107.50 ms/it, loss 0.447485
+Finished training it 14336/76743 of epoch 2, 108.57 ms/it, loss 0.447248
+Finished training it 14336/76743 of epoch 2, 108.53 ms/it, loss 0.447070
+Finished training it 14336/76743 of epoch 2, 108.71 ms/it, loss 0.446902
+Finished training it 15360/76743 of epoch 2, 108.58 ms/it, loss 0.449567
+Finished training it 15360/76743 of epoch 2, 108.63 ms/it, loss 0.447522
+Finished training it 15360/76743 of epoch 2, 108.51 ms/it, loss 0.446138
+Finished training it 15360/76743 of epoch 2, 107.46 ms/it, loss 0.448170
+Finished training it 16384/76743 of epoch 2, 109.05 ms/it, loss 0.445682
+Finished training it 16384/76743 of epoch 2, 108.89 ms/it, loss 0.448265
+Finished training it 16384/76743 of epoch 2, 107.78 ms/it, loss 0.446842
+Finished training it 16384/76743 of epoch 2, 108.63 ms/it, loss 0.448623
+Finished training it 17408/76743 of epoch 2, 107.38 ms/it, loss 0.448145
+Finished training it 17408/76743 of epoch 2, 108.54 ms/it, loss 0.446378
+Finished training it 17408/76743 of epoch 2, 107.84 ms/it, loss 0.449562
+Finished training it 17408/76743 of epoch 2, 108.41 ms/it, loss 0.448123
+Finished training it 18432/76743 of epoch 2, 108.35 ms/it, loss 0.447752
+Finished training it 18432/76743 of epoch 2, 107.22 ms/it, loss 0.447410
+Finished training it 18432/76743 of epoch 2, 108.56 ms/it, loss 0.449248
+Finished training it 18432/76743 of epoch 2, 108.73 ms/it, loss 0.446803
+Finished training it 19456/76743 of epoch 2, 109.92 ms/it, loss 0.449268
+Finished training it 19456/76743 of epoch 2, 109.86 ms/it, loss 0.449077
+Finished training it 19456/76743 of epoch 2, 108.40 ms/it, loss 0.444581
+Finished training it 19456/76743 of epoch 2, 109.73 ms/it, loss 0.449793
+Finished training it 20480/76743 of epoch 2, 108.94 ms/it, loss 0.445067
+Finished training it 20480/76743 of epoch 2, 108.76 ms/it, loss 0.446757
+Finished training it 20480/76743 of epoch 2, 108.18 ms/it, loss 0.448282
+Finished training it 20480/76743 of epoch 2, 107.66 ms/it, loss 0.447941
+Testing at - 20480/76743 of epoch 2,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2574454.0
+get out
+0 has test check 2574454.0 and sample count 3273728
+ accuracy 78.640 %, best 78.710 %, roc auc score 0.8006, best 0.8006
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one0.0.pt
+Finished training it 21504/76743 of epoch 2, 108.12 ms/it, loss 0.449249
+Testing at - 20480/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2574454.0
+get out
+1 has test check 2574454.0 and sample count 3273728
+Finished training it 21504/76743 of epoch 2, 108.07 ms/it, loss 0.446354
+Testing at - 20480/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2574454.0
+get out
+3 has test check 2574454.0 and sample count 3273728
+Finished training it 21504/76743 of epoch 2, 107.14 ms/it, loss 0.446427
+Testing at - 20480/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2574454.0
+get out
+2 has test check 2574454.0 and sample count 3273728
+Finished training it 21504/76743 of epoch 2, 107.62 ms/it, loss 0.446424
+Finished training it 22528/76743 of epoch 2, 108.05 ms/it, loss 0.446259
+Finished training it 22528/76743 of epoch 2, 106.97 ms/it, loss 0.446333
+Finished training it 22528/76743 of epoch 2, 107.99 ms/it, loss 0.451380
+Finished training it 22528/76743 of epoch 2, 107.74 ms/it, loss 0.445444
+Finished training it 23552/76743 of epoch 2, 108.92 ms/it, loss 0.445870
+Finished training it 23552/76743 of epoch 2, 108.81 ms/it, loss 0.448402
+Finished training it 23552/76743 of epoch 2, 107.49 ms/it, loss 0.449641
+Finished training it 23552/76743 of epoch 2, 108.50 ms/it, loss 0.447528
+Finished training it 24576/76743 of epoch 2, 108.31 ms/it, loss 0.447534
+Finished training it 24576/76743 of epoch 2, 108.43 ms/it, loss 0.445323
+Finished training it 24576/76743 of epoch 2, 108.12 ms/it, loss 0.445775
+Finished training it 24576/76743 of epoch 2, 106.86 ms/it, loss 0.447263
+Finished training it 25600/76743 of epoch 2, 108.13 ms/it, loss 0.446125
+Finished training it 25600/76743 of epoch 2, 107.96 ms/it, loss 0.447517
+Finished training it 25600/76743 of epoch 2, 107.80 ms/it, loss 0.444409
+Finished training it 25600/76743 of epoch 2, 106.65 ms/it, loss 0.449142
+Finished training it 26624/76743 of epoch 2, 111.96 ms/it, loss 0.446437
+Finished training it 26624/76743 of epoch 2, 111.78 ms/it, loss 0.445830
+Finished training it 26624/76743 of epoch 2, 110.72 ms/it, loss 0.445038
+Finished training it 26624/76743 of epoch 2, 112.25 ms/it, loss 0.445164
+Finished training it 27648/76743 of epoch 2, 108.96 ms/it, loss 0.445260
+Finished training it 27648/76743 of epoch 2, 108.98 ms/it, loss 0.444531
+Finished training it 27648/76743 of epoch 2, 107.71 ms/it, loss 0.444599
+Finished training it 27648/76743 of epoch 2, 108.88 ms/it, loss 0.446540
+Finished training it 28672/76743 of epoch 2, 108.27 ms/it, loss 0.444681
+Finished training it 28672/76743 of epoch 2, 106.90 ms/it, loss 0.445818
+Finished training it 28672/76743 of epoch 2, 108.25 ms/it, loss 0.444835
+Finished training it 28672/76743 of epoch 2, 108.34 ms/it, loss 0.447427
+Finished training it 29696/76743 of epoch 2, 107.98 ms/it, loss 0.445525
+Finished training it 29696/76743 of epoch 2, 107.05 ms/it, loss 0.448404
+Finished training it 29696/76743 of epoch 2, 107.91 ms/it, loss 0.444478
+Finished training it 29696/76743 of epoch 2, 107.44 ms/it, loss 0.445865
+Finished training it 30720/76743 of epoch 2, 109.64 ms/it, loss 0.444119
+Finished training it 30720/76743 of epoch 2, 108.12 ms/it, loss 0.448820
+Finished training it 30720/76743 of epoch 2, 109.38 ms/it, loss 0.445761
+Finished training it 30720/76743 of epoch 2, 109.46 ms/it, loss 0.443452
+Testing at - 30720/76743 of epoch 2,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2578675.0
+get out
+0 has test check 2578675.0 and sample count 3273728
+ accuracy 78.769 %, best 78.769 %, roc auc score 0.8008, best 0.8008
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 31744/76743 of epoch 2, 108.97 ms/it, loss 0.450299
+Testing at - 30720/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2578675.0
+get out
+1 has test check 2578675.0 and sample count 3273728
+Finished training it 31744/76743 of epoch 2, 108.77 ms/it, loss 0.446196
+Testing at - 30720/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2578675.0
+get out
+2 has test check 2578675.0 and sample count 3273728
+Finished training it 31744/76743 of epoch 2, 108.77 ms/it, loss 0.445756
+Testing at - 30720/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2578675.0
+get out
+3 has test check 2578675.0 and sample count 3273728
+Finished training it 31744/76743 of epoch 2, 106.99 ms/it, loss 0.447868
+Finished training it 32768/76743 of epoch 2, 108.12 ms/it, loss 0.445728
+Finished training it 32768/76743 of epoch 2, 108.05 ms/it, loss 0.449357
+Finished training it 32768/76743 of epoch 2, 108.02 ms/it, loss 0.445412
+Finished training it 32768/76743 of epoch 2, 106.70 ms/it, loss 0.447496
+Finished training it 33792/76743 of epoch 2, 107.85 ms/it, loss 0.446017
+Finished training it 33792/76743 of epoch 2, 107.58 ms/it, loss 0.447277
+Finished training it 33792/76743 of epoch 2, 106.25 ms/it, loss 0.446207
+Finished training it 33792/76743 of epoch 2, 107.73 ms/it, loss 0.443616
+Finished training it 34816/76743 of epoch 2, 108.70 ms/it, loss 0.448820
+Finished training it 34816/76743 of epoch 2, 108.89 ms/it, loss 0.445056
+Finished training it 34816/76743 of epoch 2, 107.50 ms/it, loss 0.447927
+Finished training it 34816/76743 of epoch 2, 108.05 ms/it, loss 0.444162
+Finished training it 35840/76743 of epoch 2, 107.01 ms/it, loss 0.451515
+Finished training it 35840/76743 of epoch 2, 106.30 ms/it, loss 0.447322
+Finished training it 35840/76743 of epoch 2, 107.77 ms/it, loss 0.446298
+Finished training it 35840/76743 of epoch 2, 107.60 ms/it, loss 0.446604
+Finished training it 36864/76743 of epoch 2, 108.90 ms/it, loss 0.443676
+Finished training it 36864/76743 of epoch 2, 108.72 ms/it, loss 0.444070
+Finished training it 36864/76743 of epoch 2, 107.79 ms/it, loss 0.449982
+Finished training it 36864/76743 of epoch 2, 107.45 ms/it, loss 0.445009
+Finished training it 37888/76743 of epoch 2, 108.50 ms/it, loss 0.446928
+Finished training it 37888/76743 of epoch 2, 108.64 ms/it, loss 0.447455
+Finished training it 37888/76743 of epoch 2, 107.19 ms/it, loss 0.445337
+Finished training it 37888/76743 of epoch 2, 107.99 ms/it, loss 0.445109
+Finished training it 38912/76743 of epoch 2, 108.21 ms/it, loss 0.447641
+Finished training it 38912/76743 of epoch 2, 107.00 ms/it, loss 0.444898
+Finished training it 38912/76743 of epoch 2, 108.25 ms/it, loss 0.447040
+Finished training it 38912/76743 of epoch 2, 107.78 ms/it, loss 0.447947
+Finished training it 39936/76743 of epoch 2, 108.81 ms/it, loss 0.448036
+Finished training it 39936/76743 of epoch 2, 107.43 ms/it, loss 0.445546
+Finished training it 39936/76743 of epoch 2, 108.61 ms/it, loss 0.445828
+Finished training it 39936/76743 of epoch 2, 108.50 ms/it, loss 0.447302
+Finished training it 40960/76743 of epoch 2, 108.55 ms/it, loss 0.447020
+Finished training it 40960/76743 of epoch 2, 107.30 ms/it, loss 0.447431
+Finished training it 40960/76743 of epoch 2, 108.28 ms/it, loss 0.445537
+Finished training it 40960/76743 of epoch 2, 108.40 ms/it, loss 0.445041
+Testing at - 40960/76743 of epoch 2,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2578996.0
+get out
+0 has test check 2578996.0 and sample count 3273728
+ accuracy 78.779 %, best 78.779 %, roc auc score 0.8013, best 0.8013
+Testing at - 40960/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2578996.0
+get out
+2 has test check 2578996.0 and sample count 3273728
+Finished training it 41984/76743 of epoch 2, 107.15 ms/it, loss 0.444969
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one0.0.pt
+Finished training it 41984/76743 of epoch 2, 107.49 ms/it, loss 0.445668
+Testing at - 40960/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2578996.0
+get out
+1 has test check 2578996.0 and sample count 3273728
+Finished training it 41984/76743 of epoch 2, 107.20 ms/it, loss 0.445808
+Testing at - 40960/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2578996.0
+get out
+3 has test check 2578996.0 and sample count 3273728
+Finished training it 41984/76743 of epoch 2, 106.38 ms/it, loss 0.446129
+Finished training it 43008/76743 of epoch 2, 108.82 ms/it, loss 0.445186
+Finished training it 43008/76743 of epoch 2, 108.93 ms/it, loss 0.446739
+Finished training it 43008/76743 of epoch 2, 108.80 ms/it, loss 0.443891
+Finished training it 43008/76743 of epoch 2, 108.07 ms/it, loss 0.443777
+Finished training it 44032/76743 of epoch 2, 108.53 ms/it, loss 0.443481
+Finished training it 44032/76743 of epoch 2, 107.63 ms/it, loss 0.444213
+Finished training it 44032/76743 of epoch 2, 108.48 ms/it, loss 0.449748
+Finished training it 44032/76743 of epoch 2, 108.44 ms/it, loss 0.446558
+Finished training it 45056/76743 of epoch 2, 108.17 ms/it, loss 0.443079
+Finished training it 45056/76743 of epoch 2, 107.46 ms/it, loss 0.443490
+Finished training it 45056/76743 of epoch 2, 108.08 ms/it, loss 0.442220
+Finished training it 45056/76743 of epoch 2, 108.02 ms/it, loss 0.446408
+Finished training it 46080/76743 of epoch 2, 107.92 ms/it, loss 0.446794
+Finished training it 46080/76743 of epoch 2, 107.20 ms/it, loss 0.441042
+Finished training it 46080/76743 of epoch 2, 107.82 ms/it, loss 0.446593
+Finished training it 46080/76743 of epoch 2, 107.87 ms/it, loss 0.447303
+Finished training it 47104/76743 of epoch 2, 107.36 ms/it, loss 0.446612
+Finished training it 47104/76743 of epoch 2, 107.46 ms/it, loss 0.444911
+Finished training it 47104/76743 of epoch 2, 106.69 ms/it, loss 0.446063
+Finished training it 47104/76743 of epoch 2, 107.38 ms/it, loss 0.445782
+Finished training it 48128/76743 of epoch 2, 108.93 ms/it, loss 0.446614
+Finished training it 48128/76743 of epoch 2, 108.87 ms/it, loss 0.445718
+Finished training it 48128/76743 of epoch 2, 108.96 ms/it, loss 0.445856
+Finished training it 48128/76743 of epoch 2, 108.00 ms/it, loss 0.446451
+Finished training it 49152/76743 of epoch 2, 108.11 ms/it, loss 0.446529
+Finished training it 49152/76743 of epoch 2, 107.94 ms/it, loss 0.446008
+Finished training it 49152/76743 of epoch 2, 109.08 ms/it, loss 0.446098
+Finished training it 49152/76743 of epoch 2, 109.08 ms/it, loss 0.447006
+Finished training it 50176/76743 of epoch 2, 108.79 ms/it, loss 0.447564
+Finished training it 50176/76743 of epoch 2, 108.57 ms/it, loss 0.446207
+Finished training it 50176/76743 of epoch 2, 108.62 ms/it, loss 0.446249
+Finished training it 50176/76743 of epoch 2, 107.70 ms/it, loss 0.444687
+Finished training it 51200/76743 of epoch 2, 108.73 ms/it, loss 0.446356
+Finished training it 51200/76743 of epoch 2, 107.68 ms/it, loss 0.448326
+Finished training it 51200/76743 of epoch 2, 108.76 ms/it, loss 0.443418
+Finished training it 51200/76743 of epoch 2, 108.84 ms/it, loss 0.444866
+Testing at - 51200/76743 of epoch 2,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2578484.0
+get out
+0 has test check 2578484.0 and sample count 3273728
+ accuracy 78.763 %, best 78.779 %, roc auc score 0.8005, best 0.8013
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 52224/76743 of epoch 2, 108.62 ms/it, loss 0.445512
+Testing at - 51200/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2578484.0
+get out
+1 has test check 2578484.0 and sample count 3273728
+Finished training it 52224/76743 of epoch 2, 108.56 ms/it, loss 0.450108
+Testing at - 51200/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2578484.0
+get out
+3 has test check 2578484.0 and sample count 3273728
+Finished training it 52224/76743 of epoch 2, 107.74 ms/it, loss 0.445087
+Testing at - 51200/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2578484.0
+get out
+2 has test check 2578484.0 and sample count 3273728
+Finished training it 52224/76743 of epoch 2, 108.71 ms/it, loss 0.443696
+Finished training it 53248/76743 of epoch 2, 109.27 ms/it, loss 0.444376
+Finished training it 53248/76743 of epoch 2, 109.41 ms/it, loss 0.445778
+Finished training it 53248/76743 of epoch 2, 109.35 ms/it, loss 0.445091
+Finished training it 53248/76743 of epoch 2, 108.15 ms/it, loss 0.446762
+Finished training it 54272/76743 of epoch 2, 107.24 ms/it, loss 0.446264
+Finished training it 54272/76743 of epoch 2, 108.12 ms/it, loss 0.444526
+Finished training it 54272/76743 of epoch 2, 108.14 ms/it, loss 0.445380
+Finished training it 54272/76743 of epoch 2, 106.94 ms/it, loss 0.448307
+Finished training it 55296/76743 of epoch 2, 108.47 ms/it, loss 0.448311
+Finished training it 55296/76743 of epoch 2, 108.74 ms/it, loss 0.447221
+Finished training it 55296/76743 of epoch 2, 108.71 ms/it, loss 0.443127
+Finished training it 55296/76743 of epoch 2, 107.56 ms/it, loss 0.447395
+Finished training it 56320/76743 of epoch 2, 108.95 ms/it, loss 0.445870
+Finished training it 56320/76743 of epoch 2, 108.96 ms/it, loss 0.442694
+Finished training it 56320/76743 of epoch 2, 109.02 ms/it, loss 0.444946
+Finished training it 56320/76743 of epoch 2, 107.72 ms/it, loss 0.446111
+Finished training it 57344/76743 of epoch 2, 107.29 ms/it, loss 0.443039
+Finished training it 57344/76743 of epoch 2, 107.34 ms/it, loss 0.443837
+Finished training it 57344/76743 of epoch 2, 106.27 ms/it, loss 0.449073
+Finished training it 57344/76743 of epoch 2, 107.32 ms/it, loss 0.445689
+Finished training it 58368/76743 of epoch 2, 108.28 ms/it, loss 0.446952
+Finished training it 58368/76743 of epoch 2, 109.34 ms/it, loss 0.442486
+Finished training it 58368/76743 of epoch 2, 109.30 ms/it, loss 0.444698
+Finished training it 58368/76743 of epoch 2, 109.20 ms/it, loss 0.447000
+Finished training it 59392/76743 of epoch 2, 107.85 ms/it, loss 0.447423
+Finished training it 59392/76743 of epoch 2, 108.51 ms/it, loss 0.445109
+Finished training it 59392/76743 of epoch 2, 108.59 ms/it, loss 0.446222
+Finished training it 59392/76743 of epoch 2, 108.61 ms/it, loss 0.445384
+Finished training it 60416/76743 of epoch 2, 108.82 ms/it, loss 0.445977
+Finished training it 60416/76743 of epoch 2, 107.76 ms/it, loss 0.445357
+Finished training it 60416/76743 of epoch 2, 108.73 ms/it, loss 0.444430
+Finished training it 60416/76743 of epoch 2, 108.71 ms/it, loss 0.447399
+Finished training it 61440/76743 of epoch 2, 109.39 ms/it, loss 0.445882
+Finished training it 61440/76743 of epoch 2, 109.31 ms/it, loss 0.444339
+Finished training it 61440/76743 of epoch 2, 109.46 ms/it, loss 0.444874
+Finished training it 61440/76743 of epoch 2, 108.44 ms/it, loss 0.444934
+Testing at - 61440/76743 of epoch 2,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2573597.0
+get out
+0 has test check 2573597.0 and sample count 3273728
+ accuracy 78.614 %, best 78.779 %, roc auc score 0.8008, best 0.8013
+Testing at - 61440/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2573597.0
+get out
+3 has test check 2573597.0 and sample count 3273728
+Finished training it 62464/76743 of epoch 2, 107.50 ms/it, loss 0.449047
+Testing at - 61440/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2573597.0
+get out
+1 has test check 2573597.0 and sample count 3273728
+Finished training it 62464/76743 of epoch 2, 109.39 ms/it, loss 0.444959
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one0.0.pt
+Finished training it 62464/76743 of epoch 2, 108.92 ms/it, loss 0.442941
+Testing at - 61440/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2573597.0
+get out
+2 has test check 2573597.0 and sample count 3273728
+Finished training it 62464/76743 of epoch 2, 109.38 ms/it, loss 0.447251
+Finished training it 63488/76743 of epoch 2, 108.92 ms/it, loss 0.446286
+Finished training it 63488/76743 of epoch 2, 109.18 ms/it, loss 0.446679
+Finished training it 63488/76743 of epoch 2, 109.14 ms/it, loss 0.443814
+Finished training it 63488/76743 of epoch 2, 107.57 ms/it, loss 0.444175
+Finished training it 64512/76743 of epoch 2, 108.41 ms/it, loss 0.446090
+Finished training it 64512/76743 of epoch 2, 106.88 ms/it, loss 0.442926
+Finished training it 64512/76743 of epoch 2, 108.42 ms/it, loss 0.442635
+Finished training it 64512/76743 of epoch 2, 108.48 ms/it, loss 0.447236
+Finished training it 65536/76743 of epoch 2, 113.42 ms/it, loss 0.445698
+Finished training it 65536/76743 of epoch 2, 113.17 ms/it, loss 0.445246
+Finished training it 65536/76743 of epoch 2, 113.04 ms/it, loss 0.441811
+Finished training it 65536/76743 of epoch 2, 111.62 ms/it, loss 0.444120
+Finished training it 66560/76743 of epoch 2, 109.06 ms/it, loss 0.449742
+Finished training it 66560/76743 of epoch 2, 109.08 ms/it, loss 0.443059
+Finished training it 66560/76743 of epoch 2, 109.03 ms/it, loss 0.445378
+Finished training it 66560/76743 of epoch 2, 107.15 ms/it, loss 0.447339
+Finished training it 67584/76743 of epoch 2, 108.63 ms/it, loss 0.446797
+Finished training it 67584/76743 of epoch 2, 107.07 ms/it, loss 0.447348
+Finished training it 67584/76743 of epoch 2, 108.68 ms/it, loss 0.444810
+Finished training it 67584/76743 of epoch 2, 108.51 ms/it, loss 0.445341
+Finished training it 68608/76743 of epoch 2, 108.48 ms/it, loss 0.443786
+Finished training it 68608/76743 of epoch 2, 108.09 ms/it, loss 0.444893
+Finished training it 68608/76743 of epoch 2, 108.49 ms/it, loss 0.443423
+Finished training it 68608/76743 of epoch 2, 106.99 ms/it, loss 0.444651
+Finished training it 69632/76743 of epoch 2, 108.95 ms/it, loss 0.445902
+Finished training it 69632/76743 of epoch 2, 108.95 ms/it, loss 0.447316
+Finished training it 69632/76743 of epoch 2, 107.67 ms/it, loss 0.445113
+Finished training it 69632/76743 of epoch 2, 108.85 ms/it, loss 0.446495
+Finished training it 70656/76743 of epoch 2, 108.54 ms/it, loss 0.444032
+Finished training it 70656/76743 of epoch 2, 107.08 ms/it, loss 0.446051
+Finished training it 70656/76743 of epoch 2, 108.46 ms/it, loss 0.445664
+Finished training it 70656/76743 of epoch 2, 108.38 ms/it, loss 0.443254
+Finished training it 71680/76743 of epoch 2, 108.16 ms/it, loss 0.444135
+Finished training it 71680/76743 of epoch 2, 108.10 ms/it, loss 0.447774
+Finished training it 71680/76743 of epoch 2, 108.26 ms/it, loss 0.443955
+Finished training it 71680/76743 of epoch 2, 106.75 ms/it, loss 0.444927
+Testing at - 71680/76743 of epoch 2,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2576502.0
+get out
+0 has test check 2576502.0 and sample count 3273728
+ accuracy 78.702 %, best 78.779 %, roc auc score 0.8018, best 0.8018
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 72704/76743 of epoch 2, 108.24 ms/it, loss 0.445469
+Testing at - 71680/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2576502.0
+get out
+3 has test check 2576502.0 and sample count 3273728
+Finished training it 72704/76743 of epoch 2, 107.63 ms/it, loss 0.443552
+Testing at - 71680/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2576502.0
+get out
+2 has test check 2576502.0 and sample count 3273728
+Finished training it 72704/76743 of epoch 2, 108.22 ms/it, loss 0.446203
+Testing at - 71680/76743 of epoch 2,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2576502.0
+get out
+1 has test check 2576502.0 and sample count 3273728
+Finished training it 72704/76743 of epoch 2, 108.40 ms/it, loss 0.447086
+Finished training it 73728/76743 of epoch 2, 108.42 ms/it, loss 0.442281
+Finished training it 73728/76743 of epoch 2, 108.60 ms/it, loss 0.444699
+Finished training it 73728/76743 of epoch 2, 108.54 ms/it, loss 0.443885
+Finished training it 73728/76743 of epoch 2, 108.08 ms/it, loss 0.446491
+Finished training it 74752/76743 of epoch 2, 109.24 ms/it, loss 0.445107
+Finished training it 74752/76743 of epoch 2, 109.21 ms/it, loss 0.443607
+Finished training it 74752/76743 of epoch 2, 108.03 ms/it, loss 0.445793
+Finished training it 74752/76743 of epoch 2, 109.13 ms/it, loss 0.446188
+Finished training it 75776/76743 of epoch 2, 108.44 ms/it, loss 0.441448
+Finished training it 75776/76743 of epoch 2, 108.47 ms/it, loss 0.444047
+Finished training it 75776/76743 of epoch 2, 108.43 ms/it, loss 0.443866
+Finished training it 75776/76743 of epoch 2, 107.14 ms/it, loss 0.446706
+Warning: Skipping the batch 76742 with size 14
+Finished training it 1024/76743 of epoch 3, 109.89 ms/it, loss 0.445109
+Warning: Skipping the batch 76742 with size 14
+Finished training it 1024/76743 of epoch 3, 108.57 ms/it, loss 0.444181
+Warning: Skipping the batch 76742 with size 14
+Finished training it 1024/76743 of epoch 3, 109.65 ms/it, loss 0.446453
+Warning: Skipping the batch 76742 with size 14
+Finished training it 1024/76743 of epoch 3, 109.70 ms/it, loss 0.446690
+Finished training it 2048/76743 of epoch 3, 108.94 ms/it, loss 0.446216
+Finished training it 2048/76743 of epoch 3, 107.76 ms/it, loss 0.448187
+Finished training it 2048/76743 of epoch 3, 108.77 ms/it, loss 0.446755
+Finished training it 2048/76743 of epoch 3, 108.83 ms/it, loss 0.445091
+Finished training it 3072/76743 of epoch 3, 106.76 ms/it, loss 0.444159
+Finished training it 3072/76743 of epoch 3, 107.67 ms/it, loss 0.446151
+Finished training it 3072/76743 of epoch 3, 107.56 ms/it, loss 0.443380
+Finished training it 3072/76743 of epoch 3, 107.56 ms/it, loss 0.445828
+Finished training it 4096/76743 of epoch 3, 108.15 ms/it, loss 0.448164
+Finished training it 4096/76743 of epoch 3, 107.23 ms/it, loss 0.443538
+Finished training it 4096/76743 of epoch 3, 108.16 ms/it, loss 0.445532
+Finished training it 4096/76743 of epoch 3, 108.19 ms/it, loss 0.444141
+Finished training it 5120/76743 of epoch 3, 108.89 ms/it, loss 0.444994
+Finished training it 5120/76743 of epoch 3, 109.08 ms/it, loss 0.444108
+Finished training it 5120/76743 of epoch 3, 109.02 ms/it, loss 0.445281
+Finished training it 5120/76743 of epoch 3, 107.92 ms/it, loss 0.444864
+Finished training it 6144/76743 of epoch 3, 109.41 ms/it, loss 0.446327
+Finished training it 6144/76743 of epoch 3, 109.34 ms/it, loss 0.442867
+Finished training it 6144/76743 of epoch 3, 109.42 ms/it, loss 0.442662
+Finished training it 6144/76743 of epoch 3, 108.29 ms/it, loss 0.443740
+Finished training it 7168/76743 of epoch 3, 108.61 ms/it, loss 0.443228
+Finished training it 7168/76743 of epoch 3, 108.41 ms/it, loss 0.443673
+Finished training it 7168/76743 of epoch 3, 108.71 ms/it, loss 0.443514
+Finished training it 7168/76743 of epoch 3, 107.51 ms/it, loss 0.443074
+Finished training it 8192/76743 of epoch 3, 108.12 ms/it, loss 0.443046
+Finished training it 8192/76743 of epoch 3, 107.35 ms/it, loss 0.444837
+Finished training it 8192/76743 of epoch 3, 108.75 ms/it, loss 0.447525
+Finished training it 8192/76743 of epoch 3, 108.83 ms/it, loss 0.442766
+Finished training it 9216/76743 of epoch 3, 108.36 ms/it, loss 0.443777
+Finished training it 9216/76743 of epoch 3, 108.77 ms/it, loss 0.444247
+Finished training it 9216/76743 of epoch 3, 108.69 ms/it, loss 0.446922
+Finished training it 9216/76743 of epoch 3, 107.29 ms/it, loss 0.442108
+Finished training it 10240/76743 of epoch 3, 108.47 ms/it, loss 0.449830
+Finished training it 10240/76743 of epoch 3, 108.69 ms/it, loss 0.446385
+Finished training it 10240/76743 of epoch 3, 108.82 ms/it, loss 0.446325
+Finished training it 10240/76743 of epoch 3, 107.59 ms/it, loss 0.447545
+Testing at - 10240/76743 of epoch 3,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2580296.0
+get out
+0 has test check 2580296.0 and sample count 3273728
+ accuracy 78.818 %, best 78.818 %, roc auc score 0.8019, best 0.8019
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 11264/76743 of epoch 3, 107.72 ms/it, loss 0.443024
+Testing at - 10240/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2580296.0
+get out
+1 has test check 2580296.0 and sample count 3273728
+Finished training it 11264/76743 of epoch 3, 107.66 ms/it, loss 0.444410
+Testing at - 10240/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2580296.0
+get out
+2 has test check 2580296.0 and sample count 3273728
+Finished training it 11264/76743 of epoch 3, 108.00 ms/it, loss 0.443469
+Testing at - 10240/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2580296.0
+get out
+3 has test check 2580296.0 and sample count 3273728
+Finished training it 11264/76743 of epoch 3, 106.86 ms/it, loss 0.445461
+Finished training it 12288/76743 of epoch 3, 109.23 ms/it, loss 0.444517
+Finished training it 12288/76743 of epoch 3, 109.38 ms/it, loss 0.443516
+Finished training it 12288/76743 of epoch 3, 109.25 ms/it, loss 0.445373
+Finished training it 12288/76743 of epoch 3, 108.09 ms/it, loss 0.443634
+Finished training it 13312/76743 of epoch 3, 109.24 ms/it, loss 0.443285
+Finished training it 13312/76743 of epoch 3, 109.18 ms/it, loss 0.444804
+Finished training it 13312/76743 of epoch 3, 109.44 ms/it, loss 0.444230
+Finished training it 13312/76743 of epoch 3, 107.98 ms/it, loss 0.447238
+Finished training it 14336/76743 of epoch 3, 109.43 ms/it, loss 0.443766
+Finished training it 14336/76743 of epoch 3, 109.28 ms/it, loss 0.444102
+Finished training it 14336/76743 of epoch 3, 109.66 ms/it, loss 0.444140
+Finished training it 14336/76743 of epoch 3, 108.03 ms/it, loss 0.444488
+Finished training it 15360/76743 of epoch 3, 108.56 ms/it, loss 0.444139
+Finished training it 15360/76743 of epoch 3, 108.45 ms/it, loss 0.446294
+Finished training it 15360/76743 of epoch 3, 108.63 ms/it, loss 0.443183
+Finished training it 15360/76743 of epoch 3, 107.21 ms/it, loss 0.445071
+Finished training it 16384/76743 of epoch 3, 109.96 ms/it, loss 0.442678
+Finished training it 16384/76743 of epoch 3, 108.62 ms/it, loss 0.443984
+Finished training it 16384/76743 of epoch 3, 109.95 ms/it, loss 0.445176
+Finished training it 16384/76743 of epoch 3, 109.97 ms/it, loss 0.445476
+Finished training it 17408/76743 of epoch 3, 108.71 ms/it, loss 0.442831
+Finished training it 17408/76743 of epoch 3, 107.47 ms/it, loss 0.444733
+Finished training it 17408/76743 of epoch 3, 108.85 ms/it, loss 0.446496
+Finished training it 17408/76743 of epoch 3, 108.67 ms/it, loss 0.444977
+Finished training it 18432/76743 of epoch 3, 107.60 ms/it, loss 0.444120
+Finished training it 18432/76743 of epoch 3, 109.07 ms/it, loss 0.444601
+Finished training it 18432/76743 of epoch 3, 108.85 ms/it, loss 0.446041
+Finished training it 18432/76743 of epoch 3, 108.89 ms/it, loss 0.443436
+Finished training it 19456/76743 of epoch 3, 109.62 ms/it, loss 0.445971
+Finished training it 19456/76743 of epoch 3, 109.63 ms/it, loss 0.446034
+Finished training it 19456/76743 of epoch 3, 109.70 ms/it, loss 0.446521
+Finished training it 19456/76743 of epoch 3, 108.48 ms/it, loss 0.441320
+Finished training it 20480/76743 of epoch 3, 109.19 ms/it, loss 0.441846
+Finished training it 20480/76743 of epoch 3, 109.17 ms/it, loss 0.443315
+Finished training it 20480/76743 of epoch 3, 107.68 ms/it, loss 0.444815
+Finished training it 20480/76743 of epoch 3, 109.27 ms/it, loss 0.444886
+Testing at - 20480/76743 of epoch 3,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2579017.0
+get out
+0 has test check 2579017.0 and sample count 3273728
+ accuracy 78.779 %, best 78.818 %, roc auc score 0.8023, best 0.8023
+Testing at - 20480/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2579017.0
+get out
+1 has test check 2579017.0 and sample count 3273728
+Finished training it 21504/76743 of epoch 3, 108.43 ms/it, loss 0.443341
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one0.0.pt
+Finished training it 21504/76743 of epoch 3, 108.57 ms/it, loss 0.446145
+Testing at - 20480/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2579017.0
+get out
+2 has test check 2579017.0 and sample count 3273728
+Finished training it 21504/76743 of epoch 3, 108.76 ms/it, loss 0.443403
+Testing at - 20480/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2579017.0
+get out
+3 has test check 2579017.0 and sample count 3273728
+Finished training it 21504/76743 of epoch 3, 107.96 ms/it, loss 0.443015
+Finished training it 22528/76743 of epoch 3, 109.24 ms/it, loss 0.448109
+Finished training it 22528/76743 of epoch 3, 108.26 ms/it, loss 0.443008
+Finished training it 22528/76743 of epoch 3, 109.34 ms/it, loss 0.442601
+Finished training it 22528/76743 of epoch 3, 109.16 ms/it, loss 0.443290
+Finished training it 23552/76743 of epoch 3, 109.79 ms/it, loss 0.442738
+Finished training it 23552/76743 of epoch 3, 109.94 ms/it, loss 0.444151
+Finished training it 23552/76743 of epoch 3, 109.82 ms/it, loss 0.445482
+Finished training it 23552/76743 of epoch 3, 108.47 ms/it, loss 0.446607
+Finished training it 24576/76743 of epoch 3, 108.39 ms/it, loss 0.442280
+Finished training it 24576/76743 of epoch 3, 108.38 ms/it, loss 0.444058
+Finished training it 24576/76743 of epoch 3, 107.20 ms/it, loss 0.443831
+Finished training it 24576/76743 of epoch 3, 108.49 ms/it, loss 0.442551
+Finished training it 25600/76743 of epoch 3, 107.29 ms/it, loss 0.445659
+Finished training it 25600/76743 of epoch 3, 108.80 ms/it, loss 0.440889
+Finished training it 25600/76743 of epoch 3, 108.60 ms/it, loss 0.443016
+Finished training it 25600/76743 of epoch 3, 108.64 ms/it, loss 0.443781
+Finished training it 26624/76743 of epoch 3, 108.83 ms/it, loss 0.441876
+Finished training it 26624/76743 of epoch 3, 109.10 ms/it, loss 0.442412
+Finished training it 26624/76743 of epoch 3, 108.84 ms/it, loss 0.443087
+Finished training it 26624/76743 of epoch 3, 107.55 ms/it, loss 0.441842
+Finished training it 27648/76743 of epoch 3, 107.18 ms/it, loss 0.441496
+Finished training it 27648/76743 of epoch 3, 108.56 ms/it, loss 0.443555
+Finished training it 27648/76743 of epoch 3, 108.24 ms/it, loss 0.441262
+Finished training it 27648/76743 of epoch 3, 108.41 ms/it, loss 0.441802
+Finished training it 28672/76743 of epoch 3, 108.07 ms/it, loss 0.444331
+Finished training it 28672/76743 of epoch 3, 108.49 ms/it, loss 0.441826
+Finished training it 28672/76743 of epoch 3, 108.25 ms/it, loss 0.441274
+Finished training it 28672/76743 of epoch 3, 107.13 ms/it, loss 0.442613
+Finished training it 29696/76743 of epoch 3, 108.12 ms/it, loss 0.442445
+Finished training it 29696/76743 of epoch 3, 106.84 ms/it, loss 0.445583
+Finished training it 29696/76743 of epoch 3, 108.13 ms/it, loss 0.441077
+Finished training it 29696/76743 of epoch 3, 108.23 ms/it, loss 0.442814
+Finished training it 30720/76743 of epoch 3, 108.40 ms/it, loss 0.440940
+Finished training it 30720/76743 of epoch 3, 106.85 ms/it, loss 0.445803
+Finished training it 30720/76743 of epoch 3, 108.51 ms/it, loss 0.442350
+Finished training it 30720/76743 of epoch 3, 108.31 ms/it, loss 0.440938
+Testing at - 30720/76743 of epoch 3,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2581619.0
+get out
+0 has test check 2581619.0 and sample count 3273728
+ accuracy 78.859 %, best 78.859 %, roc auc score 0.8025, best 0.8025
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 31744/76743 of epoch 3, 107.92 ms/it, loss 0.447297
+Testing at - 30720/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2581619.0
+get out
+2 has test check 2581619.0 and sample count 3273728
+Finished training it 31744/76743 of epoch 3, 108.02 ms/it, loss 0.442574
+Testing at - 30720/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2581619.0
+get out
+1 has test check 2581619.0 and sample count 3273728
+Finished training it 31744/76743 of epoch 3, 107.84 ms/it, loss 0.442850
+Testing at - 30720/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2581619.0
+get out
+3 has test check 2581619.0 and sample count 3273728
+Finished training it 31744/76743 of epoch 3, 105.72 ms/it, loss 0.444734
+Finished training it 32768/76743 of epoch 3, 108.43 ms/it, loss 0.442692
+Finished training it 32768/76743 of epoch 3, 108.30 ms/it, loss 0.446180
+Finished training it 32768/76743 of epoch 3, 108.49 ms/it, loss 0.442486
+Finished training it 32768/76743 of epoch 3, 106.71 ms/it, loss 0.444619
+Finished training it 33792/76743 of epoch 3, 109.15 ms/it, loss 0.442736
+Finished training it 33792/76743 of epoch 3, 107.29 ms/it, loss 0.442986
+Finished training it 33792/76743 of epoch 3, 109.15 ms/it, loss 0.440672
+Finished training it 33792/76743 of epoch 3, 109.34 ms/it, loss 0.443913
+Finished training it 34816/76743 of epoch 3, 108.76 ms/it, loss 0.441041
+Finished training it 34816/76743 of epoch 3, 108.57 ms/it, loss 0.445613
+Finished training it 34816/76743 of epoch 3, 108.68 ms/it, loss 0.441682
+Finished training it 34816/76743 of epoch 3, 106.95 ms/it, loss 0.444743
+Finished training it 35840/76743 of epoch 3, 108.00 ms/it, loss 0.444373
+Finished training it 35840/76743 of epoch 3, 109.17 ms/it, loss 0.443383
+Finished training it 35840/76743 of epoch 3, 109.10 ms/it, loss 0.443429
+Finished training it 35840/76743 of epoch 3, 109.31 ms/it, loss 0.448652
+Finished training it 36864/76743 of epoch 3, 109.67 ms/it, loss 0.440698
+Finished training it 36864/76743 of epoch 3, 109.70 ms/it, loss 0.447002
+Finished training it 36864/76743 of epoch 3, 109.60 ms/it, loss 0.440828
+Finished training it 36864/76743 of epoch 3, 108.13 ms/it, loss 0.442349
+Finished training it 37888/76743 of epoch 3, 107.60 ms/it, loss 0.442025
+Finished training it 37888/76743 of epoch 3, 109.38 ms/it, loss 0.444819
+Finished training it 37888/76743 of epoch 3, 109.34 ms/it, loss 0.443754
+Finished training it 37888/76743 of epoch 3, 109.44 ms/it, loss 0.441992
+Finished training it 38912/76743 of epoch 3, 108.41 ms/it, loss 0.444451
+Finished training it 38912/76743 of epoch 3, 107.20 ms/it, loss 0.442355
+Finished training it 38912/76743 of epoch 3, 108.49 ms/it, loss 0.445069
+Finished training it 38912/76743 of epoch 3, 108.53 ms/it, loss 0.445044
+Finished training it 39936/76743 of epoch 3, 114.63 ms/it, loss 0.445273
+Finished training it 39936/76743 of epoch 3, 113.80 ms/it, loss 0.442694
+Finished training it 39936/76743 of epoch 3, 114.71 ms/it, loss 0.442777
+Finished training it 39936/76743 of epoch 3, 114.93 ms/it, loss 0.444249
+Finished training it 40960/76743 of epoch 3, 109.25 ms/it, loss 0.441881
+Finished training it 40960/76743 of epoch 3, 109.30 ms/it, loss 0.444061
+Finished training it 40960/76743 of epoch 3, 108.14 ms/it, loss 0.444147
+Finished training it 40960/76743 of epoch 3, 109.37 ms/it, loss 0.442450
+Testing at - 40960/76743 of epoch 3,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2581614.0
+get out
+0 has test check 2581614.0 and sample count 3273728
+ accuracy 78.859 %, best 78.859 %, roc auc score 0.8028, best 0.8028
+Testing at - 40960/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2581614.0
+get out
+2 has test check 2581614.0 and sample count 3273728
+Finished training it 41984/76743 of epoch 3, 108.57 ms/it, loss 0.442068
+Testing at - 40960/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2581614.0
+get out
+1 has test check 2581614.0 and sample count 3273728
+Finished training it 41984/76743 of epoch 3, 108.43 ms/it, loss 0.442813
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one0.0.pt
+Finished training it 41984/76743 of epoch 3, 108.39 ms/it, loss 0.442673
+Testing at - 40960/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2581614.0
+get out
+3 has test check 2581614.0 and sample count 3273728
+Finished training it 41984/76743 of epoch 3, 107.87 ms/it, loss 0.443200
+Finished training it 43008/76743 of epoch 3, 108.36 ms/it, loss 0.443624
+Finished training it 43008/76743 of epoch 3, 107.31 ms/it, loss 0.440145
+Finished training it 43008/76743 of epoch 3, 108.59 ms/it, loss 0.441298
+Finished training it 43008/76743 of epoch 3, 108.43 ms/it, loss 0.442016
+Finished training it 44032/76743 of epoch 3, 109.45 ms/it, loss 0.440923
+Finished training it 44032/76743 of epoch 3, 108.23 ms/it, loss 0.441405
+Finished training it 44032/76743 of epoch 3, 109.46 ms/it, loss 0.446517
+Finished training it 44032/76743 of epoch 3, 109.66 ms/it, loss 0.443171
+Finished training it 45056/76743 of epoch 3, 109.31 ms/it, loss 0.440322
+Finished training it 45056/76743 of epoch 3, 109.32 ms/it, loss 0.443428
+Finished training it 45056/76743 of epoch 3, 109.17 ms/it, loss 0.439472
+Finished training it 45056/76743 of epoch 3, 107.63 ms/it, loss 0.440394
+Finished training it 46080/76743 of epoch 3, 108.52 ms/it, loss 0.443993
+Finished training it 46080/76743 of epoch 3, 107.21 ms/it, loss 0.437676
+Finished training it 46080/76743 of epoch 3, 108.52 ms/it, loss 0.443818
+Finished training it 46080/76743 of epoch 3, 108.74 ms/it, loss 0.443280
+Finished training it 47104/76743 of epoch 3, 109.63 ms/it, loss 0.441947
+Finished training it 47104/76743 of epoch 3, 109.61 ms/it, loss 0.443774
+Finished training it 47104/76743 of epoch 3, 108.12 ms/it, loss 0.442951
+Finished training it 47104/76743 of epoch 3, 109.28 ms/it, loss 0.442555
+Finished training it 48128/76743 of epoch 3, 108.72 ms/it, loss 0.442832
+Finished training it 48128/76743 of epoch 3, 108.67 ms/it, loss 0.443425
+Finished training it 48128/76743 of epoch 3, 108.51 ms/it, loss 0.442526
+Finished training it 48128/76743 of epoch 3, 107.30 ms/it, loss 0.443392
+Finished training it 49152/76743 of epoch 3, 109.10 ms/it, loss 0.443429
+Finished training it 49152/76743 of epoch 3, 108.98 ms/it, loss 0.444245
+Finished training it 49152/76743 of epoch 3, 108.95 ms/it, loss 0.443257
+Finished training it 49152/76743 of epoch 3, 107.48 ms/it, loss 0.443356
+Finished training it 50176/76743 of epoch 3, 109.62 ms/it, loss 0.443338
+Finished training it 50176/76743 of epoch 3, 109.66 ms/it, loss 0.443087
+Finished training it 50176/76743 of epoch 3, 109.61 ms/it, loss 0.444542
+Finished training it 50176/76743 of epoch 3, 108.26 ms/it, loss 0.441819
+Finished training it 51200/76743 of epoch 3, 107.80 ms/it, loss 0.440683
+Finished training it 51200/76743 of epoch 3, 107.74 ms/it, loss 0.443569
+Finished training it 51200/76743 of epoch 3, 106.43 ms/it, loss 0.445556
+Finished training it 51200/76743 of epoch 3, 107.61 ms/it, loss 0.441946
+Testing at - 51200/76743 of epoch 3,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2582155.0
+get out
+0 has test check 2582155.0 and sample count 3273728
+ accuracy 78.875 %, best 78.875 %, roc auc score 0.8029, best 0.8029
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 52224/76743 of epoch 3, 108.98 ms/it, loss 0.442803
+Testing at - 51200/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2582155.0
+get out
+2 has test check 2582155.0 and sample count 3273728
+Finished training it 52224/76743 of epoch 3, 108.62 ms/it, loss 0.440850
+Testing at - 51200/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2582155.0
+get out
+1 has test check 2582155.0 and sample count 3273728
+Finished training it 52224/76743 of epoch 3, 108.83 ms/it, loss 0.446867
+Testing at - 51200/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2582155.0
+get out
+3 has test check 2582155.0 and sample count 3273728
+Finished training it 52224/76743 of epoch 3, 107.37 ms/it, loss 0.442422
+Finished training it 53248/76743 of epoch 3, 109.56 ms/it, loss 0.442240
+Finished training it 53248/76743 of epoch 3, 109.74 ms/it, loss 0.441409
+Finished training it 53248/76743 of epoch 3, 108.36 ms/it, loss 0.443896
+Finished training it 53248/76743 of epoch 3, 109.68 ms/it, loss 0.443106
+Finished training it 54272/76743 of epoch 3, 109.40 ms/it, loss 0.443535
+Finished training it 54272/76743 of epoch 3, 109.47 ms/it, loss 0.441668
+Finished training it 54272/76743 of epoch 3, 109.40 ms/it, loss 0.442253
+Finished training it 54272/76743 of epoch 3, 107.71 ms/it, loss 0.445386
+Finished training it 55296/76743 of epoch 3, 108.85 ms/it, loss 0.445537
+Finished training it 55296/76743 of epoch 3, 107.35 ms/it, loss 0.444540
+Finished training it 55296/76743 of epoch 3, 108.72 ms/it, loss 0.444024
+Finished training it 55296/76743 of epoch 3, 108.87 ms/it, loss 0.440361
+Finished training it 56320/76743 of epoch 3, 109.71 ms/it, loss 0.440025
+Finished training it 56320/76743 of epoch 3, 109.69 ms/it, loss 0.442964
+Finished training it 56320/76743 of epoch 3, 108.32 ms/it, loss 0.443580
+Finished training it 56320/76743 of epoch 3, 109.83 ms/it, loss 0.442289
+Finished training it 57344/76743 of epoch 3, 108.69 ms/it, loss 0.440927
+Finished training it 57344/76743 of epoch 3, 108.86 ms/it, loss 0.442929
+Finished training it 57344/76743 of epoch 3, 108.68 ms/it, loss 0.440381
+Finished training it 57344/76743 of epoch 3, 107.32 ms/it, loss 0.446421
+Finished training it 58368/76743 of epoch 3, 109.53 ms/it, loss 0.439724
+Finished training it 58368/76743 of epoch 3, 109.65 ms/it, loss 0.441650
+Finished training it 58368/76743 of epoch 3, 109.57 ms/it, loss 0.444274
+Finished training it 58368/76743 of epoch 3, 108.10 ms/it, loss 0.444377
+Finished training it 59392/76743 of epoch 3, 108.39 ms/it, loss 0.444886
+Finished training it 59392/76743 of epoch 3, 109.95 ms/it, loss 0.442319
+Finished training it 59392/76743 of epoch 3, 109.76 ms/it, loss 0.443774
+Finished training it 59392/76743 of epoch 3, 109.29 ms/it, loss 0.442835
+Finished training it 60416/76743 of epoch 3, 108.41 ms/it, loss 0.443171
+Finished training it 60416/76743 of epoch 3, 107.20 ms/it, loss 0.442654
+Finished training it 60416/76743 of epoch 3, 108.57 ms/it, loss 0.444601
+Finished training it 60416/76743 of epoch 3, 108.72 ms/it, loss 0.441803
+Finished training it 61440/76743 of epoch 3, 108.98 ms/it, loss 0.442047
+Finished training it 61440/76743 of epoch 3, 109.24 ms/it, loss 0.441514
+Finished training it 61440/76743 of epoch 3, 109.13 ms/it, loss 0.442910
+Finished training it 61440/76743 of epoch 3, 107.77 ms/it, loss 0.442328
+Testing at - 61440/76743 of epoch 3,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2578789.0
+get out
+0 has test check 2578789.0 and sample count 3273728
+ accuracy 78.772 %, best 78.875 %, roc auc score 0.8030, best 0.8030
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one0.0.pt
+Finished training it 62464/76743 of epoch 3, 108.85 ms/it, loss 0.440246
+Testing at - 61440/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2578789.0
+get out
+1 has test check 2578789.0 and sample count 3273728
+Finished training it 62464/76743 of epoch 3, 108.93 ms/it, loss 0.442131
+Testing at - 61440/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2578789.0
+get out
+3 has test check 2578789.0 and sample count 3273728
+Finished training it 62464/76743 of epoch 3, 107.94 ms/it, loss 0.446186
+Testing at - 61440/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2578789.0
+get out
+2 has test check 2578789.0 and sample count 3273728
+Finished training it 62464/76743 of epoch 3, 109.03 ms/it, loss 0.444584
+Finished training it 63488/76743 of epoch 3, 108.24 ms/it, loss 0.443420
+Finished training it 63488/76743 of epoch 3, 108.22 ms/it, loss 0.444132
+Finished training it 63488/76743 of epoch 3, 108.10 ms/it, loss 0.440914
+Finished training it 63488/76743 of epoch 3, 107.03 ms/it, loss 0.441371
+Finished training it 64512/76743 of epoch 3, 107.67 ms/it, loss 0.440148
+Finished training it 64512/76743 of epoch 3, 108.99 ms/it, loss 0.439976
+Finished training it 64512/76743 of epoch 3, 108.98 ms/it, loss 0.444568
+Finished training it 64512/76743 of epoch 3, 108.88 ms/it, loss 0.443323
+Finished training it 65536/76743 of epoch 3, 108.33 ms/it, loss 0.442821
+Finished training it 65536/76743 of epoch 3, 108.22 ms/it, loss 0.442243
+Finished training it 65536/76743 of epoch 3, 108.44 ms/it, loss 0.439055
+Finished training it 65536/76743 of epoch 3, 107.26 ms/it, loss 0.441198
+Finished training it 66560/76743 of epoch 3, 109.29 ms/it, loss 0.440149
+Finished training it 66560/76743 of epoch 3, 109.12 ms/it, loss 0.446877
+Finished training it 66560/76743 of epoch 3, 107.84 ms/it, loss 0.444826
+Finished training it 66560/76743 of epoch 3, 109.31 ms/it, loss 0.442482
+Finished training it 67584/76743 of epoch 3, 108.85 ms/it, loss 0.443625
+Finished training it 67584/76743 of epoch 3, 108.85 ms/it, loss 0.441628
+Finished training it 67584/76743 of epoch 3, 107.56 ms/it, loss 0.444222
+Finished training it 67584/76743 of epoch 3, 108.93 ms/it, loss 0.442509
+Finished training it 68608/76743 of epoch 3, 108.34 ms/it, loss 0.441068
+Finished training it 68608/76743 of epoch 3, 108.35 ms/it, loss 0.440531
+Finished training it 68608/76743 of epoch 3, 107.07 ms/it, loss 0.442006
+Finished training it 68608/76743 of epoch 3, 108.42 ms/it, loss 0.442066
+Finished training it 69632/76743 of epoch 3, 108.52 ms/it, loss 0.443508
+Finished training it 69632/76743 of epoch 3, 108.47 ms/it, loss 0.444792
+Finished training it 69632/76743 of epoch 3, 108.63 ms/it, loss 0.444011
+Finished training it 69632/76743 of epoch 3, 107.22 ms/it, loss 0.442348
+Finished training it 70656/76743 of epoch 3, 108.83 ms/it, loss 0.441491
+Finished training it 70656/76743 of epoch 3, 107.54 ms/it, loss 0.443086
+Finished training it 70656/76743 of epoch 3, 108.87 ms/it, loss 0.442483
+Finished training it 70656/76743 of epoch 3, 108.78 ms/it, loss 0.440416
+Finished training it 71680/76743 of epoch 3, 108.77 ms/it, loss 0.445105
+Finished training it 71680/76743 of epoch 3, 108.69 ms/it, loss 0.441473
+Finished training it 71680/76743 of epoch 3, 107.47 ms/it, loss 0.442311
+Finished training it 71680/76743 of epoch 3, 108.42 ms/it, loss 0.441341
+Testing at - 71680/76743 of epoch 3,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2577358.0
+get out
+0 has test check 2577358.0 and sample count 3273728
+ accuracy 78.729 %, best 78.875 %, roc auc score 0.8033, best 0.8033
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 72704/76743 of epoch 3, 108.50 ms/it, loss 0.442683
+Testing at - 71680/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2577358.0
+get out
+1 has test check 2577358.0 and sample count 3273728
+Finished training it 72704/76743 of epoch 3, 108.32 ms/it, loss 0.444373
+Testing at - 71680/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2577358.0
+get out
+2 has test check 2577358.0 and sample count 3273728
+Finished training it 72704/76743 of epoch 3, 108.46 ms/it, loss 0.443724
+Testing at - 71680/76743 of epoch 3,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2577358.0
+get out
+3 has test check 2577358.0 and sample count 3273728
+Finished training it 72704/76743 of epoch 3, 107.46 ms/it, loss 0.441023
+Finished training it 73728/76743 of epoch 3, 109.07 ms/it, loss 0.439591
+Finished training it 73728/76743 of epoch 3, 109.25 ms/it, loss 0.442197
+Finished training it 73728/76743 of epoch 3, 109.16 ms/it, loss 0.440695
+Finished training it 73728/76743 of epoch 3, 107.94 ms/it, loss 0.443741
+Finished training it 74752/76743 of epoch 3, 107.90 ms/it, loss 0.442170
+Finished training it 74752/76743 of epoch 3, 106.57 ms/it, loss 0.443249
+Finished training it 74752/76743 of epoch 3, 107.93 ms/it, loss 0.440869
+Finished training it 74752/76743 of epoch 3, 108.09 ms/it, loss 0.443643
+Finished training it 75776/76743 of epoch 3, 108.62 ms/it, loss 0.438567
+Finished training it 75776/76743 of epoch 3, 107.47 ms/it, loss 0.443533
+Finished training it 75776/76743 of epoch 3, 108.76 ms/it, loss 0.441123
+Finished training it 75776/76743 of epoch 3, 108.53 ms/it, loss 0.441268
+Warning: Skipping the batch 76742 with size 14
+Finished training it 1024/76743 of epoch 4, 109.14 ms/it, loss 0.442504
+Warning: Skipping the batch 76742 with size 14
+Finished training it 1024/76743 of epoch 4, 109.06 ms/it, loss 0.444027
+Warning: Skipping the batch 76742 with size 14
+Finished training it 1024/76743 of epoch 4, 107.73 ms/it, loss 0.441514
+Warning: Skipping the batch 76742 with size 14
+Finished training it 1024/76743 of epoch 4, 109.04 ms/it, loss 0.443927
+Finished training it 2048/76743 of epoch 4, 116.84 ms/it, loss 0.444113
+Finished training it 2048/76743 of epoch 4, 116.86 ms/it, loss 0.443540
+Finished training it 2048/76743 of epoch 4, 115.40 ms/it, loss 0.445656
+Finished training it 2048/76743 of epoch 4, 116.85 ms/it, loss 0.442414
+Finished training it 3072/76743 of epoch 4, 109.54 ms/it, loss 0.443584
+Finished training it 3072/76743 of epoch 4, 109.73 ms/it, loss 0.442962
+Finished training it 3072/76743 of epoch 4, 109.83 ms/it, loss 0.440830
+Finished training it 3072/76743 of epoch 4, 108.05 ms/it, loss 0.441670
+Finished training it 4096/76743 of epoch 4, 109.82 ms/it, loss 0.443087
+Finished training it 4096/76743 of epoch 4, 109.70 ms/it, loss 0.441872
+Finished training it 4096/76743 of epoch 4, 109.71 ms/it, loss 0.445241
+Finished training it 4096/76743 of epoch 4, 107.93 ms/it, loss 0.441057
+Finished training it 5120/76743 of epoch 4, 108.97 ms/it, loss 0.442586
+Finished training it 5120/76743 of epoch 4, 108.79 ms/it, loss 0.441622
+Finished training it 5120/76743 of epoch 4, 107.16 ms/it, loss 0.442354
+Finished training it 5120/76743 of epoch 4, 108.81 ms/it, loss 0.442626
+Finished training it 6144/76743 of epoch 4, 108.78 ms/it, loss 0.444007
+Finished training it 6144/76743 of epoch 4, 107.39 ms/it, loss 0.441447
+Finished training it 6144/76743 of epoch 4, 108.94 ms/it, loss 0.439892
+Finished training it 6144/76743 of epoch 4, 108.89 ms/it, loss 0.440239
+Finished training it 7168/76743 of epoch 4, 108.08 ms/it, loss 0.440786
+Finished training it 7168/76743 of epoch 4, 107.83 ms/it, loss 0.440658
+Finished training it 7168/76743 of epoch 4, 107.85 ms/it, loss 0.441581
+Finished training it 7168/76743 of epoch 4, 106.57 ms/it, loss 0.440657
+Finished training it 8192/76743 of epoch 4, 108.47 ms/it, loss 0.440403
+Finished training it 8192/76743 of epoch 4, 108.29 ms/it, loss 0.440529
+Finished training it 8192/76743 of epoch 4, 108.28 ms/it, loss 0.445231
+Finished training it 8192/76743 of epoch 4, 106.82 ms/it, loss 0.442554
+Finished training it 9216/76743 of epoch 4, 107.99 ms/it, loss 0.441845
+Finished training it 9216/76743 of epoch 4, 107.89 ms/it, loss 0.441351
+Finished training it 9216/76743 of epoch 4, 106.47 ms/it, loss 0.439686
+Finished training it 9216/76743 of epoch 4, 107.88 ms/it, loss 0.444445
+Finished training it 10240/76743 of epoch 4, 109.03 ms/it, loss 0.443570
+Finished training it 10240/76743 of epoch 4, 109.26 ms/it, loss 0.443574
+Finished training it 10240/76743 of epoch 4, 107.66 ms/it, loss 0.445267
+Finished training it 10240/76743 of epoch 4, 109.01 ms/it, loss 0.447068
+Testing at - 10240/76743 of epoch 4,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2581976.0
+get out
+0 has test check 2581976.0 and sample count 3273728
+ accuracy 78.870 %, best 78.875 %, roc auc score 0.8031, best 0.8033
+Testing at - 10240/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2581976.0
+get out
+1 has test check 2581976.0 and sample count 3273728
+Finished training it 11264/76743 of epoch 4, 108.06 ms/it, loss 0.441852
+Testing at - 10240/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2581976.0
+get out
+3 has test check 2581976.0 and sample count 3273728
+Finished training it 11264/76743 of epoch 4, 107.15 ms/it, loss 0.442848
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 11264/76743 of epoch 4, 108.18 ms/it, loss 0.440784
+Testing at - 10240/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2581976.0
+get out
+2 has test check 2581976.0 and sample count 3273728
+Finished training it 11264/76743 of epoch 4, 108.20 ms/it, loss 0.440712
+Finished training it 12288/76743 of epoch 4, 109.09 ms/it, loss 0.442932
+Finished training it 12288/76743 of epoch 4, 109.23 ms/it, loss 0.441933
+Finished training it 12288/76743 of epoch 4, 109.33 ms/it, loss 0.440644
+Finished training it 12288/76743 of epoch 4, 108.21 ms/it, loss 0.441157
+Finished training it 13312/76743 of epoch 4, 108.43 ms/it, loss 0.440641
+Finished training it 13312/76743 of epoch 4, 108.41 ms/it, loss 0.442639
+Finished training it 13312/76743 of epoch 4, 108.54 ms/it, loss 0.441791
+Finished training it 13312/76743 of epoch 4, 107.26 ms/it, loss 0.444785
+Finished training it 14336/76743 of epoch 4, 108.98 ms/it, loss 0.441587
+Finished training it 14336/76743 of epoch 4, 108.66 ms/it, loss 0.441321
+Finished training it 14336/76743 of epoch 4, 108.88 ms/it, loss 0.442075
+Finished training it 14336/76743 of epoch 4, 107.71 ms/it, loss 0.441950
+Finished training it 15360/76743 of epoch 4, 107.19 ms/it, loss 0.442623
+Finished training it 15360/76743 of epoch 4, 108.49 ms/it, loss 0.443845
+Finished training it 15360/76743 of epoch 4, 108.53 ms/it, loss 0.441866
+Finished training it 15360/76743 of epoch 4, 108.49 ms/it, loss 0.440873
+Finished training it 16384/76743 of epoch 4, 108.89 ms/it, loss 0.440176
+Finished training it 16384/76743 of epoch 4, 108.81 ms/it, loss 0.442822
+Finished training it 16384/76743 of epoch 4, 107.42 ms/it, loss 0.441748
+Finished training it 16384/76743 of epoch 4, 108.95 ms/it, loss 0.442907
+Finished training it 17408/76743 of epoch 4, 109.34 ms/it, loss 0.443893
+Finished training it 17408/76743 of epoch 4, 109.22 ms/it, loss 0.440093
+Finished training it 17408/76743 of epoch 4, 109.28 ms/it, loss 0.442479
+Finished training it 17408/76743 of epoch 4, 108.08 ms/it, loss 0.442344
+Finished training it 18432/76743 of epoch 4, 108.37 ms/it, loss 0.440637
+Finished training it 18432/76743 of epoch 4, 108.44 ms/it, loss 0.442126
+Finished training it 18432/76743 of epoch 4, 108.42 ms/it, loss 0.443534
+Finished training it 18432/76743 of epoch 4, 107.19 ms/it, loss 0.441895
+Finished training it 19456/76743 of epoch 4, 108.81 ms/it, loss 0.443834
+Finished training it 19456/76743 of epoch 4, 107.54 ms/it, loss 0.439076
+Finished training it 19456/76743 of epoch 4, 109.01 ms/it, loss 0.443900
+Finished training it 19456/76743 of epoch 4, 108.97 ms/it, loss 0.443766
+Finished training it 20480/76743 of epoch 4, 107.18 ms/it, loss 0.442324
+Finished training it 20480/76743 of epoch 4, 108.42 ms/it, loss 0.442511
+Finished training it 20480/76743 of epoch 4, 108.47 ms/it, loss 0.439720
+Finished training it 20480/76743 of epoch 4, 108.50 ms/it, loss 0.440871
+Testing at - 20480/76743 of epoch 4,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2580809.0
+get out
+0 has test check 2580809.0 and sample count 3273728
+ accuracy 78.834 %, best 78.875 %, roc auc score 0.8034, best 0.8034
+Testing at - 20480/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2580809.0
+get out
+1 has test check 2580809.0 and sample count 3273728
+Finished training it 21504/76743 of epoch 4, 107.82 ms/it, loss 0.440904
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one0.0.pt
+Finished training it 21504/76743 of epoch 4, 107.90 ms/it, loss 0.443749
+Testing at - 20480/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2580809.0
+get out
+2 has test check 2580809.0 and sample count 3273728
+Finished training it 21504/76743 of epoch 4, 108.10 ms/it, loss 0.440884
+Testing at - 20480/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2580809.0
+get out
+3 has test check 2580809.0 and sample count 3273728
+Finished training it 21504/76743 of epoch 4, 107.05 ms/it, loss 0.440633
+Finished training it 22528/76743 of epoch 4, 109.07 ms/it, loss 0.440782
+Finished training it 22528/76743 of epoch 4, 109.03 ms/it, loss 0.445889
+Finished training it 22528/76743 of epoch 4, 108.22 ms/it, loss 0.440733
+Finished training it 22528/76743 of epoch 4, 109.15 ms/it, loss 0.440231
+Finished training it 23552/76743 of epoch 4, 108.22 ms/it, loss 0.440403
+Finished training it 23552/76743 of epoch 4, 107.44 ms/it, loss 0.444088
+Finished training it 23552/76743 of epoch 4, 108.65 ms/it, loss 0.441853
+Finished training it 23552/76743 of epoch 4, 108.45 ms/it, loss 0.443032
+Finished training it 24576/76743 of epoch 4, 109.14 ms/it, loss 0.441749
+Finished training it 24576/76743 of epoch 4, 109.21 ms/it, loss 0.440353
+Finished training it 24576/76743 of epoch 4, 107.86 ms/it, loss 0.441790
+Finished training it 24576/76743 of epoch 4, 109.03 ms/it, loss 0.439968
+Finished training it 25600/76743 of epoch 4, 109.10 ms/it, loss 0.440717
+Finished training it 25600/76743 of epoch 4, 108.02 ms/it, loss 0.443387
+Finished training it 25600/76743 of epoch 4, 109.07 ms/it, loss 0.441881
+Finished training it 25600/76743 of epoch 4, 109.24 ms/it, loss 0.438759
+Finished training it 26624/76743 of epoch 4, 108.56 ms/it, loss 0.441203
+Finished training it 26624/76743 of epoch 4, 108.68 ms/it, loss 0.440387
+Finished training it 26624/76743 of epoch 4, 107.38 ms/it, loss 0.439823
+Finished training it 26624/76743 of epoch 4, 108.49 ms/it, loss 0.439804
+Finished training it 27648/76743 of epoch 4, 109.24 ms/it, loss 0.441337
+Finished training it 27648/76743 of epoch 4, 108.99 ms/it, loss 0.439081
+Finished training it 27648/76743 of epoch 4, 109.12 ms/it, loss 0.439620
+Finished training it 27648/76743 of epoch 4, 107.89 ms/it, loss 0.439377
+Finished training it 28672/76743 of epoch 4, 108.75 ms/it, loss 0.442228
+Finished training it 28672/76743 of epoch 4, 107.82 ms/it, loss 0.440015
+Finished training it 28672/76743 of epoch 4, 109.16 ms/it, loss 0.439832
+Finished training it 28672/76743 of epoch 4, 108.95 ms/it, loss 0.439197
+Finished training it 29696/76743 of epoch 4, 107.91 ms/it, loss 0.438778
+Finished training it 29696/76743 of epoch 4, 107.89 ms/it, loss 0.440438
+Finished training it 29696/76743 of epoch 4, 108.13 ms/it, loss 0.440526
+Finished training it 29696/76743 of epoch 4, 106.93 ms/it, loss 0.443318
+Finished training it 30720/76743 of epoch 4, 109.07 ms/it, loss 0.438880
+Finished training it 30720/76743 of epoch 4, 109.22 ms/it, loss 0.439922
+Finished training it 30720/76743 of epoch 4, 108.07 ms/it, loss 0.443134
+Finished training it 30720/76743 of epoch 4, 109.01 ms/it, loss 0.438736
+Testing at - 30720/76743 of epoch 4,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2583455.0
+get out
+0 has test check 2583455.0 and sample count 3273728
+ accuracy 78.915 %, best 78.915 %, roc auc score 0.8036, best 0.8036
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 31744/76743 of epoch 4, 108.84 ms/it, loss 0.444909
+Testing at - 30720/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2583455.0
+get out
+1 has test check 2583455.0 and sample count 3273728
+Finished training it 31744/76743 of epoch 4, 109.06 ms/it, loss 0.440458
+Testing at - 30720/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2583455.0
+get out
+2 has test check 2583455.0 and sample count 3273728
+Finished training it 31744/76743 of epoch 4, 109.07 ms/it, loss 0.440555
+Testing at - 30720/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2583455.0
+get out
+3 has test check 2583455.0 and sample count 3273728
+Finished training it 31744/76743 of epoch 4, 107.89 ms/it, loss 0.442359
+Finished training it 32768/76743 of epoch 4, 109.32 ms/it, loss 0.443962
+Finished training it 32768/76743 of epoch 4, 108.05 ms/it, loss 0.442353
+Finished training it 32768/76743 of epoch 4, 109.21 ms/it, loss 0.440251
+Finished training it 32768/76743 of epoch 4, 109.37 ms/it, loss 0.440939
+Finished training it 33792/76743 of epoch 4, 109.39 ms/it, loss 0.440581
+Finished training it 33792/76743 of epoch 4, 109.54 ms/it, loss 0.438578
+Finished training it 33792/76743 of epoch 4, 108.35 ms/it, loss 0.440743
+Finished training it 33792/76743 of epoch 4, 109.58 ms/it, loss 0.441860
+Finished training it 34816/76743 of epoch 4, 108.55 ms/it, loss 0.439447
+Finished training it 34816/76743 of epoch 4, 108.52 ms/it, loss 0.443458
+Finished training it 34816/76743 of epoch 4, 107.41 ms/it, loss 0.442519
+Finished training it 34816/76743 of epoch 4, 108.70 ms/it, loss 0.438907
+Finished training it 35840/76743 of epoch 4, 107.57 ms/it, loss 0.442044
+Finished training it 35840/76743 of epoch 4, 108.87 ms/it, loss 0.446806
+Finished training it 35840/76743 of epoch 4, 108.70 ms/it, loss 0.441346
+Finished training it 35840/76743 of epoch 4, 108.71 ms/it, loss 0.441195
+Finished training it 36864/76743 of epoch 4, 107.91 ms/it, loss 0.438518
+Finished training it 36864/76743 of epoch 4, 107.89 ms/it, loss 0.438426
+Finished training it 36864/76743 of epoch 4, 108.03 ms/it, loss 0.445117
+Finished training it 36864/76743 of epoch 4, 106.84 ms/it, loss 0.439901
+Finished training it 37888/76743 of epoch 4, 109.75 ms/it, loss 0.442195
+Finished training it 37888/76743 of epoch 4, 110.00 ms/it, loss 0.439600
+Finished training it 37888/76743 of epoch 4, 109.90 ms/it, loss 0.441365
+Finished training it 37888/76743 of epoch 4, 108.64 ms/it, loss 0.439857
+Finished training it 38912/76743 of epoch 4, 107.72 ms/it, loss 0.439472
+Finished training it 38912/76743 of epoch 4, 109.17 ms/it, loss 0.442413
+Finished training it 38912/76743 of epoch 4, 108.96 ms/it, loss 0.442248
+Finished training it 38912/76743 of epoch 4, 109.03 ms/it, loss 0.442882
+Finished training it 39936/76743 of epoch 4, 108.46 ms/it, loss 0.442728
+Finished training it 39936/76743 of epoch 4, 107.23 ms/it, loss 0.440686
+Finished training it 39936/76743 of epoch 4, 108.47 ms/it, loss 0.440099
+Finished training it 39936/76743 of epoch 4, 108.64 ms/it, loss 0.442175
+Finished training it 40960/76743 of epoch 4, 108.62 ms/it, loss 0.440186
+Finished training it 40960/76743 of epoch 4, 108.46 ms/it, loss 0.439913
+Finished training it 40960/76743 of epoch 4, 108.43 ms/it, loss 0.442055
+Finished training it 40960/76743 of epoch 4, 107.32 ms/it, loss 0.441869
+Testing at - 40960/76743 of epoch 4,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2583419.0
+get out
+0 has test check 2583419.0 and sample count 3273728
+ accuracy 78.914 %, best 78.915 %, roc auc score 0.8039, best 0.8039
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one0.0.pt
+Finished training it 41984/76743 of epoch 4, 108.27 ms/it, loss 0.440491
+Testing at - 40960/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2583419.0
+get out
+3 has test check 2583419.0 and sample count 3273728
+Finished training it 41984/76743 of epoch 4, 107.41 ms/it, loss 0.440992
+Testing at - 40960/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2583419.0
+get out
+1 has test check 2583419.0 and sample count 3273728
+Finished training it 41984/76743 of epoch 4, 108.23 ms/it, loss 0.440287
+Testing at - 40960/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2583419.0
+get out
+2 has test check 2583419.0 and sample count 3273728
+Finished training it 41984/76743 of epoch 4, 108.32 ms/it, loss 0.440083
+Finished training it 43008/76743 of epoch 4, 112.22 ms/it, loss 0.441290
+Finished training it 43008/76743 of epoch 4, 112.27 ms/it, loss 0.439858
+Finished training it 43008/76743 of epoch 4, 112.33 ms/it, loss 0.439205
+Finished training it 43008/76743 of epoch 4, 111.47 ms/it, loss 0.437893
+Finished training it 44032/76743 of epoch 4, 110.71 ms/it, loss 0.441141
+Finished training it 44032/76743 of epoch 4, 110.51 ms/it, loss 0.438599
+Finished training it 44032/76743 of epoch 4, 110.70 ms/it, loss 0.444082
+Finished training it 44032/76743 of epoch 4, 109.80 ms/it, loss 0.439255
+Finished training it 45056/76743 of epoch 4, 107.69 ms/it, loss 0.438201
+Finished training it 45056/76743 of epoch 4, 108.86 ms/it, loss 0.438174
+Finished training it 45056/76743 of epoch 4, 108.92 ms/it, loss 0.437320
+Finished training it 45056/76743 of epoch 4, 108.94 ms/it, loss 0.440922
+Finished training it 46080/76743 of epoch 4, 108.22 ms/it, loss 0.435388
+Finished training it 46080/76743 of epoch 4, 109.61 ms/it, loss 0.441631
+Finished training it 46080/76743 of epoch 4, 108.81 ms/it, loss 0.440651
+Finished training it 46080/76743 of epoch 4, 109.59 ms/it, loss 0.441324
+Finished training it 47104/76743 of epoch 4, 109.80 ms/it, loss 0.441404
+Finished training it 47104/76743 of epoch 4, 108.57 ms/it, loss 0.441095
+Finished training it 47104/76743 of epoch 4, 109.90 ms/it, loss 0.439341
+Finished training it 47104/76743 of epoch 4, 109.74 ms/it, loss 0.440241
+Finished training it 48128/76743 of epoch 4, 108.76 ms/it, loss 0.440522
+Finished training it 48128/76743 of epoch 4, 108.80 ms/it, loss 0.440946
+Finished training it 48128/76743 of epoch 4, 107.60 ms/it, loss 0.441250
+Finished training it 48128/76743 of epoch 4, 108.56 ms/it, loss 0.440516
+Finished training it 49152/76743 of epoch 4, 109.62 ms/it, loss 0.441012
+Finished training it 49152/76743 of epoch 4, 109.58 ms/it, loss 0.440705
+Finished training it 49152/76743 of epoch 4, 108.26 ms/it, loss 0.441085
+Finished training it 49152/76743 of epoch 4, 109.28 ms/it, loss 0.442114
+Finished training it 50176/76743 of epoch 4, 108.52 ms/it, loss 0.442404
+Finished training it 50176/76743 of epoch 4, 108.35 ms/it, loss 0.440961
+Finished training it 50176/76743 of epoch 4, 107.08 ms/it, loss 0.439563
+Finished training it 50176/76743 of epoch 4, 108.53 ms/it, loss 0.441093
+Finished training it 51200/76743 of epoch 4, 108.34 ms/it, loss 0.441470
+Finished training it 51200/76743 of epoch 4, 108.16 ms/it, loss 0.438244
+Finished training it 51200/76743 of epoch 4, 108.24 ms/it, loss 0.439759
+Finished training it 51200/76743 of epoch 4, 106.81 ms/it, loss 0.443288
+Testing at - 51200/76743 of epoch 4,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2583470.0
+get out
+0 has test check 2583470.0 and sample count 3273728
+ accuracy 78.915 %, best 78.915 %, roc auc score 0.8038, best 0.8039
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 52224/76743 of epoch 4, 108.29 ms/it, loss 0.440604
+Testing at - 51200/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2583470.0
+get out
+2 has test check 2583470.0 and sample count 3273728
+Finished training it 52224/76743 of epoch 4, 108.44 ms/it, loss 0.438807
+Testing at - 51200/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2583470.0
+get out
+1 has test check 2583470.0 and sample count 3273728
+Finished training it 52224/76743 of epoch 4, 108.35 ms/it, loss 0.444692
+Testing at - 51200/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2583470.0
+get out
+3 has test check 2583470.0 and sample count 3273728
+Finished training it 52224/76743 of epoch 4, 107.31 ms/it, loss 0.440308
+Finished training it 53248/76743 of epoch 4, 109.11 ms/it, loss 0.440102
+Finished training it 53248/76743 of epoch 4, 108.22 ms/it, loss 0.441809
+Finished training it 53248/76743 of epoch 4, 109.11 ms/it, loss 0.440608
+Finished training it 53248/76743 of epoch 4, 109.19 ms/it, loss 0.439490
+Finished training it 54272/76743 of epoch 4, 109.58 ms/it, loss 0.441530
+Finished training it 54272/76743 of epoch 4, 108.61 ms/it, loss 0.443006
+Finished training it 54272/76743 of epoch 4, 109.75 ms/it, loss 0.440202
+Finished training it 54272/76743 of epoch 4, 109.67 ms/it, loss 0.439433
+Finished training it 55296/76743 of epoch 4, 109.21 ms/it, loss 0.441743
+Finished training it 55296/76743 of epoch 4, 109.22 ms/it, loss 0.443515
+Finished training it 55296/76743 of epoch 4, 108.03 ms/it, loss 0.442353
+Finished training it 55296/76743 of epoch 4, 109.30 ms/it, loss 0.437788
+Finished training it 56320/76743 of epoch 4, 108.54 ms/it, loss 0.437662
+Finished training it 56320/76743 of epoch 4, 107.45 ms/it, loss 0.441250
+Finished training it 56320/76743 of epoch 4, 108.69 ms/it, loss 0.440913
+Finished training it 56320/76743 of epoch 4, 108.76 ms/it, loss 0.439808
+Finished training it 57344/76743 of epoch 4, 109.36 ms/it, loss 0.438378
+Finished training it 57344/76743 of epoch 4, 109.36 ms/it, loss 0.438164
+Finished training it 57344/76743 of epoch 4, 107.96 ms/it, loss 0.444110
+Finished training it 57344/76743 of epoch 4, 109.47 ms/it, loss 0.440873
+Finished training it 58368/76743 of epoch 4, 109.06 ms/it, loss 0.439473
+Finished training it 58368/76743 of epoch 4, 107.72 ms/it, loss 0.442124
+Finished training it 58368/76743 of epoch 4, 109.14 ms/it, loss 0.441966
+Finished training it 58368/76743 of epoch 4, 109.03 ms/it, loss 0.437572
+Finished training it 59392/76743 of epoch 4, 107.45 ms/it, loss 0.442700
+Finished training it 59392/76743 of epoch 4, 108.87 ms/it, loss 0.440447
+Finished training it 59392/76743 of epoch 4, 108.79 ms/it, loss 0.441690
+Finished training it 59392/76743 of epoch 4, 108.72 ms/it, loss 0.440540
+Finished training it 60416/76743 of epoch 4, 109.62 ms/it, loss 0.441040
+Finished training it 60416/76743 of epoch 4, 109.62 ms/it, loss 0.442458
+Finished training it 60416/76743 of epoch 4, 109.69 ms/it, loss 0.439906
+Finished training it 60416/76743 of epoch 4, 108.31 ms/it, loss 0.440558
+Finished training it 61440/76743 of epoch 4, 108.17 ms/it, loss 0.439764
+Finished training it 61440/76743 of epoch 4, 107.13 ms/it, loss 0.439692
+Finished training it 61440/76743 of epoch 4, 108.28 ms/it, loss 0.440702
+Finished training it 61440/76743 of epoch 4, 108.46 ms/it, loss 0.439741
+Testing at - 61440/76743 of epoch 4,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2579659.0
+get out
+0 has test check 2579659.0 and sample count 3273728
+ accuracy 78.799 %, best 78.915 %, roc auc score 0.8036, best 0.8039
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one0.0.pt
+Finished training it 62464/76743 of epoch 4, 108.58 ms/it, loss 0.438150
+Testing at - 61440/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2579659.0
+get out
+1 has test check 2579659.0 and sample count 3273728
+Finished training it 62464/76743 of epoch 4, 108.65 ms/it, loss 0.439876
+Testing at - 61440/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2579659.0
+get out
+3 has test check 2579659.0 and sample count 3273728
+Finished training it 62464/76743 of epoch 4, 107.76 ms/it, loss 0.443954
+Testing at - 61440/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2579659.0
+get out
+2 has test check 2579659.0 and sample count 3273728
+Finished training it 62464/76743 of epoch 4, 108.81 ms/it, loss 0.442616
+Finished training it 63488/76743 of epoch 4, 108.86 ms/it, loss 0.441299
+Finished training it 63488/76743 of epoch 4, 108.06 ms/it, loss 0.439231
+Finished training it 63488/76743 of epoch 4, 109.18 ms/it, loss 0.438888
+Finished training it 63488/76743 of epoch 4, 109.04 ms/it, loss 0.441528
+Finished training it 64512/76743 of epoch 4, 108.59 ms/it, loss 0.441204
+Finished training it 64512/76743 of epoch 4, 108.59 ms/it, loss 0.437818
+Finished training it 64512/76743 of epoch 4, 107.46 ms/it, loss 0.437992
+Finished training it 64512/76743 of epoch 4, 108.73 ms/it, loss 0.442158
+Finished training it 65536/76743 of epoch 4, 108.79 ms/it, loss 0.440885
+Finished training it 65536/76743 of epoch 4, 107.65 ms/it, loss 0.439074
+Finished training it 65536/76743 of epoch 4, 108.86 ms/it, loss 0.440601
+Finished training it 65536/76743 of epoch 4, 108.93 ms/it, loss 0.437124
+Finished training it 66560/76743 of epoch 4, 106.23 ms/it, loss 0.442324
+Finished training it 66560/76743 of epoch 4, 107.39 ms/it, loss 0.444504
+Finished training it 66560/76743 of epoch 4, 107.33 ms/it, loss 0.438079
+Finished training it 66560/76743 of epoch 4, 107.56 ms/it, loss 0.440233
+Finished training it 67584/76743 of epoch 4, 107.50 ms/it, loss 0.441963
+Finished training it 67584/76743 of epoch 4, 108.51 ms/it, loss 0.439582
+Finished training it 67584/76743 of epoch 4, 108.62 ms/it, loss 0.441211
+Finished training it 67584/76743 of epoch 4, 108.79 ms/it, loss 0.440575
+Finished training it 68608/76743 of epoch 4, 108.51 ms/it, loss 0.438586
+Finished training it 68608/76743 of epoch 4, 108.35 ms/it, loss 0.438088
+Finished training it 68608/76743 of epoch 4, 107.37 ms/it, loss 0.439532
+Finished training it 68608/76743 of epoch 4, 108.54 ms/it, loss 0.439981
+Finished training it 69632/76743 of epoch 4, 108.72 ms/it, loss 0.441325
+Finished training it 69632/76743 of epoch 4, 108.96 ms/it, loss 0.441633
+Finished training it 69632/76743 of epoch 4, 108.73 ms/it, loss 0.442461
+Finished training it 69632/76743 of epoch 4, 107.51 ms/it, loss 0.440017
+Finished training it 70656/76743 of epoch 4, 108.78 ms/it, loss 0.439601
+Finished training it 70656/76743 of epoch 4, 108.70 ms/it, loss 0.440615
+Finished training it 70656/76743 of epoch 4, 107.48 ms/it, loss 0.440865
+Finished training it 70656/76743 of epoch 4, 108.83 ms/it, loss 0.438357
+Finished training it 71680/76743 of epoch 4, 108.19 ms/it, loss 0.439153
+Finished training it 71680/76743 of epoch 4, 108.69 ms/it, loss 0.442607
+Finished training it 71680/76743 of epoch 4, 108.50 ms/it, loss 0.439275
+Finished training it 71680/76743 of epoch 4, 107.19 ms/it, loss 0.440300
+Testing at - 71680/76743 of epoch 4,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2577538.0
+get out
+0 has test check 2577538.0 and sample count 3273728
+ accuracy 78.734 %, best 78.915 %, roc auc score 0.8040, best 0.8040
+Saving model to /home/yzhou/dlrm_criteo_kaggle/save_model_after_training_one1.0.pt
+Finished training it 72704/76743 of epoch 4, 108.68 ms/it, loss 0.440741
+Testing at - 71680/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2577538.0
+get out
+3 has test check 2577538.0 and sample count 3273728
+Finished training it 72704/76743 of epoch 4, 107.57 ms/it, loss 0.438778
+Testing at - 71680/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2577538.0
+get out
+2 has test check 2577538.0 and sample count 3273728
+Finished training it 72704/76743 of epoch 4, 108.79 ms/it, loss 0.441664
+Testing at - 71680/76743 of epoch 4,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2577538.0
+get out
+1 has test check 2577538.0 and sample count 3273728
+Finished training it 72704/76743 of epoch 4, 108.80 ms/it, loss 0.442158
+Finished training it 73728/76743 of epoch 4, 108.47 ms/it, loss 0.440302
+Finished training it 73728/76743 of epoch 4, 108.51 ms/it, loss 0.438895
+Finished training it 73728/76743 of epoch 4, 107.40 ms/it, loss 0.441922
+Finished training it 73728/76743 of epoch 4, 108.66 ms/it, loss 0.437413
+Finished training it 74752/76743 of epoch 4, 107.18 ms/it, loss 0.440827
+Finished training it 74752/76743 of epoch 4, 108.17 ms/it, loss 0.438888
+Finished training it 74752/76743 of epoch 4, 108.21 ms/it, loss 0.440369
+Finished training it 74752/76743 of epoch 4, 108.29 ms/it, loss 0.441384
+Finished training it 75776/76743 of epoch 4, 109.13 ms/it, loss 0.438986
+Finished training it 75776/76743 of epoch 4, 109.17 ms/it, loss 0.436685
+Finished training it 75776/76743 of epoch 4, 109.17 ms/it, loss 0.438698
+Finished training it 75776/76743 of epoch 4, 107.70 ms/it, loss 0.441655
+Warning: Skipping the batch 76742 with size 14
+Testing at - 76743/76743 of epoch 5,
+steps testing: 0.0steps testing: 0.06253908692933083steps testing: 0.12507817385866166steps testing: 0.18761726078799248steps testing: 0.2501563477173233steps testing: 0.31269543464665417steps testing: 0.37523452157598497steps testing: 0.4377736085053158steps testing: 0.5003126954346466steps testing: 0.5628517823639775steps testing: 0.6253908692933083steps testing: 0.6879299562226392steps testing: 0.7504690431519699steps testing: 0.8130081300813008steps testing: 0.8755472170106317steps testing: 0.9380863039399625Warning: Skipping the batch 3197 with size 602
+rank: 0 test_accu: 2580685.0
+get out
+0 has test check 2580685.0 and sample count 3273728
+ accuracy 78.830 %, best 78.915 %, roc auc score 0.8044, best 0.8044
+Warning: Skipping the batch 76742 with size 14
+Testing at - 76743/76743 of epoch 5,
+Warning: Skipping the batch 3197 with size 602
+rank: 2 test_accu: 2580685.0
+get out
+2 has test check 2580685.0 and sample count 3273728
+Warning: Skipping the batch 76742 with size 14
+Testing at - 76743/76743 of epoch 5,
+Warning: Skipping the batch 3197 with size 602
+rank: 1 test_accu: 2580685.0
+get out
+1 has test check 2580685.0 and sample count 3273728
+Warning: Skipping the batch 76742 with size 14
+Testing at - 76743/76743 of epoch 5,
+Warning: Skipping the batch 3197 with size 602
+rank: 3 test_accu: 2580685.0
+get out
+3 has test check 2580685.0 and sample count 3273728
