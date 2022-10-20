@@ -282,7 +282,6 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
                         continue 
                     if not ranking_range: 
                         buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = num_bits, parallel = True, num_gpus = number_of_gpus) 
-                        emb_table.gradient_bit_width.zero_().add_(num_bits) 
                         emb_table.emb_scaling_factor = scale 
                     else: 
                         '''
@@ -528,8 +527,8 @@ def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_emb
                             emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad * emb_table.emb_scaling_factor.item()) 
                     else: 
                         emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad) 
-        else: 
-            raise Warning("Cannot find the list of embedding tables") 
+            else: 
+                raise Warning("Cannot find the list of embedding tables") 
         
         if model.bot_l is not None: 
             for layer_one in model.bot_l: 
