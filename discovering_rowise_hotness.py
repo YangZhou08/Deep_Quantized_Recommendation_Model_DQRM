@@ -144,6 +144,8 @@ change_bitw2 = 4
 learning_rate = 0.1 
 step_count = 0 
 
+list_dicts = [{} for i in range(26)] 
+
 change_lin_full_quantize = False 
 
 exc = getattr(builtins, "IOError", "FileNotFoundError")
@@ -1533,12 +1535,28 @@ def train(gpu, args):
                 file.write("Shape of lS_o: {}\n".format(lS_o.shape)) 
                 file.write("Shape of lS_i: {}\n".format(lS_i.shape)) 
                 test_irregular_count += 1 
-    
+    global list_dicts 
     for j, inputBatch in enumerate(train_loader): 
             X, lS_o, lS_i, T, W, CBPP = unpack_batch(inputBatch) 
+            if j >= 5000: 
+                break 
             print("iteration {}, printing out offset and index".format(j)) 
             print(lS_o) 
             print(lS_i) 
+            
+            lS_o = lS_o.view(-1) 
+            lS_i = lS_i.view(-1).cpu().numpy() 
+            if torch.is_nonzero(torch.sum(lS_o, dim = 0)): 
+                assert(False) 
+                break 
+            for j, ind in enumerate(lS_i): 
+                if ind in list_dicts[j].keys(): 
+                    list_dicts[j][ind] += 1 
+                else: 
+                    list_dicts[j][ind] = 1 
+
+for e in list_dicts: 
+    print(e) 
 
 if __name__ == "__main__": 
     run() 
