@@ -1537,8 +1537,8 @@ def train(gpu, args):
     for j, inputBatch in enumerate(train_loader): 
             X, lS_o, lS_i, T, W, CBPP = unpack_batch(inputBatch) 
             print("iteration {}, printing out offset and index".format(j)) 
-            print(lS_o.shape) 
-            print(lS_i.shape) 
+            print(lS_o[:, 0]) 
+            print(lS_i[:, 0]) 
 
 if __name__ == "__main__": 
     run() 
