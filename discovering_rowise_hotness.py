@@ -1555,8 +1555,9 @@ def train(gpu, args):
                 else: 
                     list_dicts[j][ind] = 1 
 
-    for e in list_dicts: 
-        print(e) 
+    for j, e in enumerate(list_dicts): 
+        print("Table {}".format(j)) 
+        print("record distinct rows {}".format(len(e.keys()))) 
 
 if __name__ == "__main__": 
     run() 
