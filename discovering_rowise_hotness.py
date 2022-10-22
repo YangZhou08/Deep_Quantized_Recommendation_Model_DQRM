@@ -1538,9 +1538,8 @@ def train(gpu, args):
     global list_dicts 
     for j, inputBatch in enumerate(train_loader): 
             X, lS_o, lS_i, T, W, CBPP = unpack_batch(inputBatch) 
-            if j >= 5000: 
-                break 
-            print("iteration {}, printing out offset and index".format(j)) 
+            if ((j + 1) % 1000 == 0): 
+                print("iteration {}, printing out offset and index".format(j)) 
             
             lS_o = lS_o.view(-1) 
             lS_i = lS_i.view(-1).cpu().numpy() 
