@@ -1555,8 +1555,8 @@ def train(gpu, args):
                 else: 
                     list_dicts[j][ind] = 1 
 
-for e in list_dicts: 
-    print(e) 
+    for e in list_dicts: 
+        print(e) 
 
 if __name__ == "__main__": 
     run() 
