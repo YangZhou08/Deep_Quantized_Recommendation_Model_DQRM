@@ -1328,6 +1328,9 @@ def train(gpu, args):
         drop_last = False 
     )
     ''' 
+    if args.test_num_workers == -1: 
+        args.test_num_workers = 0 
+    
     test_loader = torch.utils.data.DataLoader(
         dataset = test_dataset, 
         batch_size = args.test_mini_batch_size, 
