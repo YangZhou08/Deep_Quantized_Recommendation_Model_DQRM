@@ -1536,13 +1536,11 @@ def train(gpu, args):
                 file.write("Shape of lS_i: {}\n".format(lS_i.shape)) 
                 test_irregular_count += 1 
     global list_dicts 
-    for j, inputBatch in tqdm(enumerate(train_loader)): 
+    for j, inputBatch in enumerate(train_loader): 
             X, lS_o, lS_i, T, W, CBPP = unpack_batch(inputBatch) 
             if j >= 5000: 
                 break 
             print("iteration {}, printing out offset and index".format(j)) 
-            print(lS_o) 
-            print(lS_i) 
             
             lS_o = lS_o.view(-1) 
             lS_i = lS_i.view(-1).cpu().numpy() 
