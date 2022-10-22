@@ -1558,7 +1558,8 @@ def train(gpu, args):
         print("record distinct rows {}".format(len(e.keys()))) 
         list_dicts[j] = {k: v for k, v in sorted(e.items(), key = lambda item: item[1], reverse = True)} 
         for t in range(int(len(list_dicts[j].keys()) * 0.1)): 
-            print("key: {} time: {}".format(list_dicts[j].keys()[t], list_dicts[j][list_dicts[j].keys()[t]])) 
+            key_wanted = list_dicts[j].keys()[t] 
+            print("key: {} time: {}".format(key_wanted, list_dicts[j][key_wanted])) 
 
 if __name__ == "__main__": 
     run() 
