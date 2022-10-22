@@ -1536,7 +1536,7 @@ def train(gpu, args):
                 file.write("Shape of lS_i: {}\n".format(lS_i.shape)) 
                 test_irregular_count += 1 
     global list_dicts 
-    for j, inputBatch in enumerate(train_loader): 
+    for j, inputBatch in tqdm(enumerate(train_loader)): 
             X, lS_o, lS_i, T, W, CBPP = unpack_batch(inputBatch) 
             if j >= 5000: 
                 break 
@@ -1558,6 +1558,9 @@ def train(gpu, args):
     for j, e in enumerate(list_dicts): 
         print("Table {}".format(j)) 
         print("record distinct rows {}".format(len(e.keys()))) 
+        list_dicts[j] = {k: v for k, v in sorted(e.items(), key = lambda item: item[1], reverse = True)} 
+        for t in range(int(len(list_dicts[j].keys()) * 0.1)): 
+            print("key: {} time: {}".format(list_dicts[j].keys()[t], list_dicts[j][list_dicts[j].keys()[t]])) 
 
 if __name__ == "__main__": 
     run() 
