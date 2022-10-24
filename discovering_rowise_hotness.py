@@ -144,7 +144,7 @@ change_bitw2 = 4
 learning_rate = 0.1 
 step_count = 0 
 
-list_dicts = [{} for i in range(26)] 
+list_dict = [[] for i in range(26)] 
 
 change_lin_full_quantize = False 
 
@@ -1556,8 +1556,9 @@ def train(gpu, args):
         print("Table {}".format(j)) 
         print("record distinct rows {}".format(len(e.keys()))) 
         list_dicts[j] = {k: v for k, v in sorted(e.items(), key = lambda item: item[1], reverse = True)} 
+        key_list = list(list_dicts[j].keys()) 
         for t in range(int(len(list_dicts[j].keys()) * 0.1)): 
-            key_wanted = list(list_dicts[j].keys())[t] 
+            key_wanted = key_list[t] 
             print("key: {} time: {}".format(key_wanted, list_dicts[j][key_wanted])) 
 
 if __name__ == "__main__": 
