@@ -1560,8 +1560,9 @@ def train(gpu, args):
         key_list = list(list_dicts[j].keys()) 
         for t in range(int(len(key_list))): 
             key_wanted = key_list[t] 
-            print("key: {} time: {}".format(key_wanted, list_dicts[j][key_wanted])) 
-            file.write("key: {} time: {}\n".format(key_wanted, list_dicts[j][key_wanted])) 
+            item_wanted = list_dicts[j][key_wanted] 
+            print("key: {} time: {}".format(key_wanted, item_wanted)) 
+            file.write("key: {} time: {}\n".format(key_wanted, item_wanted)) 
         file.close() 
 
 if __name__ == "__main__": 
