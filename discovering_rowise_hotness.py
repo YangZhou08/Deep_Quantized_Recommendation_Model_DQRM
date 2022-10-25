@@ -144,7 +144,7 @@ change_bitw2 = 4
 learning_rate = 0.1 
 step_count = 0 
 
-list_dict = [[] for i in range(26)] 
+list_dicts = [{} for i in range(26)] 
 
 change_lin_full_quantize = False 
 
