@@ -1555,7 +1555,7 @@ def train(gpu, args):
                     list_dicts[j][ind] = 1 
 
     for j, e in enumerate(list_dicts): 
-        file = open("table{}rowranking.txt".format(j)) 
+        file = open("table{}rowranking.txt".format(j), "a") 
         print("Table {}".format(j)) 
         print("record distinct rows {}".format(len(e.keys()))) 
         list_dicts[j] = {k: v for k, v in sorted(e.items(), key = lambda item: item[1], reverse = True)} 
@@ -1563,7 +1563,7 @@ def train(gpu, args):
         for t in range(int(len(key_list))): 
             key_wanted = key_list[t] 
             print("key: {} time: {}".format(key_wanted, list_dicts[j][key_wanted])) 
-            file.write("key: {} time: {}\n".format(key_wanted, list_dicts[j][key_wanted]), "a") 
+            file.write("key: {} time: {}\n".format(key_wanted, list_dicts[j][key_wanted])) 
         file.close() 
 
 if __name__ == "__main__": 
