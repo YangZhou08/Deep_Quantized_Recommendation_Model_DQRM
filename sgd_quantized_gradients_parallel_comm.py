@@ -247,7 +247,7 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
             n = 2 ** (emb_table.gradient_bit_width - 1) - 1 
             emb_table.emb_scaling_factor = torch.clamp(emb_table.emb_scaling_factor, min = 1e-8) / n 
 
-def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, num_bits = 16, ranking_range = False, rank_for_debug = None): 
+def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, num_bits = 16, ranking_range = False, rank_for_debug = None, iteration_count = None): 
     ''' 
     The function quantize and synchronize the gradients 
 
@@ -283,6 +283,8 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
                     if not ranking_range: 
                         buffer_changes, scale = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = num_bits, parallel = True, num_gpus = number_of_gpus) 
                         emb_table.emb_scaling_factor = scale 
+                        if rank_for_debug == 0 and (iteration_count + 1) % 1024 == 0: 
+                            print("table {} scale {}".format(id, scale)) 
                     else: 
                         '''
                         print("rank {}, table {}, gradient precision set to {}".format(rank_for_debug, id, emb_table.gradient_bit_width)) 
@@ -594,6 +596,19 @@ def clear_gradients(model):
                 else: 
                     param.grad.requires_grad_(False) 
                 param.grad.zero_() 
+
+def find_indices(sparse_m, list_idx): 
+  sparse_m = sparse_m.coalesce() 
+  list_ll = [] 
+  for idx in list_idx: 
+    for i, ele in enumerate(sparse_m.indices()[0]): 
+      if ele.item() == idx: 
+        list_ll.append(i) 
+  return list_ll 
+
+def update_error_term(sparse_grad, sparse_error): 
+    # TODO 
+    return 
 
 def quantize_emb_grad_error_compensation(embedding_table, num_gpus = None, ranking_range = False, num_bits = None): 
     ''' 
