@@ -18,7 +18,7 @@ from quantization_supp.full_precision_modules import LinearCompressedGrad
 from quantization_supp.quant_modules_not_quantize_grad import QuantLinear 
 from quantization_supp.quant_utils import * 
 
-total_comm_time = 0 
+total_comm_time = [0 for i in range(26)] 
 
 def time_wrap(use_gpu):
     if use_gpu:
@@ -288,7 +288,7 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
                         ''' 
                         continue 
                     if not ranking_range: 
-                        buffer_changes, scale = quantize_emb_grad(embedding_table = None, embedding_table_grad = emb_table.embedding_bag.weight.grad, num_bits = num_bits, parallel = True, num_gpus = number_of_gpus) 
+                        buffer_changes, scale = quantize_emb_grad(embedding_table = None, embedding_table_grad = emb_table.embedding_bag.weight.grad, num_bits = num_bits, parallel = True, num_gpus = number_of_gpus, table_id = id) 
                         '''
                         if rank_for_debug == 0: 
                             print(buffer_changes.dtype) 
@@ -296,8 +296,8 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
                         emb_table.emb_scaling_factor = scale 
                         if rank_for_debug == 0 and (iteration_count + 1) % 1024 == 0: 
                             global total_comm_time 
-                            print("total time per iteration spent on all reduce is {}".format(float(total_comm_time)/1024)) 
-                            total_comm_time = 0 
+                            print("total time per iteration spent on all reduce is {} ms".format((1000.0 * total_comm_time)/1024)) 
+                            total_comm_time *= 0 
                     else: 
                         '''
                         print("rank {}, table {}, gradient precision set to {}".format(rank_for_debug, id, emb_table.gradient_bit_width)) 
@@ -730,7 +730,7 @@ def quantize_emb_grad_two(embedding_table, num_gpus = None):
         emb_gradient_update.mul_(1. / num_gpus) 
         return emb_gradient_update, None 
 
-def quantize_emb_grad(embedding_table, embedding_table_grad, num_bits, parallel, num_gpus = None, scale = None, use_ec = False): 
+def quantize_emb_grad(embedding_table, embedding_table_grad, num_bits, parallel, num_gpus = None, scale = None, use_ec = False, table_id = None): 
     with torch.no_grad(): 
         if embedding_table_grad.grad_fn is not None: 
             embedding_table_grad.detach_() 
@@ -758,8 +758,9 @@ def quantize_emb_grad(embedding_table, embedding_table_grad, num_bits, parallel,
             before_a = time_wrap(True) 
             dist.all_reduce(emb_gradient_update, dist.ReduceOp.SUM) 
             after_a = time_wrap(True) 
-            global total_comm_time 
-            total_comm_time += after_a - before_a 
+            if table_id != None: 
+                global total_comm_time 
+                total_comm_time[table_id] = after_a - before_a 
             '''
             emb_gradient_update.mul_(1. / num_gpus) 
             ''' 
