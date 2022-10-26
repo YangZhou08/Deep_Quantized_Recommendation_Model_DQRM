@@ -509,7 +509,7 @@ def weights_update_added_quantization(model, lr, num_gpus, emb_grad_quantized = 
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
-def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_embedding = True, num_gpus = 1, rank_for_debug = None, ranking_range = False): 
+def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_embedding = True, num_gpus = 1, rank_for_debug = None, ranking_range = False, use_ec = False): 
     with torch.no_grad(): 
         if update_embedding: 
             if model.emb_l is not None: 
@@ -526,7 +526,13 @@ def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_emb
                         if ranking_range and emb_table.gradient_bit_width.item() == 32: 
                             emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad) 
                         else: 
+                            grad_update_n = emb_table.embedding_bag.weight.grad * emb_table.emb_scaling_factor.item() 
+                            '''
                             emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad * emb_table.emb_scaling_factor.item()) 
+                            ''' 
+                            emb_table.embedding_bag.weight.data.add_(-lr * grad_update_n) 
+                            if use_ec: 
+                                update_error_term(emb_table, grad_update_n) 
                     else: 
                         emb_table.embedding_bag.weight.data.add_(-lr * emb_table.embedding_bag.weight.grad) 
             else: 
@@ -597,22 +603,61 @@ def clear_gradients(model):
                     param.grad.requires_grad_(False) 
                 param.grad.zero_() 
 
-def find_indices(sparse_m, list_idx): 
-  sparse_m = sparse_m.coalesce() 
-  list_ll = [] 
-  for idx in list_idx: 
-    for i, ele in enumerate(sparse_m.indices()[0]): 
-      if ele.item() == idx: 
-        list_ll.append(i) 
-  return list_ll 
+def update_sparse_tensor(sparse_m, list_idx): 
+    ''' 
+    This function output list of indices relative to the sparse matrix and the absolute row ids list 
+    both need to be used 
 
-def update_error_term(sparse_grad, sparse_error): 
-    # TODO 
+    Parameter: 
+    ---------- 
+    sparse_m: update 
+    list_idx: index interest 
+
+    Return: 
+    ---------- 
+    list_ll: list of relative ids 
+    ids_row: list of absolute ids 
+    '''
+    sparse_m = sparse_m.coalesce() 
+    list_ll = [] 
+    ids_row = [] 
+    trace_count = 0 
+    list_indices2 = sparse_m.indices()[0] 
+    for idx in list_idx: 
+        while (trace_count < len(list_indices2)):  
+            ele = list_indices2[trace_count] 
+            if ele.item() == idx: 
+                list_ll.append(trace_count) 
+                ids_row.append(ele.item()) 
+                break 
+            trace_count += 1 
+        if (trace_count >= len(list_indices2)): 
+            break 
+    return list_ll, ids_row 
+
+def update_error_term(embedding_table, sparse_grad): 
+    ''' 
+    This function requires embedding_table to have a field called index_interest and a field called sparse_error 
+    Also, embedding_table.index_interest is sorted from small to large 
+
+    Parameter: 
+    ---------- 
+    embedding_table: the embedding table that is to have the quantized gradients 
+    sparse_error: error term that is updating 
+
+    Return: 
+    ---------- 
+    None 
+    ''' 
+    device = embedding_table.sparse_error.device 
+    relative_ids, abs_ids = update_sparse_tensor(sparse_grad, embedding_table.index_interest) 
+    error_update = torch.sparse_coo_tensor(torch.Tensor(abs_ids, device = device), sparse_grad.values()[relative_ids], size = embedding_table.sparse_error.size, device = device) 
+    embedding_table.sparse_error -= error_update 
     return 
 
 def quantize_emb_grad_error_compensation(embedding_table, num_gpus = None, ranking_range = False, num_bits = None): 
     ''' 
-    This function requires embedding_table to have a field called emb_local_err 
+    This function requires embedding_table to have a field called sparse_error 
     
     The local error compensation is implemented using the error term E 
     Z = T_g + E 
@@ -672,28 +717,35 @@ def quantize_emb_grad_two(embedding_table, num_gpus = None):
         emb_gradient_update.mul_(1. / num_gpus) 
         return emb_gradient_update, None 
 
-def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scale = None): 
+def quantize_emb_grad(embedding_table, embedding_table_grad, num_bits, parallel, num_gpus = None, scale = None, use_ec = False): 
     with torch.no_grad(): 
-        if embedding_table.grad_fn is not None: 
-            embedding_table.detach_() 
+        if embedding_table_grad.grad_fn is not None: 
+            embedding_table_grad.detach_() 
         else: 
-            embedding_table.requires_grad_(False) 
+            embedding_table_grad.requires_grad_(False) 
         # finding scale 
-        embedding_table = embedding_table.coalesce() 
+        if use_ec: 
+            embedding_table_grad += embedding_table.sparse_error 
+        embedding_table_grad = embedding_table_grad.coalesce() 
         if scale is None: 
-            scale = symmetric_linear_quantization_param_two(num_bits, embedding_table.values(), None, None, None) 
+            scale = symmetric_linear_quantization_param_two(num_bits, embedding_table_grad.values(), None, None, None) 
 
         if parallel: 
             scale.requires_grad_(False) 
             dist.all_reduce(scale, dist.ReduceOp.SUM) 
-            scale = scale/num_gpus 
+            scale.mul_(1. / (num_gpus ** 2)) 
         scale = scale.view(-1) 
         # quantize 
-        emb_gradient_update = torch.sparse_coo_tensor(embedding_table.indices(), SymmetricQuantFunction.apply(embedding_table.values(), num_bits, scale), size = embedding_table.size(), device = embedding_table.device) 
+        '''
+        emb_gradient_update = torch.sparse_coo_tensor(embedding_table_grad.indices(), SymmetricQuantFunction.apply(embedding_table_grad.values(), num_bits, scale), size = embedding_table_grad.size(), device = embedding_table_grad.device) 
+        ''' 
+        emb_gradient_update = torch.sparse_coo_tensor(embedding_table_grad.indices(), SymmetricQuantFunction.apply(embedding_table_grad.values(), num_bits, scale).type(torch.int8), size = embedding_table_grad.size(), device = embedding_table_grad.device) 
         if parallel: 
             emb_gradient_update.requires_grad_(False) 
             dist.all_reduce(emb_gradient_update, dist.ReduceOp.SUM) 
+            '''
             emb_gradient_update.mul_(1. / num_gpus) 
+            ''' 
         return emb_gradient_update, scale 
 
 def quantize_linear_grad(weight, num_bits, parallel, num_gpus = None, per_channel = True, scale = None): 
