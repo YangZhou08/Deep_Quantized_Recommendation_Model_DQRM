@@ -18,6 +18,9 @@ from quantization_supp.full_precision_modules import LinearCompressedGrad
 from quantization_supp.quant_modules_not_quantize_grad import QuantLinear 
 from quantization_supp.quant_utils import * 
 
+from dlrm_s_pytorch_comm_grad import time_wrap 
+from dlrm_s_pytorch_comm_grad import total_comm_time 
+
 def grad_buffer_update(model, number_of_gpus): 
     """  
     The function updates all the layer's grad buffer by the updated gradients across all layers in the model 
@@ -287,10 +290,10 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
                             print(buffer_changes.dtype) 
                         ''' 
                         emb_table.emb_scaling_factor = scale 
-                        '''
                         if rank_for_debug == 0 and (iteration_count + 1) % 1024 == 0: 
-                            print("table {} scale {}".format(id, scale)) 
-                        ''' 
+                            global total_comm_time 
+                            print("total time per iteration spent on all reduce is {}".format(float(total_comm_time)/1024)) 
+                            total_comm_time = 0 
                     else: 
                         '''
                         print("rank {}, table {}, gradient precision set to {}".format(rank_for_debug, id, emb_table.gradient_bit_width)) 
@@ -748,7 +751,11 @@ def quantize_emb_grad(embedding_table, embedding_table_grad, num_bits, parallel,
         emb_gradient_update = torch.sparse_coo_tensor(embedding_table_grad.indices(), SymmetricQuantFunction.apply(embedding_table_grad.values(), num_bits, scale).type(torch.int8), size = embedding_table_grad.size(), device = embedding_table_grad.device) 
         if parallel: 
             emb_gradient_update.requires_grad_(False) 
+            before_a = time_wrap() 
             dist.all_reduce(emb_gradient_update, dist.ReduceOp.SUM) 
+            after_a = time_wrap() 
+            global total_comm_time 
+            total_comm_time += after_a - before_a 
             '''
             emb_gradient_update.mul_(1. / num_gpus) 
             ''' 

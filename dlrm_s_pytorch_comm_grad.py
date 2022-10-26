@@ -157,6 +157,7 @@ learning_rate = 0.1
 step_count = 0 
 
 change_lin_full_quantize = False 
+total_comm_time = 0 
 
 exc = getattr(builtins, "IOError", "FileNotFoundError")
 
