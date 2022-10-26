@@ -18,8 +18,12 @@ from quantization_supp.full_precision_modules import LinearCompressedGrad
 from quantization_supp.quant_modules_not_quantize_grad import QuantLinear 
 from quantization_supp.quant_utils import * 
 
-from dlrm_s_pytorch_comm_grad import time_wrap 
-from dlrm_s_pytorch_comm_grad import total_comm_time 
+total_comm_time = 0 
+
+def time_wrap(use_gpu):
+    if use_gpu:
+        torch.cuda.synchronize()
+    return time.time() 
 
 def grad_buffer_update(model, number_of_gpus): 
     """  
