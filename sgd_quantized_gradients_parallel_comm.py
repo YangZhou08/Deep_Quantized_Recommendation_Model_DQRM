@@ -755,9 +755,9 @@ def quantize_emb_grad(embedding_table, embedding_table_grad, num_bits, parallel,
         emb_gradient_update = torch.sparse_coo_tensor(embedding_table_grad.indices(), SymmetricQuantFunction.apply(embedding_table_grad.values(), num_bits, scale).type(torch.int8), size = embedding_table_grad.size(), device = embedding_table_grad.device) 
         if parallel: 
             emb_gradient_update.requires_grad_(False) 
-            before_a = time_wrap() 
+            before_a = time_wrap(True) 
             dist.all_reduce(emb_gradient_update, dist.ReduceOp.SUM) 
-            after_a = time_wrap() 
+            after_a = time_wrap(True) 
             global total_comm_time 
             total_comm_time += after_a - before_a 
             '''
