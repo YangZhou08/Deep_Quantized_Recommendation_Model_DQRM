@@ -282,8 +282,10 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
                         continue 
                     if not ranking_range: 
                         buffer_changes, scale = quantize_emb_grad(embedding_table = None, embedding_table_grad = emb_table.embedding_bag.weight.grad, num_bits = num_bits, parallel = True, num_gpus = number_of_gpus) 
+                        '''
                         if rank_for_debug == 0: 
                             print(buffer_changes.dtype) 
+                        ''' 
                         emb_table.emb_scaling_factor = scale 
                         '''
                         if rank_for_debug == 0 and (iteration_count + 1) % 1024 == 0: 
