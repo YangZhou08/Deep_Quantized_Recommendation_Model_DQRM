@@ -294,10 +294,6 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
                             print(buffer_changes.dtype) 
                         ''' 
                         emb_table.emb_scaling_factor = scale 
-                        if rank_for_debug == 0 and (iteration_count + 1) % 1024 == 0: 
-                            global total_comm_time 
-                            print("total time per iteration spent on all reduce is {} ms".format((1000.0 * total_comm_time)/1024)) 
-                            total_comm_time *= 0 
                     else: 
                         '''
                         print("rank {}, table {}, gradient precision set to {}".format(rank_for_debug, id, emb_table.gradient_bit_width)) 
@@ -332,6 +328,10 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
                     emb_table.embedding_bag.weight.grad.mul_(1. / number_of_gpus) 
             else: 
                 raise Warning("Cannot find the list of embedding tables") 
+        if rank_for_debug == 0 and (iteration_count + 1) % 1024 == 0: 
+            global total_comm_time 
+            print("total time per iteration spent on all reduce is {} ms".format((1000.0 * total_comm_time)/1024)) 
+            total_comm_time *= 0 
         
         if model.bot_l is not None: 
             for layer_one in model.bot_l: 
