@@ -766,6 +766,9 @@ def quantize_emb_grad(embedding_table, embedding_table_grad, num_bits, parallel,
                 global total_comm_time 
                 total_comm_time[table_id] = after_a - before_a 
             ''' 
+            '''
+            emb_gradient_update.mul_(1. / num_gpus) 
+            ''' 
             emb_gradient_update.mul_(1. / num_gpus).round_() 
         return emb_gradient_update, scale 
 
