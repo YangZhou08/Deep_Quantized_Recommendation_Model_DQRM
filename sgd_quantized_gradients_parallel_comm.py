@@ -331,7 +331,7 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
         if rank_for_debug == 0 and (iteration_count + 1) % 1024 == 0: 
             global total_comm_time 
             print("total time per iteration spent on all reduce is {} ms".format([l * 1000.0/1024 for l in total_comm_time])) 
-            total_comm_time *= 0 
+            total_comm_time = [0 for k in range(26)] 
         
         if model.bot_l is not None: 
             for layer_one in model.bot_l: 
