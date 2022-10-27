@@ -747,7 +747,7 @@ def quantize_emb_grad(embedding_table, embedding_table_grad, num_bits, parallel,
         if parallel: 
             scale.requires_grad_(False) 
             dist.all_reduce(scale, dist.ReduceOp.SUM) 
-            scale.mul_(1. / (num_gpus ** 2)) 
+            scale.mul_(1. / (num_gpus)) 
         scale = scale.view(-1) 
         # quantize 
         emb_gradient_update = torch.sparse_coo_tensor(embedding_table_grad.indices(), SymmetricQuantFunction.apply(embedding_table_grad.values(), num_bits, scale), size = embedding_table_grad.size(), device = embedding_table_grad.device) 
@@ -756,15 +756,17 @@ def quantize_emb_grad(embedding_table, embedding_table_grad, num_bits, parallel,
         ''' 
         if parallel: 
             emb_gradient_update.requires_grad_(False) 
+            '''
             before_a = time_wrap(True) 
+            ''' 
             dist.all_reduce(emb_gradient_update, dist.ReduceOp.SUM) 
+            '''
             after_a = time_wrap(True) 
             if table_id != None: 
                 global total_comm_time 
                 total_comm_time[table_id] = after_a - before_a 
-            '''
-            emb_gradient_update.mul_(1. / num_gpus) 
             ''' 
+            emb_gradient_update.mul_(1. / num_gpus) 
         return emb_gradient_update, scale 
 
 def quantize_linear_grad(weight, num_bits, parallel, num_gpus = None, per_channel = True, scale = None): 
