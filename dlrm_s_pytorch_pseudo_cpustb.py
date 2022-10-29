@@ -1103,7 +1103,6 @@ def train(gpu, args):
     print("number of gpu simulated is: {}".format(args.number_of_cpu_node)) 
 
     torch.manual_seed(0) 
-    torch.cuda.set_device(gpu) 
     batch_size = args.mini_batch_size 
 
     torch.set_printoptions(profile = "full") 
