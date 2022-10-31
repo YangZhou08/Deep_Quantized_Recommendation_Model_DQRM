@@ -550,7 +550,8 @@ def make_criteo_data_and_loaders(args, offset_to_length_converter=False):
         )
 
         collate_wrapper_criteo = collate_wrapper_criteo_offset
-        if offset_to_length_converter:
+        if offset_to_length_converter: 
+            print("----------gotheree") 
             collate_wrapper_criteo = collate_wrapper_criteo_length
 
         train_loader = torch.utils.data.DataLoader(
