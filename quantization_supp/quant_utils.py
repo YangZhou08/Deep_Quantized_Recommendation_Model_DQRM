@@ -333,7 +333,7 @@ class SymmetricQuantFunction(Function):
         else:
             raise ValueError("The SymmetricQuantFunction requires a pre-calculated scaling factor")
 
-        zero_point = torch.tensor(0.).cuda()
+        zero_point = torch.tensor(0.) 
         if backwardpass: # add the conditional checking 
             new_quant_x = linear_quantize(x, scale, zero_point, inplace = True) 
             ctx.scale = scale 
