@@ -1613,6 +1613,7 @@ def train(gpu, args):
                     weights_update_added_quantization(dlrm, lr_scheduler.get_lr()[-1], args.number_of_cpu_node, emb_grad_quantized = False, update_embedding = True) 
                     lr_scheduler.step() 
                     buffer_clean = True 
+                    print("step {} weight updated".format(j)) 
                 '''
                 dlrm.show_output_linear_layer_grad() 
                 ''' 
