@@ -1140,9 +1140,10 @@ def train(gpu, args):
     
     ### prepare training data ### 
     ln_bot = np.fromstring(args.arch_mlp_bot, dtype = int, sep = "-") 
-    
+    train_dataset, train_loader, test_dataset, test_loader = dp.make_criteo_data_and_loaders(args) 
+    '''
     train_dataset, test_dataset = dp.make_criteo_data_and_loaders_two(args) 
-    
+    ''' 
     # train sampler 
     '''
     train_sampler = torch.utils.data.distributed.DistributedSampler(train_dataset, num_replicas = args.world_size, rank = rank) 
@@ -1150,7 +1151,7 @@ def train(gpu, args):
     '''
     test_sampler = torch.utils.data.distributed.DistributedSampler(test_dataset, num_replicas = args.world_size, rank = rank) 
     ''' 
-    
+    '''
     collate_wrapper_criteo = dp.collate_wrapper_criteo_offset 
     
     train_loader = torch.utils.data.DataLoader( 
@@ -1172,6 +1173,7 @@ def train(gpu, args):
         collate_fn = collate_wrapper_criteo, 
         drop_last = False 
     ) 
+    ''' 
     
     nbatches = args.num_batches if args.num_batches > 0 else len(train_loader) 
     '''
