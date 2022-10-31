@@ -1157,7 +1157,7 @@ def train(gpu, args):
         dataset = train_dataset, 
         batch_size = batch_size, 
         shuffle = True, 
-        num_workers = 0, 
+        num_workers = args.num_workers, 
         pin_memory = True, 
         collate_fn = collate_wrapper_criteo, 
         drop_last = False 
