@@ -87,6 +87,7 @@ def grad_buffer_update_added_quantization(model, number_of_gpus, emb_grad_quanti
             if model.emb_l is not None: 
                 for emb_table in model.emb_l: 
                     emb_table.embedding_grad_buffer.add_(emb_table.embedding_bag.weight.grad/number_of_gpus) 
+                    print(emb_table.embedding_grad_buffer.is_sparse) 
             else: 
                 raise Warning("Cannot find the list of embedding tables") 
         '''
