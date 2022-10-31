@@ -1443,7 +1443,7 @@ def train(gpu, args):
         dataset = train_dataset, 
         batch_size = batch_size, 
         shuffle = False, 
-        num_workers = 0, 
+        num_workers = args.num_workers, 
         pin_memory = True, 
         sampler = train_sampler, 
         collate_fn = collate_wrapper_criteo, 
