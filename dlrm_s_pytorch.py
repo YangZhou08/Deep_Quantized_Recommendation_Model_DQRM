@@ -118,7 +118,9 @@ def time_wrap(use_gpu):
 
 
 def dlrm_wrap(X, lS_o, lS_i, use_gpu, device, ndevices=1): 
+    '''
     print("Calling inside dlrm wrap: ndevices is ", ndevices) 
+    ''' 
     with record_function("DLRM forward"):
         if use_gpu:  # .cuda()
             # lS_i can be either a list of tensors or a stacked tensor.
