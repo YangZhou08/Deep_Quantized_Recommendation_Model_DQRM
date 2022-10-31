@@ -1178,6 +1178,7 @@ def train(gpu, args):
     if (gpu == 0): 
         print("number of batches is ", nbatches) 
     ''' 
+    print("number of batches is ", nbatches) 
     nbatches_test = len(test_loader) 
     
     ln_emb = train_dataset.counts 
