@@ -1610,6 +1610,7 @@ def train(gpu, args):
                     buffer_clean = True 
                     print("step {} weight updated".format(j)) 
                 ''' 
+                print("step {} weight updated".format(j)) 
                 '''
                 dlrm.show_output_linear_layer_grad() 
                 ''' 
