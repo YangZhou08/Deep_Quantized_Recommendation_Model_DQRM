@@ -1575,18 +1575,14 @@ def train(gpu, args):
                 
                 # backward propagation 
                 # tried to see if the gradients can be modified 
-                '''
                 optimizer.zero_grad() 
-                ''' 
+                '''
                 clear_gradients(dlrm) # gradients zeroing (clearing) 
 
                 if buffer_clean: 
-                    '''
-                    print("zeroing buffers") 
-                    ''' 
                     grad_buffer_zeroing(dlrm) # buffers zeroing (clearing) 
                     buffer_clean = False 
-                
+                ''' 
                 E.backward() 
                 # quantization of gradient 
                 '''
@@ -1595,8 +1591,11 @@ def train(gpu, args):
                 '''
                 grad_buffer_update(dlrm, args.number_of_gpus) # update buffers 
                 ''' 
+                '''
+                # used originally 
                 grad_buffer_update_added_quantization(dlrm, args.number_of_cpu_node, emb_grad_quantized = False) 
-
+                ''' 
+                optimizer.step() 
                 if j % args.number_of_cpu_node == 0: 
                     '''
                     print("updating weights") 
