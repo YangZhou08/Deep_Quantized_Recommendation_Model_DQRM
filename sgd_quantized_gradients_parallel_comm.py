@@ -769,8 +769,10 @@ def quantize_emb_grad(embedding_table, embedding_table_grad, num_bits, parallel,
                 total_comm_time[table_id] = after_a - before_a 
             ''' 
             emb_gradient_update.mul_(1. / num_gpus) 
+            '''
             emb_gradient_update = emb_gradient_update.coalesce() 
             emb_gradient_update = torch.sparse_coo_tensor(emb_gradient_update.indices(), emb_gradient_update.values().round_(), size = emb_gradient_update.size(), device = emb_gradient_update.device) 
+            ''' 
         return emb_gradient_update, scale 
 
 def quantize_linear_grad(weight, num_bits, parallel, num_gpus = None, per_channel = True, scale = None): 
