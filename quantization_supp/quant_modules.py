@@ -328,8 +328,10 @@ class QuantEmbeddingBagTwo(Module):
         print("unquantized output vectors") 
         print(self.output_integer[0]) 
         ''' 
-        
+        '''
         if not full_precision_flag: 
+        ''' 
+        if full_precision_flag: 
             self.output_integer = self.weight_function(self.output_integer, self.embedding_bit, self.eb_scaling_factor) # quantization 
             '''
             self.output_integer = output # testing whether quantization introduces large overhead 
