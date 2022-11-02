@@ -277,7 +277,7 @@ class QuantEmbeddingBagTwo(Module):
     def set_iteration_bound(self): 
         # fixed value 
         if self.iteration_nt == 1 and self.iteration_bound == 0: # change if do other things 
-            self.iteration_bound += 300 
+            self.iteration_bound += 200  
             print("bound increasing to {}".format(self.iteration_bound.item())) 
         '''
         elif self.iteration_bound == 100 and self.iteration_nt > 30000: 
@@ -308,7 +308,6 @@ class QuantEmbeddingBagTwo(Module):
                     ''' 
                 else: 
                     raise Exception("for embedding weights, we only support symmetric quantization") 
-            '''
                 # update period info 
                 self.iteration_nt += 1 
                 self.now_iteration -= self.now_iteration 
@@ -316,7 +315,6 @@ class QuantEmbeddingBagTwo(Module):
             else: 
                 self.iteration_nt += 1 
                 self.now_iteration += 1 
-            ''' 
             
         if per_sample_weights is not None: 
             print("Warning: Embedding Table Assumes per_sample_weights to be None but it is not") 
