@@ -299,7 +299,10 @@ class QuantEmbeddingBagTwo(Module):
             self.weight_function = AsymmetricQuantFunction.apply 
         else: 
             raise ValueError("unknown quant mode: {}".format(self.quant_mode)) 
+        '''
         if not full_precision_flag and not test_mode: 
+        ''' 
+        if full_precision_flag: 
             if self.now_iteration == self.iteration_bound: 
                 if self.quant_mode == "symmetric": 
                     self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag, self.embedding_bound, self.num_embeddings, self.embedding_id) 
