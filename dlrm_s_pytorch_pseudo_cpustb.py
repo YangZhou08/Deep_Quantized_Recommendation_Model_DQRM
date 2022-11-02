@@ -1110,7 +1110,7 @@ def train(gpu, args):
     buffer_clean = False 
 
     global full_precision_flag 
-    full_precision_flag = args.pretrain_and_quantize 
+    full_precision_flag = True 
 
     global change_bitw 
     global change_bitw2 
