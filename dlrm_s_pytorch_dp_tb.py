@@ -2003,12 +2003,13 @@ def train(gpu, args):
                     dlrm.module.documenting_weights_tables(path_log, k, j, emb_quantized = args.quantization_flag) 
                 dist.barrier() 
                 ''' 
+                '''
                 print("stop updating embedding") 
                 
                 optimizer.zero_grad() 
                 for emb in dlrm.module.emb_l: 
                     emb.embedding_bag.weight.requires_grad = False 
-                
+                ''' 
                 '''
                 dlrm.module.show_output_linear_layer_grad() # checking whether the layer is consistent 
                 ''' 
