@@ -1431,7 +1431,7 @@ def train(gpu, args):
     '''
     train_dataset, test_dataset = dp.make_criteo_data_and_loaders_two(args) 
     ''' 
-    train_dataset, train_loader, test_dataset, test_loader = dp.make_criteo_data_and_loaders_two(args) 
+    train_dataset, train_loader, test_dataset, test_loader = dp.make_criteo_data_and_loaders_three(args, rank) 
     # train sampler 
     train_sampler = torch.utils.data.distributed.DistributedSampler(train_dataset, num_replicas = args.world_size, rank = rank) 
     '''
