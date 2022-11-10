@@ -1383,13 +1383,15 @@ def inference(
 def train(args): 
     # make global rank 
     backend = "ccl" 
+    rank = int(os.environ.get('PMI_RANK', 0)) 
+    world_size = int(os.environ.get('PMI_SIZE', 1)) 
+    print("rank {}, world size {}".format(rank, world_size)) 
     dist.init_process_group(
         backend = backend, 
         init_method = 'env://', 
-        world_size = dist.get_world_size(), 
-        rank = dist.get_rank() 
+        world_size = world_size, 
+        rank = rank 
     ) 
-    rank = dist.get_rank() 
     
     torch.manual_seed(0) 
     # TODO think about using cpu and change code 
