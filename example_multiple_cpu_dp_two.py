@@ -1,6 +1,6 @@
 import torch.nn.parallel
 import torch.distributed as dist
-import oneccl_bindings_for_pytorch
+import torch_ccl 
 import os
 
 os.environ['MASTER_ADDR'] = '127.0.0.1'
