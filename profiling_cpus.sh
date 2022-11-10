@@ -1,4 +1,4 @@
-#PBS -l select=2:ncpus=160 -lplace=excl 
+#PBS -l select=2:ncpus=160 -lplace=excl -l /bin/bash 
 conda init bash 
 conda activate aikit-pt 
 export LD_LIBRARY_PATH=~/anaconda3/lib 
