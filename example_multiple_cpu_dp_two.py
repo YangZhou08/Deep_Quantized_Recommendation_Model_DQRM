@@ -18,8 +18,8 @@ x = torch.ones([2, 2])
 y = torch.ones([4, 4])
 with torch.autograd.profiler.profile(record_shapes=True) as prof:
     for _ in range(10):
-        dist.all_reduce(x)
-        dist.all_reduce(y)
+        dist.all_reduce(x) 
+        dist.all_reduce(y) 
 dist.barrier() 
 print("rank = {}, eks {}".format(my_rank, x[0][0])) 
 print("rank = {}, wi = {}".format(my_rank, y[0][0])) 
