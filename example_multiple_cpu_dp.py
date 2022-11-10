@@ -11,7 +11,7 @@ def run(rank, size):
 
 def init_process(rank, size, fn, backend='gloo'):
     """ Initialize the distributed environment. """
-    os.environ['MASTER_ADDR'] = '127.0.0.1'
+    os.environ['MASTER_ADDR'] = '10.212.60.10' 
     os.environ['MASTER_PORT'] = '29500'
     dist.init_process_group(backend, rank=rank, world_size=size)
     fn(rank, size)
@@ -27,4 +27,4 @@ if __name__ == "__main__":
         processes.append(p)
 
     for p in processes:
-        p.join()
+        p.join() 
