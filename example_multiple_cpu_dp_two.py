@@ -23,4 +23,4 @@ with torch.autograd.profiler.profile(record_shapes=True) as prof:
 dist.barrier() 
 print("rank = {}, eks {}".format(my_rank, x[0][0])) 
 print("rank = {}, wi = {}".format(my_rank, y[0][0])) 
-print(prof.key_averages(group_by_input_shape=True).table(sort_by="self_cpu_time_total"))
+print(prof.key_averages(group_by_input_shape=True).table(sort_by="self_cpu_time_total")) 
