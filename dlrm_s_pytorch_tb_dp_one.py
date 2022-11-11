@@ -1691,7 +1691,7 @@ def train(args):
         for k, w in enumerate(dlrm.v_W_l):
             dlrm.v_W_l[k] = w.cuda() 
 
-    dlrm = nn.parallel.DistributedDataParallel(dlrm, device_ids = [rank]) 
+    dlrm = nn.parallel.DistributedDataParallel(dlrm, device_ids = None) 
 
     if not args.inference_only: 
         if use_gpu and args.optimizer in ["rwsadagrad", "adagrad"]: # TODO check whether PyTorch support adagrad 
