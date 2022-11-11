@@ -1883,6 +1883,8 @@ def train(args):
                 mbs = T.shape[0] 
                 
                 X = X[get_my_slice(mbs, world_size, rank)] 
+                lS_o = lS_o[get_my_slice(mbs, world_size, rank)] 
+                lS_i = lS_i[get_my_slice(mbs, world_size, rank)] 
                 T = T[get_my_slice(mbs, world_size, rank)] 
                 W = W[get_my_slice(mbs, world_size, rank)] 
                 Z = dlrm_wrap(
