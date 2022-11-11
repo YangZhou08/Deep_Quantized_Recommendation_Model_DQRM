@@ -1138,6 +1138,7 @@ def run():
     os.environ['RANK'] = str(os.environ.get('PMI_RANK', 0))
     os.environ['WORLD_SIZE'] = str(os.environ.get('PMI_SIZE', 1)) 
 
+    args.world_size = int(os.environ.get('PMI_SIZE', 1)) 
     train(args) 
   
 def inference_distributed(
