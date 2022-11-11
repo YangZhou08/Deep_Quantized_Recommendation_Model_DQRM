@@ -1,4 +1,3 @@
-source /homes/yangzhou08/anaconda3/envs/aikit-pt/lib/python3.9/site-packages/torch_ccl/env/setvars.sh 
 export PATH=$PATH:/opt/pbs/default/bin
 export I_MPI_HYDRA_BOOTSTRAP=rsh
 export I_MPI_HYDRA_BOOTSTRAP_EXEC=pbs_tmrsh 
