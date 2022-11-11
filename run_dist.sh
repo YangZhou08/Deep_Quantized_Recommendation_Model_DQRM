@@ -131,5 +131,5 @@ eval set -- "${MPIEXE_ARGS} $CMD $ARGS"
 echo "Running mpiexec.hydra $@"
 echo "Start Time:  `date`"
 #mpiexec.hydra ${MPIEXE_ARGS} ${CMD} $@
-mpiexec.hydra $@ 
+mpiexec.hydra $@
 echo "End Time:    `date`"
