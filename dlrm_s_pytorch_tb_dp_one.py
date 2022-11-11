@@ -1884,7 +1884,7 @@ def train(args):
                 
                 X = X[get_my_slice(mbs, world_size, rank)] 
                 print("oooo previously {}".format(lS_o[0][: 100])) 
-                lS_o = lS_o[:, get_my_slice(mbs, world_size, rank)] 
+                lS_o = lS_o[:, 0 : len(get_my_slice(mbs, world_size, rank))] 
                 print("oooo after {}".format(lS_o[0][: 100])) 
                 print("iiii previously {}".format(lS_i[0][: 100])) 
                 lS_i = lS_i[:, get_my_slice(mbs, world_size, rank)] 
