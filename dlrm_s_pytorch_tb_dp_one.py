@@ -1883,7 +1883,10 @@ def train(args):
                 mbs = T.shape[0] 
                 
                 X = X[get_my_slice(mbs, world_size, rank)] 
+                print("x {}".format(X.shape)) 
+                print("oooo {}".format(lS_o.shape)) 
                 lS_o = lS_o[get_my_slice(mbs, world_size, rank)] 
+                print("iiii {}".format(lS_i.shape)) 
                 lS_i = lS_i[get_my_slice(mbs, world_size, rank)] 
                 T = T[get_my_slice(mbs, world_size, rank)] 
                 W = W[get_my_slice(mbs, world_size, rank)] 
