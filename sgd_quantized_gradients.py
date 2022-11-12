@@ -80,6 +80,7 @@ def grad_buffer_update_added_quantization(model, number_of_gpus, emb_grad_quanti
                         emb_table.emb_scaling_factor = scale 
                     else: 
                         buffer_changes, _ = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 8, parallel = False, scale = emb_table.emb_scaling_factor) 
+                    
                     emb_table.embedding_grad_buffer.add_(buffer_changes) # buffer accumulates integer tensors, scales handles the batch size 
                     emb_table.embedding_grad_buffer = emb_table.embedding_grad_buffer.coalesce() 
             else: 
@@ -89,7 +90,6 @@ def grad_buffer_update_added_quantization(model, number_of_gpus, emb_grad_quanti
                 for emb_table in model.emb_l: 
                     emb_table.embedding_grad_buffer.add_(emb_table.embedding_bag.weight.grad/number_of_gpus) 
                     emb_table.embedding_grad_buffer = emb_table.embedding_grad_buffer.coalesce() 
-                    print(emb_table.embedding_grad_buffer.is_sparse) 
             else: 
                 raise Warning("Cannot find the list of embedding tables") 
         '''
