@@ -21,10 +21,10 @@ class EmbeddingBagCompressedGrad(Module):
         W = np.random.uniform(
             low = -np.sqrt(1/self.num_embeddings), high = np.sqrt(1/self.num_embeddings), size = (self.num_embeddings, self.embedding_dim) 
         ).astype(np.float32) 
-        '''
-        self.register_buffer('embedding_grad_buffer', torch.zeros((self.num_embeddings, self.embedding_dim)), persistent = False) 
-        self.register_buffer('emb_scaling_factor', torch.zeros(1), persistent = True) 
-        ''' 
+
+        self.register_buffer('embedding_grad_buffer', torch.sparse_coo_tensor(indices = torch.Tensor([[0]]), values = torch.zeros((1, self.embedding_dim)), size = (self.num_embeddings, self.embedding_dim))) 
+        self.register_buffer('emb_scaling_factor', torch.zeros(1)) 
+
         self.embedding_bag = nn.EmbeddingBag(self.num_embeddings, self.embedding_dim, mode = "sum", sparse = True) 
         self.embedding_bag.weight.data = torch.tensor(W, requires_grad = True) 
 
