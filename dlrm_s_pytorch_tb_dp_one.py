@@ -1692,7 +1692,9 @@ def train(args):
     '''
     dlrm.cuda(gpu) # TODO think about using cpu and change code 
     ''' 
+    '''
     dlrm.to(device) 
+    ''' 
     # TODO check whether the following section is supported 
     
     if dlrm.weighted_pooling == "fixed":
