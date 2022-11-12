@@ -1595,7 +1595,7 @@ def train(gpu, args):
                 ''' 
                 
                 # used originally 
-                grad_buffer_update_added_quantization(dlrm, args.number_of_cpu_node, emb_grad_quantized = False) 
+                grad_buffer_update_added_quantization(dlrm, args.number_of_cpu_node, emb_grad_quantized = True) 
                 
                 '''
                 optimizer.step() 
@@ -1611,7 +1611,7 @@ def train(gpu, args):
                         weights_update_added_quantization(dlrm, lr_scheduler.get_lr()[-1], args.number_of_gpus, emb_grad_quantized = False) 
                     ''' 
                     # used previously 
-                    weights_update_added_quantization(dlrm, lr_scheduler.get_lr()[-1], args.number_of_cpu_node, emb_grad_quantized = False, update_embedding = True) 
+                    weights_update_added_quantization(dlrm, lr_scheduler.get_lr()[-1], args.number_of_cpu_node, emb_grad_quantized = True, update_embedding = True) 
                     lr_scheduler.step() 
                     buffer_clean = True 
                 
