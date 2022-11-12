@@ -1578,7 +1578,6 @@ def train(gpu, args):
                 '''
                 optimizer.zero_grad() 
                 ''' 
-                
                 clear_gradients(dlrm) # gradients zeroing (clearing) 
 
                 if buffer_clean: 
