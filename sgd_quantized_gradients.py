@@ -81,12 +81,14 @@ def grad_buffer_update_added_quantization(model, number_of_gpus, emb_grad_quanti
                     else: 
                         buffer_changes, _ = quantize_emb_grad(emb_table.embedding_bag.weight.grad, num_bits = 8, parallel = False, scale = emb_table.emb_scaling_factor) 
                     emb_table.embedding_grad_buffer.add_(buffer_changes) # buffer accumulates integer tensors, scales handles the batch size 
+                    emb_table.embedding_grad_buffer = emb_table.embedding_grad_buffer.coalesce() 
             else: 
                 raise Warning("Cannot find the list of embedding tables") 
         else: 
             if model.emb_l is not None: 
                 for emb_table in model.emb_l: 
                     emb_table.embedding_grad_buffer.add_(emb_table.embedding_bag.weight.grad/number_of_gpus) 
+                    emb_table.embedding_grad_buffer = emb_table.embedding_grad_buffer.coalesce() 
                     print(emb_table.embedding_grad_buffer.is_sparse) 
             else: 
                 raise Warning("Cannot find the list of embedding tables") 
@@ -237,7 +239,7 @@ def grad_buffer_zeroing(model):
 
     if model.emb_l is not None: 
         for emb_table in model.emb_l: 
-            emb_table.embedding_grad_buffer.zero_() 
+            emb_table.embedding_grad_buffer = torch.sparse_coo_tensor(indices = torch.Tensor([[0]]), values = torch.zeros((1, emb_table.embedding_dim)), size = (emb_table.num_embeddings, emb_table.embedding_dim)) 
             emb_table.emb_scaling_factor.zero_() # zero out the scale 
     else: 
         raise Warning("Cannot find the list of embedding tables") 
@@ -451,6 +453,45 @@ def clear_gradients(model):
                 else: 
                     param.grad.requires_grad_(False) 
                 param.grad.zero_() 
+
+def gradients_clear(model): 
+    for emb_table in model.emb_l: 
+        if emb_table.embedding_table.weight.grad is not None: 
+            if emb_table.embedding_table.weight.grad.grad_fn is not None: 
+                emb_table.embedding_table.weight.grad.detach_() 
+            else: 
+                emb_table.embedding_table.weight.grad.requires_grad_(False) 
+            emb_table.embedding_table.weight.grad.zero_() 
+    
+    for layer_one in model.bot_l: 
+        if layer_one.weight.grad is not None: 
+            if layer_one.weight.grad.grad_fn is not None: 
+                layer_one.weight.grad.detach_() 
+            else: 
+                layer_one.weight.grad.requires_grad_(False) 
+            layer_one.weight.grad.zero_() 
+
+        if layer_one.bias.grad is not None: 
+            if layer_one.bias.grad.grad_fn is not None: 
+                layer_one.bias.grad.detach_() 
+            else: 
+                layer_one.bias.grad.requires_grad_(False) 
+            layer_one.bias.grad.zero_() 
+    
+    for layer_one in model.top_l: 
+        if layer_one.weight.grad is not None: 
+            if layer_one.weight.grad.grad_fn is not None: 
+                layer_one.weight.grad.detach_() 
+            else: 
+                layer_one.weight.grad.requires_grad_(False) 
+            layer_one.weight.grad.zero_() 
+
+        if layer_one.bias.grad is not None: 
+            if layer_one.bias.grad.grad_fn is not None: 
+                layer_one.bias.grad.detach_() 
+            else: 
+                layer_one.bias.grad.requires_grad_(False) 
+            layer_one.bias.grad.zero_() 
 
 def quantize_emb_grad(embedding_table, num_bits, parallel, num_gpus = None, scale = None): 
     with torch.no_grad(): 
