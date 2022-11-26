@@ -1596,9 +1596,10 @@ def train(gpu, args):
                 grad_buffer_update_added_quantization(dlrm, args.number_of_cpu_node, emb_grad_quantized = True) 
                 ''' 
                 grad_buffer_update_added_quantization(dlrm, args.number_of_cpu_node, emb_grad_quantized = False) 
+                '''
                 optimizer.step() 
                 lr_scheduler.step() 
-                
+                ''' 
                 if j % args.number_of_cpu_node == 0: 
                     '''
                     print("updating weights") 
