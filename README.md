@@ -5,7 +5,7 @@ DQRM: Deep Quantized Recommendation Model
 ## ![#c5f015](https://placehold.co/15x15/c5f015/c5f015.png)`Please check out our project preprint`
 [DQRM paper](./DQRM__Deep_learning_Quantized_Recommender_System_Model.pdf) 
 
-![#c5f015](https://placehold.co/15x15/c5f015/c5f015.png)`The project is submitting to KDD 2023`. 
+![#c5f015](https://placehold.co/15x15/c5f015/c5f015.png)The project is planned to submit to **KDD 2023**. 
 
 Acknowledgement: 
 ------------
