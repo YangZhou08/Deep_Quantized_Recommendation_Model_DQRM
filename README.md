@@ -55,12 +55,6 @@ bash -x ./bash_scripts/Kaggle/run_dlrm_kaggle_gpu_four.sh
 bash -x ./bash_scripts/Terabytes/run_dlrm_tb_cpu.sh 
 ``` 
 
-Version
--------
-0.1 : Initial release of the DLRM code
-
-1.0 : DLRM with distributed training, cpu support for row-wise adagrad optimizer
-
 Requirements
 ------------
 pytorch-nightly (*11/10/20*)
