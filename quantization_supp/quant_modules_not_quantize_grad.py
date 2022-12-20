@@ -72,10 +72,10 @@ class QuantLinear(Module):
         ''' 
         self.register_buffer('weight_integer', torch.zeros_like(self.weight), persistent = False) 
         self.register_buffer('bias_integer', torch.zeros_like(linear.bias), persistent = False) 
-        self.register_buffer('weight_grad_buffer', torch.zeros_like(self.weight), persistent = False) 
         '''
-        self.register_buffer('weight_scaling_factor', torch.zeros(self.out_features)) 
+        self.register_buffer('weight_grad_buffer', torch.zeros_like(self.weight), persistent = False) 
         ''' 
+        self.register_buffer('weight_scaling_factor', torch.zeros(self.out_features)) 
         '''
         self.register_buffer('bias_grad_buffer', torch.zeros(self.out_features)) 
         ''' 
@@ -296,6 +296,7 @@ class QuantEmbeddingBagTwo(Module):
         using quantized weights to forward activation x 
         """ 
         # here please note that here we only have integer inputs, no prev_act_scaling_factor is added 
+        full_precision_flag = full_precision_flag or self.full_precision_flag 
         if self.quant_mode == "symmetric" or self.quant_mode == "speed_symmetric": 
             self.weight_function = SymmetricQuantFunction.apply 
         elif self.quant_mode == "asymmetric": 
