@@ -2022,7 +2022,7 @@ def train(gpu, args):
                 ''' 
             k += 1 
                             
-    else: 
+    elif args.training_need: 
         print("Testing for inference only") 
         inference_distributed(
             rank, 
