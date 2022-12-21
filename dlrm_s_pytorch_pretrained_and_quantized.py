@@ -1651,14 +1651,17 @@ def train(gpu, args):
         for id, emb_table in enumerate(dlrm.emb_l): 
             print("table {}, original full_precision_flag in{}".format(id, emb_table.full_precision_flag)) 
             emb_table.full_precision_flag = True 
+            print("change to {}".format(emb_table.full_precision_flag)) 
         for id, lnr in enumerate(dlrm.bot_l): 
             if isinstance(lnr, QuantLinear): 
                 print("lnr {}, original full_precision_flag in {}".format(id, lnr.full_precision_flag)) 
                 lnr.full_precision_flag = True 
+                print("change to {}".format(lnr.full_precision_flag)) 
         for id, lnr in enumerate(dlrm.top_l): 
             if isinstance(lnr, QuantLinear): 
                 print("lnr {}, original full_precision_flag in {}".format(id, lnr.full_precision_flag)) 
                 lnr.full_precision_flag = True 
+                print("change to {}".format(lnr.full_precision_flag)) 
 
     print("before training, checking models") 
     dlrm.show_output_linear_layer_grad(start = True) 
