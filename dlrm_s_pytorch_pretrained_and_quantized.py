@@ -2098,10 +2098,12 @@ def train(gpu, args):
             print(param.detach().cpu().numpy()) 
         ''' 
         # test on the first gpu on the first node 
+        '''
         epoch_num_float = (j + 1) / len(train_loader) 
         print(
             "Testing at - {}/{} of epoch {},".format(j + 1, nbatches, k)
         ) 
+        ''' 
         if rank == 0: 
             model_metrics_dict, is_best = inference_distributed(
                 rank, 
