@@ -2104,6 +2104,7 @@ def train(gpu, args):
             "Testing at - {}/{} of epoch {},".format(j + 1, nbatches, k)
         ) 
         ''' 
+        log_iter = -1 
         if rank == 0: 
             model_metrics_dict, is_best = inference_distributed(
                 rank, 
