@@ -1646,6 +1646,17 @@ def train(gpu, args):
         mlp_channelwise = args.linear_channel, 
         quantize_activation = args.quantize_activation, 
         deviceid = gpu) 
+    
+    if rank == 0: 
+        for id, emb_table in enumerate(dlrm.emb_l): 
+            print("table {}, original full_precision_flag in{}".format(id, emb_table.full_precision_flag)) 
+            emb_table.full_precision_flag = True 
+        for id, lnr in enumerate(dlrm.bot_l): 
+            print("lnr {}, original full_precision_flag in {}".format(id, lnr.full_precision_flag)) 
+            lnr.full_precision_flag = True 
+        for id, lnr in enumerate(dlrm.top_l): 
+            print("lnr {}, original full_precision_flag in {}".format(id, lnr.full_precision_flag)) 
+            lnr.full_precision_flag = True 
 
     print("before training, checking models") 
     dlrm.show_output_linear_layer_grad(start = True) 
@@ -2140,13 +2151,13 @@ def train(gpu, args):
         if rank == 0: 
             for id, emb_table in enumerate(dlrm.emb_l): 
                 print("table {}, original full_precision_flag in{}".format(id, emb_table.full_precision_flag)) 
-                emb_table.full_precision_flag = True 
+                emb_table.full_precision_flag = False 
             for id, lnr in enumerate(dlrm.bot_l): 
                 print("lnr {}, original full_precision_flag in {}".format(id, lnr.full_precision_flag)) 
-                lnr.full_precision_flag = True 
+                lnr.full_precision_flag = False 
             for id, lnr in enumerate(dlrm.top_l): 
                 print("lnr {}, original full_precision_flag in {}".format(id, lnr.full_precision_flag)) 
-                lnr.full_precision_flag = True 
+                lnr.full_precision_flag = False 
             
             inference_distributed(
                 rank, 
