@@ -310,6 +310,8 @@ class QuantEmbeddingBagTwo(Module):
                     '''
                     self.eb_scaling_factor = torch.tensor(1.0, dtype = torch.float32, requires_grad = False) # testing whether finding max and min would introduce overhead 
                     ''' 
+                    # check the dimension of scale 
+                    print("embedding table id {}, and the dimension of the scale {}".format(self.embedding_id, self.eb_scaling_factor.shape)) 
                 else: 
                     raise Exception("for embedding weights, we only support symmetric quantization") 
                 
