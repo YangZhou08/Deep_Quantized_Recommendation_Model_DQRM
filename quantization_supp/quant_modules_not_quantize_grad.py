@@ -280,7 +280,7 @@ class QuantEmbeddingBagTwo(Module):
     def set_iteration_bound(self): 
         # fixed value 
         if self.iteration_nt == 1 and self.iteration_bound == 0: # change if do other things 
-            self.iteration_bound += 300 
+            self.iteration_bound += 0 
             print("bound increasing to {}".format(self.iteration_bound.item())) 
         '''
         elif self.iteration_bound == 100 and self.iteration_nt > 30000: 
@@ -312,6 +312,9 @@ class QuantEmbeddingBagTwo(Module):
                     ''' 
                 else: 
                     raise Exception("for embedding weights, we only support symmetric quantization") 
+                
+                print("printing scale dimension: {}".format(self.eb_scaling_factor.shape)) 
+
                 # update period info 
                 self.iteration_nt += 1 
                 self.now_iteration -= self.now_iteration 
