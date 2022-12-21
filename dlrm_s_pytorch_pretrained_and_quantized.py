@@ -1188,9 +1188,9 @@ def inference_distributed(
         
         if rank == 0 and i % 200 == 0: 
             print("steps testing: {}".format(float(i)/num_batch), end = "\r") 
-        
+        '''
         dist.barrier() 
-    
+        ''' 
     print("rank: {} test_accu: {}".format(rank, test_accu)) 
     print("get out") 
     '''
@@ -2000,7 +2000,9 @@ def train(gpu, args):
                             ''' 
                             print("Saving model to {}".format(save_addr)) 
                             torch.save(model_metrics_dict, save_addr) 
+                    '''
                     dist.barrier() 
+                    ''' 
                 '''
                 if rank == 0 and inspect_weights_and_others: 
                     dlrm.module.documenting_weights_tables(path_log, k, j, emb_quantized = args.quantization_flag) 
@@ -2036,7 +2038,9 @@ def train(gpu, args):
         if rank == 0 and args.documenting_table_weight: 
             # recording embedding table weights the second time 
             dlrm.module.documenting_weights_tables(path_log, 1) 
+        '''
         dist.barrier() 
+        ''' 
         return 
         '''
         if args.nr == 0 and gpu == 0: 
