@@ -1813,6 +1813,10 @@ def train(gpu, args):
         return 
     
     # TODO use barrier if not in synchronization 
+    k = 0 
+    j = 0 
+    train_loss = 0 
+    total_loss = 0 
     
     if not args.inference_only and args.training_need: 
         print("training starts ......") 
@@ -2147,14 +2151,7 @@ def train(gpu, args):
                 # added to make sure even if internet crashes during training, at least one checkpoint is successfully saved 
                 # save_addr = args.save_model + str(((j + 1)/10240)%2) 
                 save_addr = args.save_model.split(".")[0] + str(((j + 1)/10240)%2) + ".pt" 
-                '''
-                print("Saving model to {}".format(args.save_model))
-                torch.save(model_metrics_dict, args.save_model)
-                ''' 
                 print("Saving model to {}".format(save_addr)) 
-                '''
-                torch.save(model_metrics_dict, save_addr) 
-                ''' 
         # running quantized weights 
         if args.training_need: 
             print("after training, do PTQ") 
