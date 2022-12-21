@@ -1125,7 +1125,7 @@ def run():
         args.quantize_activation = False 
     
     args.world_size = 1 # world size now calculated by number of gpus and number of nodes 
-    args.training_need = True  # hard identification of training needed for debugging and running 
+    args.training_need = False # hard identification of training needed for debugging and running 
     train(0, args) 
   
 def inference_distributed(
@@ -1381,7 +1381,7 @@ def train(gpu, args):
     ''' 
     rank = 0 
     torch.manual_seed(0) 
-    torch.cuda.set_device(gpu) # TODO think about using cpu and change code 
+    # torch.cuda.set_device(gpu) # TODO think about using cpu and change code 
     batch_size = args.mini_batch_size # TODO recheck the batch_size and run the script again 
 
     torch.set_printoptions(profile = "full") 
@@ -2026,7 +2026,7 @@ def train(gpu, args):
                 ''' 
             k += 1 
                             
-    elif not args.training_need: 
+    elif args.training_need: 
         print("Testing for inference only") 
         inference_distributed(
             rank, 
