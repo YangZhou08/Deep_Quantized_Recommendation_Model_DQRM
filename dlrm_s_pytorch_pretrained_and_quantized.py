@@ -1131,7 +1131,7 @@ def run():
         args.quantize_activation = False 
     
     args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
-    args.training_need = False  # hard identification of training needed for debugging and running 
+    args.training_need = True  # hard identification of training needed for debugging and running 
     '''
     os.environ['MASTER_ADDR'] = '169.229.49.62' 
     ''' 
@@ -2035,7 +2035,7 @@ def train(gpu, args):
                 ''' 
             k += 1 
                             
-    elif args.training_need: 
+    elif not args.training_need: 
         print("Testing for inference only") 
         inference_distributed(
             rank, 
