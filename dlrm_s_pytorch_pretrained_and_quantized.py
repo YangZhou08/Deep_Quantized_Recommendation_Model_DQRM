@@ -1104,6 +1104,12 @@ def run():
     parser.add_argument("--quantize_activation", action = "store_true", default = False) 
     parser.add_argument("--linear_channel", action = "store_true", default = False) 
     parser.add_argument("--quantize_act_and_lin", action = "store_true", default = False) 
+    parser.add_argument('-n', '--nodes', default=1,
+                        type=int, metavar='N')
+    parser.add_argument('-g', '--gpus', default=1, type=int,
+                        help='number of gpus per node')
+    parser.add_argument('-nr', '--nr', default=0, type=int,
+                        help='ranking within the nodes')
 
     global args
     global nbatches
@@ -1124,9 +1130,18 @@ def run():
     if args.linear_channel: 
         args.quantize_activation = False 
     
-    args.world_size = 1 # world size now calculated by number of gpus and number of nodes 
+    args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
     args.training_need = True  # hard identification of training needed for debugging and running 
-    train(0, args) 
+    '''
+    os.environ['MASTER_ADDR'] = '169.229.49.62' 
+    ''' 
+    os.environ['MASTER_ADDR'] = '169.254.3.1' 
+    '''
+    os.environ['MASTER_PORT'] = '29500' 
+    ''' 
+    os.environ['MASTER_PORT'] = '29508' 
+    os.environ['WORLD_SIZE'] = str(args.world_size) 
+    mp.spawn(train, nprocs = args.gpus, args = (args,)) 
   
 def inference_distributed(
     rank, 
