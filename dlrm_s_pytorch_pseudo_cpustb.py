@@ -1591,28 +1591,20 @@ def train(gpu, args):
                 grad_buffer_update(dlrm, args.number_of_gpus) # update buffers 
                 ''' 
                 # used originally 
-                grad_buffer_update_added_quantization(dlrm, args.number_of_cpu_node, emb_grad_quantized = True) 
                 '''
-                grad_buffer_update_added_quantization(dlrm, args.number_of_cpu_node, emb_grad_quantized = False) 
+                grad_buffer_update_added_quantization(dlrm, args.number_of_cpu_node, emb_grad_quantized = True) 
                 ''' 
+                grad_buffer_update_added_quantization(dlrm, args.number_of_cpu_node, emb_grad_quantized = False) 
                 '''
                 optimizer.step() 
                 lr_scheduler.step() 
                 ''' 
                 if j % args.number_of_cpu_node == 0: 
-                    '''
-                    print("updating weights") 
-                    weights_update(dlrm, lr_scheduler.get_lr()[-1]) 
-                    if k >= 3: 
-                        weights_update_added_quantization(dlrm, lr_scheduler.get_lr()[-1], args.number_of_gpus, emb_grad_quantized = False, update_embedding = False) 
-                    else: 
-                        weights_update_added_quantization(dlrm, lr_scheduler.get_lr()[-1], args.number_of_gpus, emb_grad_quantized = False) 
-                    ''' 
                     # used previously 
-                    weights_update_added_quantization(dlrm, lr_scheduler.get_lr()[-1], args.number_of_cpu_node, emb_grad_quantized = True, update_embedding = True) 
                     '''
-                    weights_update_added_quantization(dlrm, lr_scheduler.get_lr()[-1], args.number_of_cpu_node, emb_grad_quantized = False, update_embedding = True) 
+                    weights_update_added_quantization(dlrm, lr_scheduler.get_lr()[-1], args.number_of_cpu_node, emb_grad_quantized = True, update_embedding = True) 
                     ''' 
+                    weights_update_added_quantization(dlrm, lr_scheduler.get_lr()[-1], args.number_of_cpu_node, emb_grad_quantized = False, update_embedding = True) 
                     lr_scheduler.step() 
                     buffer_clean = True 
                 '''
