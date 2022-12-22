@@ -1393,7 +1393,6 @@ def train(gpu, args):
         world_size = args.world_size, 
         rank = rank
     ) 
-    rank = 0 
     torch.manual_seed(0) 
     torch.cuda.set_device(gpu) # TODO think about using cpu and change code 
     batch_size = args.mini_batch_size # TODO recheck the batch_size and run the script again 
