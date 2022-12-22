@@ -1385,7 +1385,6 @@ def inference(
     return model_metrics_dict, is_best 
     
 def train(gpu, args): 
-    '''
     rank = args.nr * args.gpus + gpu # make global rank 
     dist.init_process_group(
         backend = "gloo", 
@@ -1393,7 +1392,6 @@ def train(gpu, args):
         world_size = args.world_size, 
         rank = rank
     ) 
-    ''' 
     rank = 0 
     torch.manual_seed(0) 
     torch.cuda.set_device(gpu) # TODO think about using cpu and change code 
@@ -1431,17 +1429,16 @@ def train(gpu, args):
     
     ### prepare training data ### 
     ln_bot = np.fromstring(args.arch_mlp_bot, dtype = int, sep = "-") 
-    train_dataset, train_loader, test_dataset, test_loader = dp.make_criteo_data_and_loaders(args) 
     '''
+    train_dataset, train_loader, test_dataset, test_loader = dp.make_criteo_data_and_loaders(args) 
+    ''' 
     train_dataset, test_dataset = dp.make_criteo_data_and_loaders_two(args) 
     
     # train sampler 
     train_sampler = torch.utils.data.distributed.DistributedSampler(train_dataset, num_replicas = args.world_size, rank = rank) 
-    ''' 
     '''
     test_sampler = torch.utils.data.distributed.DistributedSampler(test_dataset, num_replicas = args.world_size, rank = rank) 
     ''' 
-    '''
     collate_wrapper_criteo = dp.collate_wrapper_criteo_offset 
     
     train_loader = torch.utils.data.DataLoader(
@@ -1454,7 +1451,7 @@ def train(gpu, args):
         collate_fn = collate_wrapper_criteo, 
         drop_last = False 
     ) 
-
+    '''
     test_loader = torch.utils.data.DataLoader(
         dataset = test_dataset, 
         batch_size = args.test_mini_batch_size, 
@@ -1465,7 +1462,7 @@ def train(gpu, args):
         collate_fn = collate_wrapper_criteo, 
         drop_last = False 
     )
-
+    '''
     # use originally 
     test_loader = torch.utils.data.DataLoader(
         dataset = test_dataset, 
@@ -1476,7 +1473,6 @@ def train(gpu, args):
         collate_fn = collate_wrapper_criteo, 
         drop_last = False 
     ) 
-    ''' 
     
     nbatches = args.num_batches if args.num_batches > 0 else len(train_loader) 
     '''
