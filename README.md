@@ -3,8 +3,8 @@ DQRM: Deep Quantized Recommendation Model
 *A recommendation model that is small, powerful and efficient to train* 
 
 ## ![#c5f015](https://placehold.co/15x15/c5f015/c5f015.png)`Please check out our project preprint`
-<!-- [DQRM paper](./DQRM__Deep_learning_Quantized_Recommender_System_Model.pdf)  -->
-Project preprint is still in progress, estimated date to be online: Dec 28th, 2022 (estimated hour 13:00 CT). 
+[DQRM paper](./DQRM__Deep_learning_Quantized_Recommender_System_Model.pdf) 
+<!-- Project preprint is still in progress, estimated date to be online: Dec 28th, 2022 (estimated hour 13:00 CT).  -->
 
 ![#c5f015](https://placehold.co/15x15/c5f015/c5f015.png)The project is planned to submit to **KDD 2023**. 
 
