@@ -1391,7 +1391,7 @@ def inference(
     
 def train(args): 
     # make global rank 
-    backend = "ccl" 
+    backend = "gloo" 
     rank = int(os.environ.get('PMI_RANK', 0)) 
     world_size = int(os.environ.get('PMI_SIZE', 1)) 
     print("rank {}, world size {}".format(rank, world_size)) 
