@@ -1853,7 +1853,6 @@ def train(args):
             if k < skip_upto_epoch: 
                 continue 
             for j, inputBatch in enumerate(train_loader): 
-                print("training iteration: {}".format(j)) 
                 global iteration_num 
                 iteration_num = j 
 
