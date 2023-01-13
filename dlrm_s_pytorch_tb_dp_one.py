@@ -1145,6 +1145,7 @@ def run():
     os.environ['WORLD_SIZE'] = str(os.environ.get('PMI_SIZE', 1)) 
 
     args.world_size = int(os.environ.get('PMI_SIZE', 1)) 
+    print("gggggot hereeeeee") 
     train(args) 
   
 def inference_distributed(
