@@ -1139,7 +1139,7 @@ def run():
     '''
     args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
     ''' 
-    os.environ['MASTER_ADDR'] = '127.0.0.1'
+    # os.environ['MASTER_ADDR'] = '127.0.0.1'
     os.environ['MASTER_PORT'] = '29500'
     os.environ['RANK'] = str(os.environ.get('PMI_RANK', 0))
     os.environ['WORLD_SIZE'] = str(os.environ.get('PMI_SIZE', 1)) 
