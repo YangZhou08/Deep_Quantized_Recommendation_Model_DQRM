@@ -378,7 +378,7 @@ class DLRM_Net(nn.Module):
                 print("---------- Embedding Table {}, quantization used, n = {}, m = {}, quantization bit set to {}".format(i, n, m, self.embedding_bit)) 
                 EE = QuantEmbeddingBagTwo(n, m, self.embedding_bit, embedding_id = i) 
             else:
-                EE = nn.EmbeddingBag(n, m, mode="sum", sparse=True) 
+                EE = nn.EmbeddingBag(n, m, mode="sum", sparse=False)  
                 # initialize embeddings
                 # nn.init.uniform_(EE.weight, a=-np.sqrt(1 / n), b=np.sqrt(1 / n)) 
                 W = np.random.uniform(
