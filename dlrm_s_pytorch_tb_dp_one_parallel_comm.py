@@ -1921,8 +1921,8 @@ def train(args):
                     and (args.data_generation in ["dataset", "random"])
                     and (((j + 1) % args.test_freq == 0) or (j + 1 == nbatches))
                 ) 
-                syncc = ((j + 1) % 1024 == 0) or (
-                    j + 1 == 1024
+                syncc = ((j + 1) % 200 == 0) or (
+                    j + 1 == 200
                 )
                 
                 inspect_weights_and_others = (
