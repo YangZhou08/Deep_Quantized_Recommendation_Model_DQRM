@@ -1834,8 +1834,6 @@ def train(args):
             if args.pretrain_and_quantize_lin: 
                 if k == 2: 
                     change_lin_full_quantize = True 
-            
-            with profile 
 
             if args.linear_shift_down_bit_width: 
                 '''
