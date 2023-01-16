@@ -83,7 +83,7 @@ import sklearn.metrics
 import torch
 import torch.nn as nn
 from torch._ops import ops
-from torch.autograd.profiler import record_function
+# from torch.autograd.profiler import record_function 
 from torch.nn.parallel.parallel_apply import parallel_apply
 from torch.nn.parallel.replicate import replicate
 from torch.nn.parallel.scatter_gather import gather, scatter
@@ -119,6 +119,7 @@ import torch.multiprocessing as mp
 import torch_ccl 
 
 import tqdm 
+from torch.profiler import profile, record_function, ProfilerActivity
 
 '''
 with warnings.catch_warnings():
@@ -1833,6 +1834,8 @@ def train(args):
             if args.pretrain_and_quantize_lin: 
                 if k == 2: 
                     change_lin_full_quantize = True 
+            
+            with profile 
 
             if args.linear_shift_down_bit_width: 
                 '''
