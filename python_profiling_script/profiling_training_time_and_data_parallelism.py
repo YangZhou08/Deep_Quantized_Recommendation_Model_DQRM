@@ -12,6 +12,8 @@ multiple4_node_cpu_tt = [163.07, 165.88, 164.78, 163.48, 173.90, 170.52, 171.87,
 multiple4_node_cpu_meantt = np.mean(multiple4_node_cpu_tt) 
 cpu_tt = [single_node_cpu_meantt, multiple4_node_cpu_meantt] 
 
+print(cpu_tt) 
+
 gpu_tt = [5, 20] 
 
 # Set position of bar on X axis
