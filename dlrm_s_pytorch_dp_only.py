@@ -828,7 +828,7 @@ class DLRM_Net(nn.Module):
 
             return z 
         else: 
-            if not self.quantize_act_and_lin: 
+            if (not self.quantize_act_and_lin) and self.quantize_activation: 
                 # used for cases where embedding tables are quantized while mlp is in full precision 
                 x, act_scaling_factor = self.quant_input(dense_x) 
                 x = self.apply_mlp(x, self.bot_l) # not used with scale 
@@ -972,7 +972,13 @@ def dash_separated_floats(value):
                 "%s is not a valid dash separated list of floats" % value
             )
 
-    return value
+    return value 
+
+def get_my_slice(n, my_size, my_rank): 
+    k, m = divmod(n, my_size) 
+    return slice(
+        my_rank * k + min(my_rank, m), (my_rank + 1) * k + min(my_rank + 1, m), 1 
+    ) 
    
 def run(): 
     ### parse arguments ### 
@@ -1871,6 +1877,12 @@ def train(gpu, args):
                     continue 
                 
                 mbs = T.shape[0] 
+
+                X = X[get_my_slice(mbs, args.world_size, rank)] 
+                lS_i = lS_i[:, get_my_slice(mbs, args.world_size, rank)] 
+                lS_o = lS_o[:, 0 : lS_i.shape[1]] 
+                T = T[get_my_slice(mbs, args.world_size, rank)] 
+                W = W[get_my_slice(mbs, args.world_size, rank)] 
                 
                 Z = dlrm_wrap(
                     X, 
