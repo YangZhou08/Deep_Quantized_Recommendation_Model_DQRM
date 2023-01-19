@@ -259,7 +259,7 @@ def grad_buffer_zeroing(model):
                 gradient_lin_count += shp[0] * shp[1] 
                 shp = layer_one.bias_grad_buffer.shape 
                 print(shp) 
-                gradient_lin_count += shp[0] * shp[1] 
+                gradient_lin_count += shp[0] 
                 # weights 
                 layer_one.weight_grad_buffer.zero_() 
                 layer_one.weight_scaling_factor.zero_() 
@@ -278,7 +278,7 @@ def grad_buffer_zeroing(model):
                 gradient_lin_count += shp[0] * shp[1] 
                 shp = layer_one.bias_grad_buffer.shape 
                 print(shp) 
-                gradient_lin_count += shp[0] * shp[1] 
+                gradient_lin_count += shp[0] 
                 # weights 
                 layer_one.weight_grad_buffer.zero_() 
                 layer_one.weight_scaling_factor.zero_() 
