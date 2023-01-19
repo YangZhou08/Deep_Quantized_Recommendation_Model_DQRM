@@ -244,7 +244,9 @@ def grad_buffer_zeroing(model):
         for j, emb_table in enumerate(model.emb_l): 
             print("table {}".format(j)) 
             shp = emb_table.embedding_grad_buffer.coalesce().values().shape 
+            '''
             print(shp) 
+            ''' 
             gradient_emb_count += shp[0] * shp[1] 
             emb_table.embedding_grad_buffer = torch.sparse_coo_tensor(indices = torch.Tensor([[0]]), values = torch.zeros((1, emb_table.embedding_dim)), size = (emb_table.num_embeddings, emb_table.embedding_dim)) 
             emb_table.emb_scaling_factor.zero_() # zero out the scale 
@@ -255,10 +257,14 @@ def grad_buffer_zeroing(model):
             if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
                 print("bottom layer {}".format(j)) 
                 shp = layer_one.weight_grad_buffer.shape 
+                '''
                 print(shp) 
+                ''' 
                 gradient_lin_count += shp[0] * shp[1] 
                 shp = layer_one.bias_grad_buffer.shape 
+                '''
                 print(shp) 
+                ''' 
                 gradient_lin_count += shp[0] 
                 # weights 
                 layer_one.weight_grad_buffer.zero_() 
@@ -274,10 +280,14 @@ def grad_buffer_zeroing(model):
             if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
                 print("top layer {}".format(j)) 
                 shp = layer_one.weight_grad_buffer.shape 
+                '''
                 print(shp) 
+                ''' 
                 gradient_lin_count += shp[0] * shp[1] 
                 shp = layer_one.bias_grad_buffer.shape 
+                '''
                 print(shp) 
+                ''' 
                 gradient_lin_count += shp[0] 
                 # weights 
                 layer_one.weight_grad_buffer.zero_() 
