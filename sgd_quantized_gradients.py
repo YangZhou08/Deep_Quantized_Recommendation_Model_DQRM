@@ -242,7 +242,9 @@ def grad_buffer_zeroing(model):
 
     if model.emb_l is not None: 
         for j, emb_table in enumerate(model.emb_l): 
+            '''
             print("table {}".format(j)) 
+            ''' 
             shp = emb_table.embedding_grad_buffer.coalesce().values().shape 
             '''
             print(shp) 
@@ -255,7 +257,9 @@ def grad_buffer_zeroing(model):
     if model.bot_l is not None: 
         for j, layer_one in enumerate(model.bot_l): 
             if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
+                '''
                 print("bottom layer {}".format(j)) 
+                ''' 
                 shp = layer_one.weight_grad_buffer.shape 
                 '''
                 print(shp) 
@@ -278,7 +282,9 @@ def grad_buffer_zeroing(model):
     if model.top_l is not None: 
         for j, layer_one in enumerate(model.top_l): 
             if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
+                '''
                 print("top layer {}".format(j)) 
+                ''' 
                 shp = layer_one.weight_grad_buffer.shape 
                 '''
                 print(shp) 
