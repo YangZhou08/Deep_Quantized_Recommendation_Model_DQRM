@@ -367,7 +367,7 @@ def weights_update_added_quantization(model, lr, num_gpus, emb_grad_quantized = 
         if emb_grad_quantized and update_embedding: 
             if model.emb_l is not None: 
                 for emb_table in model.emb_l: 
-                    weight_update = emb_table.embedding_grad_buffer * (emb_table.emb_scaling_factor/num_gpus) # dequantize 
+                    weight_update = emb_table.embedding_grad_buffer * (emb_table.emb_scaling_factor.item()/num_gpus) # dequantize 
                     emb_table.embedding_bag.weight.data.add_(-lr * weight_update) # update 
             else: 
                 raise Warning("Cannot find the list of embedding tables") 
