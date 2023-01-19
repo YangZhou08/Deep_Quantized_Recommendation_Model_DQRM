@@ -236,16 +236,24 @@ def grad_buffer_zeroing(model):
     ---------- 
     None 
     """ 
+    
+    gradient_emb_count = 0 
+    gradient_lin_count = 0 
 
     if model.emb_l is not None: 
-        for emb_table in model.emb_l: 
+        for j, emb_table in enumerate(model.emb_l): 
+            print("table {}".format(j)) 
+            print(emb_table.embedding_grad_buffer.coalesce().values().shape) 
             emb_table.embedding_grad_buffer = torch.sparse_coo_tensor(indices = torch.Tensor([[0]]), values = torch.zeros((1, emb_table.embedding_dim)), size = (emb_table.num_embeddings, emb_table.embedding_dim)) 
             emb_table.emb_scaling_factor.zero_() # zero out the scale 
     else: 
         raise Warning("Cannot find the list of embedding tables") 
     if model.bot_l is not None: 
-        for layer_one in model.bot_l: 
+        for j, layer_one in enumerate(model.bot_l): 
             if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
+                print("bottom layer {}".format(j)) 
+                print(layer_one.weight_grad_buffer.shape) 
+                print(layer_one.bias_grad_buffer.shape) 
                 # weights 
                 layer_one.weight_grad_buffer.zero_() 
                 layer_one.weight_scaling_factor.zero_() 
@@ -256,8 +264,11 @@ def grad_buffer_zeroing(model):
     else: 
         raise Warning("Cannot find the list of bottom linear layers") 
     if model.top_l is not None: 
-        for layer_one in model.top_l: 
+        for j, layer_one in enumerate(model.top_l): 
             if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
+                print("top layer {}".format(j)) 
+                print(layer_one.weight_grad_buffer.shape) 
+                print(layer_one.bias_grad_buffer.shape) 
                 # weights 
                 layer_one.weight_grad_buffer.zero_() 
                 layer_one.weight_scaling_factor.zero_() 
