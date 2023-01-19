@@ -243,7 +243,9 @@ def grad_buffer_zeroing(model):
     if model.emb_l is not None: 
         for j, emb_table in enumerate(model.emb_l): 
             print("table {}".format(j)) 
-            print(emb_table.embedding_grad_buffer.coalesce().values().shape) 
+            shp = emb_table.embedding_grad_buffer.coalesce().values().shape 
+            print(shp) 
+            gradient_emb_count += shp[0] * shp[1] 
             emb_table.embedding_grad_buffer = torch.sparse_coo_tensor(indices = torch.Tensor([[0]]), values = torch.zeros((1, emb_table.embedding_dim)), size = (emb_table.num_embeddings, emb_table.embedding_dim)) 
             emb_table.emb_scaling_factor.zero_() # zero out the scale 
     else: 
@@ -252,8 +254,12 @@ def grad_buffer_zeroing(model):
         for j, layer_one in enumerate(model.bot_l): 
             if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
                 print("bottom layer {}".format(j)) 
-                print(layer_one.weight_grad_buffer.shape) 
-                print(layer_one.bias_grad_buffer.shape) 
+                shp = layer_one.weight_grad_buffer.shape 
+                print(shp) 
+                gradient_lin_count += shp[0] * shp[1] 
+                shp = layer_one.bias_grad_buffer.shape 
+                print(shp) 
+                gradient_lin_count += shp[0] * shp[1] 
                 # weights 
                 layer_one.weight_grad_buffer.zero_() 
                 layer_one.weight_scaling_factor.zero_() 
@@ -267,8 +273,12 @@ def grad_buffer_zeroing(model):
         for j, layer_one in enumerate(model.top_l): 
             if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
                 print("top layer {}".format(j)) 
-                print(layer_one.weight_grad_buffer.shape) 
-                print(layer_one.bias_grad_buffer.shape) 
+                shp = layer_one.weight_grad_buffer.shape 
+                print(shp) 
+                gradient_lin_count += shp[0] * shp[1] 
+                shp = layer_one.bias_grad_buffer.shape 
+                print(shp) 
+                gradient_lin_count += shp[0] * shp[1] 
                 # weights 
                 layer_one.weight_grad_buffer.zero_() 
                 layer_one.weight_scaling_factor.zero_() 
@@ -278,6 +288,8 @@ def grad_buffer_zeroing(model):
                 layer_one.bias_scaling_factor.zero_() 
     else: 
         raise Warning("Cannot find the list of top linear layers") 
+
+    print("{}, {}".format(gradient_emb_count, gradient_lin_count)) 
 
 def weights_update(model, lr): 
     """ 
