@@ -254,7 +254,7 @@ def grad_buffer_zeroing(model):
             # print(shp) 
             # ''' 
             # gradient_emb_count += shp[0] * shp[1] 
-            emb_table.embedding_grad_buffer = torch.sparse_coo_tensor(indices = torch.Tensor([[0]]), values = torch.zeros((1, emb_table.embedding_dim)), size = (emb_table.num_embeddings, emb_table.embedding_dim), device = emb_table.embedding_table.weight.device) 
+            emb_table.embedding_grad_buffer = torch.sparse_coo_tensor(indices = torch.Tensor([[0]]), values = torch.zeros((1, emb_table.embedding_dim)), size = (emb_table.num_embeddings, emb_table.embedding_dim), device = emb_table.embedding_bag.weight.device) 
             emb_table.emb_scaling_factor.zero_() # zero out the scale 
     else: 
         raise Warning("Cannot find the list of embedding tables") 
