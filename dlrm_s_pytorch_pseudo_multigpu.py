@@ -986,6 +986,8 @@ def main():
 
     args = parser.parse_args() 
     args.world_size = 1 
+
+    args.mini_batch_size = int(args.mini_batch_size / args.number_of_gpus) 
     
     if args.test_mini_batch_size < 0:
         # if the parameter is not set, use the training batch size
