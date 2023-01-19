@@ -986,6 +986,8 @@ def main():
 
     args = parser.parse_args() 
     args.world_size = 1 
+
+    args.mini_batch_size = args.mini_batch_size / args.number_of_cpu_node 
     
     if args.test_mini_batch_size < 0:
         # if the parameter is not set, use the training batch size
@@ -1100,7 +1102,7 @@ def inference_distributed(
 
 def train(gpu, args): 
     rank = gpu 
-    print("number of gpu simulated is: {}".format(args.number_of_cpu_node)) 
+    print("number of gpu simulated is: {} batch size is {}".format(args.number_of_cpu_node, args.mini_batch_size)) 
 
     torch.manual_seed(0) 
     batch_size = args.mini_batch_size 
