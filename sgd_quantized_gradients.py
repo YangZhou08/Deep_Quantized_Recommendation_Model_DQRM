@@ -595,7 +595,7 @@ def quantize_linear_grad(layer, num_bits, parallel, num_gpus = None, per_channel
             grad_up.mul_(1. / num_gpus) 
 
         if err_compensation: 
-            layer.error_compensation_weight = weight - (grad_up * fc_scaling_factor) 
+            layer.error_compensation_weight = weight - (grad_up * fc_scaling_factor.view(-1, 1))  
         
         return grad_up, fc_scaling_factor 
 
