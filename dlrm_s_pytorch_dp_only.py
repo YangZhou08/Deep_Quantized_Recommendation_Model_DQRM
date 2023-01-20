@@ -1137,13 +1137,13 @@ def run():
         args.quantize_activation = False 
     
     args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
-    os.environ['MASTER_ADDR'] = '169.254.3.1' 
     '''
-    os.environ['MASTER_PORT'] = '29500' 
-    ''' 
+    os.environ['MASTER_ADDR'] = '169.254.3.1' 
     os.environ['MASTER_PORT'] = '29509' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
+    ''' 
+    train(0, args) 
   
 def inference_distributed(
     rank, 
@@ -1691,9 +1691,9 @@ def train(gpu, args):
     if dlrm.weighted_pooling == "fixed":
         for k, w in enumerate(dlrm.v_W_l):
             dlrm.v_W_l[k] = w.cuda() 
-
+    '''
     dlrm = nn.parallel.DistributedDataParallel(dlrm, device_ids = [gpu]) 
-
+    ''' 
     if not args.inference_only: 
         if use_gpu and args.optimizer in ["rwsadagrad", "adagrad"]: # TODO check whether PyTorch support adagrad 
             sys.exit("GPU version of Adagrad is not supported by PyTorch.") 
