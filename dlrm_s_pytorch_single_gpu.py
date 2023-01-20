@@ -1137,14 +1137,13 @@ def run():
         args.quantize_activation = False 
     
     args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
-    
+    '''
     os.environ['MASTER_ADDR'] = '169.254.3.1' 
     os.environ['MASTER_PORT'] = '29509' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
-    '''
-    train(0, args) 
     ''' 
+    train(0, args) 
   
 def inference_distributed(
     rank, 
@@ -1207,7 +1206,7 @@ def inference_distributed(
         if rank == 0 and i % 200 == 0: 
             print("steps testing: {}".format(float(i)/num_batch), end = "\r") 
         
-        dist.barrier() 
+        # dist.barrier() 
     
     print("rank: {} test_accu: {}".format(rank, test_accu)) 
     print("get out") 
@@ -1389,12 +1388,14 @@ def inference(
     
 def train(gpu, args): 
     rank = args.nr * args.gpus + gpu # make global rank 
+    '''
     dist.init_process_group(
         backend = "gloo", 
         init_method = 'env://', 
         world_size = args.world_size, 
         rank = rank
     ) 
+    ''' 
     torch.manual_seed(0) 
     torch.cuda.set_device(gpu) # TODO think about using cpu and change code 
     batch_size = args.mini_batch_size # TODO recheck the batch_size and run the script again 
@@ -1691,9 +1692,9 @@ def train(gpu, args):
     if dlrm.weighted_pooling == "fixed":
         for k, w in enumerate(dlrm.v_W_l):
             dlrm.v_W_l[k] = w.cuda() 
-    
+    '''
     dlrm = nn.parallel.DistributedDataParallel(dlrm, device_ids = [gpu]) 
-    
+    ''' 
     if not args.inference_only: 
         if use_gpu and args.optimizer in ["rwsadagrad", "adagrad"]: # TODO check whether PyTorch support adagrad 
             sys.exit("GPU version of Adagrad is not supported by PyTorch.") 
@@ -2007,7 +2008,7 @@ def train(gpu, args):
                             ''' 
                             print("Saving model to {}".format(save_addr)) 
                             torch.save(model_metrics_dict, save_addr) 
-                    dist.barrier() 
+                    # dist.barrier() 
                 '''
                 if rank == 0 and inspect_weights_and_others: 
                     dlrm.module.documenting_weights_tables(path_log, k, j, emb_quantized = args.quantization_flag) 
@@ -2043,7 +2044,7 @@ def train(gpu, args):
         if rank == 0 and args.documenting_table_weight: 
             # recording embedding table weights the second time 
             dlrm.module.documenting_weights_tables(path_log, 1) 
-        dist.barrier() 
+        # dist.barrier() 
         return 
         '''
         if args.nr == 0 and gpu == 0: 
@@ -2152,7 +2153,7 @@ def train(gpu, args):
                 '''
                 torch.save(model_metrics_dict, save_addr) 
                 ''' 
-        dist.barrier() 
+        # dist.barrier() 
 
 if __name__ == "__main__": 
     run() 
