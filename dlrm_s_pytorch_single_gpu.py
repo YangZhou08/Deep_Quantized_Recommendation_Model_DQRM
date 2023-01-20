@@ -1197,8 +1197,8 @@ def inference_distributed(
 
         E_test = loss_fn_wrap(Z_test, T_test, use_gpu, device, args) 
         L_test = E_test.detach().cpu().numpy() 
-        total_loss += L_test * mbs_test 
-        total_samp += mbs_test 
+        test_total_loss += L_test * mbs_test 
+        test_total_samp += mbs_test 
         
         S_test = Z_test.detach().cpu().numpy() 
         T_test = T_test.detach().cpu().numpy() 
