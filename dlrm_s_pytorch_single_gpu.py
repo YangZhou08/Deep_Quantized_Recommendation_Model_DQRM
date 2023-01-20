@@ -139,6 +139,7 @@ path_log = None
 iteration_num = 0 
 change_bitw = False 
 change_bitw2 = 4 
+best_loss_test = 0 
 
 # learning rate variables 
 learning_rate = 0.1 
@@ -1162,6 +1163,8 @@ def inference_distributed(
     
     scores = [] 
     targets = [] 
+    test_total_loss = 0 
+    test_total_samp = 0 
     
     # the function operates on one gpu 
     num_batch = len(test_ld) 
@@ -1172,6 +1175,8 @@ def inference_distributed(
         X_test, lS_o_test, lS_i_test, T_test, W_test, CBPP_test = unpack_batch(
             testBatch 
         ) 
+
+        mbs_test = T_test.shape[0] 
         
         if args.world_size > 1 and X_test.size(0) % args.world_size != 0: 
             print("Warning: Skipping the batch %d with size %d" % (i, X_test.size(0))) 
@@ -1189,6 +1194,11 @@ def inference_distributed(
         
         if Z_test.is_cuda: 
             torch.cuda.synchronize() 
+
+        E_test = loss_fn_wrap(Z_test, T_test, use_gpu, device, args) 
+        L_test = E_test.detach().cpu().numpy() 
+        total_loss += L_test * mbs_test 
+        total_samp += mbs_test 
         
         S_test = Z_test.detach().cpu().numpy() 
         T_test = T_test.detach().cpu().numpy() 
@@ -1197,7 +1207,7 @@ def inference_distributed(
         scores.append(S_test) 
         targets.append(T_test) 
         
-        mbs_test = T_test.shape[0] 
+        # mbs_test = T_test.shape[0] 
         A_test = np.sum((np.round(S_test, 0) == T_test).astype(np.uint8)) 
         
         test_accu += A_test 
@@ -1265,6 +1275,13 @@ def inference_distributed(
     
     global best_auc_test 
     best_auc_test = roc_auc if roc_auc > best_auc_test else best_auc_test 
+
+    loss_test = test_total_loss / test_total_samp 
+    global best_loss_test 
+    if best_loss_test == 0: 
+        best_loss_test = loss_test 
+    else: 
+        best_loss_test = loss_test if loss_test < best_loss_test else best_loss_test 
     
     '''
     print(
@@ -1275,11 +1292,18 @@ def inference_distributed(
     ) 
     ''' 
     if rank == 0: 
+        '''
         print(
             " accuracy {:3.3f} %, best {:3.3f} %, roc auc score {:.4f}, best {:.4f}".format(
                 acc_test * 100, best_acc_test * 100, roc_auc, best_auc_test), 
             flush = True 
             )
+        ''' 
+        print( 
+            " accuracy {:3.3f} %, best {:3.3f} %, roc auc score {:.4f}, best {:.4f}, loss test {:.4f}, best loss test {:.4f}".format( 
+                acc_test * 100, best_acc_test * 100, roc_auc, best_auc_test, loss_test, best_loss_test 
+            )
+        ) 
         return model_metrics_dict, is_best 
     else: 
         return 
