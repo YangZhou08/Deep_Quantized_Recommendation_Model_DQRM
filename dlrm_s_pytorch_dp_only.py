@@ -1388,13 +1388,14 @@ def inference(
     
 def train(gpu, args): 
     rank = args.nr * args.gpus + gpu # make global rank 
+    '''
     dist.init_process_group(
         backend = "gloo", 
         init_method = 'env://', 
         world_size = args.world_size, 
         rank = rank
     ) 
-    
+    ''' 
     torch.manual_seed(0) 
     torch.cuda.set_device(gpu) # TODO think about using cpu and change code 
     batch_size = args.mini_batch_size # TODO recheck the batch_size and run the script again 
