@@ -862,7 +862,7 @@ def quantize_linear_grad(layer, num_bits, parallel, num_gpus = None, per_channel
             fc_scaling_factor = scale 
         if parallel: 
             dist.all_reduce(fc_scaling_factor, dist.ReduceOp.SUM) 
-            fc_scaling_factor = fc_scaling_factor/num_gpus 
+            fc_scaling_factor.mul_(1. / num_gpus) 
         # quantize 
         grad_up = SymmetricQuantFunction.apply(weight, num_bits, fc_scaling_factor) 
         
@@ -895,7 +895,7 @@ def quantize_bias_grad(layer, num_bits, parallel, num_gpus = None, scale = None,
             scale = symmetric_linear_quantization_params(num_bits, bias_min, bias_max) 
         if parallel: 
             dist.all_reduce(scale, dist.ReduceOp.SUM) 
-            scale = scale/num_gpus 
+            scale.mul_(1. / num_gpus) 
         # quantize 
         grad_update = SymmetricQuantFunction.apply(bias, num_bits, scale) 
         if parallel: 
