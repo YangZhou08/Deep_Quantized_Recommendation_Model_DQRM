@@ -984,7 +984,13 @@ def dash_separated_floats(value):
                 "%s is not a valid dash separated list of floats" % value
             )
 
-    return value
+    return value 
+
+def get_my_slice(n, my_size, my_rank): 
+    k, m = divmod(n, my_size) 
+    return slice(
+        my_rank * k + min(my_rank, m), (my_rank + 1) * k + min(my_rank + 1, m), 1 
+    ) 
    
 def run(): 
     ### parse arguments ### 
@@ -1447,15 +1453,18 @@ def train(gpu, args):
         print("---------- not quantize gradient") 
     ### prepare training data ### 
     ln_bot = np.fromstring(args.arch_mlp_bot, dtype = int, sep = "-") 
-    
+    train_dataset, train_loader, test_dataset, test_loader = dp.make_criteo_data_and_loaders(args) 
+    '''
     train_dataset, test_dataset = dp.make_criteo_data_and_loaders_two(args) 
-    
+    ''' 
     # train sampler 
+    '''
     train_sampler = torch.utils.data.distributed.DistributedSampler(train_dataset, num_replicas = args.world_size, rank = rank) 
+    ''' 
     '''
     test_sampler = torch.utils.data.distributed.DistributedSampler(test_dataset, num_replicas = args.world_size, rank = rank) 
     ''' 
-    
+    '''
     collate_wrapper_criteo = dp.collate_wrapper_criteo_offset 
     
     train_loader = torch.utils.data.DataLoader(
@@ -1468,7 +1477,6 @@ def train(gpu, args):
         collate_fn = collate_wrapper_criteo, 
         drop_last = False 
     ) 
-    '''
     test_loader = torch.utils.data.DataLoader(
         dataset = test_dataset, 
         batch_size = args.test_mini_batch_size, 
@@ -1479,7 +1487,7 @@ def train(gpu, args):
         collate_fn = collate_wrapper_criteo, 
         drop_last = False 
     )
-    ''' 
+    # used previously 
     test_loader = torch.utils.data.DataLoader(
         dataset = test_dataset, 
         batch_size = args.test_mini_batch_size, 
@@ -1489,6 +1497,7 @@ def train(gpu, args):
         collate_fn = collate_wrapper_criteo, 
         drop_last = False 
     ) 
+    ''' 
     
     nbatches = args.num_batches if args.num_batches > 0 else len(train_loader) 
     '''
@@ -1888,6 +1897,12 @@ def train(gpu, args):
                     continue 
                 
                 mbs = T.shape[0] 
+
+                X = X[get_my_slice(mbs, args.world_size, rank)] 
+                lS_i = lS_i[:, get_my_slice(mbs, args.world_size, rank)] 
+                lS_o = lS_o[:, 0 : lS_i.shape[1]] 
+                T = T[get_my_slice(mbs, args.world_size, rank)] 
+                W = W[get_my_slice(mbs, args.world_size, rank)] 
                 
                 Z = dlrm_wrap(
                     X, 
