@@ -602,7 +602,7 @@ def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_emb
         if model.bot_l is not None: 
             for layer_one in model.bot_l: 
                 if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
-                    layer_one.weight.data.add_(-lr * layer_one.weight.grad * layer_one.weight_scaling_factor) 
+                    layer_one.weight.data.add_(-lr * layer_one.weight.grad * layer_one.weight_scaling_factor.view(-1, 1)) 
                     layer_one.bias.data.add_(-lr * layer_one.bias.grad * layer_one.bias_scaling_factor) 
         else: 
             raise Warning("Cannot find the list of bottom linear layers") 
@@ -610,7 +610,7 @@ def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_emb
         if model.top_l is not None: 
             for layer_one in model.top_l: 
                 if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
-                    layer_one.weight.data.add_(-lr * layer_one.weight.grad * layer_one.weight_scaling_factor) 
+                    layer_one.weight.data.add_(-lr * layer_one.weight.grad * layer_one.weight_scaling_factor.view(-1, 1)) 
                     layer_one.bias.data.add_(-lr * layer_one.bias.grad * layer_one.bias_scaling_factor) 
         else: 
             raise Warning("Cannot find the list of top linear layers") 
