@@ -337,7 +337,7 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
         if model.bot_l is not None: 
             for layer_one in model.bot_l: 
                 if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
-                    buffer_changes, scale = quantize_linear_grad(layer_one, num_bits = 8, parallel = True, err_compensation = True) 
+                    buffer_changes, scale = quantize_linear_grad(layer_one, num_bits = 8, parallel = True, num_gpus = number_of_gpus, err_compensation = True) 
                     layer_one.weight_scaling_factor = scale 
                     if layer_one.weight.grad.grad_fn is not None: 
                         layer_one.weight.grad.detach() 
@@ -346,7 +346,7 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
                     layer_one.weight.grad.zero_() 
                     layer_one.weight.grad.add_(buffer_changes) 
                     
-                    buffer_changes, scale = quantize_bias_grad(layer_one, num_bits = 8, parallel = True, err_compensation = True) 
+                    buffer_changes, scale = quantize_bias_grad(layer_one, num_bits = 8, parallel = True, num_gpus = number_of_gpus, err_compensation = True) 
                     layer_one.bias_scaling_factor = scale 
                     if layer_one.bias.grad.grad_fn is not None: 
                         layer_one.bias.grad.detach() 
@@ -360,7 +360,7 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
         if model.top_l is not None: 
             for layer_one in model.top_l: 
                 if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
-                    buffer_changes, scale = quantize_linear_grad(layer_one, num_bits = 8, parallel = True, err_compensation = True) 
+                    buffer_changes, scale = quantize_linear_grad(layer_one, num_bits = 8, parallel = True, num_gpus = number_of_gpus, err_compensation = True) 
                     layer_one.weight_scaling_factor = scale 
                     if layer_one.weight.grad.grad_fn is not None: 
                         layer_one.weight.grad.detach() 
@@ -369,7 +369,7 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
                     layer_one.weight.grad.zero_() 
                     layer_one.weight.grad.add_(buffer_changes) 
 
-                    buffer_changes, scale = quantize_bias_grad(layer_one, num_bits = 8, parallel = True, err_compensation = True) 
+                    buffer_changes, scale = quantize_bias_grad(layer_one, num_bits = 8, parallel = True, num_gpus = number_of_gpus, err_compensation = True) 
                     layer_one.bias_scaling_factor = scale 
                     if layer_one.bias.grad.grad_fn is not None: 
                         layer_one.bias.grad.detach() 
