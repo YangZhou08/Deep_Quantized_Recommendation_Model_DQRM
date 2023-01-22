@@ -76,12 +76,15 @@ class QuantLinear(Module):
         self.register_buffer('weight_grad_buffer', torch.zeros_like(self.weight), persistent = False) 
         ''' 
         self.register_buffer('weight_scaling_factor', torch.zeros(self.out_features)) 
-        '''
-        self.register_buffer('bias_grad_buffer', torch.zeros(self.out_features)) 
-        ''' 
-        self.register_buffer('bias_scaling_factor', torch.zeros(self.out_features)) 
+        self.register_buffer('error_compensation_weight', torch.zeros_like(self.weight), persistent = False) 
+
         try:
-            self.bias = Parameter(linear.bias.data.clone())
+            self.bias = Parameter(linear.bias.data.clone()) 
+            '''
+            self.register_buffer('bias_grad_buffer', torch.zeros(self.out_features)) 
+            ''' 
+            self.register_buffer('bias_scaling_factor', torch.zeros(self.out_features)) 
+            self.register_buffer('error_compensation_bias', torch.zeros_like(self.bias), persistent = False) 
         except AttributeError:
             self.bias = None
 
