@@ -83,7 +83,7 @@ import sklearn.metrics
 import torch
 import torch.nn as nn
 from torch._ops import ops
-from torch.profiler import profile, record_function, ProfilerActivity 
+from torch.profiler import profile, record_function, ProfilerActivity, schedule 
 from torch.nn.parallel.parallel_apply import parallel_apply
 from torch.nn.parallel.replicate import replicate
 from torch.nn.parallel.scatter_gather import gather, scatter
@@ -1839,7 +1839,7 @@ def train(gpu, args):
     
     # TODO use barrier if not in synchronization 
     with profile( 
-        activities = [ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True 
+        activities = [ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True, schedule = schedule(wait = 10, warmup = 90, active = 500)
     ) as prof: 
         if not args.inference_only: 
             k = 0 
@@ -1982,6 +1982,8 @@ def train(gpu, args):
                         and (args.data_generation in ["dataset", "random"]) 
                         and ((j + 1) % (args.test_freq * 2) == 0) 
                     ) 
+
+                    prof.step() # signify the next step for the profiler 
 
                     if syncc: 
                         # sync up per 1000 iterations 
@@ -2166,6 +2168,7 @@ def train(gpu, args):
 
         # test prints
         ''' 
+    dist.barrier() 
     if not args.inference_only: 
         '''
         print("updated parameters (weights and bias):")
