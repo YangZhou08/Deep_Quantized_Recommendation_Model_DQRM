@@ -1839,7 +1839,7 @@ def train(gpu, args):
     
     # TODO use barrier if not in synchronization 
     with profile( 
-        activities = [ProfilerActivity.CPU], record_shapes = True 
+        activities = [ProfilerActivity.CUDA], record_shapes=True 
     ) as prof: 
         if not args.inference_only: 
             k = 0 
