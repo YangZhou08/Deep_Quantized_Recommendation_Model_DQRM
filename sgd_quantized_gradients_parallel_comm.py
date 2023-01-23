@@ -254,7 +254,7 @@ def grad_precision_and_scale(model, number_of_gpus, rank_for_debug, output_flag 
             n = 2 ** (emb_table.gradient_bit_width - 1) - 1 
             emb_table.emb_scaling_factor = torch.clamp(emb_table.emb_scaling_factor, min = 1e-8) / n 
 
-def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, num_bits = 16, ranking_range = False, rank_for_debug = None, iteration_count = None): 
+def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, num_bits = 16, ranking_range = False, rank_for_debug = None, iteration_count = None, mlp_layer_quantized = True): 
     ''' 
     The function quantize and synchronize the gradients 
 
@@ -337,46 +337,74 @@ def grad_update_parallel_comm(model, number_of_gpus, emb_grad_quantized = True, 
         if model.bot_l is not None: 
             for layer_one in model.bot_l: 
                 if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
-                    buffer_changes, scale = quantize_linear_grad(layer_one, num_bits = 8, parallel = True, num_gpus = number_of_gpus, err_compensation = True) 
-                    layer_one.weight_scaling_factor = scale 
-                    if layer_one.weight.grad.grad_fn is not None: 
-                        layer_one.weight.grad.detach() 
+                    if mlp_layer_quantized: 
+                        buffer_changes, scale = quantize_linear_grad(layer_one, num_bits = 8, parallel = True, num_gpus = number_of_gpus, err_compensation = True) 
+                        layer_one.weight_scaling_factor = scale 
+                        if layer_one.weight.grad.grad_fn is not None: 
+                            layer_one.weight.grad.detach() 
+                        else: 
+                            layer_one.weight.grad.requires_grad_(False) 
+                        layer_one.weight.grad.zero_() 
+                        layer_one.weight.grad.add_(buffer_changes) 
+                        
+                        buffer_changes, scale = quantize_bias_grad(layer_one, num_bits = 8, parallel = True, num_gpus = number_of_gpus, err_compensation = True) 
+                        layer_one.bias_scaling_factor = scale 
+                        if layer_one.bias.grad.grad_fn is not None: 
+                            layer_one.bias.grad.detach() 
+                        else: 
+                            layer_one.bias.grad.requires_grad_(False) 
+                        layer_one.bias.grad.zero_() 
+                        layer_one.bias.grad.add_(buffer_changes) 
                     else: 
-                        layer_one.weight.grad.requires_grad_(False) 
-                    layer_one.weight.grad.zero_() 
-                    layer_one.weight.grad.add_(buffer_changes) 
-                    
-                    buffer_changes, scale = quantize_bias_grad(layer_one, num_bits = 8, parallel = True, num_gpus = number_of_gpus, err_compensation = True) 
-                    layer_one.bias_scaling_factor = scale 
-                    if layer_one.bias.grad.grad_fn is not None: 
-                        layer_one.bias.grad.detach() 
-                    else: 
-                        layer_one.bias.grad.requires_grad_(False) 
-                    layer_one.bias.grad.zero_() 
-                    layer_one.bias.grad.add_(buffer_changes) 
+                        if layer_one.weight.grad.grad_fn is not None: 
+                            layer_one.weight.grad.detach() 
+                        else: 
+                            layer_one.weight.grad.requires_grad_(False) 
+                        dist.all_reduce(layer_one.weight.grad, dist.ReduceOp.SUM) 
+                        layer_one.weight.grad.mul_(1. / number_of_gpus) 
+                        if layer_one.bias.grad.grad_fn is not None: 
+                            layer_one.bias.grad.detach() 
+                        else: 
+                            layer_one.bias.grad.requires_grad_(False) 
+                        dist.all_reduce(layer_one.bias.grad, dist.ReduceOp.SUM) 
+                        layer_one.bias.grad.mul_(1. / number_of_gpus) 
         else: 
             raise Warning("Cannot find the list of bottom linear layers") 
 
         if model.top_l is not None: 
             for layer_one in model.top_l: 
                 if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
-                    buffer_changes, scale = quantize_linear_grad(layer_one, num_bits = 8, parallel = True, num_gpus = number_of_gpus, err_compensation = True) 
-                    layer_one.weight_scaling_factor = scale 
-                    if layer_one.weight.grad.grad_fn is not None: 
-                        layer_one.weight.grad.detach() 
-                    else: 
-                        layer_one.weight.grad.requires_grad_(False) 
-                    layer_one.weight.grad.zero_() 
-                    layer_one.weight.grad.add_(buffer_changes) 
+                    if mlp_layer_quantized: 
+                        buffer_changes, scale = quantize_linear_grad(layer_one, num_bits = 8, parallel = True, num_gpus = number_of_gpus, err_compensation = True) 
+                        layer_one.weight_scaling_factor = scale 
+                        if layer_one.weight.grad.grad_fn is not None: 
+                            layer_one.weight.grad.detach() 
+                        else: 
+                            layer_one.weight.grad.requires_grad_(False) 
+                        layer_one.weight.grad.zero_() 
+                        layer_one.weight.grad.add_(buffer_changes) 
 
-                    buffer_changes, scale = quantize_bias_grad(layer_one, num_bits = 8, parallel = True, num_gpus = number_of_gpus, err_compensation = True) 
-                    layer_one.bias_scaling_factor = scale 
-                    if layer_one.bias.grad.grad_fn is not None: 
-                        layer_one.bias.grad.detach() 
+                        buffer_changes, scale = quantize_bias_grad(layer_one, num_bits = 8, parallel = True, num_gpus = number_of_gpus, err_compensation = True) 
+                        layer_one.bias_scaling_factor = scale 
+                        if layer_one.bias.grad.grad_fn is not None: 
+                            layer_one.bias.grad.detach() 
+                        else: 
+                            layer_one.bias.grad.requires_grad_(False) 
+                        layer_one.bias.grad.zero_() 
+                        layer_one.bias.grad.add_(buffer_changes) 
                     else: 
-                        layer_one.bias.grad.requires_grad_(False) 
-                    layer_one.bias.grad.zero_() 
-                    layer_one.bias.grad.add_(buffer_changes) 
+                        if layer_one.weight.grad.grad_fn is not None: 
+                            layer_one.weight.grad.detach() 
+                        else: 
+                            layer_one.weight.grad.requires_grad_(False) 
+                        dist.all_reduce(layer_one.weight.grad, dist.ReduceOp.SUM) 
+                        layer_one.weight.grad.mul_(1. / number_of_gpus) 
+                        if layer_one.bias.grad.grad_fn is not None: 
+                            layer_one.bias.grad.detach() 
+                        else: 
+                            layer_one.bias.grad.requires_grad_(False) 
+                        dist.all_reduce(layer_one.bias.grad, dist.ReduceOp.SUM) 
+                        layer_one.bias.grad.mul_(1. / number_of_gpus) 
         else: 
             raise Warning("Cannot find the list of bottom linear layers") 
         '''
@@ -570,7 +598,7 @@ def weights_update_added_quantization(model, lr, num_gpus, emb_grad_quantized = 
         else: 
             raise Warning("Cannot find the list of top linear layers") 
 
-def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_embedding = True, num_gpus = 1, rank_for_debug = None, ranking_range = False, use_ec = False): 
+def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_embedding = True, num_gpus = 1, rank_for_debug = None, ranking_range = False, use_ec = False, mlp_layer_quantized = True): 
     with torch.no_grad(): 
         if update_embedding: 
             if model.emb_l is not None: 
@@ -602,16 +630,24 @@ def weight_update_parallel_comm(model, lr, emb_grad_quantized = True, update_emb
         if model.bot_l is not None: 
             for layer_one in model.bot_l: 
                 if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
-                    layer_one.weight.data.add_(-lr * layer_one.weight.grad * layer_one.weight_scaling_factor.view(-1, 1)) 
-                    layer_one.bias.data.add_(-lr * layer_one.bias.grad * layer_one.bias_scaling_factor) 
+                    if mlp_layer_quantized: 
+                        layer_one.weight.data.add_(-lr * layer_one.weight.grad * layer_one.weight_scaling_factor.view(-1, 1)) 
+                        layer_one.bias.data.add_(-lr * layer_one.bias.grad * layer_one.bias_scaling_factor) 
+                    else: 
+                        layer_one.weight.data.add_(-lr * layer_one.weight.grad) 
+                        layer_one.bias.data.add_(-lr * layer_one.bias.grad) 
         else: 
             raise Warning("Cannot find the list of bottom linear layers") 
         
         if model.top_l is not None: 
             for layer_one in model.top_l: 
                 if isinstance(layer_one, QuantLinear) or isinstance(layer_one, LinearCompressedGrad): 
-                    layer_one.weight.data.add_(-lr * layer_one.weight.grad * layer_one.weight_scaling_factor.view(-1, 1)) 
-                    layer_one.bias.data.add_(-lr * layer_one.bias.grad * layer_one.bias_scaling_factor) 
+                    if mlp_layer_quantized: 
+                        layer_one.weight.data.add_(-lr * layer_one.weight.grad * layer_one.weight_scaling_factor.view(-1, 1)) 
+                        layer_one.bias.data.add_(-lr * layer_one.bias.grad * layer_one.bias_scaling_factor) 
+                    else: 
+                        layer_one.weight.data.add_(-lr * layer_one.weight.grad) 
+                        layer_one.bias.data.add_(-lr * layer_one.bias.grad) 
         else: 
             raise Warning("Cannot find the list of top linear layers") 
         '''
