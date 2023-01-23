@@ -1839,7 +1839,7 @@ def train(gpu, args):
     
     # TODO use barrier if not in synchronization 
     with profile( 
-        activities = [ProfilerActivity.CUDA], record_shapes=True 
+        activities = [ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True 
     ) as prof: 
         if not args.inference_only: 
             k = 0 
@@ -2140,8 +2140,8 @@ def train(gpu, args):
             )
         ) 
         ''' 
-        print(prof.key_averages(group_by_input_shape=True).table(
-            sort_by="self_cpu_time_total" 
+        print(prof.key_averages(group_by_input_shape=True).table( 
+            sort_by = "cuda_time_total" 
         )) 
         '''
         with open("dlrm_s_pytorch" + time_stamp + "_total.prof", "w") as prof_f:
