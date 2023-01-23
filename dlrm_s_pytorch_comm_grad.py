@@ -83,7 +83,7 @@ import sklearn.metrics
 import torch
 import torch.nn as nn
 from torch._ops import ops
-from torch.autograd.profiler import record_function
+from torch.profiler import profile, record_function, ProfilerActivity 
 from torch.nn.parallel.parallel_apply import parallel_apply
 from torch.nn.parallel.replicate import replicate
 from torch.nn.parallel.scatter_gather import gather, scatter
@@ -844,10 +844,14 @@ class DLRM_Net(nn.Module):
             if (not self.quantize_act_and_lin) and self.quantize_activation: 
                 # used for cases where embedding tables are quantized while mlp is in full precision 
                 x, act_scaling_factor = self.quant_input(dense_x) 
-                x = self.apply_mlp(x, self.bot_l) # not used with scale 
-                ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
-                z, feature_scaling_factor = self.interact_features(x, ly) 
-                p = self.apply_mlp(z, self.top_l) # not used with scale 
+                with record_function("DQRM bot mlp"): 
+                    x = self.apply_mlp(x, self.bot_l) # not used with scale 
+                with record_function("DQRM embedding table"): 
+                    ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
+                with record_function("DQRM interact feature"): 
+                    z, feature_scaling_factor = self.interact_features(x, ly) 
+                with record_function("DQRM top mlp"): 
+                    p = self.apply_mlp(z, self.top_l) # not used with scale 
             elif not self.quantize_activation: 
                 x = self.apply_mlp(dense_x, self.bot_l, prev_act_scaling_factor = None) 
                 ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
@@ -1834,306 +1838,320 @@ def train(gpu, args):
         return 
     
     # TODO use barrier if not in synchronization 
-    
-    if not args.inference_only: 
-        k = 0 
-        weight_syncc(dlrm, args.world_size) 
-        while k < args.nepochs: 
-            if k == 1 and args.pretrain_and_quantize: 
-                # one epoch of pretraining and one epoch of quantization-aware training 
-                full_precision_flag = False 
-                print("Using {}-bit precision".format(int(args.embedding_bit)) if args.embedding_bit is not None else "Still using full precision") 
-            if args.pretrain_and_quantize_lin: 
-                if k == 2: 
-                    change_lin_full_quantize = True 
+    with torch.profiler.profile(
+        args.enable_profiling, use_cuda = use_gpu, record_shapes = True
+    ) as prof: 
+        if not args.inference_only: 
+            k = 0 
+            weight_syncc(dlrm, args.world_size) 
+            while k < args.nepochs: 
+                if k == 1 and args.pretrain_and_quantize: 
+                    # one epoch of pretraining and one epoch of quantization-aware training 
+                    full_precision_flag = False 
+                    print("Using {}-bit precision".format(int(args.embedding_bit)) if args.embedding_bit is not None else "Still using full precision") 
+                if args.pretrain_and_quantize_lin: 
+                    if k == 2: 
+                        change_lin_full_quantize = True 
 
-            if args.linear_shift_down_bit_width: 
-                '''
-                if k == 1: 
-                    change_bitw = True 
-                    change_bitw2 = 8 
-                elif k == 2: 
-                    change_bitw = True 
-                    change_bitw2 = 6 
-                elif k == 3: 
-                    change_bitw = True 
-                    change_bitw2 = args.weight_bit 
-                ''' 
-                if k == 3: 
-                    change_bitw = True 
-                    change_bitw2 = args.weight_bit 
+                if args.linear_shift_down_bit_width: 
+                    '''
+                    if k == 1: 
+                        change_bitw = True 
+                        change_bitw2 = 8 
+                    elif k == 2: 
+                        change_bitw = True 
+                        change_bitw2 = 6 
+                    elif k == 3: 
+                        change_bitw = True 
+                        change_bitw2 = args.weight_bit 
+                    ''' 
+                    if k == 3: 
+                        change_bitw = True 
+                        change_bitw2 = args.weight_bit 
 
-            if k < skip_upto_epoch: 
-                continue 
-            for j, inputBatch in enumerate(train_loader): 
-                global iteration_num 
-                iteration_num = j 
-
-                # testing full lin to quantized 
-                '''
-                if j == 1025: 
-                    change_lin_full_quantize = True 
-                ''' 
-                '''
-                if args.linear_shift_down_bit_width and j == 1025: 
-                    change_bitw = True 
-                    change_bitw2 = args.weight_bit 
-                ''' 
-                if j < skip_upto_batch: 
+                if k < skip_upto_epoch: 
                     continue 
-                
-                X, lS_o, lS_i, T, W, CBPP = unpack_batch(inputBatch) 
-                
-                t1 = time_wrap(use_gpu) 
-                
-                if nbatches > 0 and j >= nbatches: 
-                    break 
-                
-                if args.world_size > 1 and X.size(0) % args.world_size != 0: 
-                    print(
-                        "Warning: Skipping the batch %d with size %d" 
-                        % (j, X.size(0)) 
-                    )
-                    continue 
-                
-                mbs = T.shape[0] 
+                for j, inputBatch in enumerate(train_loader): 
+                    global iteration_num 
+                    iteration_num = j 
 
-                X = X[get_my_slice(mbs, args.world_size, rank)] 
-                lS_i = lS_i[:, get_my_slice(mbs, args.world_size, rank)] 
-                lS_o = lS_o[:, 0 : lS_i.shape[1]] 
-                T = T[get_my_slice(mbs, args.world_size, rank)] 
-                W = W[get_my_slice(mbs, args.world_size, rank)] 
-                
-                Z = dlrm_wrap(
-                    X, 
-                    lS_o, 
-                    lS_i, 
-                    use_gpu, 
-                    device, 
-                    ndevices = 1 # TODO check if ndevices is needed here 
-                ) 
-                
-                # loss 
-                # TODO check whether loss function can propagate through 
-                E = loss_fn_wrap(Z, T, use_gpu, device, args) 
-                
-                L = E.detach().cpu().numpy() 
-                
-                # backward propagation 
-                # tried to see if the gradients can be modified 
-                '''
-                optimizer.zero_grad() 
-                ''' 
-                clear_gradients(dlrm) 
-
-                E.backward() 
-                # quantization of gradient 
-                '''
-                optimizer.step() 
-                ''' 
-                output_flag = ((j + 1) % args.print_freq == 0) or (
-                    j + 1 == nbatches 
-                ) 
-                '''
-                # ranking range 
-                grad_precision_and_scale(dlrm, args.world_size, rank, output_flag) 
-                grad_update_parallel_comm(dlrm, args.world_size, emb_grad_quantized = args.quantize_embedding_bag_gradient, num_bits = args.embedding_bag_gradient_bit_num, ranking_range = True, rank_for_debug = rank) 
-                weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1], emb_grad_quantized = args.quantize_embedding_bag_gradient, update_embedding = True, num_gpus = args.world_size, rank_for_debug = rank, ranking_range = True) 
-                ''' 
-
-                # full precision gradient or uniform quantization on gradients 
-                grad_update_parallel_comm(dlrm, args.world_size, emb_grad_quantized = args.quantize_embedding_bag_gradient, num_bits = args.embedding_bag_gradient_bit_num, ranking_range = False, rank_for_debug = rank, iteration_count = j) 
-                weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1], emb_grad_quantized = args.quantize_embedding_bag_gradient, update_embedding = True, num_gpus = args.world_size, rank_for_debug = rank) 
-                # not quantize 
-                
-                lr_scheduler.step() 
-                
-                t2 = time_wrap(use_gpu) 
-                total_time += t2 - t1 
-                
-                total_loss += L * mbs 
-                total_iter += 1 
-                total_samp += mbs 
-                
-                should_print = ((j + 1) % args.print_freq == 0) or (
-                    j + 1 == nbatches
-                )
-                should_test = (
-                    (args.test_freq > 0)
-                    and (args.data_generation in ["dataset", "random"])
-                    and (((j + 1) % args.test_freq == 0) or (j + 1 == nbatches))
-                ) 
-                syncc = ((j + 1) % 200 == 0) or (
-                    j + 1 == 200
-                )
-                
-                inspect_weights_and_others = (
-                    (args.test_freq > 0) 
-                    and (args.data_generation in ["dataset", "random"]) 
-                    and ((j + 1) % (args.test_freq * 2) == 0) 
-                ) 
-
-                if syncc: 
-                    # sync up per 1000 iterations 
-                    weight_syncc(dlrm, args.world_size) 
-                
-                if should_print or should_test: 
+                    # testing full lin to quantized 
+                    '''
+                    if j == 1025: 
+                        change_lin_full_quantize = True 
+                    ''' 
+                    '''
+                    if args.linear_shift_down_bit_width and j == 1025: 
+                        change_bitw = True 
+                        change_bitw2 = args.weight_bit 
+                    ''' 
+                    if j < skip_upto_batch: 
+                        continue 
                     
-                    gT = 1000.0 * total_time / total_iter if args.print_time else -1
-                    total_time = 0
-
-                    train_loss = total_loss / total_samp
-                    total_loss = 0
-
-                    str_run_type = (
-                        "inference" if args.inference_only else "training"
-                    )
-
-                    wall_time = ""
-                    if args.print_wall_time:
-                        wall_time = " ({})".format(time.strftime("%H:%M"))
-
-                    print(
-                        "Finished {} it {}/{} of epoch {}, {:.2f} ms/it,".format(
-                            str_run_type, j + 1, nbatches, k, gT
+                    X, lS_o, lS_i, T, W, CBPP = unpack_batch(inputBatch) 
+                    
+                    t1 = time_wrap(use_gpu) 
+                    
+                    if nbatches > 0 and j >= nbatches: 
+                        break 
+                    
+                    if args.world_size > 1 and X.size(0) % args.world_size != 0: 
+                        print(
+                            "Warning: Skipping the batch %d with size %d" 
+                            % (j, X.size(0)) 
                         )
-                        + " loss {:.6f}".format(train_loss)
-                        + wall_time,
-                        flush=True,
-                    )
+                        continue 
+                    
+                    mbs = T.shape[0] 
 
-                    log_iter = nbatches * k + j + 1
-                    writer.add_scalar("Train/Loss", train_loss, log_iter)
-
-                    total_iter = 0
-                    total_samp = 0 
-                
-                if should_test: 
-                    # test on the first gpu on the first node 
-                    epoch_num_float = (j + 1) / len(train_loader) 
-                    print(
-                        "Testing at - {}/{} of epoch {},".format(j + 1, nbatches, k)
+                    X = X[get_my_slice(mbs, args.world_size, rank)] 
+                    lS_i = lS_i[:, get_my_slice(mbs, args.world_size, rank)] 
+                    lS_o = lS_o[:, 0 : lS_i.shape[1]] 
+                    T = T[get_my_slice(mbs, args.world_size, rank)] 
+                    W = W[get_my_slice(mbs, args.world_size, rank)] 
+                    
+                    Z = dlrm_wrap(
+                        X, 
+                        lS_o, 
+                        lS_i, 
+                        use_gpu, 
+                        device, 
+                        ndevices = 1 # TODO check if ndevices is needed here 
                     ) 
-                    if rank == 0: 
-                        model_metrics_dict, is_best = inference_distributed(
-                            rank, 
-                            args, 
-                            dlrm, 
-                            test_loader, 
-                            device, 
-                            use_gpu, 
-                            log_iter, 
-                            nbatches, 
-                            nbatches_test, 
-                            writer 
+                    
+                    # loss 
+                    # TODO check whether loss function can propagate through 
+                    E = loss_fn_wrap(Z, T, use_gpu, device, args) 
+                    
+                    L = E.detach().cpu().numpy() 
+                    
+                    # backward propagation 
+                    # tried to see if the gradients can be modified 
+                    '''
+                    optimizer.zero_grad() 
+                    ''' 
+                    with record_function("DLRM backward"): 
+                        clear_gradients(dlrm) 
+                        with record_function("single node backward"): 
+                            E.backward() 
+                        # quantization of gradient 
+                        '''
+                        optimizer.step() 
+                        ''' 
+                        output_flag = ((j + 1) % args.print_freq == 0) or (
+                            j + 1 == nbatches 
                         ) 
-                    else: 
-                        inference_distributed(
-                            rank, 
-                            args, 
-                            dlrm, 
-                            test_loader, 
-                            device, 
-                            use_gpu, 
-                            log_iter, 
-                            nbatches, 
-                            nbatches_test, 
-                            writer 
-                        ) 
-                    if rank == 0: 
-                        if not (args.save_model == "") and not args.inference_only: 
-                            model_metrics_dict["epoch"] = k
-                            model_metrics_dict["iter"] = j + 1
-                            model_metrics_dict["train_loss"] = train_loss
-                            model_metrics_dict["total_loss"] = total_loss
-                            model_metrics_dict[
-                                "opt_state_dict"
-                            ] = optimizer.state_dict()
-                            # added to make sure even if internet crashes during training, at least one checkpoint is successfully saved 
-                            # save_addr = args.save_model + str(((j + 1)/10240)%2) 
-                            save_addr = args.save_model.split(".")[0] + str(((j + 1)/10240)%2) + ".pt" 
-                            '''
-                            print("Saving model to {}".format(args.save_model))
-                            torch.save(model_metrics_dict, args.save_model)
-                            ''' 
-                            print("Saving model to {}".format(save_addr)) 
-                            torch.save(model_metrics_dict, save_addr) 
-                    dist.barrier() 
-                '''
-                weight_syncc(dlrm, args.world_size) 
-                ''' 
-                '''
-                if rank == 0 and inspect_weights_and_others: 
-                    dlrm.documenting_weights_tables(path_log, k, j, emb_quantized = args.quantization_flag) 
-                dist.barrier() 
-                ''' 
-                '''
-                print("stop updating embedding") 
-                ''' 
-                '''
-                optimizer.zero_grad() 
-                for emb in dlrm.module.emb_l: 
-                    emb.embedding_bag.weight.requires_grad = False 
-                ''' 
-                '''
-                dlrm.show_output_linear_layer_grad() # checking whether the layer is consistent 
-                ''' 
-            k += 1 
-                            
-    else: 
-        print("Testing for inference only") 
-        inference_distributed(
-            rank, 
-            args, 
-            dlrm, 
-            test_loader, 
-            device, 
-            use_gpu, 
-            log_iter = -1, 
-            nbatches = nbatches, 
-            nbatches_test = nbatches_test, 
-            writer = writer
-        ) 
+                        '''
+                        # ranking range 
+                        grad_precision_and_scale(dlrm, args.world_size, rank, output_flag) 
+                        grad_update_parallel_comm(dlrm, args.world_size, emb_grad_quantized = args.quantize_embedding_bag_gradient, num_bits = args.embedding_bag_gradient_bit_num, ranking_range = True, rank_for_debug = rank) 
+                        weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1], emb_grad_quantized = args.quantize_embedding_bag_gradient, update_embedding = True, num_gpus = args.world_size, rank_for_debug = rank, ranking_range = True) 
+                        ''' 
 
-        print("finish execution of inference") 
-        if rank == 0 and args.documenting_table_weight: 
-            # recording embedding table weights the second time 
-            dlrm.module.documenting_weights_tables(path_log, 1) 
-        dist.barrier() 
-        return 
-        '''
-        if args.nr == 0 and gpu == 0: 
+                        # full precision gradient or uniform quantization on gradients 
+                        with record_function("gradient quantization and communicate"): 
+                            grad_update_parallel_comm(dlrm, args.world_size, emb_grad_quantized = args.quantize_embedding_bag_gradient, num_bits = args.embedding_bag_gradient_bit_num, ranking_range = False, rank_for_debug = rank, iteration_count = j) 
+                        with record_function("weight update"): 
+                            weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1], emb_grad_quantized = args.quantize_embedding_bag_gradient, update_embedding = True, num_gpus = args.world_size, rank_for_debug = rank) 
+                        # not quantize 
+                    
+                    lr_scheduler.step() 
+                    
+                    t2 = time_wrap(use_gpu) 
+                    total_time += t2 - t1 
+                    
+                    total_loss += L * mbs 
+                    total_iter += 1 
+                    total_samp += mbs 
+                    
+                    should_print = ((j + 1) % args.print_freq == 0) or (
+                        j + 1 == nbatches
+                    )
+                    should_test = (
+                        (args.test_freq > 0)
+                        and (args.data_generation in ["dataset", "random"])
+                        and (((j + 1) % args.test_freq == 0) or (j + 1 == nbatches))
+                    ) 
+                    syncc = ((j + 1) % 200 == 0) or (
+                        j + 1 == 200
+                    )
+                    
+                    inspect_weights_and_others = (
+                        (args.test_freq > 0) 
+                        and (args.data_generation in ["dataset", "random"]) 
+                        and ((j + 1) % (args.test_freq * 2) == 0) 
+                    ) 
+
+                    if syncc: 
+                        # sync up per 1000 iterations 
+                        weight_syncc(dlrm, args.world_size) 
+                    
+                    if should_print or should_test: 
+                        
+                        gT = 1000.0 * total_time / total_iter if args.print_time else -1
+                        total_time = 0
+
+                        train_loss = total_loss / total_samp
+                        total_loss = 0
+
+                        str_run_type = (
+                            "inference" if args.inference_only else "training"
+                        )
+
+                        wall_time = ""
+                        if args.print_wall_time:
+                            wall_time = " ({})".format(time.strftime("%H:%M"))
+
+                        print(
+                            "Finished {} it {}/{} of epoch {}, {:.2f} ms/it,".format(
+                                str_run_type, j + 1, nbatches, k, gT
+                            )
+                            + " loss {:.6f}".format(train_loss)
+                            + wall_time,
+                            flush=True,
+                        )
+
+                        log_iter = nbatches * k + j + 1
+                        writer.add_scalar("Train/Loss", train_loss, log_iter)
+
+                        total_iter = 0
+                        total_samp = 0 
+                        break 
+                    
+                    if should_test: 
+                        # test on the first gpu on the first node 
+                        epoch_num_float = (j + 1) / len(train_loader) 
+                        print(
+                            "Testing at - {}/{} of epoch {},".format(j + 1, nbatches, k)
+                        ) 
+                        if rank == 0: 
+                            model_metrics_dict, is_best = inference_distributed(
+                                rank, 
+                                args, 
+                                dlrm, 
+                                test_loader, 
+                                device, 
+                                use_gpu, 
+                                log_iter, 
+                                nbatches, 
+                                nbatches_test, 
+                                writer 
+                            ) 
+                        else: 
+                            inference_distributed(
+                                rank, 
+                                args, 
+                                dlrm, 
+                                test_loader, 
+                                device, 
+                                use_gpu, 
+                                log_iter, 
+                                nbatches, 
+                                nbatches_test, 
+                                writer 
+                            ) 
+                        if rank == 0: 
+                            if not (args.save_model == "") and not args.inference_only: 
+                                model_metrics_dict["epoch"] = k
+                                model_metrics_dict["iter"] = j + 1
+                                model_metrics_dict["train_loss"] = train_loss
+                                model_metrics_dict["total_loss"] = total_loss
+                                model_metrics_dict[
+                                    "opt_state_dict"
+                                ] = optimizer.state_dict()
+                                # added to make sure even if internet crashes during training, at least one checkpoint is successfully saved 
+                                # save_addr = args.save_model + str(((j + 1)/10240)%2) 
+                                save_addr = args.save_model.split(".")[0] + str(((j + 1)/10240)%2) + ".pt" 
+                                '''
+                                print("Saving model to {}".format(args.save_model))
+                                torch.save(model_metrics_dict, args.save_model)
+                                ''' 
+                                print("Saving model to {}".format(save_addr)) 
+                                torch.save(model_metrics_dict, save_addr) 
+                        dist.barrier() 
+                    '''
+                    weight_syncc(dlrm, args.world_size) 
+                    ''' 
+                    '''
+                    if rank == 0 and inspect_weights_and_others: 
+                        dlrm.documenting_weights_tables(path_log, k, j, emb_quantized = args.quantization_flag) 
+                    dist.barrier() 
+                    ''' 
+                    '''
+                    print("stop updating embedding") 
+                    ''' 
+                    '''
+                    optimizer.zero_grad() 
+                    for emb in dlrm.module.emb_l: 
+                        emb.embedding_bag.weight.requires_grad = False 
+                    ''' 
+                    '''
+                    dlrm.show_output_linear_layer_grad() # checking whether the layer is consistent 
+                    ''' 
+                k += 1 
+                break 
+                                
+        else: 
             print("Testing for inference only") 
-            inference(
+            inference_distributed(
+                rank, 
                 args, 
                 dlrm, 
-                best_acc_test, 
-                best_auc_test, 
                 test_loader, 
                 device, 
-                use_gpu 
+                use_gpu, 
+                log_iter = -1, 
+                nbatches = nbatches, 
+                nbatches_test = nbatches_test, 
+                writer = writer
             ) 
-            print("finish execution of inference") 
-        dist.barrier() 
-        return 
-        ''' 
-        
-    if args.nr == 0 and gpu == 0: 
-        '''
-        if args.enable_profiling:
-            time_stamp = str(datetime.datetime.now()).replace(" ", "_")
-            with open("dlrm_s_pytorch" + time_stamp + "_shape.prof", "w") as prof_f:
-                prof_f.write(
-                    prof.key_averages(group_by_input_shape=True).table(
-                    sort_by="self_cpu_time_total"
-                )
-            )
-            with open("dlrm_s_pytorch" + time_stamp + "_total.prof", "w") as prof_f:
-                prof_f.write(prof.key_averages().table(sort_by="self_cpu_time_total"))
-            prof.export_chrome_trace("dlrm_s_pytorch" + time_stamp + ".json")
-            # print(prof.key_averages().table(sort_by="cpu_time_total"))
-        ''' 
 
+            print("finish execution of inference") 
+            if rank == 0 and args.documenting_table_weight: 
+                # recording embedding table weights the second time 
+                dlrm.module.documenting_weights_tables(path_log, 1) 
+            dist.barrier() 
+            return 
+            '''
+            if args.nr == 0 and gpu == 0: 
+                print("Testing for inference only") 
+                inference(
+                    args, 
+                    dlrm, 
+                    best_acc_test, 
+                    best_auc_test, 
+                    test_loader, 
+                    device, 
+                    use_gpu 
+                ) 
+                print("finish execution of inference") 
+            dist.barrier() 
+            return 
+            ''' 
+        
+    if rank == 0: 
+        time_stamp = str(datetime.datetime.now()).replace(" ", "_")
+        '''
+        with open("dlrm_s_pytorch" + time_stamp + "_shape.prof", "w") as prof_f:
+            prof_f.write(
+                prof.key_averages(group_by_input_shape=True).table(
+                sort_by="self_cpu_time_total"
+            )
+        ) 
+        ''' 
+        print(prof.key_averages(group_by_input_shape=True).table(
+            sort_by="self_cpu_time_total" 
+        )) 
+        '''
+        with open("dlrm_s_pytorch" + time_stamp + "_total.prof", "w") as prof_f:
+            prof_f.write(prof.key_averages().table(sort_by="self_cpu_time_total"))
+        ''' 
+        print(prof.key_averages().table(
+            sort_by="self_cpu_time_total"
+        )) 
+        prof.export_chrome_trace("dlrm_s_pytorch" + time_stamp + ".json")
+        # print(prof.key_averages().table(sort_by="cpu_time_total"))
+        '''
         # plot compute graph
         if args.plot_compute_graph:
             sys.exit(
@@ -2146,7 +2164,7 @@ def train(gpu, args):
             # dot.render('dlrm_s_pytorch_graph') # write .pdf file
 
         # test prints
-    
+        ''' 
     if not args.inference_only: 
         '''
         print("updated parameters (weights and bias):")
