@@ -1838,8 +1838,8 @@ def train(gpu, args):
         return 
     
     # TODO use barrier if not in synchronization 
-    with torch.profiler.profile(
-        args.enable_profiling, use_cuda = use_gpu, record_shapes = True
+    with torch.profile( 
+        activities = [ProfilerActivity.CPU], record_shapes = True 
     ) as prof: 
         if not args.inference_only: 
             k = 0 
