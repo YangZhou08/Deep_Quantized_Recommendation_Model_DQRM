@@ -995,45 +995,6 @@ def get_my_slice(n, my_size, my_rank):
     return slice(
         my_rank * k + min(my_rank, m), (my_rank + 1) * k + min(my_rank + 1, m), 1 
     ) 
-
-def trace_handler(prof): 
-    time_stamp = str(datetime.datetime.now()).replace(" ", "_")
-    '''
-    with open("dlrm_s_pytorch" + time_stamp + "_shape.prof", "w") as prof_f:
-        prof_f.write(
-            prof.key_averages(group_by_input_shape=True).table(
-            sort_by="self_cpu_time_total"
-        )
-    ) 
-    ''' 
-    print(prof.key_averages(group_by_input_shape=True).table( 
-        sort_by = "cuda_time_total" 
-    )) 
-    '''
-    with open("dlrm_s_pytorch" + time_stamp + "_total.prof", "w") as prof_f:
-        prof_f.write(prof.key_averages().table(sort_by="self_cpu_time_total"))
-    ''' 
-    print(prof.key_averages().table(
-        sort_by="self_cpu_time_total"
-    )) 
-    prof.export_chrome_trace("dlrm_s_pytorch" + time_stamp + ".json")
-    # print(prof.key_averages().table(sort_by="cpu_time_total"))
-    '''
-    # plot compute graph
-    if args.plot_compute_graph:
-        sys.exit(
-            "ERROR: Please install pytorchviz package in order to use the"
-            + " visualization. Then, uncomment its import above as well as"
-            + " three lines below and run the code again."
-        )
-        # V = Z.mean() if args.inference_only else E
-        # dot = make_dot(V, params=dict(dlrm.named_parameters()))
-        # dot.render('dlrm_s_pytorch_graph') # write .pdf file
-
-    # test prints
-    ''' 
-    print("the trial is only for profiling\nNow terminating") 
-    exit() 
    
 def run(): 
     ### parse arguments ### 
@@ -2170,6 +2131,43 @@ def train(gpu, args):
             dist.barrier() 
             return 
             ''' 
+    if rank == 0: 
+        time_stamp = str(datetime.datetime.now()).replace(" ", "_")
+        with open("parallel_comm_" + time_stamp + "_CUDA_ranked.prof", "w") as prof_f: 
+            prof_f.write(prof.key_averages(group_by_input_shape = True).table( 
+                sort_by = "cuda_time_total" 
+            )) 
+        '''
+        print(prof.key_averages(group_by_input_shape=True).table( 
+            sort_by = "cuda_time_total" 
+        )) 
+        ''' 
+        with open("parallel_comm_" + time_stamp + "_CPU_ranked.prof", "w") as prof_f: 
+            prof_f.write(prof.key_averages().table( 
+                sort_by="self_cpu_time_total"
+            )) 
+        '''
+        print(prof.key_averages().table(
+            sort_by="self_cpu_time_total"
+        )) 
+        ''' 
+        prof.export_chrome_trace("dlrm_s_pytorch" + time_stamp + ".json")
+        # print(prof.key_averages().table(sort_by="cpu_time_total"))
+        '''
+        # plot compute graph
+        if args.plot_compute_graph:
+            sys.exit(
+                "ERROR: Please install pytorchviz package in order to use the"
+                + " visualization. Then, uncomment its import above as well as"
+                + " three lines below and run the code again."
+            )
+            # V = Z.mean() if args.inference_only else E
+            # dot = make_dot(V, params=dict(dlrm.named_parameters()))
+            # dot.render('dlrm_s_pytorch_graph') # write .pdf file
+
+        # test prints
+        ''' 
+        print("the trial is only for profiling\nNow terminating") 
     if not args.inference_only: 
         '''
         print("updated parameters (weights and bias):")
