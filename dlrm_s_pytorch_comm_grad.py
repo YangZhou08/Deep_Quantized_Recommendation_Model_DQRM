@@ -1876,7 +1876,6 @@ def train(gpu, args):
             for j, inputBatch in enumerate(train_loader): 
                 global iteration_num 
                 iteration_num = j 
-                print(j) 
 
                 # testing full lin to quantized 
                 '''
