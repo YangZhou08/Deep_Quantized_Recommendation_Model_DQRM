@@ -119,7 +119,7 @@ from sgd_quantized_gradients import weight_syncc
 ''' 
 
 from sgd_quantized_gradients_parallel_comm import grad_precision_and_scale 
-from sgd_quantized_gradients_parallel_comm import grad_update_parallel_comm 
+from sgd_quantized_gradients_parallel_comm import grad_upduate_parallel_comm 
 from sgd_quantized_gradients_parallel_comm import weight_update_parallel_comm 
 from sgd_quantized_gradients_parallel_comm import quantized_gradients_update 
 from sgd_quantized_gradients_parallel_comm import clear_gradients 
