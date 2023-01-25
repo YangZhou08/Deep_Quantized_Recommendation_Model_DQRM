@@ -1945,13 +1945,15 @@ def train(args):
                 # tried to see if the gradients can be modified 
                 optimizer.zero_grad() 
                 E.backward() 
+                '''
                 # quantization of gradient 
                 with profile(activities = [ProfilerActivity.CPU], record_shapes = True) as prof: 
                     with record_function("grad update and allreduce"): 
-                        optimizer.step() 
-                
+                ''' 
+                optimizer.step() 
+                '''
                 print(prof.key_averages().table(sort_by = "self_cpu_time_total")) 
-
+                ''' 
                 lr_scheduler.step() 
                 
                 t2 = time_wrap(use_gpu) 
