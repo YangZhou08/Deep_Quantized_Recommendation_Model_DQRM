@@ -2132,7 +2132,7 @@ def train(gpu, args):
         time_stamp = str(datetime.datetime.now()).replace(" ", "_")
         with open("parallel_comm_" + time_stamp + "_CUDA_ranked.prof", "w") as prof_f: 
             prof_f.write(prof.key_averages(group_by_input_shape = True).table( 
-                sort_by="total_cpu_time" 
+                sort_by="cpu_time_total" 
             )) 
         with open("parallel_comm_" + time_stamp + "_CPU_ranked.prof", "w") as prof_f: 
             prof_f.write(prof.key_averages().table( 
