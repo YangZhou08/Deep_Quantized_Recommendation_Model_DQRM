@@ -1839,7 +1839,7 @@ def train(gpu, args):
     
     # TODO use barrier if not in synchronization 
     with profile( 
-        activities = [ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True, schedule = schedule(wait = 10, warmup = 90, active = 500) 
+        activities = [ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True, schedule = schedule(wait = 10, warmup = 90, active = 1) 
     ) as prof: 
         if not args.inference_only: 
             k = 0 
@@ -2133,14 +2133,16 @@ def train(gpu, args):
         time_stamp = str(datetime.datetime.now()).replace(" ", "_")
         with open("parallel_comm_" + time_stamp + "_CUDA_ranked.prof", "w") as prof_f: 
             prof_f.write(prof.key_averages(group_by_input_shape = True).table( 
-                sort_by = "cuda_time_total" 
+                sort_by="total_cpu_time" 
             )) 
         with open("parallel_comm_" + time_stamp + "_CPU_ranked.prof", "w") as prof_f: 
             prof_f.write(prof.key_averages().table( 
                 sort_by="self_cpu_time_total"
             )) 
+        '''
         prof.export_chrome_trace("dlrm_s_pytorch" + time_stamp + ".json")
-        # print(prof.key_averages().table(sort_by="cpu_time_total"))
+        # print(prof.key_averages().table(sort_by="cpu_time_total")) 
+        ''' 
         '''
         # not used previously 
         # plot compute graph
