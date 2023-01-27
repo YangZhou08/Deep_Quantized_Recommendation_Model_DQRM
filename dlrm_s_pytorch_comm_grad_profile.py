@@ -1981,9 +1981,9 @@ def train(gpu, args):
                         and (args.data_generation in ["dataset", "random"]) 
                         and ((j + 1) % (args.test_freq * 2) == 0) 
                     ) 
-                    '''
+                    
                     prof.step() # signify the next step for the profiler 
-                    ''' 
+
                     if syncc: 
                         # sync up per 1000 iterations 
                         weight_syncc(dlrm, args.world_size) 
