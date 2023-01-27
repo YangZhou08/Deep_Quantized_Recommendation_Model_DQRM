@@ -2015,6 +2015,7 @@ def train(gpu, args):
 
                         total_iter = 0
                         total_samp = 0 
+                        break 
                     
                     if should_test: 
                         # test on the first gpu on the first node 
@@ -2087,6 +2088,7 @@ def train(gpu, args):
                     dlrm.show_output_linear_layer_grad() # checking whether the layer is consistent 
                     ''' 
                 k += 1 
+                break 
                                 
         else: 
             print("Testing for inference only") 
