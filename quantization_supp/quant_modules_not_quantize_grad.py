@@ -8,6 +8,9 @@ import torch.multiprocessing as mp
 from torch.nn import Module, Parameter
 from .quant_utils import *
 
+list_finding_scale = [] 
+list_quantization = [] 
+list_dequantization_and_round = [] 
 
 class QuantLinear(Module):
     """

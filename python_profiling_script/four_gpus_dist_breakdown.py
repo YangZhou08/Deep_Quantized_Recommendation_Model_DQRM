@@ -36,11 +36,12 @@ sections_performed = ["gradient communication", "single-process backward", "DLRM
 # category_colors = plt.get_cmap('RdYlGn')(
 #         np.linspace(0.15, 0.85, len(sections_performed))) 
 category_colors = ["tab:blue", "darkorange", "darkgrey", "gold", "tab:green"] 
-devices = ["GPU"] 
-percentage_performance = [0.5751, 0.0826, 0.1259, 0.0536] 
-percentage_performance.append(1.0 - np.sum(percentage_performance)) 
+devices = ["CPU", "GPU"] 
+percentage_performance = [[0.2804, 0.0283, 0.0524, 0.5914], [0.5751, 0.0826, 0.1259, 0.0536]] 
+percentage_performance[0].append(1.0 - np.sum(percentage_performance[0])) 
+percentage_performance[1].append(1.0 - np.sum(percentage_performance[1])) 
 
-perc_per_hlp = np.array([percentage_performance]) 
+perc_per_hlp = np.array(percentage_performance) 
 perc_per_cum = perc_per_hlp.cumsum(axis = 1) 
 print(perc_per_hlp) 
 print(perc_per_hlp.cumsum(axis = 1)) 
