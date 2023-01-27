@@ -83,12 +83,13 @@ import sklearn.metrics
 import torch
 import torch.nn as nn
 from torch._ops import ops
-from torch.profiler import profile, record_function, ProfilerActivity, schedule 
+from torch.autograd.profiler import record_function
 from torch.nn.parallel.parallel_apply import parallel_apply
 from torch.nn.parallel.replicate import replicate
 from torch.nn.parallel.scatter_gather import gather, scatter
 from torch.nn.parameter import Parameter
 from torch.optim.lr_scheduler import _LRScheduler
+from torch.profiler import profile, record_function, ProfilerActivity, schedule 
 import optim.rwsadagrad as RowWiseSparseAdagrad
 from torch.utils.tensorboard import SummaryWriter
 
@@ -119,7 +120,7 @@ from sgd_quantized_gradients import weight_syncc
 ''' 
 
 from sgd_quantized_gradients_parallel_comm import grad_precision_and_scale 
-from sgd_quantized_gradients_parallel_comm import grad_update_parallel_comm 
+from sgd_quantized_gradients_parallel_comm import grad_upduate_parallel_comm 
 from sgd_quantized_gradients_parallel_comm import weight_update_parallel_comm 
 from sgd_quantized_gradients_parallel_comm import quantized_gradients_update 
 from sgd_quantized_gradients_parallel_comm import clear_gradients 
@@ -128,6 +129,7 @@ from sgd_quantized_gradients_parallel_comm import weight_syncc
 # below are not imported in the original script 
 import os 
 import torch.multiprocessing as mp 
+import torch_ccl 
 
 import tqdm 
 
@@ -994,7 +996,7 @@ def get_my_slice(n, my_size, my_rank):
     k, m = divmod(n, my_size) 
     return slice(
         my_rank * k + min(my_rank, m), (my_rank + 1) * k + min(my_rank + 1, m), 1 
-    ) 
+    )
    
 def run(): 
     ### parse arguments ### 
@@ -1156,13 +1158,14 @@ def run():
         args.quantize_activation = False 
     
     args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
-    os.environ['MASTER_ADDR'] = '169.254.3.1' 
-    '''
-    os.environ['MASTER_PORT'] = '29500' 
-    ''' 
-    os.environ['MASTER_PORT'] = '29512' 
-    os.environ['WORLD_SIZE'] = str(args.world_size) 
-    mp.spawn(train, nprocs = args.gpus, args = (args,)) 
+    # os.environ['MASTER_ADDR'] = '169.254.3.1' 
+    os.environ['MASTER_PORT'] = '29511' 
+    os.environ['RANK'] = str(os.environ.get('PMI_RANK', 0)) 
+    os.environ['WORLD_SIZE'] = str(os.environ.get('PMI_SIZE', 1)) 
+    
+    args.world_size = int(os.environ.get('PMI_SIZE', 1)) 
+    print("gggggot hereeeeee world size: {}".format(args.world_size)) 
+    train(args) 
   
 def inference_distributed(
     rank, 
@@ -1405,17 +1408,21 @@ def inference(
         )
     return model_metrics_dict, is_best 
     
-def train(gpu, args): 
-    rank = args.nr * args.gpus + gpu # make global rank 
+def train(args): 
+    # rank = args.nr * args.gpus + gpu # make global rank 
+    backend = "gloo" 
+    rank = int(os.environ.get('PMI_RANK', 0)) 
+    world_size = int(os.environ.get('PMI_SIZE', 1)) 
+    print("rank {}, world size {}".format(rank, world_size)) 
     dist.init_process_group(
-        backend = "gloo", 
+        backend = backend, 
         init_method = 'env://', 
-        world_size = args.world_size, 
-        rank = rank
-    ) 
+        world_size = world_size, 
+        rank = rank 
+    )
     
     torch.manual_seed(0) 
-    torch.cuda.set_device(gpu) # TODO think about using cpu and change code 
+    # TODO think about using cpu and change code 
     batch_size = args.mini_batch_size # TODO recheck the batch_size and run the script again 
 
     torch.set_printoptions(profile = "full") 
@@ -1437,8 +1444,8 @@ def train(gpu, args):
     
     if use_gpu: 
         ngpus = 1 
-        device = torch.device("cuda", gpu) 
-        if gpu != args.local_rank: 
+        device = torch.device("cuda", rank) 
+        if rank != args.local_rank: 
             print("Warning: local_rank gpu mismatch") 
         print("{} out of {} (GPU)".format(torch.cuda.device_count(), args.local_rank)) # TODO think about using cpu and change code 
     else: 
@@ -1454,51 +1461,9 @@ def train(gpu, args):
         print("---------- not quantize gradient") 
     ### prepare training data ### 
     ln_bot = np.fromstring(args.arch_mlp_bot, dtype = int, sep = "-") 
-    train_dataset, train_loader, test_dataset, test_loader = dp.make_criteo_data_and_loaders(args) 
-    '''
-    train_dataset, test_dataset = dp.make_criteo_data_and_loaders_two(args) 
-    ''' 
-    # train sampler 
-    '''
-    train_sampler = torch.utils.data.distributed.DistributedSampler(train_dataset, num_replicas = args.world_size, rank = rank) 
-    ''' 
-    '''
-    test_sampler = torch.utils.data.distributed.DistributedSampler(test_dataset, num_replicas = args.world_size, rank = rank) 
-    ''' 
-    '''
-    collate_wrapper_criteo = dp.collate_wrapper_criteo_offset 
     
-    train_loader = torch.utils.data.DataLoader(
-        dataset = train_dataset, 
-        batch_size = batch_size, 
-        shuffle = False, 
-        num_workers = 0, 
-        pin_memory = True, 
-        sampler = train_sampler, 
-        collate_fn = collate_wrapper_criteo, 
-        drop_last = False 
-    ) 
-    test_loader = torch.utils.data.DataLoader(
-        dataset = test_dataset, 
-        batch_size = args.test_mini_batch_size, 
-        shuffle = False, 
-        num_workers = args.test_num_workers, 
-        pin_memory = True, 
-        sampler = test_sampler, 
-        collate_fn = collate_wrapper_criteo, 
-        drop_last = False 
-    )
-    # used previously 
-    test_loader = torch.utils.data.DataLoader(
-        dataset = test_dataset, 
-        batch_size = args.test_mini_batch_size, 
-        shuffle = False, 
-        num_workers = args.test_num_workers, 
-        pin_memory = True, 
-        collate_fn = collate_wrapper_criteo, 
-        drop_last = False 
-    ) 
-    ''' 
+    train_dataset, train_loader, test_dataset, test_loader = dp.make_criteo_data_and_loaders(args) 
+    # train sampler 
     
     nbatches = args.num_batches if args.num_batches > 0 else len(train_loader) 
     '''
@@ -1682,8 +1647,8 @@ def train(gpu, args):
         quantize_act_and_lin = args.quantize_act_and_lin, 
         mlp_channelwise = args.linear_channel, 
         quantize_activation = args.quantize_activation, 
-        deviceid = gpu) 
-
+        deviceid = rank) 
+    
     print("before training, checking models") 
     if args.quantization_flag: 
         dlrm.show_output_linear_layer_grad(start = True) 
@@ -1708,14 +1673,14 @@ def train(gpu, args):
     '''
     dlrm.cuda(gpu) # TODO think about using cpu and change code 
     ''' 
-    dlrm.to(device) 
+    # dlrm.to(device) 
     # TODO check whether the following section is supported 
     
     if dlrm.weighted_pooling == "fixed":
         for k, w in enumerate(dlrm.v_W_l):
             dlrm.v_W_l[k] = w.cuda() 
     '''
-    dlrm = nn.parallel.DistributedDataParallel(dlrm, device_ids = [gpu]) 
+    dlrm = nn.parallel.DistributedDataParallel(dlrm, device_ids = None) 
     ''' 
     if not args.inference_only: 
         if use_gpu and args.optimizer in ["rwsadagrad", "adagrad"]: # TODO check whether PyTorch support adagrad 
@@ -1791,7 +1756,7 @@ def train(gpu, args):
     tb_file = "./" + args.tensor_board_filename 
     writer = SummaryWriter(tb_file) 
     
-    if args.investigating_inputs and gpu == 0: 
+    if args.investigating_inputs and rank == 0: 
         print("investigating the training and testing input") 
         
         file = open("/rscratch/data/dlrm_criteo/investigating_input/investigating_input.txt", "a") 
@@ -1836,7 +1801,7 @@ def train(gpu, args):
     
     # TODO use barrier if not in synchronization 
     with profile( 
-        activities = [ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True, schedule = schedule(wait = 10, warmup = 90, active = 500) 
+        activities = [ProfilerActivity.CPU], schedule = schedule(wait = 10, warmup = 90, active = 500) 
     ) as prof: 
         if not args.inference_only: 
             k = 0 
@@ -1901,11 +1866,11 @@ def train(gpu, args):
                     
                     mbs = T.shape[0] 
 
-                    X = X[get_my_slice(mbs, args.world_size, rank)] 
-                    lS_i = lS_i[:, get_my_slice(mbs, args.world_size, rank)] 
+                    X = X[get_my_slice(mbs, world_size, rank)] 
+                    lS_i = lS_i[:, get_my_slice(mbs, world_size, rank)] 
                     lS_o = lS_o[:, 0 : lS_i.shape[1]] 
-                    T = T[get_my_slice(mbs, args.world_size, rank)] 
-                    W = W[get_my_slice(mbs, args.world_size, rank)] 
+                    T = T[get_my_slice(mbs, world_size, rank)] 
+                    W = W[get_my_slice(mbs, world_size, rank)] 
                     
                     Z = dlrm_wrap(
                         X, 
@@ -1935,9 +1900,6 @@ def train(gpu, args):
                         '''
                         optimizer.step() 
                         ''' 
-                        output_flag = ((j + 1) % args.print_freq == 0) or (
-                            j + 1 == nbatches 
-                        ) 
                         '''
                         # ranking range 
                         grad_precision_and_scale(dlrm, args.world_size, rank, output_flag) 
@@ -1947,9 +1909,9 @@ def train(gpu, args):
 
                         # full precision gradient or uniform quantization on gradients 
                         with record_function("gradient quantization and communicate"): 
-                            grad_update_parallel_comm(dlrm, args.world_size, emb_grad_quantized = args.quantize_embedding_bag_gradient, num_bits = args.embedding_bag_gradient_bit_num, ranking_range = False, rank_for_debug = rank, iteration_count = j, mlp_layer_quantized = False) 
+                            grad_update_parallel_comm(dlrm, args.world_size, emb_grad_quantized = args.quantize_embedding_bag_gradient, num_bits = args.embedding_bag_gradient_bit_num, ranking_range = False, rank_for_debug = rank, iteration_count = j) 
                         with record_function("weight update"): 
-                            weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1], emb_grad_quantized = args.quantize_embedding_bag_gradient, update_embedding = True, num_gpus = args.world_size, rank_for_debug = rank, mlp_layer_quantized = False) 
+                            weight_update_parallel_comm(dlrm, lr_scheduler.get_lr()[-1], emb_grad_quantized = args.quantize_embedding_bag_gradient, update_embedding = True, num_gpus = args.world_size, rank_for_debug = rank) 
                         # not quantize 
                     
                     lr_scheduler.step() 
@@ -1978,12 +1940,12 @@ def train(gpu, args):
                         and (args.data_generation in ["dataset", "random"]) 
                         and ((j + 1) % (args.test_freq * 2) == 0) 
                     ) 
-                    
-                    prof.step() # signify the next step for the profiler 
 
                     if syncc: 
                         # sync up per 1000 iterations 
                         weight_syncc(dlrm, args.world_size) 
+                    
+                    prof.step() 
                     
                     if should_print or should_test: 
                         
@@ -2015,7 +1977,6 @@ def train(gpu, args):
 
                         total_iter = 0
                         total_samp = 0 
-                        break 
                     
                     if should_test: 
                         # test on the first gpu on the first node 
@@ -2088,7 +2049,6 @@ def train(gpu, args):
                     dlrm.show_output_linear_layer_grad() # checking whether the layer is consistent 
                     ''' 
                 k += 1 
-                break 
                                 
         else: 
             print("Testing for inference only") 
@@ -2108,7 +2068,7 @@ def train(gpu, args):
             print("finish execution of inference") 
             if rank == 0 and args.documenting_table_weight: 
                 # recording embedding table weights the second time 
-                dlrm.module.documenting_weights_tables(path_log, 1) 
+                dlrm.documenting_weights_tables(path_log, 1) 
             dist.barrier() 
             return 
             '''
@@ -2127,23 +2087,30 @@ def train(gpu, args):
             dist.barrier() 
             return 
             ''' 
-
+            
     if rank == 0: 
-        time_stamp = str(datetime.datetime.now()).replace(" ", "_")
-        with open("parallel_comm_" + time_stamp + "_CUDA_ranked.prof", "w") as prof_f: 
-            prof_f.write(prof.key_averages(group_by_input_shape = True).table( 
-                sort_by="cpu_time_total" 
-            )) 
+        '''
+        if args.enable_profiling:
+            time_stamp = str(datetime.datetime.now()).replace(" ", "_")
+            with open("dlrm_s_pytorch" + time_stamp + "_shape.prof", "w") as prof_f:
+                prof_f.write(
+                    prof.key_averages(group_by_input_shape=True).table(
+                    sort_by="self_cpu_time_total"
+                )
+            )
+            with open("dlrm_s_pytorch" + time_stamp + "_total.prof", "w") as prof_f:
+                prof_f.write(prof.key_averages().table(sort_by="self_cpu_time_total"))
+            prof.export_chrome_trace("dlrm_s_pytorch" + time_stamp + ".json")
+            # print(prof.key_averages().table(sort_by="cpu_time_total"))
+        ''' 
+        time_stamp = str(datetime.datetime.now()).replace(" ", "_") 
         with open("parallel_comm_" + time_stamp + "_CPU_ranked.prof", "w") as prof_f: 
             prof_f.write(prof.key_averages().table( 
                 sort_by="self_cpu_time_total"
             )) 
-        '''
-        prof.export_chrome_trace("dlrm_s_pytorch" + time_stamp + ".json")
-        # print(prof.key_averages().table(sort_by="cpu_time_total")) 
-        ''' 
-        '''
-        # not used previously 
+        # test prints
+        print("the trial is only for profiling\nNow terminating") 
+
         # plot compute graph
         if args.plot_compute_graph:
             sys.exit(
@@ -2154,9 +2121,9 @@ def train(gpu, args):
             # V = Z.mean() if args.inference_only else E
             # dot = make_dot(V, params=dict(dlrm.named_parameters()))
             # dot.render('dlrm_s_pytorch_graph') # write .pdf file
-        ''' 
+
         # test prints
-        print("the trial is only for profiling\nNow terminating") 
+    
     if not args.inference_only: 
         '''
         print("updated parameters (weights and bias):")
