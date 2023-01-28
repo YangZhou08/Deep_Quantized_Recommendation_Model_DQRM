@@ -143,6 +143,8 @@ change_bitw = False
 change_bitw2 = 4 
 best_loss_test = 0 
 
+total_embedding_table_forward_time = 0 
+
 # learning rate variables 
 learning_rate = 0.1 
 step_count = 0 
@@ -840,7 +842,10 @@ class DLRM_Net(nn.Module):
                 p = self.apply_mlp(z, self.top_l) # not used with scale 
             elif not self.quantize_activation: 
                 x = self.apply_mlp(dense_x, self.bot_l, prev_act_scaling_factor = None) 
+                t1 = time_wrap(True) 
                 ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
+                t2 = time_wrap(True) 
+                total_embedding_table_forward_time += (t2 - t1) 
                 z, feature_scaling_factor = self.interact_features(x, ly) 
                 p = self.apply_mlp(z, self.top_l, prev_act_scaling_factor = feature_scaling_factor) 
             else: 
@@ -1968,6 +1973,8 @@ def train(gpu, args):
 
                     print("total forward time per iter: {}".format(1000.0 * total_forward_time / total_iter)) 
                     print("total backward time per iter: {}".format(1000.0 * total_backward_time / total_iter)) 
+                    global total_embedding_table_forward_time 
+                    print("total embedding table forward per iter: {}".format(1000.0 * total_embedding_table_forward_time / total_iter)) 
 
                     train_loss = total_loss / total_samp
                     total_loss = 0
