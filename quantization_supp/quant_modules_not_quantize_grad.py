@@ -313,12 +313,13 @@ class QuantEmbeddingBagTwo(Module):
             self.weight_function = AsymmetricQuantFunction.apply 
         else: 
             raise ValueError("unknown quant mode: {}".format(self.quant_mode)) 
+        use_gpu = False 
         if (not full_precision_flag and not test_mode) or (self.eb_scaling_factor.shape == (self.batch_size, 1)): 
             if self.now_iteration == self.iteration_bound: 
                 if self.quant_mode == "symmetric": 
-                    t1 = time_wrap(True) 
+                    t1 = time_wrap(use_gpu) 
                     self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag, self.embedding_bound, self.num_embeddings, self.embedding_id) 
-                    t2 = time_wrap(True) 
+                    t2 = time_wrap(use_gpu) 
                     '''
                     list_finding_scale.append(t2 - t1) 
                     ''' 
@@ -355,9 +356,9 @@ class QuantEmbeddingBagTwo(Module):
         ''' 
         
         if not full_precision_flag: 
-            t1 = time_wrap(True) 
+            t1 = time_wrap(use_gpu) 
             self.output_integer = self.weight_function(self.output_integer, self.embedding_bit, self.eb_scaling_factor) # quantization 
-            t2 = time_wrap(True) 
+            t2 = time_wrap(use_gpu) 
             '''
             list_quantization.append(t2 - t1) 
             ''' 
