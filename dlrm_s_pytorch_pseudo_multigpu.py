@@ -1581,9 +1581,7 @@ def train(gpu, args):
                 clear_gradients(dlrm) # gradients zeroing (clearing) 
 
                 if buffer_clean: 
-                    '''
                     print("zeroing buffers") 
-                    ''' 
                     grad_buffer_zeroing(dlrm) # buffers zeroing (clearing) 
                     buffer_clean = False 
                 
@@ -1598,9 +1596,7 @@ def train(gpu, args):
                 grad_buffer_update_added_quantization(dlrm, args.number_of_gpus, emb_grad_quantized = True) 
 
                 if j % args.number_of_gpus == 0: 
-                    '''
                     print("updating weights") 
-                    ''' 
                     '''
                     weights_update(dlrm, lr_scheduler.get_lr()[-1]) 
                     ''' 
