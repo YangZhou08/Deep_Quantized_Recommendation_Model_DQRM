@@ -1904,6 +1904,7 @@ def train(args):
                 ''' 
                 if j < skip_upto_batch: 
                     continue 
+                print(j) 
                 
                 X, lS_o, lS_i, T, W, CBPP = unpack_batch(inputBatch) 
                 
