@@ -10,7 +10,11 @@ from .quant_utils import *
 
 list_finding_scale = [] 
 list_quantization = [] 
-list_dequantization_and_round = [] 
+
+def time_wrap(use_gpu):
+    if use_gpu:
+        torch.cuda.synchronize()
+    return time.time()
 
 class QuantLinear(Module):
     """
@@ -312,7 +316,12 @@ class QuantEmbeddingBagTwo(Module):
         if (not full_precision_flag and not test_mode) or (self.eb_scaling_factor.shape == (self.batch_size, 1)): 
             if self.now_iteration == self.iteration_bound: 
                 if self.quant_mode == "symmetric": 
+                    t1 = time_wrap(True) 
                     self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag, self.embedding_bound, self.num_embeddings, self.embedding_id) 
+                    t2 = time_wrap(True) 
+                    '''
+                    list_finding_scale.append(t2 - t1) 
+                    ''' 
                     '''
                     self.eb_scaling_factor = torch.tensor(1.0, dtype = torch.float32, requires_grad = False) # testing whether finding max and min would introduce overhead 
                     ''' 
@@ -325,6 +334,7 @@ class QuantEmbeddingBagTwo(Module):
                 '''
                 print("printing scale dimension: {}".format(self.eb_scaling_factor.shape)) 
                 ''' 
+            '''
                 # update period info 
                 self.iteration_nt += 1 
                 self.now_iteration -= self.now_iteration 
@@ -332,6 +342,7 @@ class QuantEmbeddingBagTwo(Module):
             else: 
                 self.iteration_nt += 1 
                 self.now_iteration += 1 
+            ''' 
             
         if per_sample_weights is not None: 
             print("Warning: Embedding Table Assumes per_sample_weights to be None but it is not") 
@@ -344,7 +355,12 @@ class QuantEmbeddingBagTwo(Module):
         ''' 
         
         if not full_precision_flag: 
+            t1 = time_wrap(True) 
             self.output_integer = self.weight_function(self.output_integer, self.embedding_bit, self.eb_scaling_factor) # quantization 
+            t2 = time_wrap(True) 
+            '''
+            list_quantization.append(t2 - t1) 
+            ''' 
             '''
             self.output_integer = output # testing whether quantization introduces large overhead 
             ''' 
