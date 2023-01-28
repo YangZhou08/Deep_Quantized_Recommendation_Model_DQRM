@@ -395,7 +395,7 @@ def list_profiles_stats_and_clear():
     sum_scale = 0 
     sum_quant = 0 
     sum_scalemlp = 0 
-    '''
+
     for i in range(len(list_finding_scale)): 
         if i != 0 and i % 26 == 0: 
             finding_scale_group.append(sum_scale) 
@@ -405,7 +405,7 @@ def list_profiles_stats_and_clear():
         else: 
             sum_scale += list_finding_scale[i] 
             sum_quant += list_quantization[i] 
-    ''' 
+    '''
     for i in range(len(list_finding_scale_mlp_layers)): 
         if i != 0 and i % 7 == 0: 
             finding_scale_group_mlp_layers.append(sum_scalemlp) 
@@ -413,20 +413,21 @@ def list_profiles_stats_and_clear():
         else: 
             sum_scalemlp += list_finding_scale_mlp_layers[i] 
     finding_scale_group_mlp_layers.append(sum_scalemlp) 
-    '''
+    ''' 
     print(len(list_finding_scale), len(list_quantization)) 
     print(len(finding_scale_group), len(quantization_group)) 
-    ''' 
-    print(len(list_finding_scale_mlp_layers), len(finding_scale_group_mlp_layers)) 
     '''
+    print(len(list_finding_scale_mlp_layers), len(finding_scale_group_mlp_layers)) 
+    ''' 
     scale_mean = np.mean(finding_scale_group) 
     scale_std = np.std(finding_scale_group) 
     quant_mean = np.mean(quantization_group) 
     quant_std = np.std(quantization_group) 
-    ''' 
+    '''
     scale_mean_mlp = np.mean(finding_scale_group_mlp_layers) 
     scale_stdmlp = np.std(finding_scale_group_mlp_layers) 
-    return scale_mean_mlp, scale_stdmlp 
+    ''' 
+    return scale_mean, scale_std, quant_mean, quant_std 
 
 class QuantEmbeddingBag(Module): 
     """

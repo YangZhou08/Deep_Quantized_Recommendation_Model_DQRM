@@ -113,6 +113,8 @@ from quantization_supp.quant_utils import linear_quantize
 from sgd_quantized_gradients import quantized_gradients_update 
 from sgd_quantized_gradients import clear_gradients 
 
+from quantization_supp.quant_modules_not_quantize_grad import list_profiles_stats_and_clear 
+
 # below are not imported in the original script 
 import os 
 import torch.multiprocessing as mp 
@@ -1141,12 +1143,15 @@ def run():
     '''
     args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
     ''' 
+    '''
     # os.environ['MASTER_ADDR'] = '127.0.0.1'
     os.environ['MASTER_PORT'] = '29500'
     os.environ['RANK'] = str(os.environ.get('PMI_RANK', 0))
     os.environ['WORLD_SIZE'] = str(os.environ.get('PMI_SIZE', 1)) 
 
     args.world_size = int(os.environ.get('PMI_SIZE', 1)) 
+    ''' 
+    args.world_size = 1 
     print("gggggot hereeeeee world size: {}".format(args.world_size)) 
     train(args) 
   
@@ -1220,7 +1225,7 @@ def inference_distributed(
         if rank == 0 and i % 200 == 0: 
             print("steps testing: {}".format(float(i)/num_batch), end = "\r") 
         
-        dist.barrier() 
+        # dist.barrier() 
     
     print("rank: {} test_accu: {}".format(rank, test_accu)) 
     print("get out") 
@@ -1416,6 +1421,7 @@ def inference(
     
 def train(args): 
     # make global rank 
+    '''
     backend = "gloo" 
     rank = int(os.environ.get('PMI_RANK', 0)) 
     world_size = int(os.environ.get('PMI_SIZE', 1)) 
@@ -1426,6 +1432,9 @@ def train(args):
         world_size = world_size, 
         rank = rank 
     ) 
+    ''' 
+    rank = 0 
+    world_size = 1 
     
     torch.manual_seed(0) 
     # TODO think about using cpu and change code 
@@ -1726,9 +1735,9 @@ def train(args):
     if dlrm.weighted_pooling == "fixed":
         for k, w in enumerate(dlrm.v_W_l):
             dlrm.v_W_l[k] = w.cuda() 
-
+    '''
     dlrm = nn.parallel.DistributedDataParallel(dlrm, device_ids = None) 
-
+    ''' 
     if not args.inference_only: 
         if use_gpu and args.optimizer in ["rwsadagrad", "adagrad"]: # TODO check whether PyTorch support adagrad 
             sys.exit("GPU version of Adagrad is not supported by PyTorch.") 
@@ -1756,6 +1765,8 @@ def train(args):
     total_loss = 0
     total_iter = 0
     total_samp = 0
+    total_forward_time = 0 
+    total_backward_time = 0 
     
     global best_acc_test 
     global best_auc_test 
@@ -1926,6 +1937,7 @@ def train(args):
                 
                 T = T[get_my_slice(mbs, world_size, rank)] 
                 W = W[get_my_slice(mbs, world_size, rank)] 
+                t5 = time_wrap(False) 
                 Z = dlrm_wrap(
                     X, 
                     lS_o, 
@@ -1934,6 +1946,8 @@ def train(args):
                     device, 
                     ndevices = 1 # TODO check if ndevices is needed here 
                 ) 
+                t6 = time_wrap(False) 
+                total_forward_time += (t6 - t5) 
                 
                 # loss 
                 # TODO check whether loss function can propagate through 
@@ -1943,6 +1957,7 @@ def train(args):
                 
                 # backward propagation 
                 # tried to see if the gradients can be modified 
+                t3 = time_wrap(False) 
                 optimizer.zero_grad() 
                 E.backward() 
                 '''
@@ -1954,6 +1969,8 @@ def train(args):
                 '''
                 print(prof.key_averages().table(sort_by = "self_cpu_time_total")) 
                 ''' 
+                t4 = time_wrap(False) 
+                total_backward_time += (t4 - t3) 
                 lr_scheduler.step() 
                 
                 t2 = time_wrap(use_gpu) 
@@ -1980,8 +1997,14 @@ def train(args):
                 
                 if should_print or should_test:
                     gT = 1000.0 * total_time / total_iter if args.print_time else -1
-                    total_time = 0
+                    total_time = 0 
 
+                    print("total forward time per iter: {}".format(1000.0 * total_forward_time / total_iter))
+                    print("total backward time per iter: {}".format(1000.0 * total_backward_time / total_iter))
+                    '''
+                    global total_embedding_table_forward_time
+                    print("total embedding table forward per iter: {}".format(1000.0 * total_embedding_table_forward_time / total_iter))
+                    ''' 
                     train_loss = total_loss / total_samp
                     total_loss = 0
 
@@ -2007,6 +2030,7 @@ def train(args):
 
                     total_iter = 0
                     total_samp = 0 
+                    break 
                 
                 if should_test: 
                     # test on the first gpu on the first node 
@@ -2058,7 +2082,7 @@ def train(args):
                             ''' 
                             print("Saving model to {}".format(save_addr)) 
                             torch.save(model_metrics_dict, save_addr) 
-                    dist.barrier() 
+                    # dist.barrier() 
                 '''
                 if rank == 0 and inspect_weights_and_others: 
                     dlrm.module.documenting_weights_tables(path_log, k, j, emb_quantized = args.quantization_flag) 
@@ -2075,6 +2099,7 @@ def train(args):
                 dlrm.module.show_output_linear_layer_grad() # checking whether the layer is consistent 
                 ''' 
             k += 1 
+            break 
                             
     else: 
         print("Testing for inference only") 
@@ -2096,7 +2121,7 @@ def train(args):
             # recording embedding table weights the second time 
             dlrm.module.documenting_weights_tables(path_log, 1) 
         ''' 
-        dist.barrier() 
+        # dist.barrier() 
         return 
         '''
         if args.nr == 0 and gpu == 0: 
@@ -2115,7 +2140,7 @@ def train(args):
         return 
         ''' 
         
-    if args.nr == 0 and rank == 0: 
+    if rank == 0: 
         '''
         if args.enable_profiling:
             time_stamp = str(datetime.datetime.now()).replace(" ", "_")
@@ -2130,6 +2155,8 @@ def train(args):
             prof.export_chrome_trace("dlrm_s_pytorch" + time_stamp + ".json")
             # print(prof.key_averages().table(sort_by="cpu_time_total"))
         ''' 
+        scl_mean, scl_std, qnt_mean, qnt_std = list_profiles_stats_and_clear()
+        print("scale mean: {}ms scale standard deviation: {}ms quantization mean: {}ms quantization standard deviation: {}ms".format(scl_mean, scl_std, qnt_mean, qnt_std)) 
 
         # plot compute graph
         if args.plot_compute_graph:
@@ -2205,7 +2232,7 @@ def train(args):
                 '''
                 torch.save(model_metrics_dict, save_addr) 
                 ''' 
-        dist.barrier() 
+        # dist.barrier() 
 
 if __name__ == "__main__": 
     run() 
