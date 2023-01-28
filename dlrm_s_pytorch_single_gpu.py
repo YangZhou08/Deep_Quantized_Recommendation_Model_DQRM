@@ -1748,6 +1748,8 @@ def train(gpu, args):
     total_loss = 0
     total_iter = 0
     total_samp = 0
+    total_forward_time = 0 
+    total_backward_time = 0 
     
     global best_acc_test 
     global best_auc_test 
@@ -1908,6 +1910,7 @@ def train(gpu, args):
                 T = T[get_my_slice(mbs, args.world_size, rank)] 
                 W = W[get_my_slice(mbs, args.world_size, rank)] 
                 
+                t5 = time_wrap(use_gpu) 
                 Z = dlrm_wrap(
                     X, 
                     lS_o, 
@@ -1916,6 +1919,8 @@ def train(gpu, args):
                     device, 
                     ndevices = 1 # TODO check if ndevices is needed here 
                 ) 
+                t6 = time_wrap(use_gpu) 
+                total_forward_time += (t6 - t5) 
                 
                 # loss 
                 # TODO check whether loss function can propagate through 
@@ -1925,10 +1930,13 @@ def train(gpu, args):
                 
                 # backward propagation 
                 # tried to see if the gradients can be modified 
+                t3 = time_wrap(use_gpu) 
                 optimizer.zero_grad() 
                 E.backward() 
                 # quantization of gradient 
                 optimizer.step() 
+                t4 = time_wrap(use_gpu) 
+                total_backward_time += (t4 - t3) 
 
                 lr_scheduler.step() 
                 
@@ -1957,6 +1965,9 @@ def train(gpu, args):
                 if should_print or should_test:
                     gT = 1000.0 * total_time / total_iter if args.print_time else -1
                     total_time = 0
+
+                    print("total forward time per iter: {}".format(1000.0 * total_forward_time / total_iter)) 
+                    print("total backward time per iter: {}".format(1000.0 * total_backward_time / total_iter)) 
 
                     train_loss = total_loss / total_samp
                     total_loss = 0
