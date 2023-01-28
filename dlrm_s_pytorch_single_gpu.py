@@ -2106,9 +2106,10 @@ def train(gpu, args):
             prof.export_chrome_trace("dlrm_s_pytorch" + time_stamp + ".json")
             # print(prof.key_averages().table(sort_by="cpu_time_total"))
         ''' 
+        '''
         scl_mean, scl_std, qnt_mean, qnt_std = list_profiles_stats_and_clear() 
         print("scale mean: {}ms scale standard deviation: {}ms quantization mean: {}ms quantization standard deviation: {}ms".format(scl_mean, scl_std, qnt_mean, qnt_std)) 
-
+        ''' 
         # plot compute graph
         if args.plot_compute_graph:
             sys.exit(
