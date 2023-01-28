@@ -321,18 +321,15 @@ class QuantEmbeddingBagTwo(Module):
             self.weight_function = AsymmetricQuantFunction.apply 
         else: 
             raise ValueError("unknown quant mode: {}".format(self.quant_mode)) 
-        use_gpu = True 
+        use_gpu = False 
+        global list_finding_scale, list_quantization 
         if (not full_precision_flag and not test_mode) or (self.eb_scaling_factor.shape == (self.batch_size, 1)): 
             if self.now_iteration == self.iteration_bound: 
                 if self.quant_mode == "symmetric": 
-                    '''
                     t1 = time_wrap(use_gpu) 
-                    ''' 
                     self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag, self.embedding_bound, self.num_embeddings, self.embedding_id) 
-                    '''
                     t2 = time_wrap(use_gpu) 
                     list_finding_scale.append(t2 - t1) 
-                    ''' 
                     '''
                     self.eb_scaling_factor = torch.tensor(1.0, dtype = torch.float32, requires_grad = False) # testing whether finding max and min would introduce overhead 
                     ''' 
@@ -366,14 +363,10 @@ class QuantEmbeddingBagTwo(Module):
         ''' 
         
         if not full_precision_flag: 
-            '''
             t1 = time_wrap(use_gpu) 
-            ''' 
             self.output_integer = self.weight_function(self.output_integer, self.embedding_bit, self.eb_scaling_factor) # quantization 
-            '''
             t2 = time_wrap(use_gpu) 
             list_quantization.append(t2 - t1) 
-            ''' 
             '''
             self.output_integer = output # testing whether quantization introduces large overhead 
             ''' 

@@ -1937,7 +1937,9 @@ def train(args):
                 
                 T = T[get_my_slice(mbs, world_size, rank)] 
                 W = W[get_my_slice(mbs, world_size, rank)] 
+                '''
                 t5 = time_wrap(False) 
+                ''' 
                 Z = dlrm_wrap(
                     X, 
                     lS_o, 
@@ -1946,8 +1948,10 @@ def train(args):
                     device, 
                     ndevices = 1 # TODO check if ndevices is needed here 
                 ) 
+                '''
                 t6 = time_wrap(False) 
                 total_forward_time += (t6 - t5) 
+                ''' 
                 
                 # loss 
                 # TODO check whether loss function can propagate through 
@@ -1957,7 +1961,9 @@ def train(args):
                 
                 # backward propagation 
                 # tried to see if the gradients can be modified 
+                '''
                 t3 = time_wrap(False) 
+                ''' 
                 optimizer.zero_grad() 
                 E.backward() 
                 '''
@@ -1969,8 +1975,10 @@ def train(args):
                 '''
                 print(prof.key_averages().table(sort_by = "self_cpu_time_total")) 
                 ''' 
+                '''
                 t4 = time_wrap(False) 
                 total_backward_time += (t4 - t3) 
+                ''' 
                 lr_scheduler.step() 
                 
                 t2 = time_wrap(use_gpu) 
