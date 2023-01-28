@@ -113,6 +113,8 @@ from quantization_supp.quant_utils import linear_quantize
 from sgd_quantized_gradients import quantized_gradients_update 
 from sgd_quantized_gradients import clear_gradients 
 
+from quantization_supp.quant_modules_not_quantize_grad import list_profiles_stats_and_clear 
+
 # below are not imported in the original script 
 import os 
 import torch.multiprocessing as mp 
@@ -1981,6 +1983,7 @@ def train(gpu, args):
 
                     total_iter = 0
                     total_samp = 0 
+                    break 
                 
                 if should_test: 
                     # test on the first gpu on the first node 
@@ -2048,6 +2051,7 @@ def train(gpu, args):
                 dlrm.module.show_output_linear_layer_grad() # checking whether the layer is consistent 
                 ''' 
             k += 1 
+            break 
                             
     else: 
         print("Testing for inference only") 
@@ -2087,7 +2091,7 @@ def train(gpu, args):
         return 
         ''' 
         
-    if args.nr == 0 and gpu == 0: 
+    if rank == 0: 
         '''
         if args.enable_profiling:
             time_stamp = str(datetime.datetime.now()).replace(" ", "_")
@@ -2102,6 +2106,8 @@ def train(gpu, args):
             prof.export_chrome_trace("dlrm_s_pytorch" + time_stamp + ".json")
             # print(prof.key_averages().table(sort_by="cpu_time_total"))
         ''' 
+        scl_mean, scl_std, qnt_mean, qnt_std = list_profiles_stats_and_clear() 
+        print("scale mean: {}ms scale standard deviation: {}ms quantization mean: {}ms quantization standard deviation: {}ms".format(scl_mean, scl_std, qnt_mean, qnt_std)) 
 
         # plot compute graph
         if args.plot_compute_graph:

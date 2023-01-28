@@ -375,6 +375,27 @@ class QuantEmbeddingBagTwo(Module):
         return output # testing whether dequantization introduces large overhead 
         ''' 
 
+def list_profiles_stats_and_clear(): 
+    global list_finding_scale, list_quantization 
+    finding_scale_group = [] 
+    quantization_group = [] 
+    sum_scale = 0 
+    sum_quant = 0 
+    for i in range(len(list_finding_scale)): 
+        if i != 0 and i % 26 == 0: 
+            finding_scale_group.append(sum_scale) 
+            sum_scale = list_finding_scale[i] 
+            quantization_group.append(sum_quant) 
+            sum_quant = list_quantization[i] 
+        else: 
+            sum_scale += list_finding_scale[i] 
+            sum_quant += list_quantization[i] 
+    scale_mean = np.mean(finding_scale_group) 
+    scale_std = np.std(finding_scale_group) 
+    quant_mean = np.mean(quantization_group) 
+    quant_std = np.mean(quantization_group) 
+    return scale_mean, scale_std, quant_mean, quant_std 
+
 class QuantEmbeddingBag(Module): 
     """
     Class to quantize EmbeddingBag 
