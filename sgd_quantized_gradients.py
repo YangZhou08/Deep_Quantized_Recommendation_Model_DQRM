@@ -309,7 +309,7 @@ def grad_buffer_zeroing(model):
     else: 
         raise Warning("Cannot find the list of top linear layers") 
 
-    # print("{}, {}, {}, {}".format(gradient_emb_count, gradient_lin_count, float(gradient_emb_count/(gradient_emb_count + gradient_lin_count)), float(gradient_lin_count/(gradient_emb_count + gradient_lin_count)))) 
+    print("{}, {}, {}, {}".format(gradient_emb_count, gradient_lin_count, float(gradient_emb_count/(gradient_emb_count + gradient_lin_count)), float(gradient_lin_count/(gradient_emb_count + gradient_lin_count)))) 
 
 def weights_update(model, lr): 
     """ 
