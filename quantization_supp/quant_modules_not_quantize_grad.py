@@ -10,6 +10,7 @@ from .quant_utils import *
 
 list_finding_scale = [] 
 list_quantization = [] 
+list_finding_scale_mlp_layers = [] 
 
 def time_wrap(use_gpu):
     if use_gpu:
@@ -135,9 +136,12 @@ class QuantLinear(Module):
 
             # perform the quantization
             if not self.full_precision_flag:
-                if self.quant_mode == 'symmetric':
+                if self.quant_mode == 'symmetric': 
+                    t1 = time_wrap(True) 
                     self.fc_scaling_factor = symmetric_linear_quantization_params(self.weight_bit, w_min, w_max,
                                                                                 self.per_channel)
+                    t2 = time_wrap(True) 
+                    list_finding_scale_mlp_layers.append(t2 - t1) 
                     self.weight_integer = self.weight_function(self.weight, self.weight_bit, self.fc_scaling_factor) 
                     if prev_act_scaling_factor is not None: 
                         bias_scaling_factor = self.fc_scaling_factor.view(1, -1) * prev_act_scaling_factor.view(1, -1) 
