@@ -391,6 +391,7 @@ def list_profiles_stats_and_clear():
             sum_scale += list_finding_scale[i] 
             sum_quant += list_quantization[i] 
     print(len(list_finding_scale), len(list_quantization)) 
+    print(len(finding_scale_group), len(quantization_group)) 
     scale_mean = np.mean(finding_scale_group) 
     scale_std = np.std(finding_scale_group) 
     quant_mean = np.mean(quantization_group) 
