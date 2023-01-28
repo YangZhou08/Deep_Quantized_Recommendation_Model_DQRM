@@ -2129,6 +2129,8 @@ def train(gpu, args):
         scl_mean, scl_std, qnt_mean, qnt_std = list_profiles_stats_and_clear() 
         print("scale mean: {}ms scale standard deviation: {}ms quantization mean: {}ms quantization standard deviation: {}ms".format(scl_mean, scl_std, qnt_mean, qnt_std)) 
         ''' 
+        sclmlp_mean, sclmlp_std = list_profiles_stats_and_clear() 
+        print("scale for mlp mean is {} and std is {}".format(sclmlp_mean, sclmlp_std)) 
         # plot compute graph
         if args.plot_compute_graph:
             sys.exit(
