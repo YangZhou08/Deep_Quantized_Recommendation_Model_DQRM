@@ -313,7 +313,7 @@ class QuantEmbeddingBagTwo(Module):
             self.weight_function = AsymmetricQuantFunction.apply 
         else: 
             raise ValueError("unknown quant mode: {}".format(self.quant_mode)) 
-        use_gpu = False 
+        use_gpu = True 
         if (not full_precision_flag and not test_mode) or (self.eb_scaling_factor.shape == (self.batch_size, 1)): 
             if self.now_iteration == self.iteration_bound: 
                 if self.quant_mode == "symmetric": 
