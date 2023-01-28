@@ -330,6 +330,7 @@ class QuantEmbeddingBagTwo(Module):
                     self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag, self.embedding_bound, self.num_embeddings, self.embedding_id) 
                     t2 = time_wrap(use_gpu) 
                     list_finding_scale.append(t2 - t1) 
+                    print("embedding scale time: {}".format(t2 - t1)) 
                     '''
                     self.eb_scaling_factor = torch.tensor(1.0, dtype = torch.float32, requires_grad = False) # testing whether finding max and min would introduce overhead 
                     ''' 
@@ -367,6 +368,8 @@ class QuantEmbeddingBagTwo(Module):
             self.output_integer = self.weight_function(self.output_integer, self.embedding_bit, self.eb_scaling_factor) # quantization 
             t2 = time_wrap(use_gpu) 
             list_quantization.append(t2 - t1) 
+            print("embedding quantization time: {}".format(t2 - t1)) 
+            print() 
             '''
             self.output_integer = output # testing whether quantization introduces large overhead 
             ''' 
