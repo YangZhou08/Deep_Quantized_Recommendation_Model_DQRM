@@ -845,6 +845,7 @@ class DLRM_Net(nn.Module):
                 t1 = time_wrap(True) 
                 ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
                 t2 = time_wrap(True) 
+                global total_embedding_table_forward_time 
                 total_embedding_table_forward_time += (t2 - t1) 
                 z, feature_scaling_factor = self.interact_features(x, ly) 
                 p = self.apply_mlp(z, self.top_l, prev_act_scaling_factor = feature_scaling_factor) 
