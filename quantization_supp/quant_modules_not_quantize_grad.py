@@ -388,7 +388,7 @@ class QuantEmbeddingBagTwo(Module):
         ''' 
 
 def list_profiles_stats_and_clear(): 
-    global list_finding_scale, list_quantization 
+    global list_finding_scale, list_quantization, list_finding_scale_mlp_layers 
     finding_scale_group = [] 
     quantization_group = [] 
     finding_scale_group_mlp_layers = [] 
@@ -406,7 +406,7 @@ def list_profiles_stats_and_clear():
             sum_scale += list_finding_scale[i] 
             sum_quant += list_quantization[i] 
     ''' 
-    for i in range(len(finding_scale_group_mlp_layers)): 
+    for i in range(len(list_finding_scale_mlp_layers)): 
         if i != 0 and i % 7 == 0: 
             finding_scale_group_mlp_layers.append(sum_scalemlp) 
             sum_scalemlp = list_finding_scale_mlp_layers[i] 
