@@ -395,7 +395,7 @@ def list_profiles_stats_and_clear():
     scale_mean = np.mean(finding_scale_group) 
     scale_std = np.std(finding_scale_group) 
     quant_mean = np.mean(quantization_group) 
-    quant_std = np.mean(quantization_group) 
+    quant_std = np.std(quantization_group) 
     return scale_mean, scale_std, quant_mean, quant_std 
 
 class QuantEmbeddingBag(Module): 
