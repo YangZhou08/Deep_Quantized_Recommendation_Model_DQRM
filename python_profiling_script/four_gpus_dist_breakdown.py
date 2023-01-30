@@ -3,6 +3,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import rc
 import pandas as pd
+import matplotlib 
+
+font = {'family' : 'normal',
+        'weight' : 'bold',
+        'size'   : 22}
+
+matplotlib.rc('font', **font) 
  
 # # Data
 # r = [0,1,2,3,4]
@@ -63,8 +70,9 @@ for i, (section, color) in enumerate(zip(sections_performed, category_colors)):
     text_color = "black" 
 
     for y, (x, c) in enumerate(zip(xcenters, ['%.1f'%(i * 100) + "%" for i in widths])): 
-        ax.text(x, y_pos[y], str(c), ha='center', va='center',
-                color=text_color) 
+        if widths[y] >= 0.03: 
+            ax.text(x, y_pos[y], str(c), ha='center', va='center',
+                    color=text_color) 
 
 ax.invert_yaxis() 
 ax.set_ylim(-0.3, 0.8) 
@@ -74,9 +82,11 @@ ax.set_xlim(0, 1)
 ticks = [i for i in np.arange(0, 1, 0.1)] 
 ticks.append(1.0) 
 ax.set_xticks(ticks) 
+ticks_x = ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] 
+ax.set_xticklabels(ticks_x) 
 
-ax.legend(ncol=len(sections_performed), bbox_to_anchor=(0, 1),
+ax.legend(ncol = len(sections_performed) - 1, bbox_to_anchor=(0, 1),
               loc='lower left', fontsize='small') 
-ax.xaxis.grid(True) 
+ax.xaxis.grid(True, color = 'grey') 
 
-plt.show() 
+plt.show()

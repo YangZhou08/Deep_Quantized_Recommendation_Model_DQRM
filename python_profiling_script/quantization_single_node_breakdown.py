@@ -3,6 +3,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import rc
 import pandas as pd
+import matplotlib 
+
+font = {'family' : 'normal',
+        'weight' : 'bold',
+        'size'   : 22}
+
+matplotlib.rc('font', **font)
  
 # # Data
 # r = [0,1,2,3,4]
@@ -33,15 +40,15 @@ import pandas as pd
 # plt.show() 
 
 # sections_performed = ["gradient communication", "single-process backward", "DLRM forward", "weight step", "others"] 
-sections_performed = ["DQRM forward", "single node backward", "gradient_quantization and communicate", "weight update", "others"] 
+sections_performed = ["EMB finding scale", "EMB quantization\noperation", "Rest of forward\npropagation", "Backward\npropagation", "Others"] 
 # category_colors = plt.get_cmap('RdYlGn')(
 #         np.linspace(0.15, 0.85, len(sections_performed))) 
 # category_colors = ["tab:blue", "darkorange", "darkgrey", "gold", "tab:green"] 
-category_colors = ["darkgrey", "gold", "tab:blue", "darkorange", "tab:green"] 
-y_pos = [0, 0.5] 
+category_colors = ["tab:blue", "darkorange", "darkgrey", "gold", "tab:green"] 
+y_pos = [0.5, 0] 
 devices = ["CPU", "GPU"] 
 # percentage_performance = [[0.2804, 0.0283, 0.0524, 0.5914], [0.5751, 0.0826, 0.1259, 0.0536]] 
-percentage_performance = [[0.0524, 0.0283, 0.2804, 0.5914], [0.1261, 0.0817, 0.5758, 0.0529]] 
+percentage_performance = [[0.9701, 0.0032, 0.0107, 0.0160, 0.0], [0.3582, 0.1239, 0.234, 0.2637, 0.02]] 
 percentage_performance[0].append(1.0 - np.sum(percentage_performance[0])) 
 percentage_performance[1].append(1.0 - np.sum(percentage_performance[1])) 
 
@@ -54,7 +61,8 @@ fig, ax = plt.subplots()
 for i, (section, color) in enumerate(zip(sections_performed, category_colors)): 
     widths = perc_per_hlp[:, i] 
     starts = perc_per_cum[:, i] - widths 
-    ax.barh(y_pos, width = widths, left = starts, height = 0.3, label = section, color = color) 
+    # ax.bar(y_pos, width = widths, left = starts, widths = 0.3, label = section, color = color) 
+    ax.bar(y_pos, height = widths, bottom = starts, width = 0.3, label = section, color = color) 
 
     xcenters = starts + widths / 2
 
@@ -63,20 +71,24 @@ for i, (section, color) in enumerate(zip(sections_performed, category_colors)):
     text_color = "black" 
 
     for y, (x, c) in enumerate(zip(xcenters, ['%.1f'%(i * 100) + "%" for i in widths])): 
-        ax.text(x, y_pos[y], str(c), ha='center', va='center',
-                color=text_color) 
+        if widths[y] >= 0.02: 
+            ax.text(y_pos[y], x, str(c), ha='center', va='center',
+                    color=text_color) 
 
-ax.invert_yaxis() 
-ax.set_ylim(-0.3, 0.8) 
-ax.set_yticks(y_pos) 
-ax.set_yticklabels(devices) 
-ax.set_xlim(0, 1) 
+ax.set_xlim(-0.3, 0.8) 
+ax.set_xticks(y_pos) 
+ax.set_xticklabels(devices) 
+ax.set_ylim(0, 1) 
 ticks = [i for i in np.arange(0, 1, 0.1)] 
 ticks.append(1.0) 
-ax.set_xticks(ticks) 
+ax.set_yticks(ticks) 
+ticks_x = ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] 
+ax.set_yticklabels(ticks_x) 
 
-ax.legend(ncol=len(sections_performed), bbox_to_anchor=(0, 1),
-              loc='lower left', fontsize='small') 
-ax.xaxis.grid(True) 
+# ax.legend(ncol=len(sections_performed), bbox_to_anchor=(0, 1),
+#             #   loc='lower left', fontsize='small') 
+ax.legend(loc = 'lower right', fontsize = 'medium') 
+# ax.xaxis.grid(True, color = 'grey') 
+ax.yaxis.grid(True, color = 'grey') 
 
 plt.show() 
