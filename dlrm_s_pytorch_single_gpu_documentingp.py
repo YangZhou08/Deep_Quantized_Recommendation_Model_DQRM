@@ -2126,7 +2126,6 @@ def train(gpu, args):
         ''' 
     '''  
     if rank == 0: 
-        '''
         if args.enable_profiling:
             time_stamp = str(datetime.datetime.now()).replace(" ", "_")
             with open("dlrm_s_pytorch" + time_stamp + "_shape.prof", "w") as prof_f:
@@ -2139,11 +2138,8 @@ def train(gpu, args):
                 prof_f.write(prof.key_averages().table(sort_by="self_cpu_time_total"))
             prof.export_chrome_trace("dlrm_s_pytorch" + time_stamp + ".json")
             # print(prof.key_averages().table(sort_by="cpu_time_total"))
-        ''' 
-        '''
         scl_mean, scl_std, qnt_mean, qnt_std = list_profiles_stats_and_clear() 
         print("scale mean: {}ms scale standard deviation: {}ms quantization mean: {}ms quantization standard deviation: {}ms".format(scl_mean, scl_std, qnt_mean, qnt_std)) 
-        ''' 
         # sclmlp_mean, sclmlp_std = list_profiles_stats_and_clear() 
         # print("scale for mlp mean is {} and std is {}".format(sclmlp_mean, sclmlp_std)) 
         # plot compute graph
