@@ -2019,7 +2019,6 @@ def train(gpu, args):
 
                     total_iter = 0
                     total_samp = 0 
-                    break 
                 
                 if should_test: 
                     # test on the first gpu on the first node 
@@ -2087,7 +2086,6 @@ def train(gpu, args):
                 dlrm.module.show_output_linear_layer_grad() # checking whether the layer is consistent 
                 ''' 
             k += 1 
-            break 
                             
     else: 
         print("Testing for inference only") 
@@ -2126,7 +2124,7 @@ def train(gpu, args):
         dist.barrier() 
         return 
         ''' 
-        
+    '''  
     if rank == 0: 
         '''
         if args.enable_profiling:
@@ -2146,8 +2144,8 @@ def train(gpu, args):
         scl_mean, scl_std, qnt_mean, qnt_std = list_profiles_stats_and_clear() 
         print("scale mean: {}ms scale standard deviation: {}ms quantization mean: {}ms quantization standard deviation: {}ms".format(scl_mean, scl_std, qnt_mean, qnt_std)) 
         ''' 
-        sclmlp_mean, sclmlp_std = list_profiles_stats_and_clear() 
-        print("scale for mlp mean is {} and std is {}".format(sclmlp_mean, sclmlp_std)) 
+        # sclmlp_mean, sclmlp_std = list_profiles_stats_and_clear() 
+        # print("scale for mlp mean is {} and std is {}".format(sclmlp_mean, sclmlp_std)) 
         # plot compute graph
         if args.plot_compute_graph:
             sys.exit(
@@ -2160,6 +2158,7 @@ def train(gpu, args):
             # dot.render('dlrm_s_pytorch_graph') # write .pdf file
 
         # test prints
+    ''' 
     
     if not args.inference_only: 
         '''
