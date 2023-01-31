@@ -7,6 +7,12 @@ matplotlib.use('Qt5Agg')
 import matplotlib.pyplot as plt 
 import sys 
 import argparse 
+import matplotlib 
+
+font = {'family' : 'normal', 
+        'size' : 22} 
+
+matplotlib.rc('font', **font) 
 
 parser = argparse.ArgumentParser(description = "investigating distribution") 
 parser.add_argument("--table-num", type = int, default = 0) 
@@ -100,7 +106,7 @@ for file_name in file_names:
     print(file_name) 
 
     ax2 = ax1.twinx() 
-    ax2.tick_params(axis = "y", direction = "in", colors = "tab:orange", pad = -30) 
+    ax2.tick_params(axis = "y", direction = "in", colors = "tab:orange", pad = -35) 
     ax2.hist(list_one, log = use_log_scale, bins = 100, color = "tab:orange") 
     '''
     chicanes.append(np.sqrt(1/n_l[table_num])) 
