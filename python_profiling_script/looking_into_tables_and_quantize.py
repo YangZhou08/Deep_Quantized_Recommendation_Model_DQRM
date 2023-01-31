@@ -37,8 +37,7 @@ chicanes = []
 file_names = [] 
 
 file_name_fil = open("files_title.txt") 
-file_names = file_name_fil.readlines() 
-file_names[-1] += '\n' 
+file_names = file_name_fil.readlines()[-1] 
 # file_names[-1] += '\n' 
 print(file_names) 
 '''
