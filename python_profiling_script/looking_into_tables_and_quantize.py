@@ -12,7 +12,7 @@ parser = argparse.ArgumentParser(description = "investigating distribution")
 parser.add_argument("--table-num", type = int, default = 0) 
 args = parser.parse_args() 
 # path = "/rscratch/data/dlrm_criteo/" 
-path = "/home/yzhou/dlrm_criteo_kaggle" 
+path = "/home/yzhou/dlrm_criteo_kaggle/" 
 table_num = args.table_num 
 
 log_file_name = "documenting_dist.txt" 
