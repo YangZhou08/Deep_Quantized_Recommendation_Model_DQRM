@@ -81,7 +81,7 @@ for file_name in file_names:
 
     ax1 = plt.subplot() 
     ax1.hist(list_one, log = use_log_scale, bins = 100, color = "tab:blue") 
-    ax1.xlim(-0.1, 0.1) 
+    ax1.set_xlim(-0.1, 0.1) 
     file.close() 
 
     list_one = [] 
