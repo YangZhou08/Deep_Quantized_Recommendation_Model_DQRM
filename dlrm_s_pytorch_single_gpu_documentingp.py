@@ -904,11 +904,11 @@ class DLRM_Net(nn.Module):
                 else: 
                     embedding_table = self.emb_l[table_num] 
                 if emb_quantized: 
-                    file_name += "quantized" 
+                    file_name += "quantized8" 
                 file_name += ".txt" 
 
                 print("Start documenting table {} weights in file {}".format(table_num, file_name)) 
-
+                '''
                 file_path = path + "/" + file_name 
                 file = open(file_path, "a") 
 
@@ -923,7 +923,7 @@ class DLRM_Net(nn.Module):
                     file.write("\n") 
                 file.close() 
                 print("Documented table {} weights in file {} file {}".format(table_num, file_name, 0)) 
-
+                ''' 
                 if emb_quantized: 
                     file_name = file_name[: -4] 
                     file_name += "pro.txt" 
