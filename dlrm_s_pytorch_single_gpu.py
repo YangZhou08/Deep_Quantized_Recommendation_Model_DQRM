@@ -463,8 +463,10 @@ class DLRM_Net(nn.Module):
             self.deviceid = deviceid 
 
             if self.quantization_flag: 
+                '''
                 self.quant_input = QuantAct(activation_bit = self.weight_bit if self.weight_bit >= 8 else 8, act_range_momentum = -1) 
                 self.quant_feature_outputs = QuantAct(fixed_point_quantization = True, activation_bit = self.weight_bit if self.weight_bit >= 8 else 8, act_range_momentum = -1) # recheck activation_bit 
+                ''' 
                 self.register_buffer('feature_xmin', torch.zeros(1)) 
                 self.register_buffer('feature_xmax', torch.zeros(1)) 
                 self.register_buffer('features_scaling_factor', torch.zeros(1)) 
@@ -2129,8 +2131,10 @@ def train(gpu, args):
         scl_mean, scl_std, qnt_mean, qnt_std = list_profiles_stats_and_clear() 
         print("scale mean: {}ms scale standard deviation: {}ms quantization mean: {}ms quantization standard deviation: {}ms".format(scl_mean, scl_std, qnt_mean, qnt_std)) 
         ''' 
+        '''
         sclmlp_mean, sclmlp_std = list_profiles_stats_and_clear() 
         print("scale for mlp mean is {} and std is {}".format(sclmlp_mean, sclmlp_std)) 
+        ''' 
         # plot compute graph
         if args.plot_compute_graph:
             sys.exit(
