@@ -57,9 +57,9 @@ for file_name in file_names:
     if table_num == 6: 
         continue 
     ''' 
-    
+    '''
     file_name = file_name[: -1] 
-    
+    ''' 
     file_path = path + file_name 
     file = open(file_path, "r") 
     lines = file.readlines() 
