@@ -35,17 +35,21 @@ list_one = []
 chicanes = [] 
 ''' 
 file_names = [] 
-
+'''
 file_name_fil = open("files_title.txt") 
 file_names = file_name_fil.readlines() 
 # file_names[-1] += '\n' 
 print(file_names) 
-'''
+
 for table_num in [6]: 
     name = "table" + str(table_num) + "epoch" 
     for i in range(5): 
         file_names.append(name + str(i) + "_.txt") 
 ''' 
+file_names.append("table6epoch0iter0_.txt") 
+file_names.append("table6epoch1iter51200_.txt") 
+file_names.append("table6epoch2iter51200_.txt") 
+file_names.append("table6epoch4iter51200_.txt") 
 for file_name in file_names: 
 
     table_num = int(file_name[5]) 
@@ -76,12 +80,26 @@ for file_name in file_names:
     ''' 
 
     ax1 = plt.subplot() 
-    if table_num == 3: 
-        plt.hist(list_one, log = use_log_scale, bins = 100) 
-        plt.xlim(-0.3, 0.3) 
-    else: 
-        ax1.hist(list_one, log = use_log_scale, bins = 100) 
-        ax1.xlim(-0.1, 0.1) 
+    ax1.hist(list_one, log = use_log_scale, bins = 100, color = "tab:blue") 
+    ax1.xlim(-0.1, 0.1) 
+    file.close() 
+
+    list_one = [] 
+
+    file_name = file_name[: -4] + "quantizedpro.txt" 
+    file_path = path + file_name 
+    file = open(file_path, "r") 
+    lines = file.readlines() 
+    
+    for line in lines: 
+        line_seg = line.split(", ") 
+        for word_with_value in line_seg: 
+            list_one.append(float(word_with_value)) 
+    
+    print(file_name) 
+
+    ax2 = ax1.twinx() 
+    ax2.hist(list_one, log = use_log_scale, bins = 100, color = "tab:orange") 
     '''
     chicanes.append(np.sqrt(1/n_l[table_num])) 
     for ratio in thr_r: 
@@ -93,7 +111,7 @@ for file_name in file_names:
     if len(list_one) > 1e6: 
         plt.xlim(-0.1, 0.1) 
     ''' 
-    ax1.title(file_name) 
+    plt.title(file_name) 
     '''
     logger_path = path + log_file_name 
     logger = open(logger_path, "a") 
@@ -109,11 +127,12 @@ for file_name in file_names:
     chicanes = [] 
     ''' 
     
-    ax1.savefig(file_name[: -4] + "hist.png") 
+    ax1.savefig(file_name[: -4] + "hist2.png") 
     ax1.clf() 
-    
+    '''
     print("min: {}, max: {}, mean: {}, standard deviation: {}".format(np.min(list_one), np.max(list_one), np.mean(list_one), np.std(list_one))) 
     print() 
+    ''' 
     file.close() 
     
     list_one = [] 
