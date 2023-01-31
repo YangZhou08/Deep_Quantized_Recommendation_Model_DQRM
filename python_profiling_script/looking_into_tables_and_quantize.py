@@ -108,7 +108,7 @@ for file_name in file_names:
     chicanes = [] 
     ''' 
     
-    plt.savefig("~/" + file_name[: -4] + "hist.png") 
+    plt.savefig(file_name[: -4] + "hist.png") 
     plt.clf() 
     
     print("min: {}, max: {}, mean: {}, standard deviation: {}".format(np.min(list_one), np.max(list_one), np.mean(list_one), np.std(list_one))) 
