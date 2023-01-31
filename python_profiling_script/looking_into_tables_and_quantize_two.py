@@ -86,7 +86,7 @@ for file_name in file_names:
     ''' 
 
     ax1 = plt.subplot() 
-    ax1.tick_params(axis = "y", direction = "in", colors = "tab:blue", pad = -30) 
+    ax1.tick_params(axis = "y", direction = "in", colors = "tab:blue", pad = -22) 
     ax1.ticklabel_format(axis = "y", scilimits = (3, 4)) 
     ax1.hist(list_one, log = use_log_scale, bins = 100, color = "tab:blue") 
     ax1.set_xlim(-0.1, 0.1) 
