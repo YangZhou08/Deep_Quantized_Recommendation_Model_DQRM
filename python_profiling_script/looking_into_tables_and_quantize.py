@@ -11,7 +11,8 @@ import argparse
 parser = argparse.ArgumentParser(description = "investigating distribution") 
 parser.add_argument("--table-num", type = int, default = 0) 
 args = parser.parse_args() 
-path = "/rscratch/data/dlrm_criteo/" 
+# path = "/rscratch/data/dlrm_criteo/" 
+path = "/home/yzhou/dlrm_criteo_kaggle" 
 table_num = args.table_num 
 
 log_file_name = "documenting_dist.txt" 
@@ -38,6 +39,8 @@ file_names = []
 file_name_fil = open("files_title.txt") 
 file_names = file_name_fil.readlines() 
 file_names[-1] += '\n' 
+# file_names[-1] += '\n' 
+print(file_names) 
 '''
 for table_num in [6]: 
     name = "table" + str(table_num) + "epoch" 
@@ -49,9 +52,9 @@ for file_name in file_names:
     table_num = int(file_name[5]) 
     if table_num == 6: 
         continue 
-    '''
+    
     file_name = file_name[: -1] 
-    ''' 
+    
     file_path = path + file_name 
     file = open(file_path, "r") 
     lines = file.readlines() 
