@@ -50,8 +50,10 @@ for table_num in [6]:
 for file_name in file_names: 
 
     table_num = int(file_name[5]) 
+    '''
     if table_num == 6: 
         continue 
+    ''' 
     
     file_name = file_name[: -1] 
     
