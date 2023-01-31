@@ -80,6 +80,7 @@ for file_name in file_names:
     ''' 
 
     ax1 = plt.subplot() 
+    ax1.tick_params(axis = "y", direction = "in", colors = "tab:blue") 
     ax1.hist(list_one, log = use_log_scale, bins = 100, color = "tab:blue") 
     ax1.set_xlim(-0.1, 0.1) 
     file.close() 
@@ -99,6 +100,7 @@ for file_name in file_names:
     print(file_name) 
 
     ax2 = ax1.twinx() 
+    ax2.tick_params(axis = "y", direction = "in", colors = "tab:orange") 
     ax2.hist(list_one, log = use_log_scale, bins = 100, color = "tab:orange") 
     '''
     chicanes.append(np.sqrt(1/n_l[table_num])) 
