@@ -23,6 +23,8 @@ def finding_scale_and_params(table_num,
     n = 2 ** (num_bits - 1) - 1 
     return np.clip(np.max(min, max), min = 1e-8) / n 
 
+use_log_scale = False 
+
 n_l = [1460, 583, 10131227, 2202608, 305, 24, 12517, 633, 3, 93145, 5683, 8351593, 3194, 27, 14992, 5461306, 10, 5652, 2173, 4, 7046547, 18, 15, 286181, 105, 142572] 
 thr_r = [0.2, 0.4, 0.6, 0.8, 1.0] 
 colors = ['red', 'green', 'yellow', 'purple', 'black', 'navy'] 
@@ -37,24 +39,23 @@ file_name_fil = open("files_title.txt")
 file_names = file_name_fil.readlines() 
 file_names[-1] += '\n' 
 '''
-for table_num in [3, 6]: 
+for table_num in [6]: 
     name = "table" + str(table_num) + "epoch" 
     for i in range(5): 
         file_names.append(name + str(i) + "_.txt") 
 ''' 
-
 for file_name in file_names: 
 
     table_num = int(file_name[5]) 
     if table_num == 6: 
         continue 
-
+    '''
     file_name = file_name[: -1] 
-
+    ''' 
     file_path = path + file_name 
     file = open(file_path, "r") 
     lines = file.readlines() 
-
+    
     for line in lines: 
         line_seg = line.split(", ") 
         for word_with_value in line_seg: 
@@ -70,10 +71,10 @@ for file_name in file_names:
     y_max = np.max(y) 
     ''' 
     if table_num == 3: 
-        plt.hist(list_one, log = False, bins = 100) 
+        plt.hist(list_one, log = use_log_scale, bins = 100) 
         plt.xlim(-0.3, 0.3) 
     else: 
-        plt.hist(list_one, log = False, bins = 100) 
+        plt.hist(list_one, log = use_log_scale, bins = 100) 
         plt.xlim(-0.1, 0.1) 
     '''
     chicanes.append(np.sqrt(1/n_l[table_num])) 
@@ -102,7 +103,7 @@ for file_name in file_names:
     chicanes = [] 
     ''' 
     
-    plt.savefig(file_name[: -4] + "hist.png") 
+    plt.savefig("~/" + file_name[: -4] + "hist.png") 
     plt.clf() 
     
     print("min: {}, max: {}, mean: {}, standard deviation: {}".format(np.min(list_one), np.max(list_one), np.mean(list_one), np.std(list_one))) 
