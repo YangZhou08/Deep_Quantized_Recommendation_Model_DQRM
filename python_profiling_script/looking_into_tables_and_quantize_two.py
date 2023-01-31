@@ -111,7 +111,9 @@ for file_name in file_names:
     if len(list_one) > 1e6: 
         plt.xlim(-0.1, 0.1) 
     ''' 
+    '''
     plt.title(file_name) 
+    ''' 
     '''
     logger_path = path + log_file_name 
     logger = open(logger_path, "a") 
