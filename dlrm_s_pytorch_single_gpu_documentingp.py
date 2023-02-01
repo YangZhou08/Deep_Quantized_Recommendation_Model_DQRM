@@ -610,7 +610,9 @@ class DLRM_Net(nn.Module):
                     x = layer(x) 
             return x 
         else: 
-            return layers(x) 
+            for layer in layers: 
+                x = layer(x) 
+            return x 
 
     def apply_emb(self, lS_o, lS_i, emb_l, v_W_l, test_mode = False): 
         # WARNING: notice that we are processing the batch at once. We implicitly
