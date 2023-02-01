@@ -88,7 +88,7 @@ for file_name in file_names:
     ax1 = plt.subplot() 
     ax1.tick_params(axis = "y", direction = "in", colors = "tab:blue", pad = -22) 
     ax1.ticklabel_format(axis = "y", scilimits = (3, 4)) 
-    ax1.hist(list_one, log = use_log_scale, bins = 100, color = "tab:blue") 
+    ax1.hist(list_one, log = use_log_scale, bins = 1000, color = "tab:blue") 
     ax1.set_xlim(-0.1, 0.1) 
     file.close() 
 
@@ -109,7 +109,7 @@ for file_name in file_names:
     ax2 = ax1.twinx() 
     ax2.tick_params(axis = "y", direction = "in", colors = "tab:orange", pad = -35) 
     ax2.ticklabel_format(axis = "y", scilimits = (4, 5)) 
-    ax2.hist(list_one, log = use_log_scale, bins = 100, color = "tab:orange") 
+    ax2.hist(list_one, log = use_log_scale, bins = 1000, color = "tab:orange") 
     '''
     chicanes.append(np.sqrt(1/n_l[table_num])) 
     for ratio in thr_r: 
