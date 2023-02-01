@@ -55,7 +55,7 @@ for table_num in [6]:
 file_names.append("table6epoch0iter0_.txt") 
 file_names.append("table6epoch1iter51200_.txt") 
 file_names.append("table6epoch2iter51200_.txt") 
-file_names.append("table6epoch4iter51200_.txt") 
+# file_names.append("table6epoch4iter51200_.txt") 
 for file_name in file_names: 
 
     table_num = int(file_name[5]) 
@@ -94,7 +94,7 @@ for file_name in file_names:
 
     list_one = [] 
 
-    file_name = file_name[: -4] + "quantizedpro.txt" 
+    file_name = file_name[: -4] + "quantized8pro.txt" 
     file_path = path + file_name 
     file = open(file_path, "r") 
     lines = file.readlines() 
