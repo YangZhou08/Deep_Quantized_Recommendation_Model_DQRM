@@ -919,11 +919,12 @@ class DLRM_Net(nn.Module):
                 file_name += ".txt" 
 
                 print("Start documenting table {} weights in file {}".format(table_num, file_name)) 
-                '''
+                
                 file_path = path + "/" + file_name 
                 file = open(file_path, "a") 
 
                 weight_list = embedding_table.weight.data.detach() 
+                '''
                 for i in range(weight_list.shape[0]): 
                     row = "" 
                     for j in range(weight_list.shape[1]): 
