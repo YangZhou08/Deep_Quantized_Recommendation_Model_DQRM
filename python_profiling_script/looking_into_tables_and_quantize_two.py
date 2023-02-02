@@ -92,6 +92,8 @@ for file_name in file_names:
     ax1.set_xlim(-0.1, 0.1) 
     file.close() 
 
+    plt.grid() 
+
     list_one = [] 
 
     file_name = file_name[: -4] + "quantizedpro.txt" 
@@ -110,7 +112,6 @@ for file_name in file_names:
     ax2.tick_params(axis = "y", direction = "in", colors = "tab:orange", pad = -35) 
     ax2.ticklabel_format(axis = "y", scilimits = (4, 5)) 
     ax2.hist(list_one, log = use_log_scale, bins = 100, color = "tab:orange") 
-    ax2.grid() 
     '''
     chicanes.append(np.sqrt(1/n_l[table_num])) 
     for ratio in thr_r: 
