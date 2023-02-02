@@ -12,7 +12,7 @@ matplotlib.rc('font', **font)
 
 sections_performed = ["Embedding table gradient", "MLP layer gradient"] 
 category_colors = ["#E6B9B8", "#B9CDE5"] 
-y_pos = [0, 0.5] 
+y_pos = [0, 0.25] 
 t_settings = ["Kaggle", "Terabyte"] 
 
 percentage_performance = [[0.05, 0.95], [0.45, 0.55]] 
@@ -26,7 +26,7 @@ fig, ax = plt.subplots()
 for i, (section, color) in enumerate(zip(sections_performed, category_colors)): 
     widths = perc_per_hlp[:, i] 
     starts = perc_per_cum[:, i] - widths 
-    ax.barh(y_pos, width = widths, left = starts, height = 0.3, label = section, color = color) 
+    ax.barh(y_pos, width = widths, left = starts, height = 0.2, label = section, color = color) 
 
     xcenters = starts + widths / 2 
 
@@ -38,7 +38,7 @@ for i, (section, color) in enumerate(zip(sections_performed, category_colors)):
                     color=text_color) 
 
 ax.invert_yaxis() 
-ax.set_ylim(-0.3, 0.8) 
+ax.set_ylim(-0.15, 0.4) 
 ax.set_yticks(y_pos) 
 ax.set_yticklabels(t_settings) 
 ax.set_xlim(0, 1) 
