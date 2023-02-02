@@ -15,7 +15,7 @@ category_colors = ["#E6B9B8", "#B9CDE5"]
 y_pos = [0, 0.25] 
 t_settings = ["Kaggle", "Terabyte"] 
 
-percentage_performance = [[0.05, 0.95], [0.45, 0.55]] 
+percentage_performance = [[0.05, 0.95], [0.55, 0.45]] 
 
 perc_per_hlp = np.array(percentage_performance) 
 perc_per_cum = perc_per_hlp.cumsum(axis = 1) 

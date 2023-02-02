@@ -2094,11 +2094,11 @@ def train(gpu, args):
                             print("Saving model to {}".format(save_addr)) 
                             torch.save(model_metrics_dict, save_addr) 
                     # dist.barrier() 
-                
+                '''
                 if rank == 0 and inspect_weights_and_others: 
                     dlrm.documenting_weights_tables(path_log, k, j, emb_quantized = args.quantization_flag) 
                 # dist.barrier() 
-
+                ''' 
                 '''
                 print("stop updating embedding") 
                 optimizer.zero_grad() 
