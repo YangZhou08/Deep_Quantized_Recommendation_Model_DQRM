@@ -96,7 +96,7 @@ for file_name in file_names:
 
     list_one = [] 
 
-    file_name = file_name[: -4] + "quantizedpro.txt" 
+    file_name = file_name[: -4] + "quantized8pro.txt" 
     file_path = path + file_name 
     file = open(file_path, "r") 
     lines = file.readlines() 
