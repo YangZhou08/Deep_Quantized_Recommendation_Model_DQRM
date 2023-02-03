@@ -2150,6 +2150,11 @@ def train(gpu, args):
             k += 1 
                             
     else: 
+        for j, inputBatch in enumerate(train_loader): 
+            if j == 0 and args.save_onnx:
+                X_onnx, lS_o_onnx, lS_i_onnx, _, _, _ = unpack_batch(inputBatch)
+                break 
+
         print("Testing for inference only") 
         inference_distributed(
             rank, 
