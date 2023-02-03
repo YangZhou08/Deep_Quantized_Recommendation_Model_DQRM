@@ -2156,7 +2156,7 @@ def train(gpu, args):
             break 
 
         print("Testing for inference only") 
-        inference_distributed(
+        model_metrics_dict, is_best = inference_distributed(
             rank, 
             args, 
             dlrm, 
