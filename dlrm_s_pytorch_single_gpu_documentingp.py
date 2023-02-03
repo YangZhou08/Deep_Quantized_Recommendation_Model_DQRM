@@ -1950,6 +1950,9 @@ def train(gpu, args):
                 global iteration_num 
                 iteration_num = j 
 
+                if j == 0 and args.save_onnx:
+                    X_onnx, lS_o_onnx, lS_i_onnx, _, _, _ = unpack_batch(inputBatch)
+
                 # testing full lin to quantized 
                 '''
                 if j == 1025: 
