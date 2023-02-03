@@ -2153,7 +2153,7 @@ def train(gpu, args):
         for j, inputBatch in enumerate(train_loader): 
             if j == 0 and args.save_onnx:
                 X_onnx, lS_o_onnx, lS_i_onnx, _, _, _ = unpack_batch(inputBatch)
-                break 
+            break 
 
         print("Testing for inference only") 
         inference_distributed(
@@ -2170,9 +2170,32 @@ def train(gpu, args):
         ) 
 
         print("finish execution of inference") 
+        '''
         if rank == 0 and args.documenting_table_weight: 
             # recording embedding table weights the second time 
             dlrm.documenting_weights_tables(path_log, 1) 
+        ''' 
+        if not (args.save_model == ""): 
+            k = 1111
+            j = 0 
+            train_loss = 100 
+            total_loss = 1000 
+            model_metrics_dict["epoch"] = k
+            model_metrics_dict["iter"] = j + 1
+            model_metrics_dict["train_loss"] = train_loss
+            model_metrics_dict["total_loss"] = total_loss
+            model_metrics_dict[
+                "opt_state_dict"
+            ] = optimizer.state_dict()
+            # added to make sure even if internet crashes during training, at least one checkpoint is successfully saved 
+            # save_addr = args.save_model + str(((j + 1)/10240)%2) 
+            save_addr = args.save_model.split(".")[0] + str(((j + 1)/10240)%2) + ".pt" 
+            '''
+            print("Saving model to {}".format(args.save_model))
+            torch.save(model_metrics_dict, args.save_model)
+            ''' 
+            print("Saving model to {}".format(save_addr)) 
+            torch.save(model_metrics_dict, save_addr) 
         # dist.barrier() 
         '''
         if args.nr == 0 and gpu == 0: 
