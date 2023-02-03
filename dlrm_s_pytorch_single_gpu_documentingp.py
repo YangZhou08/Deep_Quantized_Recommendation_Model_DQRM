@@ -2169,7 +2169,6 @@ def train(gpu, args):
             # recording embedding table weights the second time 
             dlrm.documenting_weights_tables(path_log, 1) 
         # dist.barrier() 
-        return 
         '''
         if args.nr == 0 and gpu == 0: 
             print("Testing for inference only") 
