@@ -2175,6 +2175,7 @@ def train(gpu, args):
             # recording embedding table weights the second time 
             dlrm.documenting_weights_tables(path_log, 1) 
         ''' 
+        '''
         if not (args.save_model == ""): 
             k = 1111
             j = 0 
@@ -2190,12 +2191,10 @@ def train(gpu, args):
             # added to make sure even if internet crashes during training, at least one checkpoint is successfully saved 
             # save_addr = args.save_model + str(((j + 1)/10240)%2) 
             save_addr = args.save_model.split(".")[0] + str(((j + 1)/10240)%2) + ".pt" 
-            '''
-            print("Saving model to {}".format(args.save_model))
-            torch.save(model_metrics_dict, args.save_model)
-            ''' 
             print("Saving model to {}".format(save_addr)) 
             torch.save(model_metrics_dict, save_addr) 
+        ''' 
+        torch.save(dlrm.state_dict, "quantized_model.pt") 
         # dist.barrier() 
         '''
         if args.nr == 0 and gpu == 0: 
