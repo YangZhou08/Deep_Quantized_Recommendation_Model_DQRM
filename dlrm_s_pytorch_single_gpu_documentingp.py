@@ -121,6 +121,13 @@ import torch.multiprocessing as mp
 
 import tqdm 
 
+with warnings.catch_warnings():
+    warnings.filterwarnings("ignore", category=DeprecationWarning)
+    try:
+        import onnx
+    except ImportError as error:
+        print("Unable to import onnx. ", error) 
+
 '''
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -1879,6 +1886,35 @@ def train(gpu, args):
         print(test_irregular_count) 
         return 
     
+    if args.inference_only:
+        # Currently only dynamic quantization with INT8 and FP16 weights are
+        # supported for MLPs and INT4 and INT8 weights for EmbeddingBag
+        # post-training quantization during the inference.
+        # By default we don't do the quantization: quantize_{mlp,emb}_with_bit == 32 (FP32)
+        assert args.quantize_mlp_with_bit in [
+            8,
+            16,
+            32,
+        ], "only support 8/16/32-bit but got {}".format(args.quantize_mlp_with_bit)
+        assert args.quantize_emb_with_bit in [
+            4,
+            8,
+            32,
+        ], "only support 4/8/32-bit but got {}".format(args.quantize_emb_with_bit)
+        if args.quantize_mlp_with_bit != 32:
+            if args.quantize_mlp_with_bit in [8]:
+                quantize_dtype = torch.qint8
+            else:
+                quantize_dtype = torch.float16
+            dlrm = torch.quantization.quantize_dynamic(
+                dlrm, {torch.nn.Linear}, quantize_dtype
+            )
+        if args.quantize_emb_with_bit != 32:
+            dlrm.quantize_embedding(args.quantize_emb_with_bit)
+            # print(dlrm)
+
+    print("time/loss/accuracy (if enabled):") 
+    
     # TODO use barrier if not in synchronization 
     
     if not args.inference_only: 
@@ -2241,6 +2277,86 @@ def train(gpu, args):
                 torch.save(model_metrics_dict, save_addr) 
                 ''' 
         # dist.barrier() 
+    
+    # export the model in onnx
+    if args.save_onnx:
+        """
+        # workaround 1: tensor -> list
+        if torch.is_tensor(lS_i_onnx):
+            lS_i_onnx = [lS_i_onnx[j] for j in range(len(lS_i_onnx))]
+        # workaound 2: list -> tensor
+        lS_i_onnx = torch.stack(lS_i_onnx)
+        """
+        # debug prints
+        # print("inputs", X_onnx, lS_o_onnx, lS_i_onnx)
+        # print("output", dlrm_wrap(X_onnx, lS_o_onnx, lS_i_onnx, use_gpu, device))
+        dlrm_pytorch_onnx_file = "dlrm_s_pytorch.onnx"
+        batch_size = X_onnx.shape[0]
+        print("X_onnx.shape", X_onnx.shape)
+        if torch.is_tensor(lS_o_onnx):
+            print("lS_o_onnx.shape", lS_o_onnx.shape)
+        else:
+            for oo in lS_o_onnx:
+                print("oo.shape", oo.shape)
+        if torch.is_tensor(lS_i_onnx):
+            print("lS_i_onnx.shape", lS_i_onnx.shape)
+        else:
+            for ii in lS_i_onnx:
+                print("ii.shape", ii.shape)
+
+        # name inputs and outputs
+        o_inputs = (
+            ["offsets"]
+            if torch.is_tensor(lS_o_onnx)
+            else ["offsets_" + str(i) for i in range(len(lS_o_onnx))]
+        )
+        i_inputs = (
+            ["indices"]
+            if torch.is_tensor(lS_i_onnx)
+            else ["indices_" + str(i) for i in range(len(lS_i_onnx))]
+        )
+        all_inputs = ["dense_x"] + o_inputs + i_inputs
+        # debug prints
+        print("inputs", all_inputs)
+
+        # create dynamic_axis dictionaries
+        do_inputs = (
+            [{"offsets": {1: "batch_size"}}]
+            if torch.is_tensor(lS_o_onnx)
+            else [
+                {"offsets_" + str(i): {0: "batch_size"}} for i in range(len(lS_o_onnx))
+            ]
+        )
+        di_inputs = (
+            [{"indices": {1: "batch_size"}}]
+            if torch.is_tensor(lS_i_onnx)
+            else [
+                {"indices_" + str(i): {0: "batch_size"}} for i in range(len(lS_i_onnx))
+            ]
+        )
+        dynamic_axes = {"dense_x": {0: "batch_size"}, "pred": {0: "batch_size"}}
+        for do in do_inputs:
+            dynamic_axes.update(do)
+        for di in di_inputs:
+            dynamic_axes.update(di)
+        # debug prints
+        print(dynamic_axes)
+        # export model
+        torch.onnx.export(
+            dlrm,
+            (X_onnx, lS_o_onnx, lS_i_onnx),
+            dlrm_pytorch_onnx_file,
+            verbose=True,
+            opset_version=11,
+            input_names=all_inputs,
+            output_names=["pred"],
+            dynamic_axes=dynamic_axes,
+        )
+        # recover the model back
+        dlrm_pytorch_onnx = onnx.load("dlrm_s_pytorch.onnx")
+        # check the onnx model
+        onnx.checker.check_model(dlrm_pytorch_onnx)
+    total_time_end = time_wrap(use_gpu)
 
 if __name__ == "__main__": 
     run() 

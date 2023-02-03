@@ -1515,6 +1515,33 @@ def train(gpu, args):
         print(test_irregular_count) 
         return 
     
+    if args.inference_only:
+        # Currently only dynamic quantization with INT8 and FP16 weights are
+        # supported for MLPs and INT4 and INT8 weights for EmbeddingBag
+        # post-training quantization during the inference.
+        # By default we don't do the quantization: quantize_{mlp,emb}_with_bit == 32 (FP32)
+        assert args.quantize_mlp_with_bit in [
+            8,
+            16,
+            32,
+        ], "only support 8/16/32-bit but got {}".format(args.quantize_mlp_with_bit)
+        assert args.quantize_emb_with_bit in [
+            4,
+            8,
+            32,
+        ], "only support 4/8/32-bit but got {}".format(args.quantize_emb_with_bit)
+        if args.quantize_mlp_with_bit != 32:
+            if args.quantize_mlp_with_bit in [8]:
+                quantize_dtype = torch.qint8
+            else:
+                quantize_dtype = torch.float16
+            dlrm = torch.quantization.quantize_dynamic(
+                dlrm, {torch.nn.Linear}, quantize_dtype
+            )
+        if args.quantize_emb_with_bit != 32:
+            dlrm.quantize_embedding(args.quantize_emb_with_bit)
+            # print(dlrm)
+    
     # TODO use barrier if not in synchronization 
     
     if not args.inference_only: 
