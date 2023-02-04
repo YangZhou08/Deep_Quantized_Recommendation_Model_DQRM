@@ -3,7 +3,7 @@ DQRM: Deep Quantized Recommendation Model
 *A recommendation model that is small, powerful and efficient to train* 
 
 ## ![#c5f015](https://placehold.co/15x15/c5f015/c5f015.png)`Please check out our project preprint`
-[DQRM Preprint](./DQRM__Deep_learning_Quantized_Recommender_System_Model.pdf) is now available (Update: Dec. 28th, 2022)
+[DQRM Preprint](./DQRM__Deep_learning_Quantized_Recommender_System_Model.pdf) is now available (Update: Feb. 2nd, 2022) 
 <!-- Project preprint is still in progress, estimated date to be online: Dec 28th, 2022 (estimated hour 13:00 CT).  -->
 
 ![#c5f015](https://placehold.co/15x15/c5f015/c5f015.png)The project is planned to submit to **KDD 2023**. 
@@ -21,10 +21,13 @@ This project shows that large and over-parameterized embedding tables lead to se
 However, naive QAT can lead to inefficiency for recommendation models, exacebating the memory bottleneck during training. We proposed two techniques to improve the naive QAT. Also, DLRM are usually large and trained under distributed environments, we combined quantization and sparsification together to compress the communication. We publish our project as Deep Quantized Recommendation System (DQRM), which is a recommendation system that is small, powerful, and efficient to train. 
 
 Results: 
-------------
+------------ 
+Below are experiments of DQRM weight quantization results. Please note that all of the statistics reported here are all run under the distributed data parallelism. As mentioned in the paper, accuracies are consistently lower than running on the single node or machine settings. We report single machine accuracies in the paper section 3 for better evaluation of weight quantization performance from DQRM. Please refer to the paper for official results, statistics shown here are for reference. 
+
 1) [Criteo Kaggle Dataset](https://ailab.criteo.com/ressources/) 
 
 <img src="./kaggle_unquantized.png" width="900" height="320">
+   
 Heavily quantized models outperforms the original models by better overcoming overfitting (Criteo Kaggle Dataset)
 
 | Settings    | Model bit width | Training loss | Testing Accuracy | Testing ROC AUC | 
@@ -35,9 +38,11 @@ Heavily quantized models outperforms the original models by better overcoming ov
 2) [Criteo Terabyte Dataset](https://labs.criteo.com/2013/12/download-terabyte-click-logs/) 
 
 <img src="./dlrm_terabyte.png" width="900" height="320">
-Heavily quantized models outperforms the original models by better overcoming overfitting (Criteo Terabyte Dataset) 
+   
+Heavily quantized models outperforms the original models by better overcoming overfitting (Criteo Terabyte Dataset)  
 
 <img src="./dlrm_terabyte_quantized_3.png" width="900" height="320">
+   
 Original model training loss falls as the model suffers overfitting, comparing with uniform INT4 Quantization-aware Training (QAT) 
 
 | Settings    | Model bit width | Training loss | Testing Accuracy | Testing ROC AUC | 
@@ -51,7 +56,8 @@ Running scripts
 ```
 bash -x ./bash_scripts/Kaggle/run_dlrm_kaggle_gpu_four.sh 
 ``` 
-2) Running on CPU clusters and the Criteo Terabyte Dataset (<span style="color:yellow">only simulation for multi-node available now, *real distributed environment will be online shortly*</span>) 
+2) Running on CPU clusters and the Criteo Terabyte Dataset 
+<!-- (<span style="color:yellow">only simulation for multi-node available now, *real distributed environment will be online shortly*</span>)  -->
 ```
 bash -x ./bash_scripts/Terabytes/run_dlrm_tb_cpu.sh 
 ``` 
