@@ -1902,6 +1902,7 @@ def train(gpu, args):
             32,
         ], "only support 4/8/32-bit but got {}".format(args.quantize_emb_with_bit)
         if args.quantize_mlp_with_bit != 32:
+            '''
             if args.quantize_mlp_with_bit in [8]:
                 quantize_dtype = torch.qint8
             else:
@@ -1909,8 +1910,10 @@ def train(gpu, args):
             dlrm = torch.quantization.quantize_dynamic(
                 dlrm, {torch.nn.Linear}, quantize_dtype
             )
+            ''' 
+
         if args.quantize_emb_with_bit != 32:
-            dlrm.quantize_embedding(args.quantize_emb_with_bit)
+            dlrm.quantize_embedding(args.quantize_emb_with_bit) 
             # print(dlrm)
 
     print("time/loss/accuracy (if enabled):") 
