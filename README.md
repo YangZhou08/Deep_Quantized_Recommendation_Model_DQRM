@@ -22,7 +22,7 @@ However, naive QAT can lead to inefficiency for recommendation models, exacebati
 
 Results: 
 ------------ 
-Below are experiments of DQRM weight quantization results. Please note that all of the statistics reported here are all run under the distributed data parallelism. As mentioned in the paper, accuracies are consistently lower than running on the single node or machine settings. We report single machine accuracies in the paper section 3 for better evaluation of weight quantization performance from DQRM. Please refer to the paper for official results, statistics shown here are for reference. 
+Below are experiments of DQRM weight quantization results. Please note that all of the statistics reported here are all run under the distributed data parallelism. As mentioned in the paper, accuracies are consistently lower than running on the single node or machine settings. We report single machine accuracies in the paper section 3 for better evaluation of weight quantization performance from DQRM. <span style="color:yellow"> *Please refer to the paper for official results, statistics shown here are for reference.* </span>
 
 1) [Criteo Kaggle Dataset](https://ailab.criteo.com/ressources/) 
 
