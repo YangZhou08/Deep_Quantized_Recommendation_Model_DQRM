@@ -22,11 +22,12 @@ However, naive QAT can lead to inefficiency for recommendation models, exacebati
 
 Results: 
 ------------ 
-Below are experiments of DQRM weight quantization results. Please note that all of the statistics reported here are all run under the distributed data parallelism. As mentioned in the paper, accuracies are consistently lower than running on the single node or machine settings. We report single machine accuracies in the paper section 3 for better evaluation of weight quantization performance from DQRM. <span style="color:orange"> *Please refer to the paper for official results, statistics shown here are for reference.* </span> 
 
-We found that low-precision quantization of embedding tables exhibits strong effect of overfitting reduction. As the results can be better exihit from the following diagrams. We present contrast between low-precision quantization (QAT) versus single-precision (normal training). 
+We found that low-precision quantization of embedding tables exhibits strong effect of overfitting reduction. As the results can be better exihit from the following diagrams. We present contrast between low-precision quantization (QAT) versus single-precision (normal training). Experiments conducted using one single Nvidia A5000 GPU. 
 
 <img src="./Embedding_table_multiple_bitwidths.png" width="900" height="320"> 
+
+Below are experiments of DQRM weight quantization results. Please note that all of the statistics reported here are all run under the distributed data parallelism. As mentioned in the paper, accuracies are consistently lower than running on the single node or machine settings. We report single machine accuracies in the paper section 3 for better evaluation of weight quantization performance from DQRM. <span style="color:orange"> *Please refer to the paper for official results, statistics shown here are for reference.* </span> 
 
 Following the observations, we further quantize the MLP layers into INT4. The entire model is then quantized into INT4 uniformly. 
 
