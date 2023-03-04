@@ -2,8 +2,8 @@ DQRM: Deep Quantized Recommendation Model
 =================================================================================
 *A recommendation model that is small, powerful and efficient to train* 
 
-<!-- ## ![#c5f015](https://placehold.co/15x15/c5f015/c5f015.png)`Please check out our project preprint`
-[DQRM Preprint](./DQRM__Deep_learning_Quantized_Recommender_System_Model.pdf) is now available (Update: Feb. 2nd, 2022)  -->
+## ![#c5f015](https://placehold.co/15x15/c5f015/c5f015.png)`Please check out our project preprint`
+[DQRM Preprint](./DQRM__Deep_learning_Quantized_Recommender_System_Model.pdf) is now available 
 <!-- Project preprint is still in progress, estimated date to be online: Dec 28th, 2022 (estimated hour 13:00 CT).  -->
 
 ![#c5f015](https://placehold.co/15x15/c5f015/c5f015.png)The project is planned to submit to **KDD 2023**. 
@@ -22,7 +22,13 @@ However, naive QAT can lead to inefficiency for recommendation models, exacebati
 
 Results: 
 ------------ 
-Below are experiments of DQRM weight quantization results. Please note that all of the statistics reported here are all run under the distributed data parallelism. As mentioned in the paper, accuracies are consistently lower than running on the single node or machine settings. We report single machine accuracies in the paper section 3 for better evaluation of weight quantization performance from DQRM. <span style="color:yellow"> *Please refer to the paper for official results, statistics shown here are for reference.* </span>
+Below are experiments of DQRM weight quantization results. Please note that all of the statistics reported here are all run under the distributed data parallelism. As mentioned in the paper, accuracies are consistently lower than running on the single node or machine settings. We report single machine accuracies in the paper section 3 for better evaluation of weight quantization performance from DQRM. <span style="color:orange"> *Please refer to the paper for official results, statistics shown here are for reference.* </span> 
+
+We found that low-precision quantization of embedding tables exhibits strong effect of overfitting reduction. As the results can be better exihit from the following diagrams. We present contrast between low-precision quantization (QAT) versus single-precision (normal training). 
+
+<img src="./Embedding_table_multiple_bitwidths.png" width="900" height="320"> 
+
+Following the observations, we further quantize the MLP layers into INT4. The entire model is then quantized into INT4 uniformly. 
 
 1) [Criteo Kaggle Dataset](https://ailab.criteo.com/ressources/) 
 
@@ -49,6 +55,16 @@ Original model training loss falls as the model suffers overfitting, comparing w
 | ----------- | ----------- | ----------- | ----------- | ----------- | 
 | baseline      |   FP32     | 0.347071 | 81.165% | 0.8004 | 
 | DQRM   | INT4       | 0.412979 | 81.159% | 0.7998 | 
+
+Android App Demo Screenshot
+------------ 
+We include a demo of DQRM exported to an Android phone. From the below figures, the tested DQRM model size is 405.65 MB. As a reference, the DLRM Kaggle model size is 2.16 GB. The model size is not strictly 8$\times$ compression because of the following two reasons: 1) Embedding tables can be quantized into INT4, but the embedding vectors have to be bit-packed together into INT8 format to fully benefit from the INT4 low precision. However, bitpacking on PyTorch is tricky and PyTorch 4-bit packing is not fully optimized in terms of performance. 2) PyTorch doesn't support MLP layers to be quantized into bitwidth below INT8. Therefore, MLP layers, although quantized into INT4, still need to be stored as INT8 numbers. Still, we believe this is a first step towards deploying large recommendation models to edge devices so as to alleviate the heavy cloud AI inference pressure. 
+
+<img src="./quantized_model_on_mobile_phone.jpg" width="320" height="600"> 
+
+Also, we built an demo map mobile app to illustrate one possible use of the quantized recommendation model on edge. 
+
+<img src="./demoappscreenshot.jpg" width="320" height="600"> 
 
 Running scripts 
 ------------
