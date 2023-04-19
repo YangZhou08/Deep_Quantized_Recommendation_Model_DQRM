@@ -329,7 +329,7 @@ class QuantEmbeddingBagTwo(Module):
                     '''
                     t1 = time_wrap(use_gpu) 
                     ''' 
-                    self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag, self.embedding_bound, self.num_embeddings, self.embedding_id) 
+                    self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag, self.embedding_bound, self.num_embeddings, self.embedding_id) # compute scale 
                     '''
                     t2 = time_wrap(use_gpu) 
                     list_finding_scale.append(t2 - t1) 

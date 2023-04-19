@@ -370,6 +370,7 @@ class DLRM_Net(nn.Module):
             elif self.quantization_flag: 
                 print("---------- Embedding Table {}, quantization used, n = {}, m = {}, quantization bit set to {}".format(i, n, m, self.embedding_bit)) 
                 EE = QuantEmbeddingBagTwo(n, m, self.embedding_bit, embedding_id = i) 
+                # EE = QuantEmbeddingBagLSQ 
             else:
                 EE = nn.EmbeddingBag(n, m, mode="sum", sparse=True) 
                 # initialize embeddings
