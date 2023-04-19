@@ -61,19 +61,21 @@ def train(gpu, args):
     result = data_parallel(model.cuda(),x.cuda(), [0,1])
     print(f"result:{type(result)}") 
 
-parser = argparse.ArgumentParser(
-        description="Train Deep Learning Recommendation Model (DLRM)"
-    )
-parser.add_argument('-n', '--nodes', default=1,
-                    type=int, metavar='N')
-parser.add_argument('-g', '--gpus', default=1, type=int,
-                    help='number of gpus per node')
-parser.add_argument('-nr', '--nr', default=0, type=int,
-                    help='ranking within the nodes')
-args = parser.parse_args() 
-args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
-    
-os.environ['MASTER_ADDR'] = '10.157.244.233' 
-os.environ['MASTER_PORT'] = '29509' 
-os.environ['WORLD_SIZE'] = str(args.world_size) 
-mp.spawn(train, nprocs = args.gpus, args = (args,)) 
+if __name__ == "__main__": 
+    mp.freeze_support() 
+    parser = argparse.ArgumentParser(
+            description="Train Deep Learning Recommendation Model (DLRM)"
+        )
+    parser.add_argument('-n', '--nodes', default=1,
+                        type=int, metavar='N')
+    parser.add_argument('-g', '--gpus', default=1, type=int,
+                        help='number of gpus per node')
+    parser.add_argument('-nr', '--nr', default=0, type=int,
+                        help='ranking within the nodes')
+    args = parser.parse_args() 
+    args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
+        
+    os.environ['MASTER_ADDR'] = '10.157.244.233' 
+    os.environ['MASTER_PORT'] = '29509' 
+    os.environ['WORLD_SIZE'] = str(args.world_size) 
+    mp.spawn(train, nprocs = args.gpus, args = (args,)) 
