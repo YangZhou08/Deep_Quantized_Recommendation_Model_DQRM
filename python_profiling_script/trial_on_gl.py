@@ -4,6 +4,7 @@ import ipdb
 import argparse 
 import os 
 import torch.multiprocessing as mp 
+import torch.distributed as dist 
 
 class DataParallelModel(nn.Module):
 
@@ -40,7 +41,18 @@ def data_parallel(module, input, device_ids, output_device=None):
     result = nn.parallel.gather(outputs, output_device)
     return result
 
-def train(): 
+def train(gpu, args): 
+    rank = args.nr * args.gpus + gpu # make global rank 
+    dist.init_process_group(
+        backend = "gloo", 
+        init_method = 'env://', 
+        world_size = args.world_size, 
+        rank = rank
+    ) 
+    torch.manual_seed(0) 
+    torch.cuda.set_device(gpu) # TODO think about using cpu and change code 
+
+    torch.set_printoptions(profile = "full") 
     model = DataParallelModel()
     x = torch.rand(16,10)
     result = data_parallel(model.cuda(),x.cuda(), [0,1])
