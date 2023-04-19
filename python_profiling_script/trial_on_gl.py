@@ -53,6 +53,9 @@ def train(gpu, args):
     torch.cuda.set_device(gpu) # TODO think about using cpu and change code 
 
     torch.set_printoptions(profile = "full") 
+
+    print("********") 
+    print("********") 
     model = DataParallelModel()
     x = torch.rand(16,10)
     result = data_parallel(model.cuda(),x.cuda(), [0,1])
