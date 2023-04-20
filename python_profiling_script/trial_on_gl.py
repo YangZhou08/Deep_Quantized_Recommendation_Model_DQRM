@@ -40,7 +40,7 @@ def data_parallel(module, input, device_ids, output_device=None, gpu = None):
         print(f"output {i}:{outputs[i].shape}")
 		
     result = nn.parallel.gather(outputs, output_device)
-
+    '''
     i = torch.LongTensor([[0, 1, 2],
                         [3, 4, 5]])
 
@@ -52,10 +52,11 @@ def data_parallel(module, input, device_ids, output_device=None, gpu = None):
     print(s.to_dense()) 
     s = s.to_dense().cuda(gpu) 
     s = dist.all_reduce(s, dist.ReduceOp.SUM) 
+    ''' 
     '''
     print(s.to_dense()) 
     ''' 
-    print(s) 
+    # print(s) 
     return result 
 
 def train(gpu, args): 
@@ -77,6 +78,7 @@ def train(gpu, args):
     x = torch.rand(16,10)
     result = data_parallel(model.cuda(0),x.cuda(0), [0,1], gpu) 
     print(f"result:{type(result)}") 
+    print(result) 
 
 if __name__ == "__main__": 
     mp.freeze_support() 
