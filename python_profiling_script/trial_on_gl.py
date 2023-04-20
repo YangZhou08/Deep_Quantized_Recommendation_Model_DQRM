@@ -17,7 +17,7 @@ class DataParallelModel(nn.Module):
         x = self.block1(x)
         return x
 
-def data_parallel(module, input, device_ids, output_device=None):
+def data_parallel(module, input, device_ids, output_device=None, gpu = None): 
     if not device_ids:
         return module(input)
 
@@ -48,10 +48,10 @@ def data_parallel(module, input, device_ids, output_device=None):
     v = torch.FloatTensor([1, 2, 3])
 
     # Create a sparse_coo tensor with dimension (10, 10)
-    s = torch.sparse_coo_tensor(i, v, size=(10, 10))
+    s = torch.sparse_coo_tensor(i, v, size=(10, 10)).cuda(gpu) 
     s = dist.all_reduce(s, dist.ReduceOp.SUM) 
     print(s.to_dense()) 
-    return result
+    return result 
 
 def train(gpu, args): 
     rank = args.nr * args.gpus + gpu # make global rank 
@@ -70,7 +70,7 @@ def train(gpu, args):
     print("********") 
     model = DataParallelModel()
     x = torch.rand(16,10)
-    result = data_parallel(model.cuda(0),x.cuda(0), [0,1]) 
+    result = data_parallel(model.cuda(0),x.cuda(0), [0,1], gpu) 
     print(f"result:{type(result)}") 
 
 if __name__ == "__main__": 
