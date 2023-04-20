@@ -50,7 +50,7 @@ def data_parallel(module, input, device_ids, output_device=None, gpu = None):
     # Create a sparse_coo tensor with dimension (10, 10)
     s = torch.sparse_coo_tensor(i, v, size=(10, 10)).cuda(gpu) 
     print(s.to_dense()) 
-    s = s.to_dense() 
+    s = s.to_dense().cuda(gpu) 
     s = dist.all_reduce(s, dist.ReduceOp.SUM) 
     '''
     print(s.to_dense()) 
