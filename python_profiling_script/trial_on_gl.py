@@ -21,6 +21,7 @@ def data_parallel(module, input, device_ids, output_device=None):
     if not device_ids:
         return module(input)
 
+    print("pass here") 
     if output_device is None:
         output_device = device_ids[0]
 
@@ -58,7 +59,7 @@ def train(gpu, args):
     print("********") 
     model = DataParallelModel()
     x = torch.rand(16,10)
-    result = data_parallel(model.cuda(),x.cuda(), [0,1])
+    result = data_parallel(model.cuda(0),x.cuda(0), [0,1]) 
     print(f"result:{type(result)}") 
 
 if __name__ == "__main__": 
