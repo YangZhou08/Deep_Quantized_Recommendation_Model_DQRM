@@ -49,8 +49,11 @@ def data_parallel(module, input, device_ids, output_device=None, gpu = None):
 
     # Create a sparse_coo tensor with dimension (10, 10)
     s = torch.sparse_coo_tensor(i, v, size=(10, 10)).cuda(gpu) 
-    s = dist.all_reduce(s, dist.ReduceOp.SUM) 
+    s = dist.all_reduce(s.to_dense(), dist.ReduceOp.SUM) 
+    '''
     print(s.to_dense()) 
+    ''' 
+    print(s) 
     return result 
 
 def train(gpu, args): 
