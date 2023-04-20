@@ -40,6 +40,17 @@ def data_parallel(module, input, device_ids, output_device=None):
         print(f"output {i}:{outputs[i].shape}")
 		
     result = nn.parallel.gather(outputs, output_device)
+
+    i = torch.LongTensor([[0, 1, 2],
+                        [3, 4, 5]])
+
+    # Define the values of the non-zero elements
+    v = torch.FloatTensor([1, 2, 3])
+
+    # Create a sparse_coo tensor with dimension (10, 10)
+    s = torch.sparse_coo_tensor(i, v, size=(10, 10))
+    s = dist.all_reduce(s, dist.ReduceOp.SUM) 
+    print(s.to_dense()) 
     return result
 
 def train(gpu, args): 
