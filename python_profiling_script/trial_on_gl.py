@@ -12,7 +12,6 @@ class DataParallelModel(nn.Module):
         super().__init__()
         self.block1 = nn.Linear(10, 20)
 
-
     def forward(self, x):
         x = self.block1(x)
         return x
@@ -62,7 +61,7 @@ def data_parallel(module, input, device_ids, output_device=None, gpu = None):
 def train(gpu, args): 
     rank = args.nr * args.gpus + gpu # make global rank 
     dist.init_process_group(
-        backend = "nccl", 
+        backend = "gloo", 
         init_method = 'env://', 
         world_size = args.world_size, 
         rank = rank
