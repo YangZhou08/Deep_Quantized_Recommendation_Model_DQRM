@@ -22,8 +22,11 @@ def train(gpu, args):
 
     torch.set_printoptions(profile = "full") 
     # Get the rank and size of the process group
+    '''
     rank = dist.get_rank()
     size = dist.get_size()
+    ''' 
+    size = args.world_size 
     print("rank: {} size: {}".format(rank, size)) 
 
     # Create a tensor with rank as its value
