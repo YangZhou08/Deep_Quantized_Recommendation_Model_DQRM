@@ -30,10 +30,10 @@ def train(gpu, args):
     print("rank: {} size: {}".format(rank, size)) 
 
     # Create a tensor with rank as its value
-    tensor = torch.tensor([rank] * size)
+    tensor = torch.tensor([rank] * size).cuda(gpu) 
 
     # Create an output tensor to store the result
-    output = torch.empty(size)
+    output = torch.empty(size).cuda(gpu) 
 
     # Perform the all-to-all communication
     dist.all_to_all_single(output, tensor)
