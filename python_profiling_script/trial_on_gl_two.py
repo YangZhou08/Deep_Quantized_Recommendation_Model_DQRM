@@ -37,10 +37,10 @@ def train(gpu, args):
     output = torch.empty(size).cuda(gpu) 
 
     # Perform the all-to-all communication
-    dist.all_to_all_single(tensor, tensor) 
+    dist.all_to_all_single(output, tensor) 
 
     # Print the output tensor
-    print(f'Rank {rank}, output {tensor}') 
+    print(f'Rank {rank}, output {output}') 
 
 if __name__ == "__main__": 
     mp.freeze_support() 
