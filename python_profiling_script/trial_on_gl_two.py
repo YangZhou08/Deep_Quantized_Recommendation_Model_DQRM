@@ -34,11 +34,12 @@ def train(gpu, args):
     print("rank: {}, tensor: {}".format(rank, tensor)) 
 
     # Create an output tensor to store the result
-    output = torch.empty([size]).cuda(gpu) 
-
+    output = torch.empty(size).cuda(gpu) 
+    '''
     # Perform the all-to-all communication
     dist.all_to_all_single(output, tensor) 
-
+    ''' 
+    dist.scatter(output, tensor if rank == 0 else [], src=0) 
     # Print the output tensor
     print(f'Rank {rank}, output {output}') 
 

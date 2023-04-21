@@ -30,7 +30,7 @@ def data_parallel(module, input, device_ids, output_device=None, gpu = None):
     inputs = nn.parallel.scatter(input, device_ids)
     print(f"inputs:{type(inputs)}")
     for i in range(len(inputs)):
-        print(f"input {i}:{inputs[i].shape}")
+        print(f"input {i}:{inputs[i].shape}") 
 		
     replicas = replicas[:len(inputs)]
     outputs = nn.parallel.parallel_apply(replicas, inputs)
@@ -74,7 +74,8 @@ def train(gpu, args):
     print("********") 
     print("********") 
     model = DataParallelModel()
-    x = torch.rand(16,10)
+    # x = torch.rand(16,10)
+    x = torch.zeros((16, 10)) 
     result = data_parallel(model.cuda(0),x.cuda(0), [0,1], gpu) 
     print(f"result:{type(result)}") 
     print(result) 
