@@ -12,7 +12,7 @@ def train(gpu, args):
     ''' 
     rank = args.nr * args.gpus + gpu # make global rank 
     dist.init_process_group(
-        backend = "nccl", 
+        backend = "gloo", 
         init_method = 'env://', 
         world_size = args.world_size, 
         rank = rank
