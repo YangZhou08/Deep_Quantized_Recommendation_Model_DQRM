@@ -41,7 +41,7 @@ def train(gpu, args):
     # Perform the all-to-all communication
     dist.all_to_all_single(output, tensor) 
     ''' 
-    dist.scatter(output, tensors if rank == 0 else [], src=0) 
+    dist.scatter(output, tensors if rank == 0 else None, src=0) 
     # Print the output tensor
     print(f'Rank {rank}, output {output}') 
 
