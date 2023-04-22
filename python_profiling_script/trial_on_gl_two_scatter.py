@@ -56,10 +56,13 @@ def train(gpu, args):
     '''
     dist.gather(tensors, output, dst = 0) 
     ''' 
+    '''
     # remember the sequence 
     if rank == 0: 
         # Print the output tensor
         print(f'Rank {rank}, output {output}') 
+    ''' 
+    print(f'Rank {rank}, output {output}') 
 
 if __name__ == "__main__": 
     mp.freeze_support() 
