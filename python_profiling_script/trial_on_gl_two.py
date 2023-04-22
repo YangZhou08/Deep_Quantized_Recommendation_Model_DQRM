@@ -33,16 +33,22 @@ def train(gpu, args):
     tensor = torch.tensor([1, 1]).cuda(gpu) 
     print("rank: {}, tensor: {}".format(rank, tensor)) 
     ''' 
+    # Create a list of tensors with different values
+    tensors = [torch.tensor([float(i)] * size).cuda(gpu) for i in range(size)] 
+
     if rank == 0: 
-        # Create a list of tensors with different values
-        tensors = [torch.tensor([float(i)] * size).cuda(gpu) for i in range(size)] 
-    # Create an output tensor to store the result
-    output = torch.empty(size).cuda(gpu) 
+        # Create an output tensor to store the result
+        output = torch.empty(size * size).cuda(gpu) 
+    else: 
+        output = None 
     '''
     # Perform the all-to-all communication
     dist.all_to_all_single(output, tensor) 
     ''' 
+    '''
     dist.scatter(output, tensors if rank == 0 else None, src=0) 
+    ''' 
+    dist.gather(output, tensors, dst = 0) 
     # Print the output tensor
     print(f'Rank {rank}, output {output}') 
 
