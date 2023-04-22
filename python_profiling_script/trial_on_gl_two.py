@@ -33,8 +33,9 @@ def train(gpu, args):
     tensor = torch.tensor([1, 1]).cuda(gpu) 
     print("rank: {}, tensor: {}".format(rank, tensor)) 
     ''' 
-    # Create a list of tensors with different values
-    tensors = [torch.tensor([i] * size) for i in range(size)]
+    if rank == 0: 
+        # Create a list of tensors with different values
+        tensors = [torch.tensor([i] * size) for i in range(size).cuda(gpu)] 
     # Create an output tensor to store the result
     output = torch.empty(size).cuda(gpu) 
     '''
