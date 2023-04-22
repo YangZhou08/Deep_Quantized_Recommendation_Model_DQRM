@@ -38,7 +38,7 @@ def train(gpu, args):
     tensors = torch.Tensor([float(gpu)] * size).cuda(gpu) 
     ''' 
     if rank == 0: 
-        tensors = torch.Tensor([float(gpu)] * size).cuda(gpu) 
+        tensors = [torch.Tensor([float(i)] * size).cuda(gpu) for i in range(size)] 
     else: 
         tensors = None 
     '''
