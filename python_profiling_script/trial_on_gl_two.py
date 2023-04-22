@@ -38,7 +38,7 @@ def train(gpu, args):
 
     if rank == 0: 
         # Create an output tensor to store the result
-        output = torch.empty(size * size).cuda(gpu) 
+        output = torch.empty([size * size]).cuda(rank) 
     else: 
         output = None 
     '''
