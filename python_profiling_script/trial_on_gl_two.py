@@ -48,7 +48,7 @@ def train(gpu, args):
     '''
     dist.scatter(output, tensors if rank == 0 else None, src=0) 
     ''' 
-    dist.gather(output, tensors, dst = 0) 
+    dist.gather(tensors, output, dst = 0) 
     if rank == 0: 
         # Print the output tensor
         print(f'Rank {rank}, output {output}') 
