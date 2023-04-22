@@ -30,7 +30,7 @@ def train(gpu, args):
     print("rank: {} size: {}".format(rank, size)) 
 
     # Create a tensor with rank as its value
-    tensor = torch.tensor([gpu] * size).cuda(gpu) 
+    tensor = torch.tensor([1, 1]).cuda(gpu) 
     print("rank: {}, tensor: {}".format(rank, tensor)) 
 
     # Create an output tensor to store the result
