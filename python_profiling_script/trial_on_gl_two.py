@@ -34,7 +34,7 @@ def train(gpu, args):
     print("rank: {}, tensor: {}".format(rank, tensor)) 
     ''' 
     # Create a list of tensors with different values
-    tensors = torch.Tensor([float(gpu) for _ in range(size)]).cuda(gpu) 
+    tensors = torch.Tensor([float(gpu) * size]).cuda(gpu) 
 
     if rank == 0: 
         # Create an output tensor to store the result
@@ -49,8 +49,9 @@ def train(gpu, args):
     dist.scatter(output, tensors if rank == 0 else None, src=0) 
     ''' 
     dist.gather(output, tensors, dst = 0) 
-    # Print the output tensor
-    print(f'Rank {rank}, output {output}') 
+    if rank == 0: 
+        # Print the output tensor
+        print(f'Rank {rank}, output {output}') 
 
 if __name__ == "__main__": 
     mp.freeze_support() 
