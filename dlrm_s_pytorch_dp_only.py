@@ -802,18 +802,19 @@ class DLRM_Net(nn.Module):
             self.change_lin_from_full_to_quantized = True 
 
         if not self.quantization_flag: 
+            # process sparse features(using embeddings), resulting in a list of row vectors
+            ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
+            # for y in ly:
+            #     print(y.detach().cpu().numpy())
+            a2a_req = ext_dist.alltoall(ly, self.n_emb_per_rank) 
+            # interact features (dense and sparse)
             # process dense features (using bottom mlp), resulting in a row vector
             x = self.apply_mlp(dense_x, self.bot_l)
             # debug prints
             # print("intermediate")
             # print(x.detach().cpu().numpy())
-
-            # process sparse features(using embeddings), resulting in a list of row vectors
-            ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
-            # for y in ly:
-            #     print(y.detach().cpu().numpy())
-
-            # interact features (dense and sparse)
+            ly = a2a_req.wait() 
+            ly = list(ly) 
             z = self.interact_features(x, ly)
             # print(z.detach().cpu().numpy())
 

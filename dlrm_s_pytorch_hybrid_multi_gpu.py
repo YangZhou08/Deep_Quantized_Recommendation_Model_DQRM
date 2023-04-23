@@ -336,11 +336,9 @@ class DLRM_Net(nn.Module):
         print("world size found is " + str(ext_dist.my_size)) 
         for i in range(0, ln.size): 
             # each gpu will have all embedding tables 
-            '''
             if ext_dist.my_size > 1:
                 if i not in self.local_emb_indices:
                     continue 
-            ''' 
             n = ln[i]
 
             # construct embedding operator
@@ -480,12 +478,14 @@ class DLRM_Net(nn.Module):
                 self.md_threshold = md_threshold
 
             # If running distributed, get local slice of embedding tables
-            if ext_dist.my_size > 1:
+            # if ext_dist.my_size > 1:
+            if args.world_size > 1: 
                 n_emb = len(ln_emb)
-                if n_emb < ext_dist.my_size:
+                # if n_emb < ext_dist.my_size:
+                if n_emb < args.world_size: 
                     sys.exit(
                         "only (%d) sparse features for (%d) devices, table partitions will fail"
-                        % (n_emb, ext_dist.my_size)
+                        % (n_emb, args.world_size) # (n_emb, ext_dist.my_size)
                     )
                 self.n_global_emb = n_emb
                 self.n_local_emb, self.n_emb_per_rank = ext_dist.get_split_lengths(
@@ -494,7 +494,10 @@ class DLRM_Net(nn.Module):
                 self.local_emb_slice = ext_dist.get_my_slice(n_emb)
                 self.local_emb_indices = list(range(n_emb))[self.local_emb_slice]
 
+                print("rank {}, local embedding indices {}".format(ext_dist.my_rank, self.local_emb_indices)) 
+
             # create operators
+            '''
             if ndevices <= 1:
                 self.emb_l, w_list = self.create_emb(m_spa, ln_emb, weighted_pooling) 
                 if self.weighted_pooling == "learned":
@@ -503,11 +506,12 @@ class DLRM_Net(nn.Module):
                         self.v_W_l.append(Parameter(w))
                 else:
                     self.v_W_l = w_list 
+            ''' 
             '''
             self.bot_l = self.create_mlp(ln_bot, sigmoid_bot) 
             ''' 
-            self.bot_l = self.create_mlp(ln_bot, sigmoid_bot, quant_linear_layer = True, channelwise_lin = self.channelwise_lin, quantize_activation = self.quantize_activation) 
-            self.top_l = self.create_mlp(ln_top, sigmoid_top, quant_linear_layer = True, channelwise_lin = self.channelwise_lin, quantize_activation = self.quantize_activation) 
+            self.bot_l = self.create_mlp(ln_bot, sigmoid_bot, quant_linear_layer = self.quantize_act_and_lin, channelwise_lin = self.channelwise_lin, quantize_activation = self.quantize_activation) 
+            self.top_l = self.create_mlp(ln_top, sigmoid_top, quant_linear_layer = self.quantize_act_and_lin, channelwise_lin = self.channelwise_lin, quantize_activation = self.quantize_activation) 
             if self.quantize_activation: 
                 print("activation is quantized") 
             else: 
@@ -836,8 +840,14 @@ class DLRM_Net(nn.Module):
                 z, feature_scaling_factor = self.interact_features(x, ly) 
                 p = self.apply_mlp(z, self.top_l) # not used with scale 
             elif not self.quantize_activation: 
-                x = self.apply_mlp(dense_x, self.bot_l, prev_act_scaling_factor = None) 
+                # this part has been modified to be distributed with hybrid parallelism 
                 ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
+                if len(self.emb_l) != len(ly): 
+                    sys.exit("ERROR: corrupted intermediate result in distributed_forward call") 
+                a2a_req = ext_dist.alltoall(ly, self.n_emb_per_rank) 
+                x = self.apply_mlp(dense_x, self.bot_l, prev_act_scaling_factor = None) 
+                ly = a2a_req.wait() 
+                ly = list(ly) 
                 z, feature_scaling_factor = self.interact_features(x, ly) 
                 p = self.apply_mlp(z, self.top_l, prev_act_scaling_factor = feature_scaling_factor) 
             else: 
@@ -1137,6 +1147,8 @@ def run():
         args.quantize_activation = False 
     
     args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
+    ext_dist.my_size = args.world_size 
+    ext_dist.my_rank = args.gpus 
     
     os.environ['MASTER_ADDR'] = '10.157.244.233' 
     os.environ['MASTER_PORT'] = '29509' 
@@ -1687,12 +1699,29 @@ def train(gpu, args):
     ''' 
     dlrm.to(device) 
     # TODO check whether the following section is supported 
-    
+    if args.world_size > 1: 
+        dlrm.emb_l, dlrm.v_w_l = dlrm.create_emb(
+            m_spa, ln_emb, args.weighted_pooling 
+        )
+    else: 
+        if dlrm.weighted_pooling == "fixed": 
+            for k, w in enumerate(dlrm.v_W_l):
+                    dlrm.v_W_l[k] = w.cuda() 
+    '''
     if dlrm.weighted_pooling == "fixed":
         for k, w in enumerate(dlrm.v_W_l):
             dlrm.v_W_l[k] = w.cuda() 
+    ''' 
+    if args.world_size > 1: 
+        if use_gpu:
+            device_ids = [ext_dist.my_local_rank]
+            dlrm.bot_l = ext_dist.DDP(dlrm.bot_l, device_ids=device_ids)
+            dlrm.top_l = ext_dist.DDP(dlrm.top_l, device_ids=device_ids)
+        else:
+            dlrm.bot_l = ext_dist.DDP(dlrm.bot_l)
+            dlrm.top_l = ext_dist.DDP(dlrm.top_l)
     
-    dlrm = nn.parallel.DistributedDataParallel(dlrm, device_ids = [gpu]) 
+    # dlrm = nn.parallel.DistributedDataParallel(dlrm, device_ids = [gpu]) 
     
     if not args.inference_only: 
         if use_gpu and args.optimizer in ["rwsadagrad", "adagrad"]: # TODO check whether PyTorch support adagrad 
