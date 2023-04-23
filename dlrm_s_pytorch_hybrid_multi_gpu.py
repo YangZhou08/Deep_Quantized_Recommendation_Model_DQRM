@@ -421,8 +421,8 @@ class DLRM_Net(nn.Module):
         quantize_act_and_lin = False, 
         mlp_channelwise = False, 
         quantize_activation = False, 
-        deviceid = None 
-    ): 
+        deviceid = None, 
+        args = None): 
         super(DLRM_Net, self).__init__()
 
         if (
@@ -1672,7 +1672,8 @@ def train(gpu, args):
         quantize_act_and_lin = args.quantize_act_and_lin, 
         mlp_channelwise = args.linear_channel, 
         quantize_activation = args.quantize_activation, 
-        deviceid = gpu) 
+        deviceid = gpu, 
+        args = args) 
 
     print("before training, checking models") 
     dlrm.show_output_linear_layer_grad(start = True) 
