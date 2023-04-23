@@ -133,6 +133,7 @@ def init_distributed(rank=-1, local_rank=-1, size=-1, use_gpu=False, backend="")
             os.environ["MASTER_ADDR"] = "127.0.0.1"
     ''' 
     if size > 1:
+        '''
         if local_rank == -1:
             my_local_rank = env2int(
                 [
@@ -145,6 +146,8 @@ def init_distributed(rank=-1, local_rank=-1, size=-1, use_gpu=False, backend="")
             )
         else:
             my_local_rank = local_rank
+        ''' 
+        my_local_rank = local_rank 
         '''
         my_local_size = env2int(
             [
@@ -168,7 +171,7 @@ def init_distributed(rank=-1, local_rank=-1, size=-1, use_gpu=False, backend="")
         my_rank = dist.get_rank()
         my_size = dist.get_world_size()
         print("local rank {}, my rank {}, my size{}".format(rank, my_rank, my_size)) 
-        if my_rank != rank and my_size != size: 
+        if my_rank != rank or my_size != size: 
             print("rank {} found mismatch my_rank and my_size".format(rank)) 
             sys.exit(1) 
         if my_rank == 0:
@@ -198,7 +201,7 @@ def init_distributed(rank=-1, local_rank=-1, size=-1, use_gpu=False, backend="")
         my_size = 1
         my_local_rank = 0
         my_local_size = 1
-    print_all(
+    print(
         "world size: %d, current rank: %d, local rank: %d"
         % (my_size, my_rank, my_local_rank)
     )
@@ -600,7 +603,7 @@ def barrier():
     if my_size > 1:
         dist.barrier()
 
-
+'''
 # Override builtin print function to print only from rank 0
 orig_print = builtins.print
 
@@ -615,3 +618,4 @@ builtins.print = rank0_print
 # Allow printing from all rank with explicit print_all
 def print_all(*args, **kwargs):
     orig_print(*args, **kwargs)
+''' 

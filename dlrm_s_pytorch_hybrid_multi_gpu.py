@@ -1414,8 +1414,9 @@ def train(gpu, args):
         rank = rank
     ) 
     ext_dist_two.init_distributed(rank = rank, local_rank = gpu, size = args.world_size, use_gpu = args.use_gpu, backend = "gloo") 
+    print("rank {} *****88*****[[[[[[[[[[]]]]]]]]]]".format(rank)) 
     torch.manual_seed(0) 
-    torch.cuda.set_device(gpu) # TODO think about using cpu and change code 
+    # torch.cuda.set_device(gpu) # TODO think about using cpu and change code 
     batch_size = args.mini_batch_size # TODO recheck the batch_size and run the script again 
 
     torch.set_printoptions(profile = "full") 
@@ -1438,8 +1439,10 @@ def train(gpu, args):
     if use_gpu: 
         ngpus = 1 
         device = torch.device("cuda", gpu) 
+        '''
         if gpu != args.local_rank: 
             print("Warning: local_rank gpu mismatch") 
+        ''' 
         print("{} out of {} (GPU)".format(torch.cuda.device_count(), args.local_rank)) # TODO think about using cpu and change code 
     else: 
         device = torch.device("cpu") 
