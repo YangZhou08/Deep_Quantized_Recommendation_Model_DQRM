@@ -454,6 +454,7 @@ class DLRM_Net(nn.Module):
             self.channelwise_lin = mlp_channelwise 
             self.quantize_activation = quantize_activation 
             self.deviceid = deviceid 
+            self.args = args 
 
             if self.quantization_flag: 
                 self.quant_input = QuantAct(activation_bit = self.weight_bit if self.weight_bit >= 8 else 8, act_range_momentum = -1) 
@@ -562,44 +563,47 @@ class DLRM_Net(nn.Module):
             return x 
         ''' 
         count = 0 
-        for layer in layers: 
-            if isinstance(layer, QuantLinear): 
-                global change_bitw, change_bitw2 
-                if change_bitw: 
-                    self.weight_bit = change_bitw2 
-                    layer.weight_bit = change_bitw2 
-                    layer.bias_bit = change_bitw2 
-                    print("change bit width to {}".format(change_bitw2)) 
-                
-                if self.change_lin_from_full_to_quantized: 
-                    layer.full_precision_flag = False 
-                    print("from full to {} bit quantized".format(layer.weight_bit)) 
-                '''
-                # identifying layer count 
-                print("layer", count) 
-                count += 1 
+        if self.args.quantization_flag: 
+            for layer in layers: 
+                if isinstance(layer, QuantLinear): 
+                    global change_bitw, change_bitw2 
+                    if change_bitw: 
+                        self.weight_bit = change_bitw2 
+                        layer.weight_bit = change_bitw2 
+                        layer.bias_bit = change_bitw2 
+                        print("change bit width to {}".format(change_bitw2)) 
+                    
+                    if self.change_lin_from_full_to_quantized: 
+                        layer.full_precision_flag = False 
+                        print("from full to {} bit quantized".format(layer.weight_bit)) 
+                    '''
+                    # identifying layer count 
+                    print("layer", count) 
+                    count += 1 
+                    ''' 
+                    x, prev_act_scaling_factor = layer(x, prev_act_scaling_factor) 
+                    '''
+                    print("layer {}".format(count)) 
+                    print(prev_act_scaling_factor.shape) 
+                    ''' 
+                    '''
+                    print("ooooooooooooooooooo LAYER {} oooooooooooooooooooo".format(count)) 
+                    print("output") 
+                    print(x[0 : 10]) 
+                    print("scale") 
+                    print(prev_act_scaling_factor) 
+                    count += 1 
+                elif isinstance(layer, nn.Linear): 
+                    x = layer(x) 
+                    print("ooooooooooooooooooo LAYER {} oooooooooooooooooooo".format(count)) 
+                    print("output") 
+                    print(x[0 : 10]) 
+                    count += 1 
                 ''' 
-                x, prev_act_scaling_factor = layer(x, prev_act_scaling_factor) 
-                '''
-                print("layer {}".format(count)) 
-                print(prev_act_scaling_factor.shape) 
-                ''' 
-                '''
-                print("ooooooooooooooooooo LAYER {} oooooooooooooooooooo".format(count)) 
-                print("output") 
-                print(x[0 : 10]) 
-                print("scale") 
-                print(prev_act_scaling_factor) 
-                count += 1 
-            elif isinstance(layer, nn.Linear): 
-                x = layer(x) 
-                print("ooooooooooooooooooo LAYER {} oooooooooooooooooooo".format(count)) 
-                print("output") 
-                print(x[0 : 10]) 
-                count += 1 
-            ''' 
-            else: 
-                x = layer(x) 
+                else: 
+                    x = layer(x) 
+        else: 
+            x = layers(x) 
         return x 
 
     def apply_emb(self, lS_o, lS_i, emb_l, v_W_l, test_mode = False): 
