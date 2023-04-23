@@ -71,7 +71,8 @@ import warnings
 import dlrm_data_pytorch as dp
 
 # For distributed run
-import extend_distributed as ext_dist
+# import extend_distributed as ext_dist
+import extended_distributed_two as ext_dist_two 
 import torch.distributed as dist 
 import mlperf_logger
 
@@ -333,10 +334,10 @@ class DLRM_Net(nn.Module):
     def create_emb(self, m, ln, weighted_pooling=None):
         emb_l = nn.ModuleList()
         v_W_l = [] 
-        print("world size found is " + str(ext_dist.my_size)) 
+        print("world size found is " + str(ext_dist_two.my_size)) 
         for i in range(0, ln.size): 
             # each gpu will have all embedding tables 
-            if ext_dist.my_size > 1:
+            if ext_dist_two.my_size > 1: 
                 if i not in self.local_emb_indices:
                     continue 
             n = ln[i]
@@ -489,13 +490,15 @@ class DLRM_Net(nn.Module):
                         % (n_emb, args.world_size) # (n_emb, ext_dist.my_size)
                     )
                 self.n_global_emb = n_emb
-                self.n_local_emb, self.n_emb_per_rank = ext_dist.get_split_lengths(
+                # self.n_local_emb, self.n_emb_per_rank = ext_dist.get_split_lengths( 
+                self.n_local_emb, self.n_emb_per_rank = ext_dist_two.get_split_lengths( 
                     n_emb
                 )
-                self.local_emb_slice = ext_dist.get_my_slice(n_emb)
+                # self.local_emb_slice = ext_dist.get_my_slice(n_emb) 
+                self.local_emb_slice = ext_dist_two.get_my_slice(n_emb) 
                 self.local_emb_indices = list(range(n_emb))[self.local_emb_slice]
 
-                print("rank {}, local embedding indices {}".format(ext_dist.my_rank, self.local_emb_indices)) 
+                print("rank {}, local embedding indices {}".format(ext_dist_two.my_rank, self.local_emb_indices)) 
 
             # create operators
             '''
@@ -849,7 +852,7 @@ class DLRM_Net(nn.Module):
                 ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
                 if len(self.emb_l) != len(ly): 
                     sys.exit("ERROR: corrupted intermediate result in distributed_forward call") 
-                a2a_req = ext_dist.alltoall(ly, self.n_emb_per_rank) 
+                a2a_req = ext_dist_two.alltoall(ly, self.n_emb_per_rank) 
                 x = self.apply_mlp(dense_x, self.bot_l, prev_act_scaling_factor = None) 
                 ly = a2a_req.wait() 
                 ly = list(ly) 
@@ -1152,8 +1155,6 @@ def run():
         args.quantize_activation = False 
     
     args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
-    ext_dist.my_size = args.world_size 
-    ext_dist.my_rank = args.gpus 
     
     os.environ['MASTER_ADDR'] = '10.157.244.233' 
     os.environ['MASTER_PORT'] = '29509' 
@@ -1412,6 +1413,7 @@ def train(gpu, args):
         world_size = args.world_size, 
         rank = rank
     ) 
+    ext_dist_two.init_distributed(rank = rank, local_rank = gpu, size = args.world_size, use_gpu = args.use_gpu, backend = "gloo") 
     torch.manual_seed(0) 
     torch.cuda.set_device(gpu) # TODO think about using cpu and change code 
     batch_size = args.mini_batch_size # TODO recheck the batch_size and run the script again 
@@ -1720,12 +1722,13 @@ def train(gpu, args):
     ''' 
     if args.world_size > 1: 
         if use_gpu:
-            device_ids = [ext_dist.my_local_rank]
-            dlrm.bot_l = ext_dist.DDP(dlrm.bot_l, device_ids=device_ids)
-            dlrm.top_l = ext_dist.DDP(dlrm.top_l, device_ids=device_ids)
+            # device_ids = [ext_dist.my_local_rank] 
+            device_ids = [ext_dist_two.my_local_rank] 
+            dlrm.bot_l = ext_dist_two.DDP(dlrm.bot_l, device_ids=device_ids) 
+            dlrm.top_l = ext_dist_two.DDP(dlrm.top_l, device_ids=device_ids) 
         else:
-            dlrm.bot_l = ext_dist.DDP(dlrm.bot_l)
-            dlrm.top_l = ext_dist.DDP(dlrm.top_l)
+            dlrm.bot_l = ext_dist_two.DDP(dlrm.bot_l) 
+            dlrm.top_l = ext_dist_two.DDP(dlrm.top_l) 
     
     # dlrm = nn.parallel.DistributedDataParallel(dlrm, device_ids = [gpu]) 
     
