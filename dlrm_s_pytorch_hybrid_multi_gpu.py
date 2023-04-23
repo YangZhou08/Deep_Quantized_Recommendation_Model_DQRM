@@ -602,6 +602,7 @@ class DLRM_Net(nn.Module):
                 ''' 
                 else: 
                     x = layer(x) 
+                    # print out the layer weights
         else: 
             x = layers(x) 
         return x 
