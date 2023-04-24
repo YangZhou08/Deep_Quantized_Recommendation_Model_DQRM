@@ -1790,7 +1790,24 @@ def train(gpu, args):
             "adagrad": torch.optim.Adagrad 
         } 
         
-        parameters = (dlrm.parameters()) 
+        # parameters = (dlrm.parameters()) 
+        parameters = (
+            dlrm.parameters() if ext_dist_two.my_size == 1 
+            else [
+                {
+                    "params": [p for emb in dlrm.emb_l for p in emb.parameters()], 
+                    "lr": args.learning_rate, 
+                }, 
+                {
+                    "params": dlrm.bot_l.parameters(), 
+                    "lr": args.learning_rate, 
+                }, 
+                {
+                    "params": dlrm.top_l.parameters(), 
+                    "lr": args.learning_rate, 
+                }, 
+            ]
+        ) 
         print("optimizer selected is ", args.optimizer) 
         optimizer = opts[args.optimizer](parameters, lr = args.learning_rate) 
         '''
