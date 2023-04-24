@@ -1229,7 +1229,7 @@ def inference_distributed(
             testBatch 
         ) 
         
-        if args.world_size > 1 and X_test.size(0) % args.world_size != 0: 
+        if ext_dist_two.my_size > 1 and X_test.size(0) % args.world_size != 0: 
             print("Warning: Skipping the batch %d with size %d" % (i, X_test.size(0))) 
             continue 
 
@@ -1245,7 +1245,10 @@ def inference_distributed(
         
         if Z_test.is_cuda: 
             torch.cuda.synchronize() 
-        
+        (_, batch_split_lengths) = ext_dist_two.get_split_lengths(X_test.size(0)) 
+        if ext_dist_two.my_size > 1: 
+            Z_test = ext_dist_two.all_gather(Z_test, batch_split_lengths) 
+
         S_test = Z_test.detach().cpu().numpy() 
         T_test = T_test.detach().cpu().numpy() 
         
