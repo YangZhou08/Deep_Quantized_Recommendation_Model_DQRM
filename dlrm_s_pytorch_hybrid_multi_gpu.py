@@ -503,7 +503,6 @@ class DLRM_Net(nn.Module):
                 print("rank {}, local embedding indices {}".format(ext_dist_two.my_rank, self.local_emb_indices)) 
 
             # create operators
-            '''
             if ndevices <= 1:
                 self.emb_l, w_list = self.create_emb(m_spa, ln_emb, weighted_pooling) 
                 if self.weighted_pooling == "learned":
@@ -512,7 +511,7 @@ class DLRM_Net(nn.Module):
                         self.v_W_l.append(Parameter(w))
                 else:
                     self.v_W_l = w_list 
-            ''' 
+            self.v_W_l = [] 
             '''
             self.bot_l = self.create_mlp(ln_bot, sigmoid_bot) 
             ''' 
