@@ -176,6 +176,7 @@ def init_distributed(rank=-1, local_rank=-1, size=-1, use_gpu=False, backend="")
             sys.exit(1) 
         if my_rank == 0:
             print("Running on %d ranks using %s backend" % (my_size, backend))
+        '''
         if hasattr(dist, "all_to_all_single"):
             try:
                 t = torch.zeros([4])
@@ -193,6 +194,8 @@ def init_distributed(rank=-1, local_rank=-1, size=-1, use_gpu=False, backend="")
             a2a_impl = "scatter"
         if a2a_impl != "":
             print("Using DLRM_ALLTOALL_IMPL=%s" % a2a_impl)
+        ''' 
+        a2a_impl = "scatter" 
     else:
         my_rank = 0
         my_size = 1

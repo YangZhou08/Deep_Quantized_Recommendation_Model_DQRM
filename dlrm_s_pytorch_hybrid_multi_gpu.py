@@ -1794,7 +1794,8 @@ def train(gpu, args):
         
         # parameters = (dlrm.parameters()) 
         parameters = (
-            dlrm.parameters() if ext_dist_two.my_size == 1 
+            dlrm.parameters() 
+            if ext_dist_two.my_size == 1 
             else [
                 {
                     "params": [p for emb in dlrm.emb_l for p in emb.parameters()], 
@@ -1993,7 +1994,7 @@ def train(gpu, args):
                     lS_i, 
                     use_gpu, 
                     device, 
-                    ndevices = 1 # TODO check if ndevices is needed here 
+                    ndevices = ndevices, # TODO check if ndevices is needed here 
                 ) 
 
                 if ext_dist_two.my_size > 1: 
