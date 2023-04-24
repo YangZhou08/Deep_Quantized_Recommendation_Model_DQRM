@@ -1455,6 +1455,7 @@ def train(gpu, args):
         world_size = args.world_size, 
         rank = rank
     ) 
+    use_gpu = args.use_gpu and torch.cuda.is_available() 
     ext_dist_two.init_distributed(rank = rank, local_rank = gpu, size = args.world_size, use_gpu = args.use_gpu, backend = "nccl") 
     print("rank {} *****88*****[[[[[[[[[[]]]]]]]]]]".format(rank)) 
     torch.manual_seed(0) 
@@ -1472,8 +1473,6 @@ def train(gpu, args):
 
     global change_lin_full_quantize 
     change_lin_full_quantize = False 
-    
-    use_gpu = args.use_gpu and torch.cuda.is_available() 
     '''
     print("use gpu" if use_gpu else "not use gpu") 
     ''' 
@@ -1920,6 +1919,7 @@ def train(gpu, args):
     
     # TODO use barrier if not in synchronization 
     
+    ext_dist_two.barrier() 
     if not args.inference_only: 
         k = 0 
         while k < args.nepochs: 
@@ -1973,7 +1973,7 @@ def train(gpu, args):
                 if nbatches > 0 and j >= nbatches: 
                     break 
                 
-                if args.world_size > 1 and X.size(0) % args.world_size != 0: 
+                if ext_dist_two.my_size > 1 and X.size(0) % ext_dist_two.my_size != 0: 
                     print(
                         "Warning: Skipping the batch %d with size %d" 
                         % (j, X.size(0)) 
