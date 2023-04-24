@@ -1192,11 +1192,8 @@ def run():
         args.quantize_activation = False 
     
     args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
-    '''
     os.environ['MASTER_ADDR'] = '10.157.244.233' 
-    ''' 
-    os.environ['MASTER_ADDR'] = '169.254.3.1' 
-    os.environ['MASTER_PORT'] = '29510' 
+    os.environ['MASTER_PORT'] = '29590' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
     '''
