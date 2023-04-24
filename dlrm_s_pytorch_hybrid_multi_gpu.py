@@ -1445,12 +1445,12 @@ def inference(
 def train(gpu, args): 
     rank = args.nr * args.gpus + gpu # make global rank 
     dist.init_process_group(
-        backend = "gloo", 
+        backend = "nccl", 
         init_method = 'env://', 
         world_size = args.world_size, 
         rank = rank
     ) 
-    ext_dist_two.init_distributed(rank = rank, local_rank = gpu, size = args.world_size, use_gpu = args.use_gpu, backend = "gloo") 
+    ext_dist_two.init_distributed(rank = rank, local_rank = gpu, size = args.world_size, use_gpu = args.use_gpu, backend = "nccl") 
     print("rank {} *****88*****[[[[[[[[[[]]]]]]]]]]".format(rank)) 
     torch.manual_seed(0) 
     # torch.cuda.set_device(gpu) # TODO think about using cpu and change code 
