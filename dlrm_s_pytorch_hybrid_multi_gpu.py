@@ -1716,7 +1716,6 @@ def train(gpu, args):
     '''
     dlrm.cuda(gpu) # TODO think about using cpu and change code 
     ''' 
-    dlrm.to(device) 
     # TODO check whether the following section is supported 
     if args.world_size > 1: 
         print("rank {} use create_emb fn".format(rank)) 
@@ -1727,6 +1726,7 @@ def train(gpu, args):
         if dlrm.weighted_pooling == "fixed": 
             for k, w in enumerate(dlrm.v_W_l):
                     dlrm.v_W_l[k] = w.cuda() 
+    dlrm.to(device) 
     '''
     if dlrm.weighted_pooling == "fixed":
         for k, w in enumerate(dlrm.v_W_l):
