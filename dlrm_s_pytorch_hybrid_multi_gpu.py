@@ -814,6 +814,21 @@ class DLRM_Net(nn.Module):
 
 
     def forward(self, dense_x, lS_o, lS_i, test_mode = False): 
+        batch_size = dense_x.size()[0] 
+        if batch_size < ext_dist_two.my_size:
+            sys.exit(
+                "ERROR: batch_size (%d) must be larger than number of ranks (%d)"
+                % (batch_size, ext_dist_two.my_size) 
+            ) 
+        if batch_size % ext_dist_two.my_size != 0: 
+            sys.exit(
+                "ERROR: batch_size %d can not split across %d ranks evenly"
+                % (batch_size, ext_dist_two.my_size) 
+            ) 
+        
+        dense_x = dense_x[ext_dist_two.get_my_slice(batch_size)] 
+        lS_o = lS_o[self.local_emb_slice] 
+        lS_i = lS_i[self.local_emb_slice] 
         # check whether mlp is converted from full precision to weight_bit quantized bit width 
         global change_lin_full_quantize 
         if change_lin_full_quantize: 
@@ -1924,12 +1939,11 @@ def train(gpu, args):
                     continue 
                 
                 mbs = T.shape[0] 
-
+                '''
                 X = X[get_my_slice(mbs, args.world_size, rank)] 
                 lS_i = lS_i[:, get_my_slice(mbs, args.world_size, rank)] 
                 lS_o = lS_o[:, 0 : lS_i.shape[1]] 
-                T = T[get_my_slice(mbs, args.world_size, rank)] 
-                W = W[get_my_slice(mbs, args.world_size, rank)] 
+                ''' 
                 
                 Z = dlrm_wrap(
                     X, 
@@ -1939,6 +1953,10 @@ def train(gpu, args):
                     device, 
                     ndevices = 1 # TODO check if ndevices is needed here 
                 ) 
+
+                if ext_dist_two.my_size > 1: 
+                    T = T[get_my_slice(mbs, args.world_size, rank)] 
+                    W = W[get_my_slice(mbs, args.world_size, rank)] 
                 
                 # loss 
                 # TODO check whether loss function can propagate through 
