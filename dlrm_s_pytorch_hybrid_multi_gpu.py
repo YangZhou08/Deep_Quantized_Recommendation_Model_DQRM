@@ -511,7 +511,11 @@ class DLRM_Net(nn.Module):
                         self.v_W_l.append(Parameter(w))
                 else:
                     self.v_W_l = w_list 
-            self.v_W_l = [] 
+            else: 
+                self.v_W_l = [] 
+                for i in range(len(ln_emb)): 
+                    n = ln_emb[i] 
+                    self.v_W_l.append(Parameter(torch.ones(n, dtype = torch.float32))) 
             '''
             self.bot_l = self.create_mlp(ln_bot, sigmoid_bot) 
             ''' 
