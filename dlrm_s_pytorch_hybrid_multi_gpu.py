@@ -511,11 +511,13 @@ class DLRM_Net(nn.Module):
                         self.v_W_l.append(Parameter(w))
                 else:
                     self.v_W_l = w_list 
+            '''
             else: 
                 self.v_W_l = [] 
                 for i in range(len(ln_emb)): 
                     n = ln_emb[i] 
                     self.v_W_l.append(Parameter(torch.ones(n, dtype = torch.float32))) 
+            ''' 
             '''
             self.bot_l = self.create_mlp(ln_bot, sigmoid_bot) 
             ''' 
@@ -1718,7 +1720,7 @@ def train(gpu, args):
     # TODO check whether the following section is supported 
     if args.world_size > 1: 
         print("rank {} use create_emb fn".format(rank)) 
-        dlrm.emb_l, dlrm.v_w_l = dlrm.create_emb(
+        dlrm.emb_l, dlrm.v_W_l = dlrm.create_emb(
             m_spa, ln_emb, args.weighted_pooling 
         )
     else: 
