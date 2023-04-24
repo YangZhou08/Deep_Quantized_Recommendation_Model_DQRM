@@ -829,6 +829,12 @@ class DLRM_Net(nn.Module):
         dense_x = dense_x[ext_dist_two.get_my_slice(batch_size)] 
         lS_o = lS_o[self.local_emb_slice] 
         lS_i = lS_i[self.local_emb_slice] 
+
+        if (len(self.emb_l) != len(lS_o)) or (len(self.emb_l) != len(lS_i)):
+            sys.exit(
+                "ERROR: corrupted model input detected in distributed_forward call"
+            )
+        
         # check whether mlp is converted from full precision to weight_bit quantized bit width 
         global change_lin_full_quantize 
         if change_lin_full_quantize: 
@@ -838,7 +844,6 @@ class DLRM_Net(nn.Module):
 
         if not self.quantization_flag: 
             # process dense features (using bottom mlp), resulting in a row vector
-            x = self.apply_mlp(dense_x, self.bot_l)
             # debug prints
             # print("intermediate")
             # print(x.detach().cpu().numpy())
@@ -847,6 +852,15 @@ class DLRM_Net(nn.Module):
             ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
             # for y in ly:
             #     print(y.detach().cpu().numpy())
+            if len(self.emb_l) != len(ly):
+                sys.exit("ERROR: corrupted intermediate result in distributed_forward call") 
+            
+            a2a_req = ext_dist_two.alltoall(ly, self.n_emb_per_rank) 
+
+            x = self.apply_mlp(dense_x, self.bot_l) 
+
+            ly = a2a_req.wait() 
+            ly = list(ly) 
 
             # interact features (dense and sparse)
             z = self.interact_features(x, ly)
