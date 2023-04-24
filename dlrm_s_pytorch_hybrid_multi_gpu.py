@@ -1474,8 +1474,13 @@ def train(gpu, args):
     ''' 
     
     if use_gpu: 
-        ngpus = 1 
-        device = torch.device("cuda", gpu) 
+        torch.backends.cudnn.deterministic = True 
+        if ext_dist_two.my_size > 1: 
+            ngpus = 1 
+            device = torch.device("cuda", gpu) 
+        else: 
+            ngpus = torch.cuda.device_count() 
+            device = torch.device("cuda", 0) 
         '''
         if gpu != args.local_rank: 
             print("Warning: local_rank gpu mismatch") 
@@ -1746,7 +1751,9 @@ def train(gpu, args):
     dlrm.cuda(gpu) # TODO think about using cpu and change code 
     ''' 
     # TODO check whether the following section is supported 
-    if args.world_size > 1: 
+    dlrm = dlrm.to(device) 
+    # if args.world_size > 1: 
+    if dlrm.ndevices > 1: 
         print("rank {} use create_emb fn".format(rank)) 
         dlrm.emb_l, dlrm.v_W_l = dlrm.create_emb(
             m_spa, ln_emb, args.weighted_pooling 
@@ -1755,7 +1762,6 @@ def train(gpu, args):
         if dlrm.weighted_pooling == "fixed": 
             for k, w in enumerate(dlrm.v_W_l):
                     dlrm.v_W_l[k] = w.cuda() 
-    dlrm.to(device) 
     '''
     if dlrm.weighted_pooling == "fixed":
         for k, w in enumerate(dlrm.v_W_l):
