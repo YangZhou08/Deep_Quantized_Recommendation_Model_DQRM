@@ -1975,8 +1975,8 @@ def train(gpu, args):
                 ) 
 
                 if ext_dist_two.my_size > 1: 
-                    T = T[get_my_slice(mbs, args.world_size, rank)] 
-                    W = W[get_my_slice(mbs, args.world_size, rank)] 
+                    T = T[ext_dist_two.get_my_slice(mbs)] 
+                    W = W[ext_dist_two.get_my_slice(mbs)] 
                 
                 # loss 
                 # TODO check whether loss function can propagate through 
