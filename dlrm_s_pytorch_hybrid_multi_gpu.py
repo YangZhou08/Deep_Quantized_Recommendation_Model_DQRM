@@ -272,6 +272,7 @@ class DLRM_Net(nn.Module):
             n = ln[i]
             m = ln[i + 1]
 
+            print("rank {} mlp layer with dimension {} and or by {}".format(ext_dist_two.my_local_rank, n, m)) 
             # construct fully connected operator 
             LL = nn.Linear(int(n), int(m), bias=True)
 
@@ -365,6 +366,7 @@ class DLRM_Net(nn.Module):
                 print("---------- Embedding Table {}, quantization used, n = {}, m = {}, quantization bit set to {}".format(i, n, m, self.embedding_bit)) 
                 EE = QuantEmbeddingBagTwo(n, m, self.embedding_bit, embedding_id = i) 
             else:
+                print("---------- rank {} Embedding Table {}, quantization not used, n = {}, m = {}".format(ext_dist_two.my_rank, i, n, m)) 
                 EE = nn.EmbeddingBag(n, m, mode="sum", sparse=True) 
                 # initialize embeddings
                 # nn.init.uniform_(EE.weight, a=-np.sqrt(1 / n), b=np.sqrt(1 / n)) 
@@ -607,7 +609,8 @@ class DLRM_Net(nn.Module):
                     x = layer(x) 
                     # print out the layer weights
         else: 
-            x = layers(x) 
+            for layer in layers.module: 
+                x = layer(x) 
         return x 
 
     def apply_emb(self, lS_o, lS_i, emb_l, v_W_l, test_mode = False): 
@@ -1711,6 +1714,7 @@ def train(gpu, args):
     dlrm.to(device) 
     # TODO check whether the following section is supported 
     if args.world_size > 1: 
+        print("rank {} use create_emb fn".format(rank)) 
         dlrm.emb_l, dlrm.v_w_l = dlrm.create_emb(
             m_spa, ln_emb, args.weighted_pooling 
         )
