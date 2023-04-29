@@ -1771,6 +1771,7 @@ def train(gpu, args):
         for k, w in enumerate(dlrm.v_W_l):
             dlrm.v_W_l[k] = w.cuda() 
     ''' 
+    '''
     if args.world_size > 1: 
         if use_gpu:
             # device_ids = [ext_dist.my_local_rank] 
@@ -1780,7 +1781,7 @@ def train(gpu, args):
         else:
             dlrm.bot_l = ext_dist_two.DDP(dlrm.bot_l) 
             dlrm.top_l = ext_dist_two.DDP(dlrm.top_l) 
-    
+    ''' 
     # dlrm = nn.parallel.DistributedDataParallel(dlrm, device_ids = [gpu]) 
     
     if not args.inference_only: 
