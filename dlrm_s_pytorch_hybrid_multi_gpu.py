@@ -614,7 +614,7 @@ class DLRM_Net(nn.Module):
                     x = layer(x) 
                     # print out the layer weights
         else: 
-            for layer in layers.module: 
+            for layer in layers: 
                 x = layer(x) 
         return x 
 
