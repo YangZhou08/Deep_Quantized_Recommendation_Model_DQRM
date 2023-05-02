@@ -495,7 +495,7 @@ class DLRM_Net(nn.Module):
                 # self.n_local_emb, self.n_emb_per_rank = ext_dist.get_split_lengths( 
                 self.n_local_emb, self.n_emb_per_rank = ext_dist_two.get_split_lengths( 
                     n_emb
-                )
+                ) 
                 # self.local_emb_slice = ext_dist.get_my_slice(n_emb) 
                 self.local_emb_slice = ext_dist_two.get_my_slice(n_emb) 
                 self.local_emb_indices = list(range(n_emb))[self.local_emb_slice]
@@ -855,6 +855,7 @@ class DLRM_Net(nn.Module):
             if len(self.emb_l) != len(ly):
                 sys.exit("ERROR: corrupted intermediate result in distributed_forward call") 
             
+            print("rank {} per_rank_table_splits: {}".format(ext_dist_two.my_rank, self.n_emb_per_rank)) 
             a2a_req = ext_dist_two.alltoall(ly, self.n_emb_per_rank) 
 
             x = self.apply_mlp(dense_x, self.bot_l) 
@@ -1192,7 +1193,10 @@ def run():
         args.quantize_activation = False 
     
     args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
+    '''
     os.environ['MASTER_ADDR'] = '10.157.244.233' 
+    ''' 
+    os.environ['MASTER_ADDR'] = '169.254.3.1' 
     os.environ['MASTER_PORT'] = '30000' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
@@ -1768,7 +1772,7 @@ def train(gpu, args):
         for k, w in enumerate(dlrm.v_W_l):
             dlrm.v_W_l[k] = w.cuda() 
     ''' 
-    '''
+    
     if args.world_size > 1: 
         if use_gpu:
             # device_ids = [ext_dist.my_local_rank] 
@@ -1778,7 +1782,7 @@ def train(gpu, args):
         else:
             dlrm.bot_l = ext_dist_two.DDP(dlrm.bot_l) 
             dlrm.top_l = ext_dist_two.DDP(dlrm.top_l) 
-    ''' 
+
     # dlrm = nn.parallel.DistributedDataParallel(dlrm, device_ids = [gpu]) 
     
     if not args.inference_only: 

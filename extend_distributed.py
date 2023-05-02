@@ -551,6 +551,7 @@ def alltoall(inputs, per_rank_table_splits):
         a2a_info.local_batch_num,
         a2a_info.global_batch_partition_slices,
     ) = get_split_lengths(batch_size)
+    print("rank {} a2a_info.local_batch_num {} a2a_info.global_batch_partition_slices {}".format(my_rank, a2a_info.local_batch_num, a2a_info.global_batch_partition_slices)) 
     a2a_info.emb_dim = emb_dim
     a2a_info.batch_size = batch_size
     a2a_info.global_table_num = (
@@ -558,6 +559,7 @@ def alltoall(inputs, per_rank_table_splits):
         if per_rank_table_splits
         else a2a_info.local_table_num * my_size
     )
+    print("rank {} a2a_info.emb_dim {} a2a_info.global_table_num {}".format(my_rank, a2a_info.emb_dim, a2a_info.global_table_num)) 
 
     if a2a_impl == "" and alltoall_supported or a2a_impl == "alltoall":
         # print("Using All2All_Req")
