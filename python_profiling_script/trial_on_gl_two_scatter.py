@@ -80,8 +80,10 @@ if __name__ == "__main__":
                         help='ranking within the nodes')
     args = parser.parse_args() 
     args.world_size = args.gpus * args.nodes # world size now calculated by number of gpus and number of nodes 
-        
+    '''
     os.environ['MASTER_ADDR'] = '10.157.244.233' 
+    ''' 
+    os.environ['MASTER_ADDR'] = '169.254.3.1' 
     os.environ['MASTER_PORT'] = '29509' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
