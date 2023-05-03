@@ -52,7 +52,7 @@ def train(gpu, args):
     else: 
         output = None 
     ''' 
-    output = torch.empty([size]).cuda(gpu) 
+    output = torch.empty([size], dtype = torch.int64).cuda(gpu) 
     # Perform the all-to-all communication
     dist.all_to_all_single(output, tensors) 
     '''
