@@ -424,12 +424,12 @@ class All2All_Req(Function):
                     a2a_info.global_table_num
                     * a2a_info.local_batch_num
                     * a2a_info.emb_dim
-                ], dtype = torch.float64 
+                ], dtype = torch.float32 
             ) 
             req = dist.all_to_all_single(
                 output, input, table_split_lengths, batch_split_lengths, async_op=True
             )
-            output = output.to(torch.float32) # convert back to float32
+            # output = output.to(torch.float32) # convert back to float32
 
             myreq.req = req
             myreq.tensor = []
@@ -489,7 +489,7 @@ class All2All_Wait(Function):
             grad_outputs = [gout.contiguous().view([-1]) for gout in grad_outputs]
             grad_output = torch.cat(grad_outputs)
             grad_input = grad_output.new_empty(
-                [a2a_info.batch_size * a2a_info.local_table_num * a2a_info.emb_dim], dtype = torch.float64 
+                [a2a_info.batch_size * a2a_info.local_table_num * a2a_info.emb_dim], dtype = torch.float32 
             ) 
             req = dist.all_to_all_single(
                 grad_input,
