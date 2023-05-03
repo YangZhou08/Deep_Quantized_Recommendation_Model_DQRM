@@ -44,7 +44,7 @@ def train(gpu, args):
         tensors = None 
     ''' 
     tensors = torch.arange(4) + rank * 4 
-    tensors = tensors.cuda(gpu) 
+    tensors = tensors.cuda(gpu).to(torch.float32) 
     print("rank: {}, tensors: {}".format(rank, tensors)) 
     '''
     if rank == 0: 
@@ -52,7 +52,7 @@ def train(gpu, args):
     else: 
         output = None 
     ''' 
-    output = torch.empty([size], dtype = torch.int64).cuda(gpu) 
+    output = torch.empty([size], dtype = torch.float32).cuda(gpu) 
     # Perform the all-to-all communication
     dist.all_to_all_single(output, tensors) 
     '''
@@ -67,7 +67,9 @@ def train(gpu, args):
         # Print the output tensor
         print(f'Rank {rank}, output {output}') 
     ''' 
+    '''
     output = output.to(torch.int32) 
+    ''' 
     print(f'Rank {rank}, output {output}') 
 
 if __name__ == "__main__": 
