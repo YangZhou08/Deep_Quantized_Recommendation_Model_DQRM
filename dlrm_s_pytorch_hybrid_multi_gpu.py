@@ -324,13 +324,13 @@ class DLRM_Net(nn.Module):
         # approach 1: use ModuleList
         # return layers
         # approach 2: use Sequential container to wrap all layers 
-        '''
         if not self.quantization_flag: # TODO recheck intentionally reversed logic updated: checked 
             return torch.nn.Sequential(*layers) 
         else: 
             return layers 
-        ''' 
+        '''
         return layers 
+        ''' 
 
     def create_emb(self, m, ln, weighted_pooling=None):
         emb_l = nn.ModuleList()
@@ -367,7 +367,7 @@ class DLRM_Net(nn.Module):
                 EE = QuantEmbeddingBagTwo(n, m, self.embedding_bit, embedding_id = i) 
             else:
                 print("---------- rank {} Embedding Table {}, quantization not used, n = {}, m = {}".format(ext_dist_two.my_rank, i, n, m)) 
-                EE = nn.EmbeddingBag(n, m, mode="sum", sparse=False) 
+                EE = nn.EmbeddingBag(n, m, mode="sum", sparse=True) 
                 # initialize embeddings
                 # nn.init.uniform_(EE.weight, a=-np.sqrt(1 / n), b=np.sqrt(1 / n)) 
                 W = np.random.uniform(
@@ -483,10 +483,10 @@ class DLRM_Net(nn.Module):
 
             # If running distributed, get local slice of embedding tables
             # if ext_dist.my_size > 1:
-            if args.world_size > 1: 
+            if ext_dist_two.my_size > 1: 
                 n_emb = len(ln_emb)
                 # if n_emb < ext_dist.my_size:
-                if n_emb < args.world_size: 
+                if n_emb < ext_dist_two.my_size: 
                     sys.exit(
                         "only (%d) sparse features for (%d) devices, table partitions will fail"
                         % (n_emb, args.world_size) # (n_emb, ext_dist.my_size)
@@ -614,8 +614,7 @@ class DLRM_Net(nn.Module):
                     x = layer(x) 
                     # print out the layer weights
         else: 
-            for layer in layers.module: 
-                x = layer(x) 
+            x = layers(x) 
         return x 
 
     def apply_emb(self, lS_o, lS_i, emb_l, v_W_l, test_mode = False): 
