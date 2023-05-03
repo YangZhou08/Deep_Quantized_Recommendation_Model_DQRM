@@ -67,6 +67,7 @@ def train(gpu, args):
         # Print the output tensor
         print(f'Rank {rank}, output {output}') 
     ''' 
+    output = output.to(torch.int32) 
     print(f'Rank {rank}, output {output}') 
 
 if __name__ == "__main__": 
