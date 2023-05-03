@@ -45,6 +45,7 @@ def train(gpu, args):
     ''' 
     tensors = torch.arange(4) + rank * 4 
     tensors = tensors.cuda(gpu) 
+    print("rank: {}, tensors: {}".format(rank, tensors)) 
     '''
     if rank == 0: 
         output = [torch.empty(size).cuda(gpu) for _ in range(size)] 
