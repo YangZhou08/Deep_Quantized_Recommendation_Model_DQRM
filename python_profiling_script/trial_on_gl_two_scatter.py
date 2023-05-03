@@ -37,22 +37,25 @@ def train(gpu, args):
     # Create a list of tensors with different values
     tensors = torch.Tensor([float(gpu)] * size).cuda(gpu) 
     ''' 
+    '''
     if rank == 0: 
         tensors = [torch.Tensor([float(i)] * size).cuda(gpu) for i in range(size)] 
     else: 
         tensors = None 
+    ''' 
+    tensors = torch.arange(4) + rank * 4 
     '''
     if rank == 0: 
         output = [torch.empty(size).cuda(gpu) for _ in range(size)] 
     else: 
         output = None 
     ''' 
-    output = torch.empty(size).cuda(gpu) 
-    '''
+    output = torch.empty([size]).cuda(gpu) 
     # Perform the all-to-all communication
-    dist.all_to_all_single(output, tensor) 
-    ''' 
+    dist.all_to_all_single(output, tensors) 
+    '''
     dist.scatter(output, tensors if rank == 0 else None, src=0) 
+    ''' 
     '''
     dist.gather(tensors, output, dst = 0) 
     ''' 
