@@ -2024,8 +2024,6 @@ def train(gpu, args):
                 total_loss += L * mbs 
                 total_iter += 1 
                 total_samp += mbs 
-
-                break 
                 
                 should_print = ((j + 1) % args.print_freq == 0) or (
                     j + 1 == nbatches

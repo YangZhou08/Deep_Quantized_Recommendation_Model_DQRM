@@ -434,7 +434,7 @@ class All2All_Req(Function):
             myreq.tensor = []
             myreq.tensor.append(output)
             myreq.tensor = tuple(myreq.tensor)
-            print("rank {} output size {}".format(my_rank, myreq.tensor.shape)) # debug print 
+            # print("rank {} output size {}".format(my_rank, myreq.tensor.shape)) # debug print 
             a2a_info.batch_split_lengths = batch_split_lengths
             a2a_info.table_split_lengths = table_split_lengths
             myreq.a2a_info = a2a_info
