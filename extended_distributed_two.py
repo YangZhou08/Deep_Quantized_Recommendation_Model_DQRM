@@ -498,7 +498,7 @@ class All2All_Wait(Function):
                 a2a_info.table_split_lengths,
                 async_op=True,
             )
-            grad_input = grad_input.to(torch.float32) # convert back to float32
+            # grad_input = grad_input.to(torch.float32) # convert back to float32 
             myreq.req = req
             myreq.tensor = grad_input
             return (grad_output,)
