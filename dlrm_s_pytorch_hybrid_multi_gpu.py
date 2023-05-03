@@ -855,7 +855,7 @@ class DLRM_Net(nn.Module):
             if len(self.emb_l) != len(ly):
                 sys.exit("ERROR: corrupted intermediate result in distributed_forward call") 
             
-            print("rank {} per_rank_table_splits: {}".format(ext_dist_two.my_rank, self.n_emb_per_rank)) 
+            # print("rank {} per_rank_table_splits: {}".format(ext_dist_two.my_rank, self.n_emb_per_rank)) 
             a2a_req = ext_dist_two.alltoall(ly, self.n_emb_per_rank) 
 
             x = self.apply_mlp(dense_x, self.bot_l) 
