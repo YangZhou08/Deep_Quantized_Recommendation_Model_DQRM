@@ -1777,7 +1777,7 @@ def train(gpu, args):
     if args.world_size > 1: 
         if use_gpu:
             # device_ids = [ext_dist.my_local_rank] 
-            device_ids = [ext_dist_two.my_local_rank] 
+            device_ids = [ext_dist_two.my_rank] # change to my_rank 
             dlrm.bot_l = ext_dist_two.DDP(dlrm.bot_l, device_ids=device_ids) 
             dlrm.top_l = ext_dist_two.DDP(dlrm.top_l, device_ids=device_ids) 
         else:
