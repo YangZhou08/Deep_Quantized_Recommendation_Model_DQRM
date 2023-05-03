@@ -1501,6 +1501,7 @@ def train(gpu, args):
     ### prepare training data ### 
     ln_bot = np.fromstring(args.arch_mlp_bot, dtype = int, sep = "-") 
     train_dataset, train_loader, test_dataset, test_loader = dp.make_criteo_data_and_loaders(args) 
+    table_feature_map = {idx: idx for idx in range(len(train_dataset.counts))} 
     '''
     train_dataset, test_dataset = dp.make_criteo_data_and_loaders_two(args) 
     
@@ -1813,7 +1814,7 @@ def train(gpu, args):
                 }, 
             ]
         ) 
-        print("optimizer selected is ", args.optimizer) 
+        print("optimizer selected is {} learning rate is {}".format(args.optimizer, args.learning_rate)) 
         optimizer = opts[args.optimizer](parameters, lr = args.learning_rate) 
         '''
         optimizer = quantized_sgd(parameters, lr = args.learning_rate) 
@@ -1872,7 +1873,9 @@ def train(gpu, args):
             "Training state: loss = {:.6f}".format(
                 ld_train_loss,
             )
-        )
+        ) 
+    
+    print("time/loss/accuracy (if enabled):") 
     
     tb_file = "./" + args.tensor_board_filename 
     writer = SummaryWriter(tb_file) 
@@ -1952,6 +1955,7 @@ def train(gpu, args):
 
             if k < skip_upto_epoch: 
                 continue 
+
             for j, inputBatch in enumerate(train_loader): 
                 global iteration_num 
                 iteration_num = j 
