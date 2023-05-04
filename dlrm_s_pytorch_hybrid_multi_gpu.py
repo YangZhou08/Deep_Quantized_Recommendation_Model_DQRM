@@ -851,6 +851,7 @@ class DLRM_Net(nn.Module):
 
             # process sparse features(using embeddings), resulting in a list of row vectors
             ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
+            print(len(ly)) 
             # for y in ly:
             #     print(y.detach().cpu().numpy())
             if len(self.emb_l) != len(ly):
@@ -863,7 +864,7 @@ class DLRM_Net(nn.Module):
 
             ly = a2a_req.wait() 
             ly = list(ly) 
-            print("length embedding table num: {}".format(len(ly))) 
+            # print("length embedding table num: {}".format(len(ly))) 
 
             # interact features (dense and sparse)
             z = self.interact_features(x, ly)
