@@ -185,6 +185,8 @@ def init_distributed(rank=-1, local_rank=-1, size=-1, use_gpu=False, backend="")
                 alltoall_supported = True
             except RuntimeError as err:
                 print("fail to enable all_to_all_single primitive: %s" % err)
+            if alltoall_supported: 
+                print("We use all_to_all_single primitive") 
         if a2a_impl == "alltoall" and alltoall_supported == False:
             print(
                 "Requested DLRM_ALLTOALL_IMPL=%s but backend %s does not support it, use scatter/gather based alltoall"
