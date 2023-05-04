@@ -1448,6 +1448,7 @@ def inference(
     return model_metrics_dict, is_best 
     
 def train(gpu, args): 
+    use_gpu = args.use_gpu and torch.cuda.is_available() 
     rank = args.nr * args.gpus + gpu # make global rank 
     dist.init_process_group(
         backend = "nccl", 
@@ -1455,7 +1456,6 @@ def train(gpu, args):
         world_size = args.world_size, 
         rank = rank
     ) 
-    use_gpu = args.use_gpu and torch.cuda.is_available() 
     ext_dist_two.init_distributed(rank = rank, local_rank = gpu, size = args.world_size, use_gpu = args.use_gpu, backend = "nccl") 
     print("rank {} *****88*****[[[[[[[[[[]]]]]]]]]]".format(rank)) 
     torch.manual_seed(0) 
@@ -1478,6 +1478,7 @@ def train(gpu, args):
     ''' 
     
     if use_gpu: 
+        torch.cuda.manual_seed_all(0) 
         torch.backends.cudnn.deterministic = True 
         if ext_dist_two.my_size > 1: 
             ngpus = 1 
@@ -1489,7 +1490,8 @@ def train(gpu, args):
         if gpu != args.local_rank: 
             print("Warning: local_rank gpu mismatch") 
         ''' 
-        print("{} out of {} (GPU)".format(torch.cuda.device_count(), args.local_rank)) # TODO think about using cpu and change code 
+        # print("{} out of {} (GPU)".format(torch.cuda.device_count(), args.local_rank)) # TODO think about using cpu and change code 
+        print("Using {} GPU(s)...".format(ngpus)) 
     else: 
         device = torch.device("cpu") 
         print("Using CPU...") 
