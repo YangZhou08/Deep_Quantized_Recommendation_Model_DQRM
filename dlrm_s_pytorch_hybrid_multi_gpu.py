@@ -1478,7 +1478,7 @@ def train(gpu, args):
     ''' 
     
     if use_gpu: 
-        torch.cuda.manual_seed_all(0) 
+        torch.cuda.manual_seed_all(1) 
         torch.backends.cudnn.deterministic = True 
         if ext_dist_two.my_size > 1: 
             ngpus = 1 
