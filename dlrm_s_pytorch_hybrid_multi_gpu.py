@@ -181,21 +181,23 @@ def dlrm_wrap(X, lS_o, lS_i, use_gpu, device, ndevices=1, test_mode = False):
 def loss_fn_wrap(Z, T, use_gpu, device, args): 
     with record_function("DLRM loss compute"):
         if args.loss_function == "mse" or args.loss_function == "bce": 
-            '''
             return dlrm.loss_fn(Z, T.to(device)) 
-            ''' 
+            '''
             if args.loss_function == "mse": 
                 loss_fn = torch.nn.MSELoss(reduction="mean") 
             else: 
                 loss_fn = torch.nn.BCELoss(reduction="mean") 
             return loss_fn(Z, T.to(device)) 
+            ''' 
         elif args.loss_function == "wbce":
             loss_ws_ = dlrm.loss_ws[T.data.view(-1).long()].view_as(T).to(device) 
+            '''
             loss_fn = torch.nn.BCELoss(reduction="none") 
+            ''' 
+            loss_fn_ = dlrm.loss_fn(Z, T.to(device)) 
             '''
             loss_fn_ = dlrm.loss_fn(Z, T.to(device)) 
             ''' 
-            loss_fn_ = loss_fn(Z, T.to(device)) 
             loss_sc_ = loss_ws_ * loss_fn_
             return loss_sc_.mean()
 
