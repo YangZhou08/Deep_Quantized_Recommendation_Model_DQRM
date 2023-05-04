@@ -1179,6 +1179,11 @@ def run():
     global change_bitw 
     global change_bitw2 
     args = parser.parse_args() 
+
+    np.random.seed(args.numpy_rand_seed) 
+    np.set_printoptions(precision = args.print_precision) 
+    torch.set_printoptions(precision = args.print_precision) 
+    torch.manual_seed(args.numpy_rand_seed) 
     
     if args.test_mini_batch_size < 0:
         # if the parameter is not set, use the training batch size
@@ -1458,11 +1463,11 @@ def train(gpu, args):
     ) 
     ext_dist_two.init_distributed(rank = rank, local_rank = gpu, size = args.world_size, use_gpu = args.use_gpu, backend = "nccl") 
     print("rank {} *****88*****[[[[[[[[[[]]]]]]]]]]".format(rank)) 
-    torch.manual_seed(0) 
+    # torch.manual_seed(0) 
     # torch.cuda.set_device(gpu) # TODO think about using cpu and change code 
-    batch_size = args.mini_batch_size # TODO recheck the batch_size and run the script again 
+    # batch_size = args.mini_batch_size # TODO recheck the batch_size and run the script again 
 
-    torch.set_printoptions(profile = "full") 
+    # torch.set_printoptions(profile = "full") 
     global full_precision_flag 
     full_precision_flag = args.pretrain_and_quantize 
 
@@ -1478,7 +1483,7 @@ def train(gpu, args):
     ''' 
     
     if use_gpu: 
-        torch.cuda.manual_seed_all(1) 
+        torch.cuda.manual_seed_all(args.numpy_rand_seed) 
         torch.backends.cudnn.deterministic = True 
         if ext_dist_two.my_size > 1: 
             ngpus = 1 
