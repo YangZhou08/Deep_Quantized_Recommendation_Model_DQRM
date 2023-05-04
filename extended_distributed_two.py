@@ -425,7 +425,7 @@ class All2All_Req(Function):
                     * a2a_info.local_batch_num
                     * a2a_info.emb_dim
                 ], dtype = torch.float32 
-            ) 
+            ).cuda(my_rank) 
             req = dist.all_to_all_single(
                 output, input, table_split_lengths, batch_split_lengths, async_op=True
             )
@@ -490,7 +490,7 @@ class All2All_Wait(Function):
             grad_output = torch.cat(grad_outputs)
             grad_input = grad_output.new_empty(
                 [a2a_info.batch_size * a2a_info.local_table_num * a2a_info.emb_dim], dtype = torch.float32 
-            ) 
+            ).cuda(my_rank) 
             req = dist.all_to_all_single(
                 grad_input,
                 grad_output,
