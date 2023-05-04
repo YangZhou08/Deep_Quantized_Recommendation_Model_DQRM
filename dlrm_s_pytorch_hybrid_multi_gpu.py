@@ -865,6 +865,7 @@ class DLRM_Net(nn.Module):
             ly = a2a_req.wait() 
             ly = list(ly) 
             # print("length embedding table num: {}".format(len(ly))) 
+            print("rank {} ly 0 length: {} ly 1 length: {} ly 2 length: {} ly 3 length: {}".format(ext_dist_two.my_rank, len(ly[0]), len(ly[1]), len(ly[2]), len(ly[3]))) 
 
             # interact features (dense and sparse)
             z = self.interact_features(x, ly)
