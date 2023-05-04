@@ -851,7 +851,7 @@ class DLRM_Net(nn.Module):
 
             # process sparse features(using embeddings), resulting in a list of row vectors
             ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
-            print(len(ly)) 
+            # print(len(ly)) 
             # for y in ly:
             #     print(y.detach().cpu().numpy())
             if len(self.emb_l) != len(ly):
@@ -1188,7 +1188,7 @@ def run():
     np.random.seed(args.numpy_rand_seed) 
     np.set_printoptions(precision = args.print_precision) 
     torch.set_printoptions(precision = args.print_precision) 
-    torch.manual_seed(args.numpy_rand_seed) 
+    torch.manual_seed(args.numpy_rand_seed)
     
     if args.test_mini_batch_size < 0:
         # if the parameter is not set, use the training batch size
@@ -1206,7 +1206,7 @@ def run():
     os.environ['MASTER_ADDR'] = '10.157.244.233' 
     ''' 
     os.environ['MASTER_ADDR'] = '169.254.3.1' 
-    os.environ['MASTER_PORT'] = '30003' 
+    os.environ['MASTER_PORT'] = '34000' 
     os.environ['WORLD_SIZE'] = str(args.world_size) 
     mp.spawn(train, nprocs = args.gpus, args = (args,)) 
     '''
