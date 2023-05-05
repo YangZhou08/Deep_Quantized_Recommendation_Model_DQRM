@@ -443,7 +443,7 @@ class All2All_Req(Function):
             a2a_info.table_split_lengths = table_split_lengths
             myreq.a2a_info = a2a_info
             ctx.a2a_info = a2a_info
-            return myreq
+            return myreq.tensor 
 
     @staticmethod
     def backward(ctx, *grad_output):
