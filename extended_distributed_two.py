@@ -436,7 +436,7 @@ class All2All_Req(Function):
             myreq.req = req
             myreq.tensor = []
             myreq.tensor.append(output)
-            print("rank {}, output {}".format(my_rank, output.shape))  # debug print 
+            # print("rank {}, output {}".format(my_rank, output.shape))  # debug print 
             myreq.tensor = tuple(myreq.tensor)
             # print("rank {} output size {}".format(my_rank, myreq.tensor.shape)) # debug print 
             a2a_info.batch_split_lengths = batch_split_lengths
@@ -480,6 +480,7 @@ class All2All_Wait(Function):
             )
             print("rank {} waitoutput size {}".format(my_rank, output if output != None else "None")) # debug print 
             outputs = output[0].split(table_split_lengths)
+            print("rank {} outputs size {}".format(my_rank, outputs.shape)) # debug print 
             outputs = tuple(
                 [out.view([a2a_info.local_batch_num, -1]) for out in outputs]
             )
