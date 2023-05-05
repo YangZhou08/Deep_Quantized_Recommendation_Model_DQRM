@@ -483,13 +483,13 @@ class All2All_Wait(Function):
             table_split_lengths = (
                 a2a_info.local_batch_num * a2a_info.emb_dim 
             )
-            print("rank {} waitoutput size {}".format(my_rank, output if output != None else "None")) # debug print 
+            # print("rank {} waitoutput size {}".format(my_rank, output if output != None else "None")) # debug print 
             outputs = output[0].split(table_split_lengths)
-            print("rank {} outputs size {}".format(my_rank, len(outputs))) # debug print 
+            # print("rank {} outputs size {}".format(my_rank, len(outputs))) # debug print 
             outputs = tuple(
                 [out.view([a2a_info.local_batch_num, -1]) for out in outputs]
             )
-            return outputs
+            return outputs 
 
     @staticmethod
     def backward(ctx, *grad_outputs):
