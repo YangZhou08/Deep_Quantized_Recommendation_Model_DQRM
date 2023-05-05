@@ -866,11 +866,15 @@ class DLRM_Net(nn.Module):
             ly = list(ly) 
             # print("length embedding table num: {}".format(len(ly))) 
             print("rank {} ly 0 length: {} ly 1 length: {} ly 2 length: {} ly 3 length: {}".format(ext_dist_two.my_rank, len(ly[0]), len(ly[1]), len(ly[2]), len(ly[3]))) 
-
+            '''
             # interact features (dense and sparse)
             z = self.interact_features(x, ly)
             # print(z.detach().cpu().numpy())
-
+            ''' 
+            z = []
+            for k in range(ndevices):
+                zk = self.interact_features(x[k], ly[k])
+                z.append(zk) 
             # obtain probability of a click (using top mlp)
             p = self.apply_mlp(z, self.top_l)
 
