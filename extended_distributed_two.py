@@ -480,7 +480,7 @@ class All2All_Wait(Function):
             )
             print("rank {} waitoutput size {}".format(my_rank, output if output != None else "None")) # debug print 
             outputs = output[0].split(table_split_lengths)
-            print("rank {} outputs size {}".format(my_rank, outputs.shape)) # debug print 
+            print("rank {} outputs size {}".format(my_rank, len(outputs))) # debug print 
             outputs = tuple(
                 [out.view([a2a_info.local_batch_num, -1]) for out in outputs]
             )
