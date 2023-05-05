@@ -429,13 +429,14 @@ class All2All_Req(Function):
                 ], dtype = torch.float32 
             ).cuda(my_rank) 
             req = dist.all_to_all_single(
-                output, input, table_split_lengths, batch_split_lengths, async_op=False
+                output, input, table_split_lengths, batch_split_lengths, async_op=True
             ) 
             # output = output.to(torch.float32) # convert back to float32
 
             myreq.req = req
             myreq.tensor = []
             myreq.tensor.append(output)
+            print("rank {}, output {}".format(my_rank, output.shape))  # debug print 
             myreq.tensor = tuple(myreq.tensor)
             # print("rank {} output size {}".format(my_rank, myreq.tensor.shape)) # debug print 
             a2a_info.batch_split_lengths = batch_split_lengths
@@ -449,9 +450,7 @@ class All2All_Req(Function):
         global myreq
         with record_function("DLRM alltoall_req_bwd_single"):
             a2a_info = ctx.a2a_info
-            '''
             myreq.req.wait()
-            ''' 
             myreq.req = None
             grad_input = myreq.tensor
             grad_inputs = grad_input.view([a2a_info.batch_size, -1]).split(
@@ -469,9 +468,7 @@ class All2All_Wait(Function):
         with record_function("DLRM alltoall_wait_fwd_single"):
             a2a_info = myreq.a2a_info
             ctx.a2a_info = a2a_info
-            '''
             myreq.req.wait()
-            ''' 
             myreq.req = None
             myreq.tensor = None
             table_split_lengths = (
@@ -481,6 +478,7 @@ class All2All_Wait(Function):
                 * a2a_info.local_batch_num
                 * a2a_info.emb_dim
             )
+            print("rank {} waitoutput size {}".format(my_rank, output.shape if output != None else "None")) # debug print 
             outputs = output[0].split(table_split_lengths)
             outputs = tuple(
                 [out.view([a2a_info.local_batch_num, -1]) for out in outputs]
@@ -502,7 +500,7 @@ class All2All_Wait(Function):
                 grad_output,
                 a2a_info.batch_split_lengths,
                 a2a_info.table_split_lengths,
-                async_op=False,
+                async_op=True, 
             ) 
             # grad_input = grad_input.to(torch.float32) # convert back to float32 
             myreq.req = req

@@ -873,7 +873,7 @@ class DLRM_Net(nn.Module):
             ''' 
             z = []
             for k in range(ndevices):
-                zk = self.interact_features(x[k], ly[k])
+                zk = self.interact_features(x[k], ly[k]) 
                 z.append(zk) 
             # obtain probability of a click (using top mlp)
             p = self.apply_mlp(z, self.top_l)
