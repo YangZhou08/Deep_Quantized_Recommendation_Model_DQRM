@@ -104,7 +104,7 @@ from quantization_supp.quant_modules import QuantLinear
 from quantization_supp.quant_modules import QuantAct
 '''
 
-from quantization_supp.quant_embedding import QuantEmbeddingBagLSQ, QuantEmbeddingBagPACT
+from quantization_supp.quant_pact_dorefa import QuantEmbeddingBagPACT 
 from quantization_supp.quant_modules_not_quantize_grad import QuantEmbeddingBagTwo
 from quantization_supp.quant_modules_not_quantize_grad import QuantLinear
 from quantization_supp.quant_modules_not_quantize_grad import QuantAct
