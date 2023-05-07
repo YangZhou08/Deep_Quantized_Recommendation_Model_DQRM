@@ -117,7 +117,8 @@ from sgd_quantized_gradients import clear_gradients
 
 from quantization_supp.quant_modules_not_quantize_grad import list_profiles_stats_and_clear
 
-from quantization_supp.quant_pact_dorefa import QuantLinearPACT 
+from quantization_supp.quant_pact_dorefa import QuantLinearPACT, QuantEmbeddingBagPACT 
+from quantization_supp.quant_learned_step_size_quan import QuantLinearLSQ, QuantEmbeddingBagLSQ 
 
 # below are not imported in the original script
 import os
@@ -318,15 +319,24 @@ class DLRM_Net(nn.Module):
                     '''
                     print("use quant linear, input {}, output {}, quantization bit width {}, use full precision {}".format(n, m, self.weight_bit, "32-bit single precision" if not self.quantize_act_and_lin else "quantized"))
                     ''' 
-                    print("use quant linear {}, input {}, output {}, quantization bit width {}, use full precision {} and channelwise status {}".format(args.quant_mode, n, m, self.weight_bit, "32-bit single precision" if not self.quantize_act_and_lin else "quantized", "channelwise" if self.channelwise_lin else "not channelwise")) 
-                    QuantLnr = QuantLinear(
-                        weight_bit = self.weight_bit,
-                        bias_bit = self.weight_bit,
-                        full_precision_flag = not self.quantize_act_and_lin,
-                        per_channel = channelwise_lin,
-                        quantize_activation = quantize_activation
-                    )
-                    QuantLnr.set_param(LL)
+                    if args.quant_mode == 'normal': 
+                        print("use quant linear {}, input {}, output {}, quantization bit width {}, use full precision {} and channelwise status {}".format(args.quant_mode, n, m, self.weight_bit, "32-bit single precision" if not self.quantize_act_and_lin else "quantized", "channelwise" if self.channelwise_lin else "not channelwise")) 
+                        QuantLnr = QuantLinear(
+                            weight_bit = self.weight_bit,
+                            bias_bit = self.weight_bit,
+                            full_precision_flag = not self.quantize_act_and_lin,
+                            per_channel = channelwise_lin,
+                            quantize_activation = quantize_activation
+                        )
+                        QuantLnr.set_param(LL) 
+                    elif args.quant_mode == "lsq": 
+                        print("use quant linear {}, input {}, output {}, quantization bit width {}, use full precision {} and channelwise status {}".format(args.quant_mode, n, m, self.weight_bit, "32-bit single precision" if not self.quantize_act_and_lin else "quantized", "channelwise" if self.channelwise_lin else "not channelwise")) 
+                        QuantLnr = QuantLinearLSQ( 
+                            m = LL 
+                        ) 
+                    else: 
+                        print("You shouldn't reach here!") 
+                        assert(False) 
                     layers.append(QuantLnr)
                 else:
                     layers.append(LL)

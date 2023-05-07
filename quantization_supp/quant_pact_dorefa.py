@@ -4,7 +4,7 @@ from torch.nn import functional as F
 from torch.autograd import Function
 from torch import nn
 from torch.autograd import Function, Variable
-
+from torch.nn import Parameter 
 
 def quantize_k(r_i, k):
 	scale = (2**k - 1)
