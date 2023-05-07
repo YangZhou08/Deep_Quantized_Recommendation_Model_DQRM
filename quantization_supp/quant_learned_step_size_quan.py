@@ -1,5 +1,5 @@
 import torch as torch
-from quantizer import lsq 
+from .quantizer import lsq 
 import torch.nn.functional as F 
 import torch.nn as nn 
 import numpy as np 
