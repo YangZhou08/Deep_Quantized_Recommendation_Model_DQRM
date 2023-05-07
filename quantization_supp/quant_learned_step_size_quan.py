@@ -48,10 +48,10 @@ class QuantLinearLSQ(torch.nn.Linear):
 
     def forward(self, x):
         quantized_weight = self.quan_w_fn(self.weight) 
-        print("quantized weight shape: ", quantized_weight.shape) 
+        # print("quantized weight shape: ", quantized_weight.shape) 
         quantized_bias = self.quan_w_fn_2(self.bias) 
-        print("input size: ", x.shape) 
-        print("bias size: ", quantized_bias.shape) 
+        # print("input size: ", x.shape) 
+        # print("bias size: ", quantized_bias.shape) 
         # output = self.quan_a_fn(x) 
         return F.linear(x, weight = quantized_weight, bias = quantized_bias) 
 
