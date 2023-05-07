@@ -51,7 +51,7 @@ class QuantLinearLSQ(torch.nn.Linear):
         quantized_bias = self.quan_w_fn(self.bias) 
         print("input size: ", x.shape) 
         # output = self.quan_a_fn(x) 
-        return F.linear(x, quantized_weight, quantized_bias) 
+        return F.linear(x, weight = quantized_weight, bias = quantized_bias) 
 
 '''
 QuanModuleMapping = {
