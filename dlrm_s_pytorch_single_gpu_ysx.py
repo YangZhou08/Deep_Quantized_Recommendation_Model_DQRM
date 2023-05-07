@@ -298,7 +298,7 @@ class DLRM_Net(nn.Module):
 
             if self.quantization_flag and quant_linear_layer and args.quant_mode == 'pact': 
                 print("use quant linear {}, input {}, output {}, quantization bit width {}, use full precision {} and channelwise status {}".format(args.quant_mode, n, m, self.weight_bit, "32-bit single precision" if not self.quantize_act_and_lin else "quantized", "channelwise" if self.channelwise_lin else "not channelwise")) 
-                LL = QuantLinearPACT(in_features = int(n), out_features = int(m), bias = True, bitwidth = self.bitwidth) # not channelwise quantization 
+                LL = QuantLinearPACT(in_features = int(n), out_features = int(m), bias = True, bitwidth = self.weight_bit) # not channelwise quantization 
                 LL.weight.data = torch.tensor(W, requires_grad = True) 
                 LL.bias.data = torch.tensor(bt, requires_grad = True) 
                 layers.append(LL) 
