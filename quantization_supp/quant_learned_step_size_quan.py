@@ -35,20 +35,21 @@ class QuantLinearLSQ(torch.nn.Linear):
         super().__init__(m.in_features, m.out_features,
                          bias=True if m.bias is not None else False)
         self.quan_w_fn = quan_w_fn(bit=4, all_positive=False, symmetric=False, per_channel = True) 
-        self.quan_a_fn = quan_a_fn(bit=4, all_positive=False, symmetric=False, per_channel = True) 
+        self.quan_w_fn_2 = quan_w_fn(bit=4, all_positive=False, symmetric=False, per_channel = False) 
 
         self.weight = nn.Parameter(m.weight.detach())
         print("weight shape: ", self.weight.shape) 
         self.quan_w_fn.init_from(m.weight)
         if m.bias is not None:
             self.bias = nn.Parameter(m.bias.detach()) 
+            self.quan_w_fn_2.init_from(m.bias) 
         else: 
             self.bias = None 
 
     def forward(self, x):
         quantized_weight = self.quan_w_fn(self.weight) 
         print("quantized weight shape: ", quantized_weight.shape) 
-        quantized_bias = self.quan_w_fn(self.bias) 
+        quantized_bias = self.quan_w_fn_2(self.bias) 
         print("input size: ", x.shape) 
         print("bias size: ", quantized_bias.shape) 
         # output = self.quan_a_fn(x) 
