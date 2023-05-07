@@ -115,6 +115,9 @@ from sgd_quantized_gradients import clear_gradients
 
 from quantization_supp.quant_modules_not_quantize_grad import list_profiles_stats_and_clear 
 
+from quantization_supp.quant_pact_dorefa import QuantLinearPACT, QuantEmbeddingBagPACT 
+from quantization_supp.quant_learned_step_size_quan import QuantLinearLSQ, QuantEmbeddingBagLSQ 
+
 # below are not imported in the original script 
 import os 
 import torch.multiprocessing as mp 
@@ -276,9 +279,6 @@ class DLRM_Net(nn.Module):
             n = ln[i]
             m = ln[i + 1]
 
-            # construct fully connected operator 
-            LL = nn.Linear(int(n), int(m), bias=True)
-
             # initialize the weights
             # with torch.no_grad():
             # custom Xavier input, output or two-sided fill
@@ -293,32 +293,51 @@ class DLRM_Net(nn.Module):
             std_dev = np.sqrt(2 / (m + n)) 
             W = np.random.normal(mean, std_dev, size = (m, n)).astype(np.float32) 
             ''' 
-            # approach 1
-            LL.weight.data = torch.tensor(W, requires_grad=True) 
-            LL.bias.data = torch.tensor(bt, requires_grad=True) 
-            # approach 2
-            # LL.weight.data.copy_(torch.tensor(W))
-            # LL.bias.data.copy_(torch.tensor(bt))
-            # approach 3
-            # LL.weight = Parameter(torch.tensor(W),requires_grad=True)
-            # LL.bias = Parameter(torch.tensor(bt),requires_grad=True) 
-            if self.quantization_flag and quant_linear_layer: # TODO recheck intentionally reverse logic updated: checked 
-                '''
-                print("use quant linear, input {}, output {}, quantization bit width {}, use full precision {}".format(n, m, self.weight_bit, "32-bit single precision" if not self.quantize_act_and_lin else "quantized")) 
-                ''' 
-                print("use quant linear, input {}, output {}, quantization bit width {}, use full precision {} and channelwise status {}".format(n, m, self.weight_bit, "32-bit single precision" if not self.quantize_act_and_lin else "quantized", "channelwise" if self.channelwise_lin else "not channelwise")) 
-                QuantLnr = QuantLinear( 
-                    weight_bit = self.weight_bit, 
-                    bias_bit = self.weight_bit, 
-                    full_precision_flag = not self.quantize_act_and_lin, 
-                    per_channel = channelwise_lin, 
-                    quantize_activation = quantize_activation 
-                ) 
-                QuantLnr.set_param(LL) 
-                layers.append(QuantLnr) 
-            else: 
+
+            if self.quantization_flag and quant_linear_layer and args.quant_mode == 'pact': 
+                print("use quant linear {}, input {}, output {}, quantization bit width {}, use full precision {} and channelwise status {}".format(args.quant_mode, n, m, self.weight_bit, "32-bit single precision" if not self.quantize_act_and_lin else "quantized", "channelwise" if self.channelwise_lin else "not channelwise")) 
+                LL = QuantLinearPACT(in_features = int(n), out_features = int(m), bias = True, bitwidth = self.weight_bit) # not channelwise quantization 
+                LL.weight.data = torch.tensor(W, requires_grad = True) 
+                LL.bias.data = torch.tensor(bt, requires_grad = True) 
                 layers.append(LL) 
-            # construct sigmoid or relu operator
+            else: 
+                # construct fully connected operator 
+                LL = nn.Linear(int(n), int(m), bias=True)
+                # approach 1
+                LL.weight.data = torch.tensor(W, requires_grad=True) 
+                LL.bias.data = torch.tensor(bt, requires_grad=True) 
+                # approach 2
+                # LL.weight.data.copy_(torch.tensor(W))
+                # LL.bias.data.copy_(torch.tensor(bt))
+                # approach 3
+                # LL.weight = Parameter(torch.tensor(W),requires_grad=True)
+                # LL.bias = Parameter(torch.tensor(bt),requires_grad=True) 
+                if self.quantization_flag and quant_linear_layer: # TODO recheck intentionally reverse logic updated: checked 
+                    '''
+                    print("use quant linear, input {}, output {}, quantization bit width {}, use full precision {}".format(n, m, self.weight_bit, "32-bit single precision" if not self.quantize_act_and_lin else "quantized")) 
+                    ''' 
+                    if args.quant_mode == 'normal': 
+                        print("use quant linear {}, input {}, output {}, quantization bit width {}, use full precision {} and channelwise status {}".format(args.quant_mode, n, m, self.weight_bit, "32-bit single precision" if not self.quantize_act_and_lin else "quantized", "channelwise" if self.channelwise_lin else "not channelwise")) 
+                        QuantLnr = QuantLinear( 
+                            weight_bit = self.weight_bit, 
+                            bias_bit = self.weight_bit, 
+                            full_precision_flag = not self.quantize_act_and_lin, 
+                            per_channel = channelwise_lin, 
+                            quantize_activation = quantize_activation 
+                        ) 
+                        QuantLnr.set_param(LL) 
+                    elif args.quant_mode == "lsq": 
+                        print("use quant linear {}, input {}, output {}, quantization bit width {}, use full precision {} and channelwise status {}".format(args.quant_mode, n, m, self.weight_bit, "32-bit single precision" if not self.quantize_act_and_lin else "quantized", "channelwise" if self.channelwise_lin else "not channelwise")) 
+                        QuantLnr = QuantLinearLSQ( 
+                            m = LL 
+                        ) 
+                    else: 
+                        print("You shouldn't reach here!") 
+                        assert(False) 
+                    layers.append(QuantLnr) 
+                else: 
+                    layers.append(LL) 
+                # construct sigmoid or relu operator
             if i == sigmoid_layer:
                 layers.append(nn.Sigmoid()) 
             else:
@@ -369,7 +388,17 @@ class DLRM_Net(nn.Module):
                 EE.embs.weight.data = torch.tensor(W, requires_grad=True)
             elif self.quantization_flag: 
                 print("---------- Embedding Table {}, quantization used, n = {}, m = {}, quantization bit set to {}".format(i, n, m, self.embedding_bit)) 
-                EE = QuantEmbeddingBagTwo(n, m, self.embedding_bit, embedding_id = i) 
+                if args.quant_mode == "lsq":
+                    print("Using LSQ Quantization") 
+                    EE = QuantEmbeddingBagLSQ(n, m, self.embedding_bit, embedding_id = i)
+
+                elif args.quant_mode == "pact":
+                    print("Using PACT Quantization") 
+                    EE = QuantEmbeddingBagPACT(n, m, self.embedding_bit, embedding_id = i)
+
+                else:
+                    print("Using HAWQ Quantization") 
+                    EE = QuantEmbeddingBagTwo(n, m, self.embedding_bit, embedding_id = i) 
             else:
                 EE = nn.EmbeddingBag(n, m, mode="sum", sparse = True) 
                 # initialize embeddings
