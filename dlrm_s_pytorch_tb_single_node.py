@@ -1149,7 +1149,8 @@ def run():
     parser.add_argument('-g', '--gpus', default=1, type=int,
                         help='number of gpus per node')
     parser.add_argument('-nr', '--nr', default=0, type=int,
-                        help='ranking within the nodes')
+                        help='ranking within the nodes') 
+    parser.add_argument("--quant-mode", type=str, default="normal", choices=["pact", "lsq", "normal"]) 
 
     global args
     global nbatches
