@@ -2037,9 +2037,10 @@ def train(args):
                 if should_print or should_test:
                     gT = 1000.0 * total_time / total_iter if args.print_time else -1
                     total_time = 0 
-
+                    '''
                     print("total forward time per iter: {}".format(1000.0 * total_forward_time / total_iter))
                     print("total backward time per iter: {}".format(1000.0 * total_backward_time / total_iter))
+                    ''' 
                     '''
                     global total_embedding_table_forward_time
                     print("total embedding table forward per iter: {}".format(1000.0 * total_embedding_table_forward_time / total_iter))
