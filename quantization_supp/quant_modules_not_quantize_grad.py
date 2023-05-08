@@ -201,9 +201,11 @@ class QuantLinear(Module):
                 print("output got") 
                 print((F.linear(x_int, weight = self.weight_integer, bias = self.bias_integer) * (self.fc_scaling_factor.view(1, -1)))[0]) 
                 ''' 
+                '''
                 print("input size: ", x_int.shape) 
                 print("weight size: ", self.weight_integer.shape) 
                 exit(0) 
+                ''' 
                 return F.linear(x_int, weight = self.weight_integer, bias = self.bias_integer) * (self.fc_scaling_factor.view(1, -1)), None 
         else: 
             return F.linear(x, weight = self.weight, bias = self.bias), None 
