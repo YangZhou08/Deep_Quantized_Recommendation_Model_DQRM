@@ -40,7 +40,7 @@ matplotlib.rc('font', **font)
 # plt.show() 
 
 # sections_performed = ["gradient communication", "single-process backward", "DLRM forward", "weight step", "others"] 
-sections_performed = ["DQRM forward", "single node backward", "gradient_quantization and communicate", "weight update", "others"] 
+sections_performed = ["DQRM forward", "single node backward", "sparsed gradient communication", "weight update", "others"] 
 # category_colors = plt.get_cmap('RdYlGn')(
 #         np.linspace(0.15, 0.85, len(sections_performed))) 
 # category_colors = ["tab:blue", "darkorange", "darkgrey", "gold", "tab:green"] 
@@ -89,4 +89,4 @@ ax.legend(ncol = len(sections_performed) - 1, bbox_to_anchor=(0, 1),
               loc='lower left', fontsize='small') 
 ax.xaxis.grid(True, color = 'grey') 
 
-plt.show()
+plt.show() 
