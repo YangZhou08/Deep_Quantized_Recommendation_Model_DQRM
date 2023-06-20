@@ -2108,7 +2108,7 @@ def train(gpu, args):
             "Testing at - {}/{} of epoch {},".format(j + 1, nbatches, k)
         ) 
         if rank == 0: 
-            model_metrics_dict, is_best = inference_distributed(
+            model_metrics_dict, is_best = inference_distributed( # validation 
                 rank, 
                 args, 
                 dlrm, 
@@ -2120,8 +2120,9 @@ def train(gpu, args):
                 nbatches_test, 
                 writer 
             ) 
+        # dist.barrier() 
         else: 
-            inference_distributed(
+            inference_distributed( 
                 rank, 
                 args, 
                 dlrm, 
