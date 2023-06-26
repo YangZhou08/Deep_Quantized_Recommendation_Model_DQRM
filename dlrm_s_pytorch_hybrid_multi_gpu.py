@@ -942,22 +942,34 @@ class DLRM_Net(nn.Module):
 
             return z 
     
-    def investigate_ddpgradient(self): 
+    def investigate_ddpgradient(self, rank): 
         with torch.no_grad(): 
-            print("investigating top layer weight gradients: ") 
+            if rank == 0: 
+                print("investigating top layer weight gradients: ") 
             for names, param in self.top_l.module.named_parameters(): 
-                print(names) 
-                print(param.grad.shape) 
+                if len(param.grad.shape) > 1: 
+                    # print(param.grad.shape) 
+                    print("rank {} name {} part of the grad {}".format(rank, names, param.grad[0][: 10])) 
+                else: 
+                    print("rank {} name {} part of the grad {}".format(rank, names, param.grad[: 10] if param.grad.shape[0] >= 10 else param.grad)) 
+            dist.barrier() 
 
-            print("investigating bottom layer weight gradients: ") 
+            if rank == 0: 
+                print("investigating bottom layer weight gradients: ") 
             for names, param in self.bot_l.module.named_parameters(): 
-                print(names) 
-                print(param.grad.shape) 
+                if len(param.grad.shape) > 1: 
+                    # print(param.grad.shape) 
+                    print("rank {} name {} part of the grad {}".format(rank, names, param.grad[0][: 10])) 
+                else: 
+                    print("rank {} name {} part of the grad {}".format(rank, names, param.grad[: 10] if param.grad.shape[0] >= 10 else param.grad)) 
+            dist.barrier() 
             
-            print("investigating embedding layer weight gradients: ") 
+            if rank == 0: 
+                print("investigating embedding layer weight gradients: ") 
             for embidex, emb in enumerate(self.emb_l): 
-                print("embedding table {}".format(embidex)) 
-                print(emb.weight.grad.shape) 
+                # print(emb.weight.grad.shape) 
+                print("rank {} embedding table index {} part of the grad {}".format(rank, embidex, emb.weight.grad[0][: 10])) 
+            dist.barrier() 
 
     
     def documenting_weights_tables(self, path, epoch_num, iter_num, emb_quantized = True): 
