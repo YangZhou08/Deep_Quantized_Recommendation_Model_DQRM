@@ -957,7 +957,7 @@ class DLRM_Net(nn.Module):
             print("investigating embedding layer weight gradients: ") 
             for embidex, emb in enumerate(self.emb_l): 
                 print("embedding table {}".format(embidex)) 
-                print(emb.grad.shape) 
+                print(emb.weight.grad.shape) 
 
     
     def documenting_weights_tables(self, path, epoch_num, iter_num, emb_quantized = True): 
