@@ -2066,9 +2066,8 @@ def train(gpu, args):
                 optimizer.zero_grad() 
                 E.backward() 
                 # quantization of gradient 
-                if args.rank == 0: 
-                    print("we got in this blockkkkkkkkkkkkkkkkkkkkk") 
-                    dlrm.investigate_ddpgradient() 
+                print("we got in this blockkkkkkkkkkkkkkkkkkkkk") 
+                dlrm.investigate_ddpgradient(rank) 
                 dist.barrier() 
                 optimizer.step() 
                 break 
