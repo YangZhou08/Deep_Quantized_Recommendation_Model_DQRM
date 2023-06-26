@@ -2057,6 +2057,7 @@ def train(gpu, args):
                 if args.rank == 0: 
                     print("we got in this blockkkkkkkkkkkkkkkkkkkkk") 
                     dlrm.investigate_ddpgradient() 
+                dist.barrier() 
                 optimizer.step() 
                 break 
 
