@@ -943,7 +943,7 @@ class DLRM_Net(nn.Module):
             return z 
     
     def investigate_ddpgradient(self): 
-        with torch.no_grad: 
+        with torch.no_grad(): 
             print("investigating top layer weight gradients: ") 
             for names, param in self.top_l.module.named_parameters(): 
                 print(names) 
