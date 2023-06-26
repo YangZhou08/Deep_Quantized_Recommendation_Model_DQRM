@@ -2053,6 +2053,8 @@ def train(gpu, args):
                 optimizer.zero_grad() 
                 E.backward() 
                 # quantization of gradient 
+                if args.rank == 0: 
+                    dlrm.investigate_ddpgradient() 
                 optimizer.step() 
 
                 lr_scheduler.step() 
