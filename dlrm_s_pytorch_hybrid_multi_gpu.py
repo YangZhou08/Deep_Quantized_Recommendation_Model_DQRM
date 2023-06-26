@@ -942,6 +942,24 @@ class DLRM_Net(nn.Module):
 
             return z 
     
+    def investigate_ddpgradient(self): 
+        with torch.no_grad: 
+            print("investigating top layer weight gradients: ") 
+            for names, param in self.top_l.module.named_parameters(): 
+                print(names) 
+                print(param.grad.shape) 
+
+            print("investigating bottom layer weight gradients: ") 
+            for names, param in self.bot_l.module.named_parameters(): 
+                print(names) 
+                print(param.grad.shape) 
+            
+            print("investigating embedding layer weight gradients: ") 
+            for embidex, emb in enumerate(self.emb_l): 
+                print("embedding table {}".format(embidex)) 
+                print(emb.grad.shape) 
+
+    
     def documenting_weights_tables(self, path, epoch_num, iter_num, emb_quantized = True): 
         table_nums = [3, 6] 
         with torch.no_grad(): 
