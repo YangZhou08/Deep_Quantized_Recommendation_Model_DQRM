@@ -1484,6 +1484,7 @@ def inference(
 def train(gpu, args): 
     use_gpu = args.use_gpu and torch.cuda.is_available() 
     rank = args.nr * args.gpus + gpu # make global rank 
+    args.rank = rank 
     dist.init_process_group(
         backend = "nccl", 
         init_method = 'env://', 
@@ -2056,6 +2057,7 @@ def train(gpu, args):
                 if args.rank == 0: 
                     dlrm.investigate_ddpgradient() 
                 optimizer.step() 
+                break 
 
                 lr_scheduler.step() 
                 
@@ -2177,6 +2179,7 @@ def train(gpu, args):
                 dlrm.module.show_output_linear_layer_grad() # checking whether the layer is consistent 
                 ''' 
             k += 1 
+            break 
                             
     else: 
         print("Testing for inference only") 
