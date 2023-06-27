@@ -187,10 +187,10 @@ def init_distributed(rank=-1, local_rank=-1, size=-1, use_gpu=False, backend="")
         my_size = 1
         my_local_rank = 0
         my_local_size = 1
-    print_all(
+    print(
         "world size: %d, current rank: %d, local rank: %d"
         % (my_size, my_rank, my_local_rank)
-    )
+    ) 
     myreq = Request()
 
 
