@@ -863,14 +863,14 @@ class DLRM_Net(nn.Module):
             # print("rank {} per_rank_table_splits: {}".format(ext_dist_two.my_rank, self.n_emb_per_rank)) 
             a2a_req = ext_dist_two.alltoall(ly, self.n_emb_per_rank) 
             print("rank {} length of ly {}".format(ext_dist_two.my_rank, len(ly))) 
-            if ext_dist_two.my_rank == 0: 
-                for y in ly: 
-                    print("rank {} reduced yy {}".format(ext_dist_two.my_rank, y.detach().cpu())) 
-            ext_dist_two.barrier() 
 
             x = self.apply_mlp(dense_x, self.bot_l) 
 
             ly = a2a_req.wait() 
+            if ext_dist_two.my_rank == 0: 
+                for y in ly: 
+                    print("rank {} reduced yy {}".format(ext_dist_two.my_rank, y.detach().cpu())) 
+            dist.barrier() 
             ly = list(ly) 
             # print("length embedding table num: {}".format(len(ly))) 
             # print("rank {} ly 0 length: {} ly 1 length: {} ly 2 length: {} ly 3 length: {}".format(ext_dist_two.my_rank, len(ly[0]), len(ly[1]), len(ly[2]), len(ly[3]))) 
