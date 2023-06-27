@@ -1076,7 +1076,8 @@ def inference_distributed(
             testBatch 
         ) 
         
-        if ext_dist_two.my_size > 1 and X_test.size(0) % ext_dist_two.my_size != 0: 
+        # if ext_dist_two.my_size > 1 and X_test.size(0) % ext_dist_two.my_size != 0: 
+        if ext_dist_three.my_size > 1 and X_test.size(0) % ext_dist_three.my_size != 0: 
             print("Warning: Skipping the batch %d with size %d" % (i, X_test.size(0))) 
             continue 
 
@@ -1092,9 +1093,12 @@ def inference_distributed(
         
         if Z_test.is_cuda: 
             torch.cuda.synchronize() 
-        (_, batch_split_lengths) = ext_dist_two.get_split_lengths(X_test.size(0)) 
-        if ext_dist_two.my_size > 1: 
-            Z_test = ext_dist_two.all_gather(Z_test, batch_split_lengths) 
+        # (_, batch_split_lengths) = ext_dist_two.get_split_lengths(X_test.size(0)) 
+        (_, batch_split_lengths) = ext_dist_three.get_split_lengths(X_test.size(0)) 
+        # if ext_dist_two.my_size > 1: 
+        if ext_dist_three.my_size > 1: 
+            # Z_test = ext_dist_two.all_gather(Z_test, batch_split_lengths) 
+            Z_test = ext_dist_three.all_gather(Z_test, batch_split_lengths) 
 
         S_test = Z_test.detach().cpu().numpy() 
         T_test = T_test.detach().cpu().numpy() 
@@ -1112,7 +1116,7 @@ def inference_distributed(
         if rank == 0 and i % 200 == 0: 
             print("steps testing: {}".format(float(i)/num_batch), end = "\r") 
         
-        dist.barrier() 
+        ext_dist_three.barrier() 
     
     print("rank: {} test_accu: {}".format(rank, test_accu)) 
     print("get out") 
