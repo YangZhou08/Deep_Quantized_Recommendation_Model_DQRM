@@ -1718,6 +1718,7 @@ def run():
     # WARNING: to obtain exactly the same initialization for
     # the weights we need to start from the same random seed.
     # np.random.seed(args.numpy_rand_seed)
+    '''
     global dlrm
     dlrm = DLRM_Net(
         m_spa,
@@ -1740,6 +1741,37 @@ def run():
         weighted_pooling=args.weighted_pooling,
         loss_function=args.loss_function
     )
+    ''' 
+    global dlrm 
+    gpu = ext_dist_three.my_rank 
+    dlrm = DLRM_Net(m_spa,
+        ln_emb,
+        ln_bot,
+        ln_top,
+        arch_interaction_op=args.arch_interaction_op,
+        arch_interaction_itself=args.arch_interaction_itself,
+        sigmoid_bot=-1,
+        sigmoid_top=ln_top.size - 2,
+        sync_dense_params=args.sync_dense_params,
+        loss_threshold=args.loss_threshold,
+        ndevices=ndevices,
+        qr_flag=args.qr_flag,
+        qr_operation=args.qr_operation,
+        qr_collisions=args.qr_collisions,
+        qr_threshold=args.qr_threshold,
+        md_flag=args.md_flag,
+        md_threshold=args.md_threshold,
+        weighted_pooling=args.weighted_pooling,
+        loss_function=args.loss_function, 
+        quantization_flag = args.quantization_flag, 
+        embedding_bit = args.embedding_bit, 
+        modify_feature_interaction = args.modify_feature_interaction, 
+        weight_bit = 8 if args.linear_shift_down_bit_width else args.weight_bit, 
+        quantize_act_and_lin = args.quantize_act_and_lin, 
+        mlp_channelwise = args.linear_channel, 
+        quantize_activation = args.quantize_activation, 
+        deviceid = gpu, 
+        args = args) 
 
     # test prints
     if args.debug_mode:
