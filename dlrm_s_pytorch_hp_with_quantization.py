@@ -526,7 +526,7 @@ class DLRM_Net(nn.Module):
             return x 
         ''' 
         count = 0 
-        if self.args.quantization_flag: 
+        if args.quantization_flag: 
             for layer in layers.module: 
                 if isinstance(layer, QuantLinear): 
                     global change_bitw, change_bitw2 
