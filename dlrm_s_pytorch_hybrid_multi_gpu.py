@@ -2066,11 +2066,13 @@ def train(gpu, args):
                 optimizer.zero_grad() 
                 E.backward() 
                 # quantization of gradient 
+                '''
                 print("we got in this blockkkkkkkkkkkkkkkkkkkkk") 
                 dlrm.investigate_ddpgradient(rank) 
                 dist.barrier() 
+                ''' 
                 optimizer.step() 
-
+                break 
                 lr_scheduler.step() 
                 
                 t2 = time_wrap(use_gpu) 
