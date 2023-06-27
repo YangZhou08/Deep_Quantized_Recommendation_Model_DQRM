@@ -164,7 +164,7 @@ def dlrm_wrap(X, lS_o, lS_i, use_gpu, device, ndevices=1, test_mode = False):
         if use_gpu:  # .cuda()
             # lS_i can be either a list of tensors or a stacked tensor.
             # Handle each case below:
-            if ndevices == 1:
+            if ndevices == 1: # making indices to be in the gpu memory 
                 lS_i = (
                     [S_i.to(device) for S_i in lS_i]
                     if isinstance(lS_i, list)
@@ -1231,12 +1231,12 @@ def run():
     global change_bitw 
     global change_bitw2 
     args = parser.parse_args() 
-
+    '''
     np.random.seed(args.numpy_rand_seed) 
     np.set_printoptions(precision = args.print_precision) 
     torch.set_printoptions(precision = args.print_precision) 
     torch.manual_seed(args.numpy_rand_seed)
-    
+    ''' 
     if args.test_mini_batch_size < 0:
         # if the parameter is not set, use the training batch size
         args.test_mini_batch_size = args.mini_batch_size
@@ -1289,7 +1289,7 @@ def inference_distributed(
             testBatch 
         ) 
         
-        if ext_dist_two.my_size > 1 and X_test.size(0) % args.world_size != 0: 
+        if ext_dist_two.my_size > 1 and X_test.size(0) % ext_dist_two.my_size != 0: 
             print("Warning: Skipping the batch %d with size %d" % (i, X_test.size(0))) 
             continue 
 
