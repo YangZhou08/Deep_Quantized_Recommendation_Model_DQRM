@@ -854,9 +854,11 @@ class DLRM_Net(nn.Module):
             # print(len(ly)) 
             # for y in ly:
             #     print(y.detach().cpu().numpy())
+            
             print("rank {} len of ly: {}".format(ext_dist_two.my_rank, len(ly))) 
             for y in ly: 
                 print("rank {} y {}".format(ext_dist_two.my_rank, y.detach().cpu().shape)) 
+            
             if len(self.emb_l) != len(ly):
                 sys.exit("ERROR: corrupted intermediate result in distributed_forward call") 
             
@@ -867,9 +869,11 @@ class DLRM_Net(nn.Module):
             x = self.apply_mlp(dense_x, self.bot_l) 
 
             ly = a2a_req.wait() 
+            
             for y in ly: 
                 print("rank {} reduced yy {}".format(ext_dist_two.my_rank, y.detach().cpu().shape)) 
                 dist.barrier() 
+            
             ly = list(ly) 
             # print("length embedding table num: {}".format(len(ly))) 
             # print("rank {} ly 0 length: {} ly 1 length: {} ly 2 length: {} ly 3 length: {}".format(ext_dist_two.my_rank, len(ly[0]), len(ly[1]), len(ly[2]), len(ly[3]))) 
