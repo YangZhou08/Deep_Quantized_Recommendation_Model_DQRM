@@ -1184,15 +1184,12 @@ def inference_distributed(
         flush = True, 
     ) 
     ''' 
-    if rank == 0: 
-        print(
-            " accuracy {:3.3f} %, best {:3.3f} %, roc auc score {:.4f}, best {:.4f}".format(
-                acc_test * 100, best_acc_test * 100, roc_auc, best_auc_test), 
-            flush = True 
-            )
-        return model_metrics_dict, is_best 
-    else: 
-        return 
+    print(
+        " accuracy {:3.3f} %, best {:3.3f} %, roc auc score {:.4f}, best {:.4f}".format(
+            acc_test * 100, best_acc_test * 100, roc_auc, best_auc_test), 
+        flush = True 
+        )
+    return model_metrics_dict, is_best 
 
 
 def inference(
