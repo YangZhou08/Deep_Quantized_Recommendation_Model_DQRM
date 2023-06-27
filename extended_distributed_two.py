@@ -409,7 +409,7 @@ class All2All_Req(Function):
         global myreq
         with record_function("DLRM alltoall_req_fwd_single"):
             batch_split_lengths = a2a_info.global_batch_partition_slices
-            print("rank {} batch split lengths {}".format(my_rank, batch_split_lengths)) # expect not a number printed 
+            # print("rank {} batch split lengths {}".format(my_rank, batch_split_lengths)) # expect not a number printed 
             if batch_split_lengths:
                 batch_split_lengths = [
                     m * a2a_info.emb_dim * a2a_info.local_table_num
