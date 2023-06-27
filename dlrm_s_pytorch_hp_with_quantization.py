@@ -127,7 +127,7 @@ def time_wrap(use_gpu):
     return time.time()
 
 
-def dlrm_wrap(X, lS_o, lS_i, use_gpu, device, ndevices=1): 
+def dlrm_wrap(X, lS_o, lS_i, use_gpu, device, ndevices=1, test_mode = False): 
     '''
     print("Calling inside dlrm wrap: ndevices is ", ndevices) 
     ''' 
@@ -146,7 +146,7 @@ def dlrm_wrap(X, lS_o, lS_i, use_gpu, device, ndevices=1):
                     if isinstance(lS_o, list)
                     else lS_o.to(device)
                 )
-        return dlrm(X.to(device), lS_o, lS_i)
+        return dlrm(X.to(device), lS_o, lS_i, test_mode = test_mode) 
 
 
 def loss_fn_wrap(Z, T, use_gpu, device):
