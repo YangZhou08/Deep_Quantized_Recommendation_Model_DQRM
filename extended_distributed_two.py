@@ -471,18 +471,18 @@ class All2All_Wait(Function):
             myreq.req.wait()
             myreq.req = None
             myreq.tensor = None
-            '''
             table_split_lengths = (
                 a2a_info.table_split_lengths
                 if a2a_info.table_split_lengths
                 else a2a_info.local_table_num
                 * a2a_info.local_batch_num
                 * a2a_info.emb_dim
-            )
-            ''' 
+            ) 
+            '''
             table_split_lengths = (
                 a2a_info.local_batch_num * a2a_info.emb_dim 
             )
+            ''' 
             # print("rank {} waitoutput size {}".format(my_rank, output if output != None else "None")) # debug print 
             outputs = output[0].split(table_split_lengths)
             # print("rank {} outputs size {}".format(my_rank, len(outputs))) # debug print 
