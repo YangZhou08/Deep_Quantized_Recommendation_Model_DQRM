@@ -454,12 +454,16 @@ class All2All_Req(Function):
             myreq.req.wait()
             myreq.req = None
             grad_input = myreq.tensor 
+            '''
             print("rank {} in the second backward function, grad_input shape is {}".format(my_rank, grad_input.shape)) # for rank 0, it is expecting to be 7 * 128 * 16 
             print("rank {} has emb_dim {}".format(my_rank, a2a_info.emb_dim)) 
+            ''' 
             grad_inputs = grad_input.view([a2a_info.batch_size, -1]).split(
                 a2a_info.emb_dim, dim=1
             ) # for rank 0, view changes the shape to 128 by (7 * 16), then split changes the shape to a list of 7 tensors, each of which has shape of 128 by 16 
+            '''
             print("rank {} size of the grad_inputs {}".format(my_rank, len(grad_inputs))) 
+            ''' 
             grad_inputs = [gin.contiguous() for gin in grad_inputs]
             myreq.tensor = None
             return (None, *grad_inputs)
@@ -502,8 +506,10 @@ class All2All_Wait(Function):
             a2a_info = ctx.a2a_info
             grad_outputs = [gout.contiguous().view([-1]) for gout in grad_outputs]
             grad_output = torch.cat(grad_outputs) 
+            '''
             print("rank {} in the wait function backward function, grad_output shape is {}".format(my_rank, grad_output.shape)) 
-            # for rank 0, 128 * 7 * 16 
+            ''' 
+            # for rank 0, grad_output shape is 32 * 26 * 16 
             grad_input = grad_output.new_empty(
                 [a2a_info.batch_size * a2a_info.local_table_num * a2a_info.emb_dim], dtype = torch.float32 
             ).cuda(my_rank) 

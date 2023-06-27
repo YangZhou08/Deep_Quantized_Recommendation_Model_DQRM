@@ -979,7 +979,8 @@ class DLRM_Net(nn.Module):
                 print("investigating embedding layer weight gradients: ") 
             for embidex, emb in enumerate(self.emb_l): 
                 # print(emb.weight.grad.shape) 
-                print("rank {} embedding table index {} part of the grad {}".format(rank, embidex, emb.weight.grad[0][: 10])) 
+                # print("rank {} embedding table index {} part of the grad {}".format(rank, embidex, emb.weight.grad[0][: 10])) 
+                print("rank {} embedding table index {} is the gradient sparsecoo? {}".format(rank, embidex, emb.weight.grad.is_sparse)) 
             dist.barrier() 
 
     
@@ -2077,11 +2078,9 @@ def train(gpu, args):
                 optimizer.zero_grad() 
                 E.backward() 
                 # quantization of gradient 
-                '''
                 print("we got in this blockkkkkkkkkkkkkkkkkkkkk") 
                 dlrm.investigate_ddpgradient(rank) 
                 dist.barrier() 
-                ''' 
                 optimizer.step() 
                 break 
                 lr_scheduler.step() 
