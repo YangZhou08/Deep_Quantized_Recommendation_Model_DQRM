@@ -1814,14 +1814,17 @@ def run():
     ### main loop ###
 
     # training or inference
-    best_acc_test = 0
-    best_auc_test = 0
     skip_upto_epoch = 0
     skip_upto_batch = 0
     total_time = 0
     total_loss = 0
     total_iter = 0
-    total_samp = 0
+    total_samp = 0 
+
+    global best_acc_test 
+    global best_auc_test 
+    best_acc_test = 0 
+    best_auc_test = 0 
 
     if args.mlperf_logging:
         mlperf_logger.mlperf_submission_log("dlrm")
