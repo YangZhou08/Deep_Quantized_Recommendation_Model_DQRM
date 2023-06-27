@@ -854,11 +854,18 @@ class DLRM_Net(nn.Module):
             # print(len(ly)) 
             # for y in ly:
             #     print(y.detach().cpu().numpy())
+            print("rank {} len of ly: {}".format(ext_dist_two.my_rank, len(ly))) 
+            for y in ly: 
+                print("rank {} y {}".format(ext_dist_two.my_rank, y.detach().cpu())) 
             if len(self.emb_l) != len(ly):
                 sys.exit("ERROR: corrupted intermediate result in distributed_forward call") 
             
             # print("rank {} per_rank_table_splits: {}".format(ext_dist_two.my_rank, self.n_emb_per_rank)) 
             a2a_req = ext_dist_two.alltoall(ly, self.n_emb_per_rank) 
+            print("rank {} length of ly {}".format(ext_dist_two.my_rank, len(ly))) 
+            if ext_dist_two.my_rank == 0: 
+                for y in ly: 
+                    print("rank {} reduced yy {}".format(ext_dist_two.my_rank, y.detach().cpu())) 
 
             x = self.apply_mlp(dense_x, self.bot_l) 
 
