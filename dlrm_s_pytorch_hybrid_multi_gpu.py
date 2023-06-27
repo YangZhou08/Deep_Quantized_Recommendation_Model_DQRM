@@ -2070,7 +2070,6 @@ def train(gpu, args):
                 dlrm.investigate_ddpgradient(rank) 
                 dist.barrier() 
                 optimizer.step() 
-                break 
 
                 lr_scheduler.step() 
                 
