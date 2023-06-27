@@ -1046,7 +1046,149 @@ def dash_separated_floats(value):
                 "%s is not a valid dash separated list of floats" % value
             )
 
-    return value
+    return value 
+
+def inference_distributed(
+    rank, 
+    args, 
+    dlrm, 
+    test_ld, 
+    device, 
+    use_gpu, 
+    log_iter = -1, 
+    nbatches = -1, 
+    nbatches_test = -1, 
+    writer = None 
+): 
+    test_accu = 0
+    test_samp = 0 
+    
+    scores = [] 
+    targets = [] 
+    
+    # the function operates on one gpu 
+    num_batch = len(test_ld) 
+    for i, testBatch in enumerate(test_ld): 
+        if nbatches > 0 and i >= nbatches: 
+            break 
+        
+        X_test, lS_o_test, lS_i_test, T_test, W_test, CBPP_test = unpack_batch(
+            testBatch 
+        ) 
+        
+        if ext_dist_two.my_size > 1 and X_test.size(0) % ext_dist_two.my_size != 0: 
+            print("Warning: Skipping the batch %d with size %d" % (i, X_test.size(0))) 
+            continue 
+
+        Z_test = dlrm_wrap(
+            X_test, 
+            lS_o_test, 
+            lS_i_test, 
+            use_gpu, 
+            device, 
+            ndevices = 1, 
+            test_mode=True 
+        ) 
+        
+        if Z_test.is_cuda: 
+            torch.cuda.synchronize() 
+        (_, batch_split_lengths) = ext_dist_two.get_split_lengths(X_test.size(0)) 
+        if ext_dist_two.my_size > 1: 
+            Z_test = ext_dist_two.all_gather(Z_test, batch_split_lengths) 
+
+        S_test = Z_test.detach().cpu().numpy() 
+        T_test = T_test.detach().cpu().numpy() 
+        
+        # calculating roc auc score 
+        scores.append(S_test) 
+        targets.append(T_test) 
+        
+        mbs_test = T_test.shape[0] 
+        A_test = np.sum((np.round(S_test, 0) == T_test).astype(np.uint8)) 
+        
+        test_accu += A_test 
+        test_samp += mbs_test 
+        
+        if rank == 0 and i % 200 == 0: 
+            print("steps testing: {}".format(float(i)/num_batch), end = "\r") 
+        
+        dist.barrier() 
+    
+    print("rank: {} test_accu: {}".format(rank, test_accu)) 
+    print("get out") 
+    '''
+    print(test_accu.type) 
+    print(test_samp.type) 
+    total_accu = torch.tensor([0.0]) 
+    total_samp = torch.tensor([0.0]) 
+    for i in range(args.nodes * args.gpus): 
+        if i == rank: 
+            test_accu_hol = torch.tensor([test_accu], dtype = torch.float32, requires_grad = False, device = device) 
+        else: 
+            test_accu_hol = torch.zeros(1, dtype = torch.float32, requires_grad = False, device = device) 
+        try: 
+            dist.broadcast(test_accu_hol, src = rank) 
+        except: 
+            print("cannot broadcast") 
+        print("receive from source: {}".format(i)) 
+        if i == rank: 
+            total_samp_hol = torch.tensor([test_samp], dtype = torch.float32, requires_grad = False, device = device) 
+        else: 
+            total_samp_hol = torch.zeros(1, dtype = torch.float32, requires_grad = False, device = device) 
+        dist.broadcast(total_samp_hol, src = rank) 
+        print("others receive from source: {}".format(i)) 
+        total_accu += test_accu_hol.data 
+        total_samp += total_samp_hol.data 
+    
+    test_accu = total_accu.item() 
+    test_samp = total_samp.item() 
+    ''' 
+    
+    print("{} has test check {} and sample count {}".format(rank, test_accu, test_samp)) 
+    
+    acc_test = test_accu / test_samp 
+    '''
+    writer.add_scalar("Test/Acc", acc_test, log_iter) 
+    ''' 
+    
+    if rank == 0: 
+        model_metrics_dict = {
+            "nepochs": args.nepochs,
+            "nbatches": nbatches,
+            "nbatches_test": nbatches_test,
+            "state_dict": dlrm.state_dict(),
+            "test_acc": acc_test,
+        } 
+    
+    global best_acc_test 
+    is_best = acc_test > best_acc_test 
+    if is_best: 
+        best_acc_test = acc_test 
+        
+    scores = np.concatenate(scores, axis = 0) 
+    targets = np.concatenate(targets, axis = 0) 
+    roc_auc = sklearn.metrics.roc_auc_score(targets, scores) 
+    
+    global best_auc_test 
+    best_auc_test = roc_auc if roc_auc > best_auc_test else best_auc_test 
+    
+    '''
+    print(
+        " accuracy {:3.3f} %, best {:3.3f} %".format(
+            acc_test * 100, best_acc_test * 100 
+        ), 
+        flush = True, 
+    ) 
+    ''' 
+    if rank == 0: 
+        print(
+            " accuracy {:3.3f} %, best {:3.3f} %, roc auc score {:.4f}, best {:.4f}".format(
+                acc_test * 100, best_acc_test * 100, roc_auc, best_auc_test), 
+            flush = True 
+            )
+        return model_metrics_dict, is_best 
+    else: 
+        return 
 
 
 def inference(
@@ -1972,7 +2114,8 @@ def run():
                             previous_iteration_time = None
                         print(
                             "Testing at - {}/{} of epoch {},".format(j + 1, nbatches, k)
-                        )
+                        ) 
+                        '''
                         model_metrics_dict, is_best = inference(
                             args,
                             dlrm,
@@ -1983,12 +2126,25 @@ def run():
                             use_gpu,
                             log_iter,
                         )
-
+                        ''' 
+                        model_metrics_dict, is_best = inference_distributed(
+                            ext_dist_three.my_rank, 
+                            args, 
+                            dlrm, 
+                            test_ld, 
+                            device, 
+                            use_gpu, 
+                            log_iter, 
+                            nbatches, 
+                            nbatches_test, 
+                            writer 
+                        ) 
                         if (
                             is_best
                             and not (args.save_model == "")
                             and not args.inference_only
-                        ):
+                            and ext_dist_three.my_rank == 0 
+                        ): 
                             model_metrics_dict["epoch"] = k
                             model_metrics_dict["iter"] = j + 1
                             model_metrics_dict["train_loss"] = train_loss
@@ -2072,7 +2228,8 @@ def run():
                     },
                 )
         else:
-            print("Testing for inference only")
+            print("Testing for inference only") 
+            '''
             inference(
                 args,
                 dlrm,
@@ -2081,7 +2238,20 @@ def run():
                 test_ld,
                 device,
                 use_gpu,
-            )
+            ) 
+            ''' 
+            inference_distributed(
+                ext_dist_three.my_rank, 
+                args, 
+                dlrm, 
+                test_ld, 
+                device, 
+                use_gpu, 
+                log_iter, 
+                nbatches = nbatches, 
+                nbatches_test = nbatches_test, 
+                writer = writer 
+            ) 
 
     # profiling
     if args.enable_profiling:
