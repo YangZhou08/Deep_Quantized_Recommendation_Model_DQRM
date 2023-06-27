@@ -801,6 +801,7 @@ class DLRM_Net(nn.Module):
         
         # check whether mlp is converted from full precision to weight_bit quantized bit width 
         global change_lin_full_quantize 
+        change_lin_full_quantize = False 
         if change_lin_full_quantize: 
             change_lin_full_quantize = False # clear flag 
             self.quantize_act_and_lin = True 
