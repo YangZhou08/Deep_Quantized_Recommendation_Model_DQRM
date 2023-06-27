@@ -97,6 +97,16 @@ from tricks.md_embedding_bag import PrEmbeddingBag, md_solver
 # quotient-remainder trick
 from tricks.qr_embedding_bag import QREmbeddingBag
 
+from quantization_supp.quant_modules_not_quantize_grad import QuantEmbeddingBagTwo 
+from quantization_supp.quant_modules_not_quantize_grad import QuantLinear 
+from quantization_supp.quant_modules_not_quantize_grad import QuantAct 
+from quantization_supp.quant_utils import symmetric_linear_quantization_params 
+from quantization_supp.quant_utils import SymmetricQuantFunction 
+from quantization_supp.quant_utils import linear_quantize 
+
+from sgd_quantized_gradients import quantized_gradients_update 
+from sgd_quantized_gradients import clear_gradients 
+
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore", category=DeprecationWarning)
     try:
@@ -196,14 +206,16 @@ class LRPolicyScheduler(_LRScheduler):
 
 ### define dlrm in PyTorch ###
 class DLRM_Net(nn.Module):
-    def create_mlp(self, ln, sigmoid_layer):
+    def create_mlp(self, ln, sigmoid_layer, quant_linear_layer = False, channelwise_lin = False, quantize_activation = False): 
         # build MLP layer by layer
         layers = nn.ModuleList()
         for i in range(0, ln.size - 1):
             n = ln[i]
             m = ln[i + 1]
 
-            # construct fully connected operator
+            # print("rank {} mlp layer with dimension {} and or by {}".format(ext_dist_two.my_local_rank, n, m)) 
+            print("rank {} mlp layer with dimension {} and or by {}".format(ext_dist_three.my_local_rank, n, m)) 
+            # construct fully connected operator 
             LL = nn.Linear(int(n), int(m), bias=True)
 
             # initialize the weights
@@ -213,36 +225,65 @@ class DLRM_Net(nn.Module):
             std_dev = np.sqrt(2 / (m + n))  # np.sqrt(1 / m) # np.sqrt(1 / n)
             W = np.random.normal(mean, std_dev, size=(m, n)).astype(np.float32)
             std_dev = np.sqrt(1 / m)  # np.sqrt(2 / (m + 1))
-            bt = np.random.normal(mean, std_dev, size=m).astype(np.float32)
+            bt = np.random.normal(mean, std_dev, size=m).astype(np.float32) 
+            '''
+            LL = nn.Linear(int(n), int(m), bias = False) 
+            mean = 0.0 
+            std_dev = np.sqrt(2 / (m + n)) 
+            W = np.random.normal(mean, std_dev, size = (m, n)).astype(np.float32) 
+            ''' 
             # approach 1
-            LL.weight.data = torch.tensor(W, requires_grad=True)
-            LL.bias.data = torch.tensor(bt, requires_grad=True)
+            LL.weight.data = torch.tensor(W, requires_grad=True) 
+            LL.bias.data = torch.tensor(bt, requires_grad=True) 
             # approach 2
             # LL.weight.data.copy_(torch.tensor(W))
             # LL.bias.data.copy_(torch.tensor(bt))
             # approach 3
             # LL.weight = Parameter(torch.tensor(W),requires_grad=True)
-            # LL.bias = Parameter(torch.tensor(bt),requires_grad=True)
-            layers.append(LL)
-
+            # LL.bias = Parameter(torch.tensor(bt),requires_grad=True) 
+            if self.quantization_flag and quant_linear_layer: # TODO recheck intentionally reverse logic updated: checked 
+                '''
+                print("use quant linear, input {}, output {}, quantization bit width {}, use full precision {}".format(n, m, self.weight_bit, "32-bit single precision" if not self.quantize_act_and_lin else "quantized")) 
+                ''' 
+                print("use quant linear, input {}, output {}, quantization bit width {}, use full precision {} and channelwise status {}".format(n, m, self.weight_bit, "32-bit single precision" if not self.quantize_act_and_lin else "quantized", "channelwise" if self.channelwise_lin else "not channelwise")) 
+                QuantLnr = QuantLinear( 
+                    weight_bit = self.weight_bit, 
+                    bias_bit = self.weight_bit, 
+                    full_precision_flag = not self.quantize_act_and_lin, 
+                    per_channel = channelwise_lin, 
+                    quantize_activation = quantize_activation 
+                ) 
+                QuantLnr.set_param(LL) 
+                layers.append(QuantLnr) 
+            else: 
+                layers.append(LL) 
             # construct sigmoid or relu operator
             if i == sigmoid_layer:
-                layers.append(nn.Sigmoid())
+                layers.append(nn.Sigmoid()) 
             else:
-                layers.append(nn.ReLU())
+                layers.append(nn.ReLU()) 
 
         # approach 1: use ModuleList
         # return layers
-        # approach 2: use Sequential container to wrap all layers
-        return torch.nn.Sequential(*layers)
+        # approach 2: use Sequential container to wrap all layers 
+        if not self.quantization_flag: # TODO recheck intentionally reversed logic updated: checked 
+            return torch.nn.Sequential(*layers) 
+        else: 
+            return layers 
+        '''
+        return layers 
+        ''' 
 
     def create_emb(self, m, ln, weighted_pooling=None):
         emb_l = nn.ModuleList()
-        v_W_l = []
-        for i in range(0, ln.size):
-            if ext_dist_three.my_size > 1:
+        v_W_l = [] 
+        print("world size found is " + str(ext_dist_three.my_size)) 
+        for i in range(0, ln.size): 
+            # each gpu will have all embedding tables 
+            # if ext_dist_two.my_size > 1: 
+            if ext_dist_three.my_size > 1: 
                 if i not in self.local_emb_indices:
-                    continue
+                    continue 
             n = ln[i]
 
             # construct embedding operator
@@ -264,19 +305,34 @@ class DLRM_Net(nn.Module):
                     low=-np.sqrt(1 / n), high=np.sqrt(1 / n), size=(n, _m)
                 ).astype(np.float32)
                 EE.embs.weight.data = torch.tensor(W, requires_grad=True)
+            elif self.quantization_flag: 
+                print("---------- Embedding Table {}, quantization used, n = {}, m = {}, quantization bit set to {}".format(i, n, m, self.embedding_bit)) 
+                EE = QuantEmbeddingBagTwo(n, m, self.embedding_bit, embedding_id = i) 
             else:
-                EE = nn.EmbeddingBag(n, m, mode="sum", sparse=True)
+                # print("---------- rank {} Embedding Table {}, quantization not used, n = {}, m = {}".format(ext_dist_two.my_rank, i, n, m)) 
+                print("---------- rank {} Embedding Table {}, quantization not used, n = {}, m = {}".format(ext_dist_three.my_rank, i, n, m)) 
+                EE = nn.EmbeddingBag(n, m, mode="sum", sparse=True) 
                 # initialize embeddings
-                # nn.init.uniform_(EE.weight, a=-np.sqrt(1 / n), b=np.sqrt(1 / n))
+                # nn.init.uniform_(EE.weight, a=-np.sqrt(1 / n), b=np.sqrt(1 / n)) 
                 W = np.random.uniform(
                     low=-np.sqrt(1 / n), high=np.sqrt(1 / n), size=(n, m)
-                ).astype(np.float32)
+                ).astype(np.float32) 
+                '''
+                W = np.random.normal(
+                    loc = 0, scale = np.sqrt(1/n), size = (n, m) 
+                ).astype(np.float32) 
+                ''' 
+                '''
+                W = np.random.normal( 
+                    loc = 0, scale = 0.03, size = (n, m) 
+                ).astype(np.float32) 
+                ''' 
                 # approach 1
                 EE.weight.data = torch.tensor(W, requires_grad=True)
                 # approach 2
                 # EE.weight.data.copy_(torch.tensor(W))
                 # approach 3
-                # EE.weight = Parameter(torch.tensor(W),requires_grad=True)
+                # EE.weight = Parameter(torch.tensor(W),requires_grad=True) 
             if weighted_pooling is None:
                 v_W_l.append(None)
             else:
@@ -304,8 +360,16 @@ class DLRM_Net(nn.Module):
         md_flag=False,
         md_threshold=200,
         weighted_pooling=None,
-        loss_function="bce"
-    ):
+        loss_function="bce", 
+        quantization_flag = False, 
+        embedding_bit = 32, 
+        modify_feature_interaction = False, 
+        weight_bit = 8, 
+        quantize_act_and_lin = False, 
+        mlp_channelwise = False, 
+        quantize_activation = False, 
+        deviceid = None, 
+        args = None): 
         super(DLRM_Net, self).__init__()
 
         if (
@@ -325,7 +389,27 @@ class DLRM_Net(nn.Module):
             self.arch_interaction_itself = arch_interaction_itself
             self.sync_dense_params = sync_dense_params
             self.loss_threshold = loss_threshold
-            self.loss_function=loss_function
+            self.loss_function=loss_function 
+            
+            # add quantization identification 
+            self.quantization_flag = quantization_flag 
+            self.embedding_bit = embedding_bit 
+            self.modify_feature_interaction = modify_feature_interaction 
+            self.weight_bit = weight_bit 
+            self.quantize_act_and_lin = quantize_act_and_lin and quantization_flag # only if both is true 
+            self.change_lin_from_full_to_quantized = False 
+            self.channelwise_lin = mlp_channelwise 
+            self.quantize_activation = quantize_activation 
+            self.deviceid = deviceid 
+            self.args = args 
+
+            if self.quantization_flag: 
+                self.quant_input = QuantAct(activation_bit = self.weight_bit if self.weight_bit >= 8 else 8, act_range_momentum = -1) 
+                self.quant_feature_outputs = QuantAct(fixed_point_quantization = True, activation_bit = self.weight_bit if self.weight_bit >= 8 else 8, act_range_momentum = -1) # recheck activation_bit 
+                self.register_buffer('feature_xmin', torch.zeros(1)) 
+                self.register_buffer('feature_xmax', torch.zeros(1)) 
+                self.register_buffer('features_scaling_factor', torch.zeros(1)) 
+            
             if weighted_pooling is not None and weighted_pooling != "fixed":
                 self.weighted_pooling = "learned"
             else:
@@ -342,31 +426,60 @@ class DLRM_Net(nn.Module):
                 self.md_threshold = md_threshold
 
             # If running distributed, get local slice of embedding tables
-            if ext_dist_three.my_size > 1:
+            # if ext_dist.my_size > 1:
+            # if ext_dist_two.my_size > 1: 
+            if ext_dist_three.my_size > 1: 
                 n_emb = len(ln_emb)
-                if n_emb < ext_dist_three.my_size:
+                # if n_emb < ext_dist.my_size:
+                # if n_emb < ext_dist_two.my_size: 
+                if n_emb < ext_dist_three.my_size: 
                     sys.exit(
                         "only (%d) sparse features for (%d) devices, table partitions will fail"
-                        % (n_emb, ext_dist_three.my_size)
+                        % (n_emb, args.world_size) # (n_emb, ext_dist.my_size)
                     )
                 self.n_global_emb = n_emb
-                self.n_local_emb, self.n_emb_per_rank = ext_dist_three.get_split_lengths(
+                # self.n_local_emb, self.n_emb_per_rank = ext_dist.get_split_lengths( 
+                '''
+                self.n_local_emb, self.n_emb_per_rank = ext_dist_two.get_split_lengths( 
                     n_emb
+                ) 
+                ''' 
+                self.n_local_emb, self.n_emb_per_rank = ext_dist_three.get_split_lengths(
+                    n_emb 
                 )
-                self.local_emb_slice = ext_dist_three.get_my_slice(n_emb)
+                # self.local_emb_slice = ext_dist.get_my_slice(n_emb) 
+                # self.local_emb_slice = ext_dist_two.get_my_slice(n_emb) 
+                self.local_emb_slice = ext_dist_three.get_my_slice(n_emb) 
                 self.local_emb_indices = list(range(n_emb))[self.local_emb_slice]
+
+                # print("rank {}, local embedding indices {}".format(ext_dist_two.my_rank, self.local_emb_indices)) 
+                print("rank {}, local embedding indices {}".format(ext_dist_three.my_rank, self.local_emb_indices)) 
 
             # create operators
             if ndevices <= 1:
-                self.emb_l, w_list = self.create_emb(m_spa, ln_emb, weighted_pooling)
+                self.emb_l, w_list = self.create_emb(m_spa, ln_emb, weighted_pooling) 
                 if self.weighted_pooling == "learned":
                     self.v_W_l = nn.ParameterList()
                     for w in w_list:
                         self.v_W_l.append(Parameter(w))
                 else:
-                    self.v_W_l = w_list
-            self.bot_l = self.create_mlp(ln_bot, sigmoid_bot)
-            self.top_l = self.create_mlp(ln_top, sigmoid_top)
+                    self.v_W_l = w_list 
+            '''
+            else: 
+                self.v_W_l = [] 
+                for i in range(len(ln_emb)): 
+                    n = ln_emb[i] 
+                    self.v_W_l.append(Parameter(torch.ones(n, dtype = torch.float32))) 
+            ''' 
+            '''
+            self.bot_l = self.create_mlp(ln_bot, sigmoid_bot) 
+            ''' 
+            self.bot_l = self.create_mlp(ln_bot, sigmoid_bot, quant_linear_layer = self.quantize_act_and_lin, channelwise_lin = self.channelwise_lin, quantize_activation = self.quantize_activation) 
+            self.top_l = self.create_mlp(ln_top, sigmoid_top, quant_linear_layer = self.quantize_act_and_lin, channelwise_lin = self.channelwise_lin, quantize_activation = self.quantize_activation) 
+            if self.quantize_activation: 
+                print("activation is quantized") 
+            else: 
+                print("not quantize activations, quantize weights") 
 
             # quantization
             self.quantize_emb = False
@@ -386,17 +499,78 @@ class DLRM_Net(nn.Module):
             else:
                 sys.exit(
                     "ERROR: --loss-function=" + self.loss_function + " is not supported"
-                )
+                ) 
 
-    def apply_mlp(self, x, layers):
+    def apply_mlp(self, x, layers, prev_act_scaling_factor = None): 
         # approach 1: use ModuleList
         # for layer in layers:
         #     x = layer(x)
         # return x
-        # approach 2: use Sequential container to wrap all layers
-        return layers(x)
+        # approach 2: use Sequential container to wrap all layers 
+        '''
+        count = 0 
+        if not self.quantization_flag: # TODO recheck intentional reverse logic updated: check 
+            return layers(x) 
+        else: 
+            for layer in layers: 
+                if isinstance(layer, QuantLinear): 
+                    x, prev_act_scaling_factor = layer(x, prev_act_scaling_factor) 
+                    print("oooooooooooooooooo LAYER {} ooooooooooooooooo".format(count)) 
+                    print("output") 
+                    print(x) 
+                    print("scale") 
+                    print(prev_act_scaling_factor) 
+                    count += 1 
+                else: 
+                    x = layer(x) 
+            return x 
+        ''' 
+        count = 0 
+        if self.args.quantization_flag: 
+            for layer in layers.module: 
+                if isinstance(layer, QuantLinear): 
+                    global change_bitw, change_bitw2 
+                    if change_bitw: 
+                        self.weight_bit = change_bitw2 
+                        layer.weight_bit = change_bitw2 
+                        layer.bias_bit = change_bitw2 
+                        print("change bit width to {}".format(change_bitw2)) 
+                    
+                    if self.change_lin_from_full_to_quantized: 
+                        layer.full_precision_flag = False 
+                        print("from full to {} bit quantized".format(layer.weight_bit)) 
+                    '''
+                    # identifying layer count 
+                    print("layer", count) 
+                    count += 1 
+                    ''' 
+                    x, prev_act_scaling_factor = layer(x, prev_act_scaling_factor) 
+                    '''
+                    print("layer {}".format(count)) 
+                    print(prev_act_scaling_factor.shape) 
+                    ''' 
+                    '''
+                    print("ooooooooooooooooooo LAYER {} oooooooooooooooooooo".format(count)) 
+                    print("output") 
+                    print(x[0 : 10]) 
+                    print("scale") 
+                    print(prev_act_scaling_factor) 
+                    count += 1 
+                elif isinstance(layer, nn.Linear): 
+                    x = layer(x) 
+                    print("ooooooooooooooooooo LAYER {} oooooooooooooooooooo".format(count)) 
+                    print("output") 
+                    print(x[0 : 10]) 
+                    count += 1 
+                ''' 
+                else: 
+                    x = layer(x) 
+                    # print out the layer weights
+        else: 
+            x = layers(x) 
+        return x 
 
-    def apply_emb(self, lS_o, lS_i, emb_l, v_W_l):
+    def apply_emb(self, lS_o, lS_i, emb_l, v_W_l, test_mode = False): 
         # WARNING: notice that we are processing the batch at once. We implicitly
         # assume that the data is laid out such that:
         # 1. each embedding is indexed with a group of sparse indices,
@@ -415,6 +589,7 @@ class DLRM_Net(nn.Module):
             # E = emb_l[k]
 
             if v_W_l[k] is not None:
+                print("per sample weights found") 
                 per_sample_weights = v_W_l[k].gather(0, sparse_index_group_batch)
             else:
                 per_sample_weights = None
@@ -441,12 +616,30 @@ class DLRM_Net(nn.Module):
 
                 ly.append(QV)
             else:
-                E = emb_l[k]
-                V = E(
-                    sparse_index_group_batch,
-                    sparse_offset_group_batch,
-                    per_sample_weights=per_sample_weights,
-                )
+                E = emb_l[k] 
+                if self.quantization_flag: 
+                    '''
+                    V = E(
+                        sparse_index_group_batch,
+                        sparse_offset_group_batch,
+                        per_sample_weights=per_sample_weights, 
+                        full_precision_flag = full_precision_flag, 
+                        test_mode = test_mode 
+                    ) 
+                    ''' 
+                    V = E(
+                        sparse_index_group_batch, 
+                        sparse_offset_group_batch, 
+                        per_sample_weights = per_sample_weights, 
+                        full_precision_flag = True, 
+                        test_mode = test_mode 
+                    )
+                else: 
+                    V = E(
+                        sparse_index_group_batch, 
+                        sparse_offset_group_batch, 
+                        per_sample_weights = per_sample_weights 
+                    ) 
 
                 ly.append(V)
 
@@ -475,262 +668,358 @@ class DLRM_Net(nn.Module):
 
     def interact_features(self, x, ly):
 
-        if self.arch_interaction_op == "dot":
-            # concatenate dense and sparse features
-            (batch_size, d) = x.shape
-            T = torch.cat([x] + ly, dim=1).view((batch_size, -1, d))
-            # perform a dot product
-            Z = torch.bmm(T, torch.transpose(T, 1, 2))
-            # append dense feature with the interactions (into a row vector)
-            # approach 1: all
-            # Zflat = Z.view((batch_size, -1))
-            # approach 2: unique
-            _, ni, nj = Z.shape
-            # approach 1: tril_indices
-            # offset = 0 if self.arch_interaction_itself else -1
-            # li, lj = torch.tril_indices(ni, nj, offset=offset)
-            # approach 2: custom
-            offset = 1 if self.arch_interaction_itself else 0
-            li = torch.tensor([i for i in range(ni) for j in range(i + offset)])
-            lj = torch.tensor([j for i in range(nj) for j in range(i + offset)])
-            Zflat = Z[:, li, lj]
-            # concatenate dense features and interactions
-            R = torch.cat([x] + [Zflat], dim=1)
-        elif self.arch_interaction_op == "cat":
-            # concatenation features (into a row vector)
-            R = torch.cat([x] + ly, dim=1)
-        else:
-            sys.exit(
-                "ERROR: --arch-interaction-op="
-                + self.arch_interaction_op
-                + " is not supported"
-            )
-
-        return R
-
-    def forward(self, dense_x, lS_o, lS_i):
-        if ext_dist_three.my_size > 1: 
+        if not self.modify_feature_interaction: 
+            # no quantization 
+            if self.arch_interaction_op == "dot": 
+                # concatenate dense and sparse features
+                (batch_size, d) = x.shape
+                T = torch.cat([x] + ly, dim=1).view((batch_size, -1, d))
+                # perform a dot product
+                Z = torch.bmm(T, torch.transpose(T, 1, 2))
+                # append dense feature with the interactions (into a row vector)
+                # approach 1: all
+                # Zflat = Z.view((batch_size, -1))
+                # approach 2: unique
+                _, ni, nj = Z.shape
+                # approach 1: tril_indices
+                # offset = 0 if self.arch_interaction_itself else -1
+                # li, lj = torch.tril_indices(ni, nj, offset=offset)
+                # approach 2: custom
+                offset = 1 if self.arch_interaction_itself else 0
+                li = torch.tensor([i for i in range(ni) for j in range(i + offset)]) 
+                lj = torch.tensor([j for i in range(nj) for j in range(i + offset)])
+                Zflat = Z[:, li, lj]
+                # concatenate dense features and interactions
+                R = torch.cat([x] + [Zflat], dim=1)
+            elif self.arch_interaction_op == "cat":
+                # concatenation features (into a row vector)
+                R = torch.cat([x] + ly, dim=1)
+            else:
+                sys.exit(
+                    "ERROR: --arch-interaction-op="
+                    + self.arch_interaction_op
+                    + " is not supported"
+                ) 
+            
+            # change on return values 
             '''
-            print("------ distributed --------") 
+            return R 
             ''' 
-            # multi-node multi-device run
-            return self.distributed_forward(dense_x, lS_o, lS_i)
-        elif self.ndevices <= 1:
-            # single device run
-            '''
-            print("------ sequential --------") 
-            ''' 
-            return self.sequential_forward(dense_x, lS_o, lS_i)
-        else:
-            # single-node multi-device run 
-            '''
-            print("------ parallel --------") 
-            ''' 
-            return self.parallel_forward(dense_x, lS_o, lS_i)
+        else: 
+            # quantization used to make possible bmm operation in context of integers 
+            if not self.quantization_flag: 
+                print("Warning: modify interaction features only happens when quantization_flag is set now it is not set results is not expected to be valid") 
+            if self.arch_interaction_op == "dot": 
+                (batch_size, d) = x.shape 
+                T = torch.cat([x] + ly, dim = 1).view((batch_size, -1, d)) 
+                x_min = T.data.min() 
+                x_max = T.data.max() 
+                '''
+                # Initialization 
+                if self.feature_xmin == self.feature_xmax: 
+                    self.feature_xmin += x_min 
+                    self.feature_xmax += x_max 
+                
+                else: 
+                    self.feature_xmin = self.feature_xmin * 0.95 + x_min * (1 - 0.95) 
+                    self.feature_xmax = self.feature_xmax * 0.95 + x_max * (1 - 0.95) 
+                ''' 
+                self.feature_xmin = x_min 
+                self.feature_xmax = x_max 
+            
+                # finding scale 
+                self.feature_scaling_factor = symmetric_linear_quantization_params(16, self.feature_xmin, self.feature_xmax, False) 
 
-    def distributed_forward(self, dense_x, lS_o, lS_i):
-        batch_size = dense_x.size()[0]
-        # WARNING: # of ranks must be <= batch size in distributed_forward call
-        if batch_size < ext_dist_three.my_size:
+                T_integers = SymmetricQuantFunction.apply(T, 16, self.feature_scaling_factor) # TODO recheck activation_bit 
+
+                Z_integers = torch.bmm(T_integers, torch.transpose(T_integers, 1, 2)) 
+
+                Z = Z_integers * (self.feature_scaling_factor ** 2) 
+                '''
+                with torch.no_grad(): 
+                    print("max bound") 
+                    print(self.feature_xmax) 
+                    print("min bound") 
+                    print(self.feature_xmin) 
+                    print("Z_integer * (feature_scaling_factor ** 2)") 
+                    print(Z[0 : 10]) 
+                    print("T dot production with T") 
+                    print(torch.bmm(T, torch.transpose(T, 1, 2))[0 : 10]) 
+                ''' 
+                # incorporate features are copied 
+                _, ni, nj = Z.shape
+                # approach 1: tril_indices
+                # offset = 0 if self.arch_interaction_itself else -1
+                # li, lj = torch.tril_indices(ni, nj, offset=offset)
+                # approach 2: custom
+                offset = 1 if self.arch_interaction_itself else 0
+                li = torch.tensor([i for i in range(ni) for j in range(i + offset)])
+                lj = torch.tensor([j for i in range(nj) for j in range(i + offset)])
+                Zflat = Z[:, li, lj]
+                # concatenate dense features and interactions
+                R = torch.cat([x] + [Zflat], dim=1) 
+
+                # since Z is of different scale 
+                # quantize again 
+            elif self.arch_interaction_op == "cat": 
+                # concatenation is copied 
+                R = torch.cat([x] + ly, dim=1) 
+        if not self.quantization_flag:  # recheck intentional reverse logic updated: check 
+            return R 
+        else: 
+            if self.quantize_activation: 
+                R, feature_scaling_factor_at_bmlp = self.quant_feature_outputs(R) 
+                return R, feature_scaling_factor_at_bmlp 
+            else: 
+                return R, None 
+
+
+    def forward(self, dense_x, lS_o, lS_i, test_mode = False): 
+        batch_size = dense_x.size()[0] 
+        # if batch_size < ext_dist_two.my_size:
+        if batch_size < ext_dist_three.my_size: 
             sys.exit(
                 "ERROR: batch_size (%d) must be larger than number of ranks (%d)"
-                % (batch_size, ext_dist_three.my_size)
-            )
-        if batch_size % ext_dist_three.my_size != 0:
+                % (batch_size, ext_dist_three.my_size) # batch_size, ext_dist_two.my_size 
+            ) 
+        # if batch_size % ext_dist_two.my_size != 0: 
+        if batch_size % ext_dist_three.my_size != 0: 
             sys.exit(
                 "ERROR: batch_size %d can not split across %d ranks evenly"
-                % (batch_size, ext_dist_three.my_size)
-            )
-
-        dense_x = dense_x[ext_dist_three.get_my_slice(batch_size)]
-        lS_o = lS_o[self.local_emb_slice]
-        lS_i = lS_i[self.local_emb_slice]
+                % (batch_size, ext_dist_three.my_size) # batch_size, ext_dist_two.my_size
+            ) 
+        
+        # dense_x = dense_x[ext_dist_two.get_my_slice(batch_size)] 
+        dense_x = dense_x[ext_dist_three.get_my_slice(batch_size)] 
+        lS_o = lS_o[self.local_emb_slice] 
+        lS_i = lS_i[self.local_emb_slice] 
 
         if (len(self.emb_l) != len(lS_o)) or (len(self.emb_l) != len(lS_i)):
             sys.exit(
                 "ERROR: corrupted model input detected in distributed_forward call"
             )
+        
+        # check whether mlp is converted from full precision to weight_bit quantized bit width 
+        global change_lin_full_quantize 
+        if change_lin_full_quantize: 
+            change_lin_full_quantize = False # clear flag 
+            self.quantize_act_and_lin = True 
+            self.change_lin_from_full_to_quantized = True 
 
-        # embeddings
-        with record_function("DLRM embedding forward"):
-            ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l)
+        if not self.quantization_flag: 
+            # process dense features (using bottom mlp), resulting in a row vector
+            # debug prints
+            # print("intermediate")
+            # print(x.detach().cpu().numpy())
 
-        # WARNING: Note that at this point we have the result of the embedding lookup
-        # for the entire batch on each rank. We would like to obtain partial results
-        # corresponding to all embedding lookups, but part of the batch on each rank.
-        # Therefore, matching the distribution of output of bottom mlp, so that both
-        # could be used for subsequent interactions on each device.
-        if len(self.emb_l) != len(ly):
-            sys.exit("ERROR: corrupted intermediate result in distributed_forward call")
+            # process sparse features(using embeddings), resulting in a list of row vectors
+            ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
+            # print(len(ly)) 
+            # for y in ly:
+            #     print(y.detach().cpu().numpy())
+            '''
+            print("rank {} len of ly: {}".format(ext_dist_two.my_rank, len(ly))) 
+            for y in ly: 
+                print("rank {} y {}".format(ext_dist_two.my_rank, y.detach().cpu().shape)) 
+            ''' 
+            if len(self.emb_l) != len(ly):
+                sys.exit("ERROR: corrupted intermediate result in distributed_forward call") 
+            
+            # print("rank {} per_rank_table_splits: {}".format(ext_dist_two.my_rank, self.n_emb_per_rank)) 
+            # a2a_req = ext_dist_two.alltoall(ly, self.n_emb_per_rank) 
+            a2a_req = ext_dist_three.alltoall(ly, self.n_emb_per_rank) 
+    
+            x = self.apply_mlp(dense_x, self.bot_l) 
 
-        a2a_req = ext_dist_three.alltoall(ly, self.n_emb_per_rank)
+            ly = a2a_req.wait() 
+            ''' 
+            print("rank {} length of ly {}".format(ext_dist_two.my_rank, len(ly))) 
+            for y in ly: 
+                print("rank {} reduced yy {}".format(ext_dist_two.my_rank, y.detach().cpu().shape)) 
+                dist.barrier() 
+            ''' 
+            ly = list(ly) 
+            # print("length embedding table num: {}".format(len(ly))) 
+            # print("rank {} ly 0 length: {} ly 1 length: {} ly 2 length: {} ly 3 length: {}".format(ext_dist_two.my_rank, len(ly[0]), len(ly[1]), len(ly[2]), len(ly[3]))) 
 
-        with record_function("DLRM bottom nlp forward"):
-            x = self.apply_mlp(dense_x, self.bot_l)
-
-        ly = a2a_req.wait()
-        ly = list(ly)
-
-        # interactions
-        with record_function("DLRM interaction forward"):
+            # interact features (dense and sparse)
             z = self.interact_features(x, ly)
-
-        # top mlp
-        with record_function("DLRM top nlp forward"):
+            # print(z.detach().cpu().numpy())
+            '''
+            z = []
+            for k in range(ndevices):
+                zk = self.interact_features(x[k], ly[k]) 
+                z.append(zk) 
+            ''' 
+            # obtain probability of a click (using top mlp)
             p = self.apply_mlp(z, self.top_l)
 
-        # clamp output if needed
-        if 0.0 < self.loss_threshold and self.loss_threshold < 1.0:
-            z = torch.clamp(p, min=self.loss_threshold, max=(1.0 - self.loss_threshold))
-        else:
-            z = p
-
-        return z
-
-    def sequential_forward(self, dense_x, lS_o, lS_i):
-        # process dense features (using bottom mlp), resulting in a row vector
-        x = self.apply_mlp(dense_x, self.bot_l)
-        # debug prints
-        # print("intermediate")
-        # print(x.detach().cpu().numpy())
-
-        # process sparse features(using embeddings), resulting in a list of row vectors
-        ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l)
-        # for y in ly:
-        #     print(y.detach().cpu().numpy())
-
-        # interact features (dense and sparse)
-        z = self.interact_features(x, ly)
-        # print(z.detach().cpu().numpy())
-
-        # obtain probability of a click (using top mlp)
-        p = self.apply_mlp(z, self.top_l)
-
-        # clamp output if needed
-        if 0.0 < self.loss_threshold and self.loss_threshold < 1.0:
-            z = torch.clamp(p, min=self.loss_threshold, max=(1.0 - self.loss_threshold))
-        else:
-            z = p
-
-        return z
-
-    def parallel_forward(self, dense_x, lS_o, lS_i):
-        ### prepare model (overwrite) ###
-        # WARNING: # of devices must be >= batch size in parallel_forward call
-        batch_size = dense_x.size()[0]
-        ndevices = min(self.ndevices, batch_size, len(self.emb_l))
-        device_ids = range(ndevices)
-        # WARNING: must redistribute the model if mini-batch size changes(this is common
-        # for last mini-batch, when # of elements in the dataset/batch size is not even
-        if self.parallel_model_batch_size != batch_size:
-            self.parallel_model_is_not_prepared = True
-
-        if self.parallel_model_is_not_prepared or self.sync_dense_params:
-            # replicate mlp (data parallelism)
-            self.bot_l_replicas = replicate(self.bot_l, device_ids)
-            self.top_l_replicas = replicate(self.top_l, device_ids)
-            self.parallel_model_batch_size = batch_size
-
-        if self.parallel_model_is_not_prepared:
-            # distribute embeddings (model parallelism)
-            t_list = []
-            w_list = []
-            for k, emb in enumerate(self.emb_l):
-                d = torch.device("cuda:" + str(k % ndevices))
-                t_list.append(emb.to(d))
-                if self.weighted_pooling == "learned":
-                    w_list.append(Parameter(self.v_W_l[k].to(d)))
-                elif self.weighted_pooling == "fixed":
-                    w_list.append(self.v_W_l[k].to(d))
-                else:
-                    w_list.append(None)
-            self.emb_l = nn.ModuleList(t_list)
-            if self.weighted_pooling == "learned":
-                self.v_W_l = nn.ParameterList(w_list)
+            # clamp output if needed
+            if 0.0 < self.loss_threshold and self.loss_threshold < 1.0:
+                z = torch.clamp(p, min=self.loss_threshold, max=(1.0 - self.loss_threshold))
             else:
-                self.v_W_l = w_list
-            self.parallel_model_is_not_prepared = False
+                z = p
 
-        ### prepare input (overwrite) ###
-        # scatter dense features (data parallelism)
-        # print(dense_x.device)
-        dense_x = scatter(dense_x, device_ids, dim=0)
-        # distribute sparse features (model parallelism)
-        if (len(self.emb_l) != len(lS_o)) or (len(self.emb_l) != len(lS_i)):
-            sys.exit("ERROR: corrupted model input detected in parallel_forward call")
+            return z 
+        else: 
+            if (not self.quantize_act_and_lin) and self.quantize_activation: 
+                # used for cases where embedding tables are quantized while mlp is in full precision 
+                x, act_scaling_factor = self.quant_input(dense_x) 
+                x = self.apply_mlp(x, self.bot_l) # not used with scale 
+                ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
+                z, feature_scaling_factor = self.interact_features(x, ly) 
+                p = self.apply_mlp(z, self.top_l) # not used with scale 
+            elif not self.quantize_activation: 
+                # this part has been modified to be distributed with hybrid parallelism 
+                ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
+                if len(self.emb_l) != len(ly): 
+                    sys.exit("ERROR: corrupted intermediate result in distributed_forward call") 
+                # a2a_req = ext_dist_two.alltoall(ly, self.n_emb_per_rank) 
+                a2a_req = ext_dist_three.alltoall(ly, self.n_emb_per_rank) 
+                x = self.apply_mlp(dense_x, self.bot_l, prev_act_scaling_factor = None) 
+                ly = a2a_req.wait() 
+                ly = list(ly) 
+                z, feature_scaling_factor = self.interact_features(x, ly) 
+                p = self.apply_mlp(z, self.top_l, prev_act_scaling_factor = feature_scaling_factor) 
+            else: 
+                # used for cases where embedding tables and mlp are quantized 
+                x, act_scaling_factor = self.quant_input(dense_x) 
+                if act_scaling_factor is None: 
+                    print("tuple is x") 
+                '''
+                else: 
+                    print("oooooooooooooooooooo First oooooooooooooooooooo") 
+                    print("activation bit") 
+                    print(self.quant_input.activation_bit) 
+                    print("output") 
+                    print(x[0]) 
+                    print("scale") 
+                    print(act_scaling_factor) 
+                ''' 
 
-        t_list = []
-        i_list = []
-        for k, _ in enumerate(self.emb_l):
-            d = torch.device("cuda:" + str(k % ndevices))
-            t_list.append(lS_o[k].to(d))
-            i_list.append(lS_i[k].to(d))
-        lS_o = t_list
-        lS_i = i_list
+                x = self.apply_mlp(x, self.bot_l, prev_act_scaling_factor = act_scaling_factor) 
+                ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l, test_mode = test_mode) 
+                z, feature_scaling_factor = self.interact_features(x, ly) 
+                p = self.apply_mlp(z, self.top_l, prev_act_scaling_factor = feature_scaling_factor) 
+            # copy clamp 
+            if 0.0 < self.loss_threshold and self.loss_threshold < 1.0:
+                z = torch.clamp(p, min=self.loss_threshold, max=(1.0 - self.loss_threshold)) 
+            else:
+                z = p
 
-        ### compute results in parallel ###
-        # bottom mlp
-        # WARNING: Note that the self.bot_l is a list of bottom mlp modules
-        # that have been replicated across devices, while dense_x is a tuple of dense
-        # inputs that has been scattered across devices on the first (batch) dimension.
-        # The output is a list of tensors scattered across devices according to the
-        # distribution of dense_x.
-        x = parallel_apply(self.bot_l_replicas, dense_x, None, device_ids)
-        # debug prints
-        # print(x)
+            global change_bitw 
+            if change_bitw: 
+                change_bitw = False 
+                print("find that bit width change enables, all linear layers are with updated bit width") 
+            
+            if self.change_lin_from_full_to_quantized: 
+                self.change_lin_from_full_to_quantized = False 
+                print("find that lin from full to quantized enabled, changes made") 
 
-        # embeddings
-        ly = self.apply_emb(lS_o, lS_i, self.emb_l, self.v_W_l)
-        # debug prints
-        # print(ly)
+            return z 
+    
+    def investigate_ddpgradient(self, rank): 
+        with torch.no_grad(): 
+            if rank == 0: 
+                print("investigating top layer weight gradients: ") 
+            for names, param in self.top_l.module.named_parameters(): 
+                if len(param.grad.shape) > 1: 
+                    # print(param.grad.shape) 
+                    print("rank {} name {} part of the grad {}".format(rank, names, param.grad[0][: 10])) 
+                else: 
+                    print("rank {} name {} part of the grad {}".format(rank, names, param.grad[: 10] if param.grad.shape[0] >= 10 else param.grad)) 
+            ext_dist_three.barrier() 
 
-        # butterfly shuffle (implemented inefficiently for now)
-        # WARNING: Note that at this point we have the result of the embedding lookup
-        # for the entire batch on each device. We would like to obtain partial results
-        # corresponding to all embedding lookups, but part of the batch on each device.
-        # Therefore, matching the distribution of output of bottom mlp, so that both
-        # could be used for subsequent interactions on each device.
-        if len(self.emb_l) != len(ly):
-            sys.exit("ERROR: corrupted intermediate result in parallel_forward call")
+            if rank == 0: 
+                print("investigating bottom layer weight gradients: ") 
+            for names, param in self.bot_l.module.named_parameters(): 
+                if len(param.grad.shape) > 1: 
+                    # print(param.grad.shape) 
+                    print("rank {} name {} part of the grad {}".format(rank, names, param.grad[0][: 10])) 
+                else: 
+                    print("rank {} name {} part of the grad {}".format(rank, names, param.grad[: 10] if param.grad.shape[0] >= 10 else param.grad)) 
+            ext_dist_three.barrier() 
+            
+            if rank == 0: 
+                print("investigating embedding layer weight gradients: ") 
+            for embidex, emb in enumerate(self.emb_l): 
+                # print(emb.weight.grad.shape) 
+                # print("rank {} embedding table index {} part of the grad {}".format(rank, embidex, emb.weight.grad[0][: 10])) 
+                print("rank {} embedding table index {} is the gradient sparsecoo? {}".format(rank, embidex, emb.weight.grad.is_sparse)) 
+            ext_dist_three.barrier() 
 
-        t_list = []
-        for k, _ in enumerate(self.emb_l):
-            d = torch.device("cuda:" + str(k % ndevices))
-            y = scatter(ly[k], device_ids, dim=0) # reduce communication load by 8X 
-            t_list.append(y)
-        # adjust the list to be ordered per device
-        ly = list(map(lambda y: list(y), zip(*t_list)))
-        # debug prints
-        # print(ly)
+    
+    def documenting_weights_tables(self, path, epoch_num, iter_num, emb_quantized = True): 
+        table_nums = [3, 6] 
+        with torch.no_grad(): 
+            for table_num in table_nums: 
+                file_name = "table" + str(table_num) + "epoch" + str(epoch_num) + "iter" + str(iter_num) + "_" 
+                '''
+                file_name = "table" + str(table_num) + "epoch" + str(epoch_num) 
+                ''' 
+                if emb_quantized: 
+                    embedding_table = self.emb_l[table_num].embedding_bag 
+                    eb_scaling_factor = self.emb_l[table_num].eb_scaling_factor 
+                else: 
+                    embedding_table = self.emb_l[table_num] 
+                if emb_quantized: 
+                    file_name += "quantized" 
+                file_name += ".txt" 
 
-        # interactions
-        z = []
-        for k in range(ndevices):
-            zk = self.interact_features(x[k], ly[k])
-            z.append(zk)
-        # debug prints
-        # print(z)
+                print("Start documenting table {} weights in file {}".format(table_num, file_name)) 
 
-        # top mlp
-        # WARNING: Note that the self.top_l is a list of top mlp modules that
-        # have been replicated across devices, while z is a list of interaction results
-        # that by construction are scattered across devices on the first (batch) dim.
-        # The output is a list of tensors scattered across devices according to the
-        # distribution of z.
-        p = parallel_apply(self.top_l_replicas, z, None, device_ids)
+                file_path = path + "/" + file_name 
+                file = open(file_path, "a") 
 
-        ### gather the distributed results ###
-        p0 = gather(p, self.output_d, dim=0)
+                weight_list = embedding_table.weight.data.detach() 
+                if emb_quantized: 
+                    zero_point = torch.tensor(0.).cuda() 
+                    weight_list = linear_quantize(weight_list, eb_scaling_factor, zero_point) 
+                    weight_list = weight_list * eb_scaling_factor 
+                for i in range(weight_list.shape[0]): 
+                    row = "" 
+                    for j in range(weight_list.shape[1]): 
+                        row += str(weight_list[i][j].item()) 
+                        if j != weight_list.shape[1] - 1: 
+                            row += ", " 
+                    file.write(row) 
+                    file.write("\n") 
+                file.close() 
+                print("Documented table {} weights in file {}".format(table_num, file_name)) 
 
-        # clamp output if needed
-        if 0.0 < self.loss_threshold and self.loss_threshold < 1.0:
-            z0 = torch.clamp(
-                p0, min=self.loss_threshold, max=(1.0 - self.loss_threshold)
-            )
-        else:
-            z0 = p0
+                '''
+                if emb_quantized and table_num == 6: 
+                    file_name = "table" + str(table_num) + "epoch" + str(epoch_num) + "_" + "gradient" 
+                    file_name += ".txt" 
 
-        return z0
+                    print("Start documenting table {} gradient in {}".format(table_num, file_name)) 
+
+                    file_path = path + "/" + file_name 
+                    file = open(file_path, "a") 
+
+                    list_o_gradients = embedding_table.weight.grad.data.detach() 
+                    for i in range(list_o_gradients.shape[0]): 
+                        row = "" 
+                        for j in range(list_o_gradients.shape[1]): 
+                            row += str(list_o_gradients[i][j].item()) 
+                            if j != list_o_gradients.shape[1] - 1: 
+                                row += ", " 
+                        file.write(row) 
+                        file.write("\n") 
+                    file.close() 
+                    print("Documented table {} gradients in file {}".format(table_num, file_name)) 
+                ''' 
+    
+    def show_output_linear_layer_grad(self, start = False): 
+        with torch.no_grad(): 
+            if self.top_l[-2].weight.grad is not None: 
+                print("device: {}".format(self.deviceid)) 
+                '''
+                print(self.top_l[-2].weight.grad[0][: 20]) 
+                ''' 
+                print(self.top_l[-2].weight[0][: 20]) 
+            if start: 
+                print(self.top_l[-2].weight[0][: 20]) 
 
 
 def dash_separated_ints(value):
