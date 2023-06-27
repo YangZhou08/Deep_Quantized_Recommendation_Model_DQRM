@@ -529,6 +529,7 @@ class DLRM_Net(nn.Module):
         if args.quantization_flag: 
             for layer in layers.module: 
                 if isinstance(layer, QuantLinear): 
+                    '''
                     global change_bitw, change_bitw2 
                     if change_bitw: 
                         self.weight_bit = change_bitw2 
@@ -539,6 +540,7 @@ class DLRM_Net(nn.Module):
                     if self.change_lin_from_full_to_quantized: 
                         layer.full_precision_flag = False 
                         print("from full to {} bit quantized".format(layer.weight_bit)) 
+                    ''' 
                     '''
                     # identifying layer count 
                     print("layer", count) 
