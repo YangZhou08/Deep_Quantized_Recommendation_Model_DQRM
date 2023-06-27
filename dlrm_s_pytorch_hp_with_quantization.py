@@ -1219,7 +1219,11 @@ def run():
     parser.add_argument("--qr-threshold", type=int, default=200)
     parser.add_argument("--qr-operation", type=str, default="mult")
     parser.add_argument("--qr-collisions", type=int, default=4)
-    # activations and loss
+    # quantization options args 
+    parser.add_argument("--quantization_flag", action = "store_true", default = False) 
+    parser.add_argument("--embedding_bit", type = int, default = None) 
+    parser.add_argument("--weight_bit", type = int, default = None) 
+    # activations and loss 
     parser.add_argument("--activation-function", type=str, default="relu")
     parser.add_argument("--loss-function", type=str, default="mse")  # or bce or wbce
     parser.add_argument(
@@ -1309,6 +1313,15 @@ def run():
     parser.add_argument("--lr-num-warmup-steps", type=int, default=0)
     parser.add_argument("--lr-decay-start-step", type=int, default=0)
     parser.add_argument("--lr-num-decay-steps", type=int, default=0)
+    parser.add_argument("--investigating-inputs", action = "store_true", default = False) 
+    parser.add_argument("--pretrain_and_quantize", action = "store_true", default = False) 
+    parser.add_argument("--modify_feature_interaction", action = "store_true", default = False) 
+    parser.add_argument("--linear_shift_down_bit_width", action = "store_true", default = False) 
+    parser.add_argument("--documenting_table_weight", action = "store_true", default = False) 
+    parser.add_argument("--pretrain_and_quantize_lin", action = "store_true", default = False) 
+    parser.add_argument("--quantize_activation", action = "store_true", default = False) 
+    parser.add_argument("--linear_channel", action = "store_true", default = False) 
+    parser.add_argument("--quantize_act_and_lin", action = "store_true", default = False) 
 
     global args
     global nbatches
