@@ -866,6 +866,7 @@ class DLRM_Net(nn.Module):
             if ext_dist_two.my_rank == 0: 
                 for y in ly: 
                     print("rank {} reduced yy {}".format(ext_dist_two.my_rank, y.detach().cpu())) 
+            ext_dist_two.barrier() 
 
             x = self.apply_mlp(dense_x, self.bot_l) 
 
