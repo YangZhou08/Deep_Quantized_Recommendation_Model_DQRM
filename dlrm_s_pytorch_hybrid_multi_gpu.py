@@ -2077,12 +2077,13 @@ def train(gpu, args):
                 # tried to see if the gradients can be modified 
                 optimizer.zero_grad() 
                 E.backward() 
+                '''
                 # quantization of gradient 
                 print("we got in this blockkkkkkkkkkkkkkkkkkkkk") 
                 dlrm.investigate_ddpgradient(rank) 
                 dist.barrier() 
+                ''' 
                 optimizer.step() 
-                break 
                 lr_scheduler.step() 
                 
                 t2 = time_wrap(use_gpu) 
@@ -2203,7 +2204,6 @@ def train(gpu, args):
                 dlrm.module.show_output_linear_layer_grad() # checking whether the layer is consistent 
                 ''' 
             k += 1 
-            break 
                             
     else: 
         print("Testing for inference only") 
