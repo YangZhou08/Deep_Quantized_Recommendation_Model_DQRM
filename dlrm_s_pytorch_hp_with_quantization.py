@@ -909,11 +909,12 @@ class DLRM_Net(nn.Module):
                 z = torch.clamp(p, min=self.loss_threshold, max=(1.0 - self.loss_threshold)) 
             else:
                 z = p
-
+            '''
             global change_bitw 
             if change_bitw: 
                 change_bitw = False 
                 print("find that bit width change enables, all linear layers are with updated bit width") 
+            ''' 
             
             if self.change_lin_from_full_to_quantized: 
                 self.change_lin_from_full_to_quantized = False 
