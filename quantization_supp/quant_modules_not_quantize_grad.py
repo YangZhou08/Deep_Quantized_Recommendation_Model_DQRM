@@ -351,9 +351,9 @@ class QuantEmbeddingBagTwo(Module):
                 '''
                 print("printing scale dimension: {}".format(self.eb_scaling_factor.shape)) 
                 ''' 
-            '''
                 # update period info 
                 self.iteration_nt += 1 
+            '''
                 self.now_iteration -= self.now_iteration 
                 self.set_iteration_bound() 
             else: 
