@@ -304,13 +304,12 @@ class QuantEmbeddingBagTwo(Module):
         '''
         if not full_precision_flag and not test_mode: 
         ''' 
+        '''
         if full_precision_flag: 
             if self.now_iteration == self.iteration_bound: 
                 if self.quant_mode == "symmetric": 
                     self.eb_scaling_factor = symmetric_linear_quantization_param_two(self.embedding_bit, self.embedding_bag, self.embedding_bound, self.num_embeddings, self.embedding_id) 
-                    '''
-                    self.eb_scaling_factor = torch.tensor(1.0, dtype = torch.float32, requires_grad = False) # testing whether finding max and min would introduce overhead 
-                    ''' 
+                    # self.eb_scaling_factor = torch.tensor(1.0, dtype = torch.float32, requires_grad = False) # testing whether finding max and min would introduce overhead 
                 else: 
                     raise Exception("for embedding weights, we only support symmetric quantization") 
                 # update period info 
@@ -320,7 +319,7 @@ class QuantEmbeddingBagTwo(Module):
             else: 
                 self.iteration_nt += 1 
                 self.now_iteration += 1 
-            
+        ''' 
         if per_sample_weights is not None: 
             print("Warning: Embedding Table Assumes per_sample_weights to be None but it is not") 
         
