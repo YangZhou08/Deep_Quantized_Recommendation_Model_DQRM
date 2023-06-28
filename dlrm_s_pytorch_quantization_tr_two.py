@@ -1399,7 +1399,7 @@ def run():
     rank = ext_dist_two.my_rank 
     gpu = rank 
 
-    args.world_size = ext_dist_two.world_size 
+    args.world_size = ext_dist_two.my_size 
 
     global full_precision_flag 
     full_precision_flag = args.pretrain_and_quantize 
