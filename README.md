@@ -4,8 +4,7 @@ Yang Zhou, Zhen Dong, Ellick Chan, Dhiraj Kalamkar, Diana Marculescu, Kurt Keutz
 
 *A recommendation model that is small, powerful and efficient to train* 
 
-## [DQRM paper in pdf format](./DQRM_preprint_submission.pdf) is now available 
-[DQRM paper supplementary materials](./Supplementary_Materials.pdf) is here
+## [DQRM paper in pdf format](./dqrm_article.pdf) 
 
 <!-- Project preprint is still in progress, estimated date to be online: Dec 28th, 2022 (estimated hour 13:00 CT).  -->
 
